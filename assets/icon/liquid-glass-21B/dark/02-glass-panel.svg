@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="bg-21B-dark" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#08191c"/>
+      <stop offset="1" stop-color="#10363a"/>
+    </linearGradient>
+    <linearGradient id="urine-21B-dark" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffe9a7"/>
+      <stop offset=".58" stop-color="#ffc21a"/>
+      <stop offset="1" stop-color="#fff2b2"/>
+    </linearGradient>
+    <linearGradient id="water-21B-dark" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#8edbff"/>
+      <stop offset=".55" stop-color="#1599ff"/>
+      <stop offset="1" stop-color="#c7f3ff"/>
+    </linearGradient>
+    <radialGradient id="glassGlow-21B-dark" cx=".28" cy=".20" r=".78">
+      <stop offset="0" stop-color="#ffffff" stop-opacity=".58"/>
+      <stop offset=".46" stop-color="#ffffff" stop-opacity=".10"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="softShadow-21B-dark" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#000" flood-opacity=".42"/>
+    </filter>
+    <filter id="blur-21B-dark" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="12"/>
+    </filter>
+  </defs>
+  
+    <rect x="94" y="94" width="836" height="836" rx="198" fill="rgba(255,255,255,.15)" stroke="rgba(190,245,255,.30)" stroke-width="10" filter="url(#softShadow-21B-dark)"/>
+    <rect x="112" y="112" width="800" height="800" rx="180" fill="url(#glassGlow-21B-dark)"/>
+  
+</svg>

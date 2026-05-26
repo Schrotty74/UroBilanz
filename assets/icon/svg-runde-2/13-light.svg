@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+    
+  <defs>
+    <linearGradient id="bg-13-light" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#e6fbfc"/>
+      <stop offset="1" stop-color="#ffffff"/>
+    </linearGradient>
+    <linearGradient id="u-13-light" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffe18a"/>
+      <stop offset=".58" stop-color="#f7b912"/>
+      <stop offset="1" stop-color="#fff4b8"/>
+    </linearGradient>
+    <linearGradient id="w-13-light" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#8ed7ff"/>
+      <stop offset=".55" stop-color="#168de5"/>
+      <stop offset="1" stop-color="#c9f0ff"/>
+    </linearGradient>
+    <filter id="shadow-13-light" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="16" stdDeviation="15" flood-color="#000" flood-opacity=".25"/>
+    </filter>
+    <filter id="blur-13-light" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="9"/>
+    </filter>
+  </defs>
+    <rect x="58" y="58" width="908" height="908" rx="220" fill="url(#bg-13-light)"/>
+    <circle cx="280" cy="235" r="205" fill="#fff" opacity=".13" filter="url(#blur-13-light)"/>
+    <circle cx="744" cy="752" r="230" fill="#fff" opacity=".08" filter="url(#blur-13-light)"/>
+    <rect x="94" y="94" width="836" height="836" rx="198" fill="rgba(255,255,255,.62)" stroke="rgba(10,64,70,.24)" stroke-width="10" filter="url(#shadow-13-light)"/>
+    <path d="M170 178 C340 94 660 88 850 220" fill="none" stroke="#fff" stroke-width="18" stroke-linecap="round" opacity=".30"/>
+    <path d="M270 210 H755 L687.0999999999999 790 H337.9 Z" fill="rgba(255,255,255,.38)" stroke="#10353a" stroke-width="36.375" opacity=".72" stroke-linejoin="round"/><path d="M330 610 C440 540 535 670 670 575 L645 750 H365 Z" fill="url(#u-13-light)" opacity=".85"/><path d="M330 470 C445 390 540 520 678 435 L665 575 C535 670 440 540 330 610 Z" fill="url(#w-13-light)" opacity=".78"/><path d="M318 330 L410 290 L485 350 L570 265 L685 315" fill="none" stroke="#10353a" stroke-width="28" stroke-linecap="round" stroke-linejoin="round" opacity=".42"/>
+  </svg>

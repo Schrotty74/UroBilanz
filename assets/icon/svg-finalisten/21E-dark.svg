@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+    
+  <defs>
+    <linearGradient id="bg-21E-dark" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#08282d"/><stop offset="1" stop-color="#111314"/></linearGradient>
+    <linearGradient id="u-21E-dark" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9a6e00"/><stop offset=".58" stop-color="#ffcb31"/><stop offset="1" stop-color="#fff4b8"/></linearGradient>
+    <linearGradient id="w-21E-dark" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#075b9e"/><stop offset=".55" stop-color="#1ba2ff"/><stop offset="1" stop-color="#c9f0ff"/></linearGradient>
+    <filter id="shadow-21E-dark" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="16" stdDeviation="15" flood-color="#000" flood-opacity=".25"/></filter>
+    <filter id="blur-21E-dark" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="9"/></filter>
+  </defs>
+    <rect x="58" y="58" width="908" height="908" rx="220" fill="url(#bg-21E-dark)"/>
+    <circle cx="280" cy="235" r="205" fill="#fff" opacity=".13" filter="url(#blur-21E-dark)"/>
+    <circle cx="744" cy="752" r="230" fill="#fff" opacity=".08" filter="url(#blur-21E-dark)"/>
+    <rect x="94" y="94" width="836" height="836" rx="198" fill="rgba(255,255,255,.17)" stroke="rgba(255,255,255,.34)" stroke-width="10" filter="url(#shadow-21E-dark)"/>
+    <path d="M170 178 C340 94 660 88 850 220" fill="none" stroke="#fff" stroke-width="18" stroke-linecap="round" opacity=".30"/>
+    <path d="M300 225 H730 L668 770 H362 Z" fill="rgba(255,255,255,.10)" stroke="#f6fbff" stroke-width="31" opacity=".74" stroke-linejoin="round"/><path d="M348 500 C462 425 555 560 680 484 L642 740 H385 Z" fill="url(#u-21E-dark)" opacity=".92"/><path d="M348 400 C462 325 560 458 692 385 L680 484 C555 560 462 425 348 500 Z" fill="url(#w-21E-dark)" opacity=".86"/><path d="M336 325 H392" stroke="#f6fbff" stroke-width="17" stroke-linecap="round" opacity=".28"/><path d="M336 418 H392" stroke="#f6fbff" stroke-width="17" stroke-linecap="round" opacity=".28"/><path d="M336 511 H392" stroke="#f6fbff" stroke-width="17" stroke-linecap="round" opacity=".28"/><path d="M336 604 H392" stroke="#f6fbff" stroke-width="17" stroke-linecap="round" opacity=".28"/><path d="M512 300 V500 M412 400 H612" stroke="url(#w-21E-dark)" stroke-width="66" stroke-linecap="round" opacity=".92"/><path d="M380 280 C466 238 570 250 652 304" fill="none" stroke="#fff" stroke-width="16" stroke-linecap="round" opacity=".28"/>
+  </svg>

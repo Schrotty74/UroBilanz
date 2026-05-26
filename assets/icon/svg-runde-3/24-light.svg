@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+    
+  <defs>
+    <linearGradient id="bg-24-light" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e7fbfc"/><stop offset="1" stop-color="#ffffff"/></linearGradient>
+    <linearGradient id="u-24-light" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffe394"/><stop offset=".58" stop-color="#f6b910"/><stop offset="1" stop-color="#fff4b8"/></linearGradient>
+    <linearGradient id="w-24-light" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#91d9ff"/><stop offset=".55" stop-color="#168ee8"/><stop offset="1" stop-color="#c9f0ff"/></linearGradient>
+    <filter id="shadow-24-light" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="16" stdDeviation="15" flood-color="#000" flood-opacity=".25"/></filter>
+    <filter id="blur-24-light" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="9"/></filter>
+  </defs>
+    <rect x="58" y="58" width="908" height="908" rx="220" fill="url(#bg-24-light)"/>
+    <circle cx="280" cy="235" r="205" fill="#fff" opacity=".13" filter="url(#blur-24-light)"/>
+    <circle cx="744" cy="752" r="230" fill="#fff" opacity=".08" filter="url(#blur-24-light)"/>
+    <rect x="94" y="94" width="836" height="836" rx="198" fill="rgba(255,255,255,.64)" stroke="rgba(10,64,70,.24)" stroke-width="10" filter="url(#shadow-24-light)"/>
+    <path d="M170 178 C340 94 660 88 850 220" fill="none" stroke="#fff" stroke-width="18" stroke-linecap="round" opacity=".30"/>
+    <path d="M250 665 H775" stroke="#10363b" stroke-width="44" stroke-linecap="round" opacity=".43"/><path d="M512 245 V665" stroke="rgba(16,54,59,.30)" stroke-width="28" stroke-linecap="round"/><ellipse cx="378" cy="612" rx="150" ry="54" fill="rgba(255,255,255,.42)" stroke="rgba(10,64,70,.24)" stroke-width="14"/><ellipse cx="647" cy="612" rx="150" ry="54" fill="rgba(255,255,255,.42)" stroke="rgba(10,64,70,.24)" stroke-width="14"/><path transform="translate(282 315) rotate(-8 125 125) scale(2.5)" d="M50 6 C70 32 86 50 86 68 C86 87 70 98 50 98 C30 98 14 87 14 68 C14 50 30 32 50 6 Z" fill="url(#u-24-light)" opacity="1"/><path transform="translate(545 320) rotate(8 121 121) scale(2.42)" d="M50 6 C70 32 86 50 86 68 C86 87 70 98 50 98 C30 98 14 87 14 68 C14 50 30 32 50 6 Z" fill="url(#w-24-light)" opacity="1"/>
+  </svg>

@@ -1,0 +1,29 @@
+# macOS
+.DS_Store
+
+# Build outputs
+build/
+*.app/
+*.dSYM/
+*.xcarchive/
+*.icns
+*.iconset/
+
+# Personal health/protocol data
+*.csv
+*.tsv
+*.xlsx
+*.xls
+*.numbers
+*.ods
+*backup*
+*Backup*
+*tagesdaten*
+*Tagesdaten*
+
+# Logs and temporary files
+*.log
+*.tmp
+*.bak
+node_modules/
+

@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>UroBilanz</title>
+    <link rel="icon" href="./assets/urobilanz-icon-light.svg" media="(prefers-color-scheme: light)" />
+    <link rel="icon" href="./assets/urobilanz-icon-dark.svg" media="(prefers-color-scheme: dark)" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <div>
+        <p class="eyebrow">06:00 bis 05:59 Messtag</p>
+        <h1><span class="app-mark-shell"><img class="app-mark" id="appMark" src="./assets/urobilanz-icon-light.svg" alt="" /></span> UroBilanz</h1>
+      </div>
+      <div class="header-actions">
+        <button class="file-button" id="themeToggle" type="button">Dark Mode</button>
+        <button class="file-button" id="addEntry" type="button">Eintrag</button>
+        <label class="file-button">
+          CSV ergänzen
+          <input id="mergeCsvInput" type="file" accept=".csv,text/csv" />
+        </label>
+        <label class="file-button">
+          CSV laden
+          <input id="csvInput" type="file" accept=".csv,text/csv" />
+        </label>
+      </div>
+    </header>
+
+    <main>
+      <section class="tabs" aria-label="Ansichten">
+        <button class="tab active" data-view="dashboard">Dashboard</button>
+        <button class="tab" data-view="year">Jahr</button>
+        <button class="tab" data-view="month">Monat</button>
+        <button class="tab" data-view="week">Woche</button>
+        <button class="tab" data-view="day">Tag</button>
+        <button class="tab" data-view="notes">Notizen</button>
+      </section>
+
+      <section class="toolbar">
+        <div class="status" id="status">Lade Daten...</div>
+      <div class="filters">
+        <select id="yearFilter" aria-label="Jahr"></select>
+        <select id="monthFilter" aria-label="Monat"></select>
+        <button class="utility-button" id="backupCsv" type="button">Backup CSV</button>
+        <button class="utility-button" id="exportDays" type="button">Tagesdaten CSV</button>
+      </div>
+    </section>
+
+      <section class="data-options">
+        <label class="remember-toggle">
+          <input id="rememberData" type="checkbox" />
+          <span>Daten beim nächsten Start merken</span>
+        </label>
+        <button class="utility-button quiet" id="forgetData" type="button">Gespeicherte Daten löschen</button>
+      </section>
+
+      <section id="emptyState" class="empty-state">
+        <h2>Keine Daten geladen</h2>
+        <p>Lade einen CSV-Export aus Urinote, um Dashboard, Wochen- und Tagesansicht zu berechnen.</p>
+        <label class="primary-upload">
+          CSV laden
+          <input id="emptyCsvInput" type="file" accept=".csv,text/csv" />
+        </label>
+      </section>
+
+      <section id="dashboard" class="view active">
+        <div class="metric-grid" id="metrics"></div>
+        <div class="chart-grid">
+          <div class="chart-panel">
+            <div class="panel-title">Tagesverlauf</div>
+            <canvas id="dailyChart" width="760" height="300"></canvas>
+          </div>
+          <div class="chart-panel">
+            <div class="panel-title">Monatsvergleich</div>
+            <canvas id="monthChart" width="760" height="300"></canvas>
+          </div>
+        </div>
+        <div class="table-wrap compact">
+          <table id="alertTable"></table>
+        </div>
+      </section>
+
+      <section id="year" class="view">
+        <div class="table-wrap"><table id="yearTable"></table></div>
+      </section>
+
+      <section id="month" class="view">
+        <div class="table-wrap"><table id="monthTable"></table></div>
+      </section>
+
+      <section id="week" class="view">
+        <div class="table-wrap"><table id="weekTable"></table></div>
+      </section>
+
+      <section id="day" class="view">
+        <div class="table-wrap day-table"><table id="dayTable"></table></div>
+      </section>
+
+      <section id="notes" class="view notes">
+        <h2>Notizen</h2>
+        <p>Die Auswertung verwendet Messtage von 06:00 bis 05:59. Einträge zwischen 00:00 und 05:59 werden dem Vortag zugerechnet.</p>
+        <p>Die Uhrzeiten bleiben als tatsächliche Uhrzeiten erhalten; nur die Zuordnung zum Messtag wird verschoben.</p>
+        <p>Auffälligkeiten sind organisatorische Hinweise, keine medizinische Bewertung. Niedrig ist hier unter 800 ml pro Messtag, hoch ist über 2500 ml pro Messtag.</p>
+        <p>Wasserwerte werden separat geführt und nicht mit Urinmengen vermischt.</p>
+      </section>
+    </main>
+
+    <dialog id="entryDialog" class="entry-dialog">
+      <form id="entryForm" method="dialog">
+        <h2>Eintrag hinzufügen</h2>
+        <label>
+          Datum
+          <input id="entryDate" type="date" required />
+        </label>
+        <label>
+          Uhrzeit
+          <input id="entryTime" type="time" required />
+        </label>
+        <label>
+          Typ
+          <select id="entryType">
+            <option value="Urin">Urin</option>
+            <option value="Wasser">Wasser</option>
+          </select>
+        </label>
+        <label>
+          Menge ml
+          <input id="entryMl" type="number" min="0" step="1" required />
+        </label>
+        <label>
+          Hinweis
+          <textarea id="entryNote" rows="3"></textarea>
+        </label>
+        <div class="dialog-actions">
+          <button class="utility-button quiet" id="cancelEntry" type="button">Abbrechen</button>
+          <button class="utility-button" type="submit">Hinzufügen</button>
+        </div>
+      </form>
+    </dialog>
+
+    <script src="./app.js?v=20260526-dark-icon"></script>
+  </body>
+</html>

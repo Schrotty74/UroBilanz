@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+    
+  <defs>
+    <linearGradient id="bg-14-light" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#e6fbfc"/>
+      <stop offset="1" stop-color="#ffffff"/>
+    </linearGradient>
+    <linearGradient id="u-14-light" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffe18a"/>
+      <stop offset=".58" stop-color="#f7b912"/>
+      <stop offset="1" stop-color="#fff4b8"/>
+    </linearGradient>
+    <linearGradient id="w-14-light" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#8ed7ff"/>
+      <stop offset=".55" stop-color="#168de5"/>
+      <stop offset="1" stop-color="#c9f0ff"/>
+    </linearGradient>
+    <filter id="shadow-14-light" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="16" stdDeviation="15" flood-color="#000" flood-opacity=".25"/>
+    </filter>
+    <filter id="blur-14-light" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="9"/>
+    </filter>
+  </defs>
+    <rect x="58" y="58" width="908" height="908" rx="220" fill="url(#bg-14-light)"/>
+    <circle cx="280" cy="235" r="205" fill="#fff" opacity=".13" filter="url(#blur-14-light)"/>
+    <circle cx="744" cy="752" r="230" fill="#fff" opacity=".08" filter="url(#blur-14-light)"/>
+    <rect x="94" y="94" width="836" height="836" rx="198" fill="rgba(255,255,255,.62)" stroke="rgba(10,64,70,.24)" stroke-width="10" filter="url(#shadow-14-light)"/>
+    <path d="M170 178 C340 94 660 88 850 220" fill="none" stroke="#fff" stroke-width="18" stroke-linecap="round" opacity=".30"/>
+    <path d="M225 278 H475 L440 718 H260 Z" fill="rgba(255,255,255,.38)" stroke="#10353a" stroke-width="20" opacity=".72" stroke-linejoin="round"/><path d="M555 278 H805 L770 718 H590 Z" fill="rgba(255,255,255,.38)" stroke="#10353a" stroke-width="20" opacity=".72" stroke-linejoin="round"/><path d="M270 500 H430 L405 690 H298 Z" fill="url(#u-14-light)" opacity=".85"/><path d="M600 430 H760 L735 690 H628 Z" fill="url(#w-14-light)" opacity=".82"/>
+  </svg>

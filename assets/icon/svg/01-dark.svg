@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+    
+  <defs>
+    <linearGradient id="bg-01-dark" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#09262a"/>
+      <stop offset="1" stop-color="#111315"/>
+    </linearGradient>
+    <linearGradient id="u-01-dark" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#a97800"/>
+      <stop offset=".52" stop-color="#ffc928"/>
+      <stop offset="1" stop-color="#fff2a8"/>
+    </linearGradient>
+    <linearGradient id="w-01-dark" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#065b9f"/>
+      <stop offset=".55" stop-color="#22a4ff"/>
+      <stop offset="1" stop-color="#bfe9ff"/>
+    </linearGradient>
+    <filter id="shadow-01-dark" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="14" stdDeviation="14" flood-color="#000" flood-opacity=".24"/>
+    </filter>
+    <filter id="soft-01-dark" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="7"/>
+    </filter>
+  </defs>
+    <rect x="62" y="62" width="900" height="900" rx="220" fill="url(#bg-01-dark)"/>
+    <circle cx="280" cy="260" r="180" fill="#fff" opacity=".12" filter="url(#soft-01-dark)"/>
+    <circle cx="760" cy="730" r="210" fill="#fff" opacity=".08" filter="url(#soft-01-dark)"/>
+    <rect x="94" y="94" width="836" height="836" rx="198" fill="rgba(255,255,255,.18)" stroke="rgba(255,255,255,.30)" stroke-width="10" filter="url(#shadow-01-dark)"/>
+    <path d="M160 180 C340 95 655 92 850 210" fill="none" stroke="#fff" stroke-width="18" stroke-linecap="round" opacity=".30"/>
+    <path transform="translate(250 240) rotate(-8 195 195) scale(3.9)" d="M50 6 C70 32 86 50 86 68 C86 87 70 98 50 98 C30 98 14 87 14 68 C14 50 30 32 50 6 Z" fill="url(#u-01-dark)"/><path transform="translate(520 300) rotate(7 135 135) scale(2.7)" d="M50 6 C70 32 86 50 86 68 C86 87 70 98 50 98 C30 98 14 87 14 68 C14 50 30 32 50 6 Z" fill="url(#w-01-dark)"/><path d="M320 690 C430 760 575 752 700 662" fill="none" stroke="#f7fbff" stroke-width="34" stroke-linecap="round" opacity=".42"/>
+  </svg>

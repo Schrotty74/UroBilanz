@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+    
+  <defs>
+    <linearGradient id="bg-17-dark" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#08272b"/>
+      <stop offset="1" stop-color="#111314"/>
+    </linearGradient>
+    <linearGradient id="u-17-dark" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#9f7100"/>
+      <stop offset=".58" stop-color="#ffca2e"/>
+      <stop offset="1" stop-color="#fff4b8"/>
+    </linearGradient>
+    <linearGradient id="w-17-dark" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#075c9e"/>
+      <stop offset=".55" stop-color="#1fa2ff"/>
+      <stop offset="1" stop-color="#c9f0ff"/>
+    </linearGradient>
+    <filter id="shadow-17-dark" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="16" stdDeviation="15" flood-color="#000" flood-opacity=".25"/>
+    </filter>
+    <filter id="blur-17-dark" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="9"/>
+    </filter>
+  </defs>
+    <rect x="58" y="58" width="908" height="908" rx="220" fill="url(#bg-17-dark)"/>
+    <circle cx="280" cy="235" r="205" fill="#fff" opacity=".13" filter="url(#blur-17-dark)"/>
+    <circle cx="744" cy="752" r="230" fill="#fff" opacity=".08" filter="url(#blur-17-dark)"/>
+    <rect x="94" y="94" width="836" height="836" rx="198" fill="rgba(255,255,255,.17)" stroke="rgba(255,255,255,.32)" stroke-width="10" filter="url(#shadow-17-dark)"/>
+    <path d="M170 178 C340 94 660 88 850 220" fill="none" stroke="#fff" stroke-width="18" stroke-linecap="round" opacity=".30"/>
+    <path d="M300 245 H725 L665.5 765 H359.5 Z" fill="rgba(255,255,255,.09)" stroke="#f5fbff" stroke-width="31.875" opacity=".72" stroke-linejoin="round"/><circle cx="512" cy="510" r="245" fill="none" stroke="rgba(255,255,255,.34)" stroke-width="32"/><path d="M512 265 A245 245 0 0 1 742 510" fill="none" stroke="url(#w-17-dark)" stroke-width="34" stroke-linecap="round"/><path d="M512 755 A245 245 0 0 1 270 510" fill="none" stroke="url(#u-17-dark)" stroke-width="34" stroke-linecap="round"/>
+  </svg>
