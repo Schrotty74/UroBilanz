@@ -3,6 +3,7 @@
 
 # Build outputs
 build/
+release/
 *.app/
 *.dSYM/
 *.xcarchive/
@@ -26,4 +27,3 @@ build/
 *.tmp
 *.bak
 node_modules/
-
