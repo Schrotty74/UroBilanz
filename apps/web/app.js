@@ -410,9 +410,9 @@ function render() {
 
 function applyTheme(theme) {
   const themeAliases = { light: "classic-light", dark: "classic-dark" };
-  const validThemes = new Set(["classic-light", "classic-dark", "dracula", "liquid-dark", "medical-light", "high-contrast", "summer", "cream-sage"]);
+  const validThemes = new Set(["classic-light", "classic-dark", "violet-night", "liquid-dark", "medical-light", "high-contrast", "summer", "cream-sage"]);
   const selectedTheme = validThemes.has(themeAliases[theme] || theme) ? (themeAliases[theme] || theme) : "classic-light";
-  const darkThemes = new Set(["classic-dark", "dracula", "liquid-dark", "high-contrast"]);
+  const darkThemes = new Set(["classic-dark", "violet-night", "liquid-dark", "high-contrast"]);
   document.body.dataset.theme = selectedTheme;
   document.body.classList.toggle("dark", darkThemes.has(selectedTheme));
   els.themeSelect.value = selectedTheme;

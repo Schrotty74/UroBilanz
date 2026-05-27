@@ -5,7 +5,7 @@ import UniformTypeIdentifiers
 enum AppTheme: String, CaseIterable, Identifiable {
     case classicLight = "classic-light"
     case classicDark = "classic-dark"
-    case dracula = "dracula"
+    case violetNight = "violet-night"
     case liquidDark = "liquid-dark"
     case medicalLight = "medical-light"
     case highContrast = "high-contrast"
@@ -18,7 +18,7 @@ enum AppTheme: String, CaseIterable, Identifiable {
         switch self {
         case .classicLight: "Classic Hell"
         case .classicDark: "Classic Dunkel"
-        case .dracula: "Dracula Night"
+        case .violetNight: "Violet Night"
         case .liquidDark: "Liquid Dark"
         case .medicalLight: "Medical Light"
         case .highContrast: "High Contrast"
@@ -29,7 +29,7 @@ enum AppTheme: String, CaseIterable, Identifiable {
 
     var preferredScheme: ColorScheme {
         switch self {
-        case .classicDark, .dracula, .liquidDark, .highContrast: .dark
+        case .classicDark, .violetNight, .liquidDark, .highContrast: .dark
         case .classicLight, .medicalLight, .summer, .creamSage: .light
         }
     }
@@ -39,7 +39,7 @@ enum AppTheme: String, CaseIterable, Identifiable {
     var accent: Color {
         switch self {
         case .classicLight, .classicDark: .yellow
-        case .dracula: Color(red: 1.00, green: 0.47, blue: 0.78)
+        case .violetNight: Color(red: 1.00, green: 0.47, blue: 0.78)
         case .liquidDark: Color(red: 1.00, green: 0.82, blue: 0.30)
         case .medicalLight: Color(red: 0.18, green: 0.53, blue: 0.57)
         case .highContrast: .yellow
@@ -50,7 +50,7 @@ enum AppTheme: String, CaseIterable, Identifiable {
 
     var urineColor: Color {
         switch self {
-        case .dracula: Color(red: 0.95, green: 0.98, blue: 0.55)
+        case .violetNight: Color(red: 0.95, green: 0.98, blue: 0.55)
         case .highContrast: .yellow
         case .summer: Color(red: 0.88, green: 0.55, blue: 0.02)
         case .creamSage: Color(red: 0.78, green: 0.50, blue: 0.08)
@@ -60,7 +60,7 @@ enum AppTheme: String, CaseIterable, Identifiable {
 
     var waterColor: Color {
         switch self {
-        case .dracula: Color(red: 0.55, green: 0.91, blue: 0.99)
+        case .violetNight: Color(red: 0.55, green: 0.91, blue: 0.99)
         case .highContrast: .cyan
         case .summer: Color(red: 0.13, green: 0.65, blue: 0.75)
         case .creamSage: Color(red: 0.18, green: 0.56, blue: 0.62)
@@ -74,7 +74,7 @@ enum AppTheme: String, CaseIterable, Identifiable {
             [Color(nsColor: .windowBackgroundColor), .teal.opacity(0.10), .yellow.opacity(0.06)]
         case .classicDark:
             [Color(red: 0.05, green: 0.08, blue: 0.10), .teal.opacity(0.18), .yellow.opacity(0.08)]
-        case .dracula:
+        case .violetNight:
             [Color(red: 0.11, green: 0.11, blue: 0.16), Color(red: 0.18, green: 0.16, blue: 0.27), Color(red: 0.36, green: 0.22, blue: 0.46).opacity(0.55)]
         case .liquidDark:
             [Color(red: 0.04, green: 0.07, blue: 0.09), Color(red: 0.06, green: 0.20, blue: 0.23), Color(red: 0.12, green: 0.25, blue: 0.29).opacity(0.55)]
@@ -97,7 +97,7 @@ enum AppTheme: String, CaseIterable, Identifiable {
             Color(red: 1.00, green: 0.91, blue: 0.70).opacity(0.88)
         case .highContrast:
             .black
-        case .classicDark, .dracula, .liquidDark:
+        case .classicDark, .violetNight, .liquidDark:
             Color.black.opacity(0.38)
         }
     }
@@ -110,7 +110,7 @@ enum AppTheme: String, CaseIterable, Identifiable {
             Color(red: 0.20, green: 0.16, blue: 0.12)
         case .highContrast:
             .white
-        case .classicDark, .dracula, .liquidDark:
+        case .classicDark, .violetNight, .liquidDark:
             .white
         }
     }
@@ -136,7 +136,7 @@ enum AppTheme: String, CaseIterable, Identifiable {
             .black
         case .classicDark:
             Color(red: 0.07, green: 0.10, blue: 0.12).opacity(0.76)
-        case .dracula:
+        case .violetNight:
             Color(red: 0.16, green: 0.16, blue: 0.22).opacity(0.78)
         case .liquidDark:
             Color(red: 0.08, green: 0.13, blue: 0.15).opacity(0.70)
@@ -155,7 +155,7 @@ enum AppTheme: String, CaseIterable, Identifiable {
             Color.white.opacity(0.08)
         case .classicDark:
             Color.white.opacity(0.06)
-        case .dracula:
+        case .violetNight:
             Color(red: 0.27, green: 0.28, blue: 0.35).opacity(0.42)
         case .liquidDark:
             Color.white.opacity(0.07)

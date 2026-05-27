@@ -57,7 +57,7 @@ body[data-theme="classic-dark"] {
   --row-even: #111a1f;
 }
 
-body[data-theme="dracula"] {
+body[data-theme="violet-night"] {
   color-scheme: dark;
   --ink: #f8f8f2;
   --muted: #b9b4d5;
@@ -294,7 +294,7 @@ h1 {
 }
 
 body[data-theme="classic-dark"] .app-mark-shell,
-body[data-theme="dracula"] .app-mark-shell,
+body[data-theme="violet-night"] .app-mark-shell,
 body[data-theme="liquid-dark"] .app-mark-shell,
 body[data-theme="high-contrast"] .app-mark-shell {
   border-color: rgba(255, 255, 255, 0.18);

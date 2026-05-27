@@ -6,6 +6,7 @@ Alle wichtigen Änderungen an UroBilanz werden hier dokumentiert.
 
 - Transparenzhinweis im README ergänzt: UroBilanz wurde gemeinsam mit OpenAI Codex entwickelt.
 - Transparenzhinweis erweitert: Grafiken, Symbole und App-Icons wurden für dieses Projekt mit Unterstützung von OpenAI Codex erstellt.
+- Dunkles Violett-Theme in `Violet Night` umbenannt und technische Theme-Kennung entsprechend angepasst.
 
 ## 1.5.0-beta.1 - 2026-05-27
 
@@ -17,7 +18,7 @@ Vorabversion mit Theme-System, neuer Optik und mehreren Bedien-Verbesserungen f�
 - Neue Designs ergänzt:
   - Classic Hell
   - Classic Dunkel
-  - Dracula Night
+  - Violet Night
   - Liquid Dark
   - Medical Light
   - High Contrast
