@@ -6,7 +6,7 @@
     <title>UroBilanz</title>
     <link rel="icon" href="./assets/urobilanz-icon-light.svg" media="(prefers-color-scheme: light)" />
     <link rel="icon" href="./assets/urobilanz-icon-dark.svg" media="(prefers-color-scheme: dark)" />
-    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./styles.css?v=20260527-compact-controls" />
   </head>
   <body>
     <header class="app-header">
@@ -15,7 +15,19 @@
         <h1><span class="app-mark-shell"><img class="app-mark" id="appMark" src="./assets/urobilanz-icon-light.svg" alt="" /></span> UroBilanz</h1>
       </div>
       <div class="header-actions">
-        <button class="file-button" id="themeToggle" type="button">Dark Mode</button>
+        <label class="theme-control">
+          <span>Theme</span>
+          <select id="themeSelect" aria-label="Theme auswählen">
+            <option value="classic-light">Classic Hell</option>
+            <option value="classic-dark">Classic Dunkel</option>
+            <option value="dracula">Dracula Night</option>
+            <option value="liquid-dark">Liquid Dark</option>
+            <option value="medical-light">Medical Light</option>
+            <option value="high-contrast">High Contrast</option>
+            <option value="summer">Sommer Look</option>
+            <option value="cream-sage">Creme Salbei</option>
+          </select>
+        </label>
         <button class="file-button" id="addEntry" type="button">Eintrag</button>
         <label class="file-button">
           CSV ergänzen
@@ -29,31 +41,34 @@
     </header>
 
     <main>
-      <section class="tabs" aria-label="Ansichten">
-        <button class="tab active" data-view="dashboard">Dashboard</button>
-        <button class="tab" data-view="year">Jahr</button>
-        <button class="tab" data-view="month">Monat</button>
-        <button class="tab" data-view="week">Woche</button>
-        <button class="tab" data-view="day">Tag</button>
-        <button class="tab" data-view="notes">Notizen</button>
-      </section>
-
       <section class="toolbar">
-        <div class="status" id="status">Lade Daten...</div>
-      <div class="filters">
-        <select id="yearFilter" aria-label="Jahr"></select>
-        <select id="monthFilter" aria-label="Monat"></select>
-        <button class="utility-button" id="backupCsv" type="button">Backup CSV</button>
-        <button class="utility-button" id="exportDays" type="button">Tagesdaten CSV</button>
-      </div>
-    </section>
+        <div class="control-left">
+          <section class="tabs" aria-label="Ansichten">
+            <button class="tab active" data-view="dashboard">Dashboard</button>
+            <button class="tab" data-view="year">Jahr</button>
+            <button class="tab" data-view="month">Monat</button>
+            <button class="tab" data-view="week">Woche</button>
+            <button class="tab" data-view="day">Tag</button>
+            <button class="tab" data-view="notes">Notizen</button>
+          </section>
+          <div class="status" id="status">Lade Daten...</div>
+        </div>
 
-      <section class="data-options">
-        <label class="remember-toggle">
-          <input id="rememberData" type="checkbox" />
-          <span>Daten beim nächsten Start merken</span>
-        </label>
-        <button class="utility-button quiet" id="forgetData" type="button">Gespeicherte Daten löschen</button>
+        <div class="control-right">
+          <div class="filters">
+            <select id="yearFilter" aria-label="Jahr"></select>
+            <select id="monthFilter" aria-label="Monat"></select>
+            <button class="utility-button" id="backupCsv" type="button">Backup CSV</button>
+            <button class="utility-button" id="exportDays" type="button">Tagesdaten CSV</button>
+          </div>
+          <section class="data-options">
+            <label class="remember-toggle">
+              <input id="rememberData" type="checkbox" />
+              <span>Daten beim nächsten Start merken</span>
+            </label>
+            <button class="utility-button quiet" id="forgetData" type="button">Gespeicherte Daten löschen</button>
+          </section>
+        </div>
       </section>
 
       <section id="emptyState" class="empty-state">
@@ -102,7 +117,7 @@
         <h2>Notizen</h2>
         <p>Die Auswertung verwendet Messtage von 06:00 bis 05:59. Einträge zwischen 00:00 und 05:59 werden dem Vortag zugerechnet.</p>
         <p>Die Uhrzeiten bleiben als tatsächliche Uhrzeiten erhalten; nur die Zuordnung zum Messtag wird verschoben.</p>
-        <p>Auffälligkeiten sind organisatorische Hinweise, keine medizinische Bewertung. Niedrig ist hier unter 800 ml pro Messtag, hoch ist über 2500 ml pro Messtag.</p>
+        <p>Auffälligkeiten sind organisatorische Hinweise, keine medizinische Bewertung. Niedrig ist hier unter 800 ml pro Messtag; alle anderen Messtage werden als normal geführt.</p>
         <p>Wasserwerte werden separat geführt und nicht mit Urinmengen vermischt.</p>
       </section>
     </main>
@@ -140,6 +155,6 @@
       </form>
     </dialog>
 
-    <script src="./app.js?v=20260526-dark-icon"></script>
+    <script src="./app.js?v=20260527-compact-controls"></script>
   </body>
 </html>

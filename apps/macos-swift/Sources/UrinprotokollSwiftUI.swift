@@ -2,6 +2,178 @@ import SwiftUI
 import AppKit
 import UniformTypeIdentifiers
 
+enum AppTheme: String, CaseIterable, Identifiable {
+    case classicLight = "classic-light"
+    case classicDark = "classic-dark"
+    case dracula = "dracula"
+    case liquidDark = "liquid-dark"
+    case medicalLight = "medical-light"
+    case highContrast = "high-contrast"
+    case summer = "summer"
+    case creamSage = "cream-sage"
+
+    var id: String { rawValue }
+
+    var title: String {
+        switch self {
+        case .classicLight: "Classic Hell"
+        case .classicDark: "Classic Dunkel"
+        case .dracula: "Dracula Night"
+        case .liquidDark: "Liquid Dark"
+        case .medicalLight: "Medical Light"
+        case .highContrast: "High Contrast"
+        case .summer: "Sommer Look"
+        case .creamSage: "Creme Salbei"
+        }
+    }
+
+    var preferredScheme: ColorScheme {
+        switch self {
+        case .classicDark, .dracula, .liquidDark, .highContrast: .dark
+        case .classicLight, .medicalLight, .summer, .creamSage: .light
+        }
+    }
+
+    var isDark: Bool { preferredScheme == .dark }
+
+    var accent: Color {
+        switch self {
+        case .classicLight, .classicDark: .yellow
+        case .dracula: Color(red: 1.00, green: 0.47, blue: 0.78)
+        case .liquidDark: Color(red: 1.00, green: 0.82, blue: 0.30)
+        case .medicalLight: Color(red: 0.18, green: 0.53, blue: 0.57)
+        case .highContrast: .yellow
+        case .summer: Color(red: 1.00, green: 0.70, blue: 0.18)
+        case .creamSage: Color(red: 0.47, green: 0.68, blue: 0.46)
+        }
+    }
+
+    var urineColor: Color {
+        switch self {
+        case .dracula: Color(red: 0.95, green: 0.98, blue: 0.55)
+        case .highContrast: .yellow
+        case .summer: Color(red: 0.88, green: 0.55, blue: 0.02)
+        case .creamSage: Color(red: 0.78, green: 0.50, blue: 0.08)
+        default: Color(red: 1.00, green: 0.82, blue: 0.25)
+        }
+    }
+
+    var waterColor: Color {
+        switch self {
+        case .dracula: Color(red: 0.55, green: 0.91, blue: 0.99)
+        case .highContrast: .cyan
+        case .summer: Color(red: 0.13, green: 0.65, blue: 0.75)
+        case .creamSage: Color(red: 0.18, green: 0.56, blue: 0.62)
+        default: Color(red: 0.16, green: 0.58, blue: 1.00)
+        }
+    }
+
+    var background: [Color] {
+        switch self {
+        case .classicLight:
+            [Color(nsColor: .windowBackgroundColor), .teal.opacity(0.10), .yellow.opacity(0.06)]
+        case .classicDark:
+            [Color(red: 0.05, green: 0.08, blue: 0.10), .teal.opacity(0.18), .yellow.opacity(0.08)]
+        case .dracula:
+            [Color(red: 0.11, green: 0.11, blue: 0.16), Color(red: 0.18, green: 0.16, blue: 0.27), Color(red: 0.36, green: 0.22, blue: 0.46).opacity(0.55)]
+        case .liquidDark:
+            [Color(red: 0.04, green: 0.07, blue: 0.09), Color(red: 0.06, green: 0.20, blue: 0.23), Color(red: 0.12, green: 0.25, blue: 0.29).opacity(0.55)]
+        case .medicalLight:
+            [Color(red: 0.96, green: 0.99, blue: 0.99), Color(red: 0.87, green: 0.95, blue: 0.96), Color.white]
+        case .highContrast:
+            [.black, .black, .black]
+        case .summer:
+            [Color(red: 1.00, green: 0.95, blue: 0.78), Color(red: 1.00, green: 0.83, blue: 0.54), Color(red: 0.76, green: 0.94, blue: 0.88).opacity(0.55)]
+        case .creamSage:
+            [Color(red: 0.97, green: 0.94, blue: 0.88), Color(red: 0.93, green: 0.89, blue: 0.81), Color(red: 0.80, green: 0.88, blue: 0.76).opacity(0.50)]
+        }
+    }
+
+    var controlBackground: Color {
+        switch self {
+        case .classicLight, .medicalLight, .creamSage:
+            Color.white.opacity(0.86)
+        case .summer:
+            Color(red: 1.00, green: 0.91, blue: 0.70).opacity(0.88)
+        case .highContrast:
+            .black
+        case .classicDark, .dracula, .liquidDark:
+            Color.black.opacity(0.38)
+        }
+    }
+
+    var controlForeground: Color {
+        switch self {
+        case .classicLight, .medicalLight, .summer:
+            Color(red: 0.10, green: 0.14, blue: 0.16)
+        case .creamSage:
+            Color(red: 0.20, green: 0.16, blue: 0.12)
+        case .highContrast:
+            .white
+        case .classicDark, .dracula, .liquidDark:
+            .white
+        }
+    }
+
+    var controlBorder: Color {
+        switch self {
+        case .highContrast:
+            .white
+        default:
+            accent.opacity(isDark ? 0.30 : 0.22)
+        }
+    }
+
+    var tableBackground: Color {
+        switch self {
+        case .classicLight, .medicalLight:
+            Color.white.opacity(0.72)
+        case .summer:
+            Color(red: 1.00, green: 0.94, blue: 0.78).opacity(0.78)
+        case .creamSage:
+            Color(red: 0.98, green: 0.95, blue: 0.88).opacity(0.82)
+        case .highContrast:
+            .black
+        case .classicDark:
+            Color(red: 0.07, green: 0.10, blue: 0.12).opacity(0.76)
+        case .dracula:
+            Color(red: 0.16, green: 0.16, blue: 0.22).opacity(0.78)
+        case .liquidDark:
+            Color(red: 0.08, green: 0.13, blue: 0.15).opacity(0.70)
+        }
+    }
+
+    var tableRow: Color {
+        switch self {
+        case .classicLight, .medicalLight:
+            Color.white.opacity(0.45)
+        case .summer:
+            Color(red: 1.00, green: 0.88, blue: 0.62).opacity(0.36)
+        case .creamSage:
+            Color(red: 0.91, green: 0.87, blue: 0.78).opacity(0.48)
+        case .highContrast:
+            Color.white.opacity(0.08)
+        case .classicDark:
+            Color.white.opacity(0.06)
+        case .dracula:
+            Color(red: 0.27, green: 0.28, blue: 0.35).opacity(0.42)
+        case .liquidDark:
+            Color.white.opacity(0.07)
+        }
+    }
+}
+
+private struct AppThemeKey: EnvironmentKey {
+    static let defaultValue: AppTheme = .classicDark
+}
+
+extension EnvironmentValues {
+    var appTheme: AppTheme {
+        get { self[AppThemeKey.self] }
+        set { self[AppThemeKey.self] = newValue }
+    }
+}
+
 enum AppSection: String, CaseIterable, Identifiable {
     case dashboard = "Dashboard"
     case year = "Jahr"
@@ -295,7 +467,7 @@ final class UrinModel: ObservableObject {
     }
 
     func alertRows() -> [DaySummary] {
-        filteredDays.filter { $0.urineTotal < 800 || $0.urineTotal > 2500 }
+        filteredDays.filter { $0.urineTotal < 800 }
     }
 
     private func loadDailyExport(_ rows: [[String: String]]) throws -> [DaySummary] {
@@ -388,13 +560,14 @@ final class UrinModel: ObservableObject {
             let waterTotal = rows.reduce(0) { $0 + $1.waterTotal }
             let urineCount = rows.reduce(0) { $0 + $1.urineCount }
             let average = rows.isEmpty ? 0 : urineTotal / rows.count
+            let hasLowDay = rows.contains { $0.urineTotal < 800 }
             var values = labels(first)
             values["Tage"] = "\(rows.count)"
             values["● Urin Gesamt ml"] = format(urineTotal)
             values["● Urin Ø ml/Tag"] = format(average)
             values["● Urin Anzahl"] = "\(urineCount)"
             values["💧 Wasser Gesamt ml"] = format(waterTotal)
-            values["Auffälligkeit"] = average < 800 ? "niedrig" : (average > 2500 ? "hoch" : "")
+            values["Auffälligkeit"] = hasLowDay ? "niedrig" : "normal"
             return SummaryRow(id: key, values: values, urineAverage: average)
         }
     }
@@ -574,10 +747,12 @@ struct ImportTestView: View {
 
 struct ContentView: View {
     @EnvironmentObject private var model: UrinModel
+    @AppStorage("uroBilanzTheme") private var themeRaw = AppTheme.classicDark.rawValue
     @State private var selection: AppSection = .dashboard
     @State private var showsEntrySheet = false
 
     var body: some View {
+        let theme = AppTheme(rawValue: themeRaw) ?? .classicDark
         NavigationSplitView {
             List(AppSection.allCases, selection: $selection) { section in
                 Label(section.rawValue, systemImage: section.symbol)
@@ -586,12 +761,17 @@ struct ContentView: View {
             .navigationSplitViewColumnWidth(min: 180, ideal: 200)
         } detail: {
             VStack(spacing: 0) {
-                ToolbarStrip(selection: $selection, showsEntrySheet: $showsEntrySheet)
+                ToolbarStrip(selection: $selection, showsEntrySheet: $showsEntrySheet, themeRaw: $themeRaw)
                 Divider()
                 detailView
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             }
-            .background(AppBackground())
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+            .background(AppBackground(theme: theme))
         }
+        .environment(\.appTheme, theme)
+        .preferredColorScheme(theme.preferredScheme)
+        .tint(theme.accent)
         .sheet(isPresented: $showsEntrySheet) {
             EntrySheet()
                 .environmentObject(model)
@@ -621,8 +801,10 @@ struct ContentView: View {
 
 struct ToolbarStrip: View {
     @EnvironmentObject private var model: UrinModel
+    @Environment(\.appTheme) private var theme
     @Binding var selection: AppSection
     @Binding var showsEntrySheet: Bool
+    @Binding var themeRaw: String
 
     var body: some View {
         HStack(spacing: 12) {
@@ -644,6 +826,7 @@ struct ToolbarStrip: View {
                     .onChange(of: model.rememberData) { _, _ in model.toggleRemember() }
                     .toggleStyle(.switch)
             }
+            ThemeMenu(themeRaw: $themeRaw)
             Button("Eintrag", systemImage: "plus.circle") { showsEntrySheet = true }
             Button("CSV ergänzen", systemImage: "plus.square.on.square") { model.openMergeCSV() }
             Button("CSV laden", systemImage: "square.and.arrow.down") { model.openCSV() }
@@ -660,12 +843,57 @@ struct ToolbarStrip: View {
     }
 }
 
+struct ThemeMenu: View {
+    @Environment(\.appTheme) private var theme
+    @Binding var themeRaw: String
+
+    private var selectedTheme: AppTheme {
+        AppTheme(rawValue: themeRaw) ?? .classicDark
+    }
+
+    var body: some View {
+        Menu {
+            ForEach(AppTheme.allCases) { option in
+                Button {
+                    themeRaw = option.rawValue
+                } label: {
+                    if option == selectedTheme {
+                        Label(option.title, systemImage: "checkmark")
+                    } else {
+                        Text(option.title)
+                    }
+                }
+            }
+        } label: {
+            HStack(spacing: 8) {
+                Text(selectedTheme.title)
+                    .lineLimit(1)
+                    .fixedSize(horizontal: true, vertical: false)
+                Image(systemName: "chevron.down")
+                    .font(.caption.weight(.bold))
+            }
+            .font(.callout.weight(.semibold))
+            .foregroundStyle(theme.controlForeground)
+            .padding(.horizontal, 12)
+            .frame(width: 164, height: 34)
+            .background(theme.controlBackground, in: RoundedRectangle(cornerRadius: 9, style: .continuous))
+            .overlay {
+                RoundedRectangle(cornerRadius: 9, style: .continuous)
+                    .stroke(theme.controlBorder, lineWidth: theme == .highContrast ? 1.5 : 1)
+            }
+        }
+        .buttonStyle(.plain)
+        .menuStyle(.borderlessButton)
+    }
+}
+
 struct AppMark: View {
     @Environment(\.colorScheme) private var colorScheme
+    @Environment(\.appTheme) private var theme
     let size: CGFloat
 
     var body: some View {
-        let fileName = isDarkAppearance ? "urobilanz-icon-dark.svg" : "urobilanz-icon-light.svg"
+        let fileName = theme.isDark || isDarkAppearance ? "urobilanz-icon-dark.svg" : "urobilanz-icon-light.svg"
         ZStack {
             RoundedRectangle(cornerRadius: size * 0.24, style: .continuous)
                 .fill(.ultraThinMaterial)
@@ -679,7 +907,7 @@ struct AppMark: View {
                 .padding(size * 0.08)
         }
         .frame(width: size, height: size)
-        .shadow(color: .black.opacity(isDarkAppearance ? 0.30 : 0.16), radius: 10, x: 0, y: 5)
+        .shadow(color: .black.opacity(theme.isDark ? 0.32 : 0.16), radius: 10, x: 0, y: 5)
         .accessibilityLabel("UroBilanz")
     }
 
@@ -810,7 +1038,7 @@ struct MetricGrid: View {
             ("Urin Ø ml/Tag", model.format(days.isEmpty ? 0 : urineTotal / days.count), "chart.line.uptrend.xyaxis"),
             ("Wasser gesamt ml", model.format(waterTotal), "drop.fill"),
             ("Niedrige Urin-Tage", "\(days.filter { $0.urineTotal < 800 }.count)", "exclamationmark.triangle"),
-            ("Hohe Urin-Tage", "\(days.filter { $0.urineTotal > 2500 }.count)", "arrow.up.circle")
+            ("Normale Urin-Tage", "\(days.filter { $0.urineTotal >= 800 }.count)", "checkmark.circle")
         ]
         LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: 6), spacing: 12) {
             ForEach(metrics, id: \.0) { metric in
@@ -834,6 +1062,7 @@ struct MetricGrid: View {
 }
 
 struct LineChartView: View {
+    @Environment(\.appTheme) private var theme
     let days: [DaySummary]
 
     var body: some View {
@@ -842,8 +1071,8 @@ struct LineChartView: View {
             Canvas { context, size in
                 let area = CGRect(x: 28, y: 4, width: max(size.width - 42, 1), height: max(size.height - 24, 1))
                 drawAxes(context: &context, area: area)
-                drawSeries(context: &context, values: days.map(\.urineTotal), color: .yellow, area: area)
-                drawSeries(context: &context, values: days.map(\.waterTotal), color: .blue, area: area)
+                drawSeries(context: &context, values: days.map(\.urineTotal), color: theme.urineColor, area: area)
+                drawSeries(context: &context, values: days.map(\.waterTotal), color: theme.waterColor, area: area)
             }
         }
     }
@@ -870,6 +1099,7 @@ struct LineChartView: View {
 }
 
 struct MonthBarChart: View {
+    @Environment(\.appTheme) private var theme
     let rows: [SummaryRow]
 
     var body: some View {
@@ -883,8 +1113,8 @@ struct MonthBarChart: View {
                     let urine = CGFloat(Int((row.values["● Urin Gesamt ml"] ?? "0").replacingOccurrences(of: ".", with: "")) ?? 0)
                     let water = CGFloat(Int((row.values["💧 Wasser Gesamt ml"] ?? "0").replacingOccurrences(of: ".", with: "")) ?? 0)
                     let x = area.minX + CGFloat(index) * step
-                    context.fill(Path(CGRect(x: x, y: area.maxY - (urine / maxValue * area.height), width: max(step * 0.28, 4), height: urine / maxValue * area.height)), with: .color(.yellow.opacity(0.75)))
-                    context.fill(Path(CGRect(x: x + max(step * 0.34, 6), y: area.maxY - (water / maxValue * area.height), width: max(step * 0.28, 4), height: water / maxValue * area.height)), with: .color(.blue.opacity(0.75)))
+                    context.fill(Path(CGRect(x: x, y: area.maxY - (urine / maxValue * area.height), width: max(step * 0.28, 4), height: urine / maxValue * area.height)), with: .color(theme.urineColor.opacity(0.80)))
+                    context.fill(Path(CGRect(x: x + max(step * 0.34, 6), y: area.maxY - (water / maxValue * area.height), width: max(step * 0.28, 4), height: water / maxValue * area.height)), with: .color(theme.waterColor.opacity(0.80)))
                 }
             }
         }
@@ -892,6 +1122,7 @@ struct MonthBarChart: View {
 }
 
 struct ChartHeader: View {
+    @Environment(\.appTheme) private var theme
     let title: String
 
     var body: some View {
@@ -899,13 +1130,81 @@ struct ChartHeader: View {
             Text(title)
                 .font(.headline)
             Label("Urin", systemImage: "circle.fill")
-                .foregroundStyle(.yellow)
+                .foregroundStyle(theme.urineColor)
             Label("Wasser", systemImage: "drop.fill")
-                .foregroundStyle(.blue)
+                .foregroundStyle(theme.waterColor)
             Spacer()
         }
         .font(.caption.weight(.semibold))
         .labelStyle(.titleAndIcon)
+    }
+}
+
+struct ThemedTableColumn<Row: Identifiable>: Identifiable {
+    let id = UUID()
+    let title: String
+    let width: CGFloat
+    let content: (Row) -> AnyView
+
+    init<Content: View>(_ title: String, width: CGFloat, @ViewBuilder content: @escaping (Row) -> Content) {
+        self.title = title
+        self.width = width
+        self.content = { AnyView(content($0)) }
+    }
+}
+
+struct ThemedDataTable<Row: Identifiable>: View {
+    @Environment(\.appTheme) private var theme
+    let rows: [Row]
+    let columns: [ThemedTableColumn<Row>]
+    var minHeight: CGFloat?
+    var maxHeight: CGFloat?
+
+    private var totalWidth: CGFloat {
+        columns.reduce(0) { $0 + $1.width }
+    }
+
+    var body: some View {
+        ScrollView([.horizontal, .vertical]) {
+            LazyVStack(spacing: 0, pinnedViews: [.sectionHeaders]) {
+                Section {
+                    ForEach(Array(rows.enumerated()), id: \.element.id) { index, row in
+                        HStack(alignment: .top, spacing: 0) {
+                            ForEach(columns) { column in
+                                column.content(row)
+                                    .frame(width: column.width, alignment: .leading)
+                                    .padding(.horizontal, 12)
+                                    .padding(.vertical, 8)
+                            }
+                        }
+                        .background(index.isMultiple(of: 2) ? Color.clear : theme.tableRow)
+                        Divider().opacity(0.35)
+                    }
+                } header: {
+                    HStack(spacing: 0) {
+                        ForEach(columns) { column in
+                            Text(column.title)
+                                .font(.caption.weight(.bold))
+                                .foregroundStyle(theme.controlForeground.opacity(0.80))
+                                .frame(width: column.width, alignment: .leading)
+                                .padding(.horizontal, 12)
+                                .padding(.vertical, 9)
+                        }
+                    }
+                    .background(theme.tableBackground)
+                    Divider().opacity(0.45)
+                }
+            }
+            .frame(minWidth: totalWidth, alignment: .leading)
+        }
+        .frame(minHeight: minHeight ?? 0)
+        .frame(maxHeight: maxHeight, alignment: .top)
+        .background(theme.tableBackground)
+        .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+        .overlay {
+            RoundedRectangle(cornerRadius: 10, style: .continuous)
+                .stroke(theme.controlBorder.opacity(0.55), lineWidth: 1)
+        }
     }
 }
 
@@ -916,18 +1215,21 @@ struct AlertTable: View {
         VStack(alignment: .leading, spacing: 10) {
             Text("Auffälligkeiten")
                 .font(.headline)
-            Table(model.alertRows()) {
-                TableColumn("Messtag") { Text(model.formattedDate($0.messtag)) }
-                TableColumn("Tag", value: \.dayName)
-                TableColumn("Urin gesamt ml") { day in
-                    Text(model.format(day.urineTotal))
-                        .foregroundStyle(day.urineTotal < 800 ? .red : .orange)
-                        .monospacedDigit()
-                }
-                TableColumn("Wasser gesamt ml") { Text(model.format($0.waterTotal)).monospacedDigit() }
-                TableColumn("Auffälligkeit") { Text($0.urineTotal < 800 ? "niedrig" : "hoch") }
-            }
-            .frame(minHeight: 210)
+            ThemedDataTable(
+                rows: model.alertRows(),
+                columns: [
+                    ThemedTableColumn("Messtag", width: 160) { Text(model.formattedDate($0.messtag)) },
+                    ThemedTableColumn("Tag", width: 160) { Text($0.dayName) },
+                    ThemedTableColumn("Urin gesamt ml", width: 170) { day in
+                        Text(model.format(day.urineTotal))
+                            .foregroundStyle(day.urineTotal < 800 ? .red : .orange)
+                            .monospacedDigit()
+                    },
+                    ThemedTableColumn("Wasser gesamt ml", width: 180) { Text(model.format($0.waterTotal)).monospacedDigit() },
+                    ThemedTableColumn("Auffälligkeit", width: 180) { _ in Text("niedrig") }
+                ],
+                minHeight: 210
+            )
         }
         .liquidCard()
     }
@@ -939,29 +1241,49 @@ struct SummaryTableView: View {
     let section: AppSection
 
     var body: some View {
+        let rows = model.summaryRows(kind: section)
         VStack(alignment: .leading, spacing: 12) {
             FilterBar()
-            Table(model.summaryRows(kind: section)) {
-                if section != .week {
-                    TableColumn("Jahr") { Text($0.values["Jahr"] ?? "") }
-                } else {
-                    TableColumn("Jahr") { Text($0.values["Jahr"] ?? "") }
-                    TableColumn("KW") { Text($0.values["KW"] ?? "") }
-                }
-                if section == .month {
-                    TableColumn("Monat") { Text($0.values["Monat Name"] ?? "") }
-                }
-                TableColumn("Tage") { Text($0.values["Tage"] ?? "") }
-                TableColumn("Urin Gesamt ml") { Text($0.values["● Urin Gesamt ml"] ?? "").monospacedDigit() }
-                TableColumn("Urin Ø ml/Tag") { Text($0.values["● Urin Ø ml/Tag"] ?? "").monospacedDigit() }
-                TableColumn("Urin Anzahl") { Text($0.values["● Urin Anzahl"] ?? "").monospacedDigit() }
-                TableColumn("Wasser Gesamt ml") { Text($0.values["💧 Wasser Gesamt ml"] ?? "").monospacedDigit() }
-                if section == .week {
-                    TableColumn("Auffälligkeit") { Text($0.values["Auffälligkeit"] ?? "") }
-                }
-            }
+            ThemedDataTable(
+                rows: rows,
+                columns: columns,
+                maxHeight: section == .year ? CGFloat(48 + rows.count * 38) : nil
+            )
         }
         .padding(22)
+    }
+
+    private var columns: [ThemedTableColumn<SummaryRow>] {
+        switch section {
+        case .year:
+            return commonSummaryColumns(prefix: [
+                ThemedTableColumn("Jahr", width: 120) { Text($0.values["Jahr"] ?? "") }
+            ])
+        case .month:
+            return commonSummaryColumns(prefix: [
+                ThemedTableColumn("Jahr", width: 110) { Text($0.values["Jahr"] ?? "") },
+                ThemedTableColumn("Monat", width: 150) { Text($0.values["Monat Name"] ?? "") }
+            ])
+        case .week:
+            var result = commonSummaryColumns(prefix: [
+                ThemedTableColumn("Jahr", width: 100) { Text($0.values["Jahr"] ?? "") },
+                ThemedTableColumn("KW", width: 90) { Text($0.values["KW"] ?? "") }
+            ])
+            result.append(ThemedTableColumn("Auffälligkeit", width: 150) { Text($0.values["Auffälligkeit"] ?? "") })
+            return result
+        default:
+            return []
+        }
+    }
+
+    private func commonSummaryColumns(prefix: [ThemedTableColumn<SummaryRow>]) -> [ThemedTableColumn<SummaryRow>] {
+        prefix + [
+            ThemedTableColumn("Tage", width: 90) { Text($0.values["Tage"] ?? "") },
+            ThemedTableColumn("Urin Gesamt ml", width: 170) { Text($0.values["● Urin Gesamt ml"] ?? "").monospacedDigit() },
+            ThemedTableColumn("Urin Ø ml/Tag", width: 170) { Text($0.values["● Urin Ø ml/Tag"] ?? "").monospacedDigit() },
+            ThemedTableColumn("Urin Anzahl", width: 140) { Text($0.values["● Urin Anzahl"] ?? "").monospacedDigit() },
+            ThemedTableColumn("Wasser Gesamt ml", width: 180) { Text($0.values["💧 Wasser Gesamt ml"] ?? "").monospacedDigit() }
+        ]
     }
 }
 
@@ -971,29 +1293,20 @@ struct DayTableView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             FilterBar()
-            Table(model.filteredDays) {
-                TableColumn("Datum") { Text(model.formattedDate($0.messtag)) }
-                    .width(min: 104, ideal: 116)
-                TableColumn("Tag", value: \.dayName)
-                    .width(min: 86, ideal: 96)
-                TableColumn("Urin Zeiten") { multilineCell($0.urine.map(\.0).joined(separator: "\n"), monospaced: true) }
-                    .width(min: 118, ideal: 132)
-                TableColumn("Urin ml") { multilineCell($0.urine.map { "\($0.1) ml" }.joined(separator: "\n"), monospaced: true) }
-                    .width(min: 104, ideal: 116)
-                TableColumn("Urin Summe") { Text(model.format($0.urineTotal)).monospacedDigit() }
-                    .width(min: 98, ideal: 110)
-                TableColumn("Wasser Zeiten") { multilineCell($0.water.map(\.0).joined(separator: "\n"), monospaced: true) }
-                    .width(min: 118, ideal: 132)
-                TableColumn("Wasser ml") { multilineCell($0.water.map { "\($0.1) ml" }.joined(separator: "\n"), monospaced: true) }
-                    .width(min: 104, ideal: 116)
-                TableColumn("Wasser Summe") { Text(model.format($0.waterTotal)).monospacedDigit() }
-                    .width(min: 108, ideal: 122)
-                TableColumn("Hinweise") { day in
+            ThemedDataTable(rows: model.filteredDays, columns: [
+                ThemedTableColumn("Datum", width: 110) { Text(model.formattedDate($0.messtag)) },
+                ThemedTableColumn("Tag", width: 100) { Text($0.dayName) },
+                ThemedTableColumn("Urin Zeiten", width: 120) { multilineCell($0.urine.map(\.0).joined(separator: "\n"), monospaced: true) },
+                ThemedTableColumn("Urin ml", width: 110) { multilineCell($0.urine.map { "\($0.1) ml" }.joined(separator: "\n"), monospaced: true) },
+                ThemedTableColumn("Urin Summe", width: 120) { Text(model.format($0.urineTotal)).monospacedDigit() },
+                ThemedTableColumn("Wasser Zeiten", width: 120) { multilineCell($0.water.map(\.0).joined(separator: "\n"), monospaced: true) },
+                ThemedTableColumn("Wasser ml", width: 110) { multilineCell($0.water.map { "\($0.1) ml" }.joined(separator: "\n"), monospaced: true) },
+                ThemedTableColumn("Wasser Summe", width: 130) { Text(model.format($0.waterTotal)).monospacedDigit() },
+                ThemedTableColumn("Hinweise", width: 520) { day in
                     multilineCell(day.notesText, lineLimit: 3)
                         .help(day.notesText)
                 }
-                .width(min: 360, ideal: 520)
-            }
+            ])
         }
         .padding(22)
     }
@@ -1032,29 +1345,44 @@ struct NotesView: View {
 }
 
 struct AppBackground: View {
+    let theme: AppTheme
+
     var body: some View {
         ZStack {
-            Color(nsColor: .windowBackgroundColor)
-            LinearGradient(colors: [.teal.opacity(0.10), .clear, .yellow.opacity(0.06)], startPoint: .topLeading, endPoint: .bottomTrailing)
+            theme.background.first ?? Color(nsColor: .windowBackgroundColor)
+            LinearGradient(colors: theme.background, startPoint: .topLeading, endPoint: .bottomTrailing)
         }
         .ignoresSafeArea()
     }
 }
 
 extension View {
-    @ViewBuilder
     func liquidCard(cornerRadius: CGFloat = 18) -> some View {
+        modifier(LiquidCardModifier(cornerRadius: cornerRadius))
+    }
+}
+
+private struct LiquidCardModifier: ViewModifier {
+    @Environment(\.appTheme) private var theme
+    let cornerRadius: CGFloat
+
+    @ViewBuilder
+    func body(content: Content) -> some View {
         if #available(macOS 26.0, *) {
-            self
+            content
                 .padding(14)
                 .glassEffect(.regular, in: RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
+                .overlay(
+                    RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
+                        .stroke(theme.accent.opacity(theme == .highContrast ? 0.70 : 0.16), lineWidth: theme == .highContrast ? 1.5 : 1)
+                )
         } else {
-            self
+            content
                 .padding(14)
                 .background(.regularMaterial, in: RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
                 .overlay(
                     RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
-                        .stroke(.separator.opacity(0.45), lineWidth: 1)
+                        .stroke(theme.accent.opacity(theme == .highContrast ? 0.70 : 0.24), lineWidth: 1)
                 )
         }
     }

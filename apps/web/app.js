@@ -27,7 +27,7 @@ const els = {
   csvInput: document.querySelector("#csvInput"),
   emptyCsvInput: document.querySelector("#emptyCsvInput"),
   mergeCsvInput: document.querySelector("#mergeCsvInput"),
-  themeToggle: document.querySelector("#themeToggle"),
+  themeSelect: document.querySelector("#themeSelect"),
   appMark: document.querySelector("#appMark"),
   addEntry: document.querySelector("#addEntry"),
   entryDialog: document.querySelector("#entryDialog"),
@@ -345,6 +345,7 @@ function aggregate(days, keys, buildLabel) {
         urineTotal: 0,
         waterTotal: 0,
         urineCount: 0,
+        lowDays: 0,
       });
     }
     const row = grouped.get(key);
@@ -352,11 +353,12 @@ function aggregate(days, keys, buildLabel) {
     row.urineTotal += day.urineTotal;
     row.waterTotal += day.waterTotal;
     row.urineCount += day.urineCount;
+    if (day.urineTotal < 800) row.lowDays += 1;
   }
   return Array.from(grouped.values()).map((row) => ({
     ...row,
     urineAverage: Math.round(row.urineTotal / row.days),
-    alert: row.urineAverage < 800 ? "niedrig" : row.urineAverage > 2500 ? "hoch" : "",
+    alert: row.lowDays ? "niedrig" : "normal",
   }));
 }
 
@@ -377,7 +379,7 @@ function render() {
     if (!hasData) view.classList.remove("active");
   });
   document.querySelector(".tabs").style.display = hasData ? "flex" : "none";
-  document.querySelector(".toolbar").style.display = "flex";
+  document.querySelector(".toolbar").style.display = "";
   els.yearFilter.disabled = !hasData;
   els.monthFilter.disabled = !hasData;
   els.backupCsv.disabled = !hasData;
@@ -391,6 +393,7 @@ function render() {
   }
 
   const activeView = document.querySelector(".tab.active")?.dataset.view || "dashboard";
+  document.body.dataset.view = activeView;
   document.querySelector(`#${activeView}`).classList.add("active");
   const days = filteredDays();
   const first = state.days[0]?.messtag;
@@ -406,10 +409,15 @@ function render() {
 }
 
 function applyTheme(theme) {
-  document.body.classList.toggle("dark", theme === "dark");
-  els.themeToggle.textContent = theme === "dark" ? "Light Mode" : "Dark Mode";
-  els.appMark.src = theme === "dark" ? "./assets/urobilanz-icon-dark.svg" : "./assets/urobilanz-icon-light.svg";
-  localStorage.setItem("urinTheme", theme);
+  const themeAliases = { light: "classic-light", dark: "classic-dark" };
+  const validThemes = new Set(["classic-light", "classic-dark", "dracula", "liquid-dark", "medical-light", "high-contrast", "summer", "cream-sage"]);
+  const selectedTheme = validThemes.has(themeAliases[theme] || theme) ? (themeAliases[theme] || theme) : "classic-light";
+  const darkThemes = new Set(["classic-dark", "dracula", "liquid-dark", "high-contrast"]);
+  document.body.dataset.theme = selectedTheme;
+  document.body.classList.toggle("dark", darkThemes.has(selectedTheme));
+  els.themeSelect.value = selectedTheme;
+  els.appMark.src = darkThemes.has(selectedTheme) ? "./assets/urobilanz-icon-dark.svg" : "./assets/urobilanz-icon-light.svg";
+  localStorage.setItem("urinTheme", selectedTheme);
   if (state.days.length) render();
 }
 
@@ -417,14 +425,13 @@ function renderMetrics(days) {
   const urineTotal = days.reduce((sum, day) => sum + day.urineTotal, 0);
   const waterTotal = days.reduce((sum, day) => sum + day.waterTotal, 0);
   const low = days.filter((day) => day.urineTotal < 800).length;
-  const high = days.filter((day) => day.urineTotal > 2500).length;
   const metrics = [
     ["Messtage", days.length],
     ["● Urin gesamt ml", fmtNumber(urineTotal)],
     ["● Urin Ø ml/Tag", fmtNumber(Math.round(urineTotal / Math.max(days.length, 1)))],
     ["💧 Wasser gesamt ml", fmtNumber(waterTotal)],
     ["Niedrige Urin-Tage", low],
-    ["Hohe Urin-Tage", high],
+    ["Normale Urin-Tage", days.length - low],
     ["Urin-Einträge", fmtNumber(days.reduce((sum, day) => sum + day.urineCount, 0))],
     ["Wasser-Einträge", fmtNumber(days.reduce((sum, day) => sum + day.water.length, 0))],
   ];
@@ -440,13 +447,13 @@ function renderTables(days) {
   renderTable(els.monthTable, ["Jahr", "Monat", "Monat Name", "Tage", "● Urin Gesamt ml", "● Urin Ø ml/Tag", "● Urin Anzahl", "💧 Wasser Gesamt ml"], monthRows.map(summaryRow));
   renderTable(els.weekTable, ["ISO Jahr", "ISO Woche", "Tage", "● Urin Gesamt ml", "● Urin Ø ml/Tag", "● Urin Anzahl", "💧 Wasser Gesamt ml", "Auffälligkeit"], weekRows.map(summaryRow));
   renderTable(els.alertTable, ["Messtag", "Tag", "● Urin gesamt ml", "💧 Wasser gesamt ml", "Auffälligkeit"], days
-    .filter((day) => day.urineTotal < 800 || day.urineTotal > 2500)
+    .filter((day) => day.urineTotal < 800)
     .map((day) => ({
       Messtag: fmtDate(day.messtag),
       Tag: day.dayName,
       "● Urin gesamt ml": day.urineTotal,
       "💧 Wasser gesamt ml": day.waterTotal,
-      Auffälligkeit: day.urineTotal < 800 ? "niedrig" : "hoch",
+      Auffälligkeit: "niedrig",
     })));
   renderTable(els.dayTable, ["Jahr", "Monat", "KW", "Messtag", "Tag", "● Urin Uhrzeit", "● Urin ml", "● Urin Anzahl", "● Urin gesamt ml", "💧 Wasser Uhrzeit", "💧 Wasser ml", "💧 Wasser gesamt ml", "Hinweise"], days.map(dayRow), true);
 }
@@ -483,6 +490,7 @@ function dayRow(day) {
 
 function renderTable(table, headers, rows, separateDays = false) {
   table.innerHTML = `
+    ${separateDays ? `<colgroup>${headers.map((header) => `<col class="${headerClass(header)}">`).join("")}</colgroup>` : ""}
     <thead><tr>${headers.map((header) => `<th class="${headerClass(header)}">${header}</th>`).join("")}</tr></thead>
     <tbody>
       ${rows
@@ -493,25 +501,27 @@ function renderTable(table, headers, rows, separateDays = false) {
               const value = row[header] ?? "";
               const valueClass = alertClass(header, value);
               const stack = String(value).includes("\n") ? "stack" : "";
-              return `<td class="${headerClass(header)} ${valueClass} ${stack}">${formatCell(header, value)}</td>`;
+              const cell = formatCell(header, value);
+              return `<td class="${headerClass(header)} ${valueClass} ${stack}">${cell}</td>`;
             })
             .join("")}</tr>`;
         })
         .join("")}
     </tbody>
   `;
+  table.classList.toggle("day-detail-table", separateDays);
 }
 
 function headerClass(header) {
   if (header.includes("Urin")) return "urine";
   if (header.includes("Wasser")) return "water";
+  if (header === "Hinweise") return "note-col";
   return "";
 }
 
 function alertClass(header, value) {
   if (!header.includes("Urin") || typeof value !== "number") return "";
   if (value < 800 && header.includes("gesamt")) return "low";
-  if (value > 2500 && header.includes("gesamt")) return "high";
   return "";
 }
 
@@ -530,9 +540,9 @@ function drawLineChart(canvas, days) {
   ctx.scale(dpr, dpr);
   const theme = chartTheme();
   drawAxes(ctx, canvas.clientWidth, 260, theme);
-  drawSeries(ctx, days.map((day) => day.urineTotal), "#b88700", canvas.clientWidth, 260);
-  drawSeries(ctx, days.map((day) => day.waterTotal), "#1e6ea8", canvas.clientWidth, 260);
-  drawLegend(ctx, [["Urin", "#b88700"], ["Wasser", "#1e6ea8"]], theme);
+  drawSeries(ctx, days.map((day) => day.urineTotal), theme.urine, canvas.clientWidth, 260);
+  drawSeries(ctx, days.map((day) => day.waterTotal), theme.water, canvas.clientWidth, 260);
+  drawLegend(ctx, [["Urin", theme.urine], ["Wasser", theme.water]], theme);
 }
 
 function drawMonthChart(canvas, rows) {
@@ -552,12 +562,12 @@ function drawMonthChart(canvas, rows) {
     const x = pad + index * ((width - pad * 2) / rows.length);
     const uH = (row.urineTotal / max) * (height - pad * 2);
     const wH = (row.waterTotal / max) * (height - pad * 2);
-    ctx.fillStyle = "#b88700";
+    ctx.fillStyle = theme.urine;
     ctx.fillRect(x, height - pad - uH, barW, uH);
-    ctx.fillStyle = "#1e6ea8";
+    ctx.fillStyle = theme.water;
     ctx.fillRect(x + barW + 2, height - pad - wH, barW, wH);
   });
-  drawLegend(ctx, [["Urin", "#b88700"], ["Wasser", "#1e6ea8"]], theme);
+  drawLegend(ctx, [["Urin", theme.urine], ["Wasser", theme.water]], theme);
 }
 
 function chartTheme() {
@@ -565,6 +575,8 @@ function chartTheme() {
   return {
     text: styles.getPropertyValue("--ink").trim(),
     line: styles.getPropertyValue("--line").trim(),
+    urine: styles.getPropertyValue("--chart-urine").trim(),
+    water: styles.getPropertyValue("--chart-water").trim(),
   };
 }
 
@@ -610,6 +622,7 @@ document.querySelectorAll(".tab").forEach((button) => {
     document.querySelectorAll(".tab, .view").forEach((el) => el.classList.remove("active"));
     button.classList.add("active");
     document.querySelector(`#${button.dataset.view}`).classList.add("active");
+    document.body.dataset.view = button.dataset.view;
   });
 });
 
@@ -715,14 +728,14 @@ els.entryForm.addEventListener("submit", (event) => {
   els.entryDialog.close();
 });
 
-els.themeToggle.addEventListener("click", () => {
-  applyTheme(document.body.classList.contains("dark") ? "light" : "dark");
+els.themeSelect.addEventListener("change", (event) => {
+  applyTheme(event.target.value);
 });
 
 window.addEventListener("resize", () => render());
 
 const savedTheme = localStorage.getItem("urinTheme");
-const systemTheme = window.matchMedia?.("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+const systemTheme = window.matchMedia?.("(prefers-color-scheme: dark)").matches ? "classic-dark" : "classic-light";
 applyTheme(savedTheme || systemTheme);
 
 els.rememberData.addEventListener("change", () => {
