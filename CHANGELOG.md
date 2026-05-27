@@ -2,6 +2,10 @@
 
 Alle wichtigen Änderungen an UroBilanz werden hier dokumentiert.
 
+## Unveröffentlicht
+
+- Transparenzhinweis im README ergänzt: UroBilanz wurde gemeinsam mit OpenAI Codex entwickelt.
+
 ## 1.5.0-beta.1 - 2026-05-27
 
 Vorabversion mit Theme-System, neuer Optik und mehreren Bedien-Verbesserungen für Web-App und SwiftUI-App.

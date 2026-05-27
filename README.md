@@ -13,6 +13,10 @@ UroBilanz ist ein Protokoll- und Auswertungstool. Es ist keine medizinische Diag
 
 Die Verarbeitung findet lokal statt. CSV-Dateien werden nicht hochgeladen.
 
+## Transparenz
+
+UroBilanz wurde als persoenliches Auswertungs- und Protokollwerkzeug gemeinsam mit OpenAI Codex entwickelt. Die medizinischen Inhalte, Grenzwerte und Darstellungen dienen nur der persoenlichen Uebersicht und ersetzen keine medizinische Beratung.
+
 ## Web-App starten
 
 Im Ordner `apps/web` kann die Datei `Start_Urinprotokoll.command` gestartet werden. Alternativ kann `index.html` direkt im Browser geoeffnet werden.
@@ -40,4 +44,3 @@ UroBilanz/
 ## Datenschutz
 
 Echte CSV-, Excel- und Backup-Dateien mit persoenlichen Messdaten gehoeren nicht in dieses Repository. Die `.gitignore` ist so vorbereitet, dass solche Dateien nicht versehentlich aufgenommen werden.
-
