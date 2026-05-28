@@ -58,8 +58,8 @@
           <div class="filters">
             <select id="yearFilter" aria-label="Jahr"></select>
             <select id="monthFilter" aria-label="Monat"></select>
-            <button class="utility-button" id="backupCsv" type="button">Backup CSV</button>
-            <button class="utility-button" id="exportDays" type="button">Tagesdaten CSV</button>
+            <button class="utility-button" id="backupCsv" type="button">Backup</button>
+            <button class="utility-button" id="exportDays" type="button">Tagesdaten</button>
           </div>
           <section class="data-options">
             <label class="remember-toggle">
@@ -125,6 +125,7 @@
     <dialog id="entryDialog" class="entry-dialog">
       <form id="entryForm" method="dialog">
         <h2>Eintrag hinzufügen</h2>
+        <input id="entryEditIndex" type="hidden" value="" />
         <label>
           Datum
           <input id="entryDate" type="date" required />
@@ -146,12 +147,18 @@
           <input id="entryWaterMl" type="number" min="0" step="1" />
         </label>
         <label>
-          Hinweis
+          Tagesnotiz / Hinweis
           <textarea id="entryNote" rows="3"></textarea>
         </label>
+        <section class="entry-list-wrap">
+          <h3>Einträge an diesem Messtag</h3>
+          <div id="entryList" class="entry-list"></div>
+        </section>
         <div class="dialog-actions">
-          <button class="utility-button quiet" id="cancelEntry" type="button">Abbrechen</button>
+          <button class="utility-button quiet" id="cancelEntry" type="button">Schließen</button>
+          <button class="utility-button quiet" id="resetEntry" type="button">Neu</button>
           <button class="utility-button" type="submit">Hinzufügen</button>
+          <button class="utility-button" id="addEntryAndClose" type="submit">Hinzufügen & schließen</button>
         </div>
       </form>
     </dialog>

@@ -397,6 +397,33 @@ final class UrinModel: ObservableObject {
     }
 
     func addManualEntries(date: Date, urineTime: Date, urineMl: Int?, waterTime: Date, waterMl: Int?, note: String) {
+        saveManualEntries(date: date, urineTime: urineTime, urineMl: urineMl, waterTime: waterTime, waterMl: waterMl, note: note, replacing: nil)
+    }
+
+    func updateManualEntry(index: Int, date: Date, urineTime: Date, urineMl: Int?, waterTime: Date, waterMl: Int?, note: String) {
+        saveManualEntries(date: date, urineTime: urineTime, urineMl: urineMl, waterTime: waterTime, waterMl: waterMl, note: note, replacing: index)
+    }
+
+    func deleteEntry(index: Int) {
+        guard entries.indices.contains(index) else { return }
+        entries.remove(at: index)
+        days = makeDays(from: entries)
+        rawCSV = entriesToRawCSV(entries)
+        if rememberData {
+            defaults.set(rawCSV, forKey: "swiftUISavedCSV")
+        }
+        updateStatus(extra: "Eintrag gelöscht")
+    }
+
+    func entriesForMesstag(_ date: Date) -> [(index: Int, entry: Entry)] {
+        let selectedDay = calendar.startOfDay(for: date)
+        return entries.enumerated()
+            .filter { measurementDay(for: $0.element.original) == selectedDay }
+            .map { (index: $0.offset, entry: $0.element) }
+            .sorted { $0.entry.original < $1.entry.original }
+    }
+
+    private func saveManualEntries(date: Date, urineTime: Date, urineMl: Int?, waterTime: Date, waterMl: Int?, note: String, replacing index: Int?) {
         let cleanNote = note.trimmingCharacters(in: .whitespacesAndNewlines)
         let urineDate = combinedDate(day: date, time: urineTime)
         let waterDate = combinedDate(day: date, time: waterTime)
@@ -417,13 +444,17 @@ final class UrinModel: ObservableObject {
             return
         }
 
-        entries = (entries + manualEntries).sorted { $0.original < $1.original }
+        var nextEntries = entries
+        if let index, nextEntries.indices.contains(index) {
+            nextEntries.remove(at: index)
+        }
+        entries = (nextEntries + manualEntries).sorted { $0.original < $1.original }
         days = makeDays(from: entries)
         rawCSV = entriesToRawCSV(entries)
         if rememberData {
             defaults.set(rawCSV, forKey: "swiftUISavedCSV")
         }
-        updateStatus(extra: "\(manualEntries.count) Eintrag\(manualEntries.count == 1 ? "" : "e") hinzugefügt")
+        updateStatus(extra: "\(manualEntries.count) Eintrag\(manualEntries.count == 1 ? "" : "e") \(index == nil ? "hinzugefügt" : "aktualisiert")")
     }
 
     func toggleRemember() {
@@ -476,6 +507,10 @@ final class UrinModel: ObservableObject {
 
     func formattedDate(_ date: Date) -> String {
         displayDate.string(from: date)
+    }
+
+    func formattedTime(_ date: Date) -> String {
+        timeFormatter.string(from: date)
     }
 
     func format(_ value: Int) -> String {
@@ -1031,10 +1066,11 @@ struct EntrySheet: View {
     @State private var waterTime = Date()
     @State private var waterMl = ""
     @State private var note = ""
+    @State private var editIndex: Int?
 
     var body: some View {
         VStack(alignment: .leading, spacing: 18) {
-            Text("Eintrag hinzufügen")
+            Text(editIndex == nil ? "Eintrag hinzufügen" : "Eintrag bearbeiten")
                 .font(.title2.weight(.bold))
             Form {
                 DatePicker("Datum", selection: $date, displayedComponents: [.date])
@@ -1045,26 +1081,104 @@ struct EntrySheet: View {
                 TextField("Hinweis", text: $note, axis: .vertical)
                     .lineLimit(3...5)
             }
+            entryList
             HStack {
                 Spacer()
-                Button("Abbrechen") { dismiss() }
-                Button("Hinzufügen") {
-                    model.addManualEntries(
-                        date: date,
-                        urineTime: urineTime,
-                        urineMl: Int(urineMl),
-                        waterTime: waterTime,
-                        waterMl: Int(waterMl),
-                        note: note
-                    )
-                    dismiss()
+                Button("Schließen") { dismiss() }
+                Button("Neu") { resetForm(keepDate: true) }
+                Group {
+                    Button("Hinzufügen") {
+                        save()
+                        resetForm(keepDate: true)
+                    }
+                    Button("Hinzufügen & schließen") {
+                        save()
+                        dismiss()
+                    }
                 }
                 .keyboardShortcut(.defaultAction)
-                .disabled(Int(urineMl) == nil && Int(waterMl) == nil && note.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                .disabled(!hasInput)
             }
         }
         .padding(24)
-        .frame(width: 520)
+        .frame(width: 680)
+    }
+
+    private var hasInput: Bool {
+        Int(urineMl) != nil || Int(waterMl) != nil || !note.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+    }
+
+    private var entryList: some View {
+        let rows = model.entriesForMesstag(date)
+        return VStack(alignment: .leading, spacing: 8) {
+            Text("Einträge an diesem Messtag")
+                .font(.caption.weight(.bold))
+                .foregroundStyle(.secondary)
+            if rows.isEmpty {
+                Text("Für diesen Messtag gibt es noch keine Einträge.")
+                    .font(.callout)
+                    .foregroundStyle(.secondary)
+            } else {
+                ScrollView {
+                    LazyVStack(spacing: 6) {
+                        ForEach(rows, id: \.index) { row in
+                            HStack(spacing: 10) {
+                                Text(model.formattedTime(row.entry.original))
+                                    .monospacedDigit()
+                                    .frame(width: 54, alignment: .leading)
+                                Text(row.entry.type)
+                                    .fontWeight(.semibold)
+                                    .frame(width: 70, alignment: .leading)
+                                Text(row.entry.type == "Hinweis" ? "Hinweis" : "\(row.entry.ml) ml")
+                                    .monospacedDigit()
+                                    .frame(width: 86, alignment: .leading)
+                                Text(row.entry.note)
+                                    .foregroundStyle(.secondary)
+                                    .lineLimit(1)
+                                Spacer()
+                                Button("Bearbeiten") { fillForm(row.index, row.entry) }
+                                Button("Löschen", role: .destructive) { model.deleteEntry(index: row.index) }
+                            }
+                            .font(.callout)
+                            .padding(8)
+                            .background(.quaternary.opacity(0.45), in: RoundedRectangle(cornerRadius: 8, style: .continuous))
+                        }
+                    }
+                }
+                .frame(maxHeight: 190)
+            }
+        }
+    }
+
+    private func save() {
+        if let editIndex {
+            model.updateManualEntry(index: editIndex, date: date, urineTime: urineTime, urineMl: Int(urineMl), waterTime: waterTime, waterMl: Int(waterMl), note: note)
+        } else {
+            model.addManualEntries(date: date, urineTime: urineTime, urineMl: Int(urineMl), waterTime: waterTime, waterMl: Int(waterMl), note: note)
+        }
+    }
+
+    private func fillForm(_ index: Int, _ entry: Entry) {
+        editIndex = index
+        date = entry.messtag
+        urineTime = entry.original
+        waterTime = entry.original
+        urineMl = entry.type == "Urin" ? "\(entry.ml)" : ""
+        waterMl = entry.type == "Wasser" ? "\(entry.ml)" : ""
+        note = entry.note
+    }
+
+    private func resetForm(keepDate: Bool) {
+        let now = Date()
+        editIndex = nil
+        if !keepDate {
+            date = now
+        }
+        urineTime = now
+        waterTime = now
+        urineMl = ""
+        waterMl = ""
+        note = ""
     }
 }
 

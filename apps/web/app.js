@@ -33,12 +33,16 @@ const els = {
   entryDialog: document.querySelector("#entryDialog"),
   entryForm: document.querySelector("#entryForm"),
   cancelEntry: document.querySelector("#cancelEntry"),
+  resetEntry: document.querySelector("#resetEntry"),
+  addEntryAndClose: document.querySelector("#addEntryAndClose"),
+  entryEditIndex: document.querySelector("#entryEditIndex"),
   entryDate: document.querySelector("#entryDate"),
   entryUrineTime: document.querySelector("#entryUrineTime"),
   entryUrineMl: document.querySelector("#entryUrineMl"),
   entryWaterTime: document.querySelector("#entryWaterTime"),
   entryWaterMl: document.querySelector("#entryWaterMl"),
   entryNote: document.querySelector("#entryNote"),
+  entryList: document.querySelector("#entryList"),
   yearFilter: document.querySelector("#yearFilter"),
   monthFilter: document.querySelector("#monthFilter"),
   rememberData: document.querySelector("#rememberData"),
@@ -147,6 +151,18 @@ function fmtNumber(value) {
 
 function fmtTime(date) {
   return date.toLocaleTimeString("de-AT", { hour: "2-digit", minute: "2-digit" });
+}
+
+function inputDateValue(date) {
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+}
+
+function inputTimeValue(date) {
+  return `${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}`;
+}
+
+function escapeHtml(value) {
+  return String(value).replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
 }
 
 function processRows(raw, rawCsv = "") {
@@ -538,7 +554,7 @@ function formatCell(header, value) {
   if (typeof value === "number" && !["Jahr", "Monat", "KW", "ISO Jahr", "ISO Woche", "Tage", "● Urin Anzahl"].includes(header)) {
     return fmtNumber(value);
   }
-  return String(value).replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+  return escapeHtml(value);
 }
 
 function drawLineChart(canvas, days) {
@@ -705,18 +721,38 @@ els.mergeCsvInput.addEventListener("change", async (event) => {
 
 els.addEntry.addEventListener("click", () => {
   const now = new Date();
-  els.entryDate.value = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
-  const time = `${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}`;
+  els.entryEditIndex.value = "";
+  els.entryDate.value = inputDateValue(toMesstag(now));
+  const time = inputTimeValue(now);
   els.entryUrineTime.value = time;
   els.entryWaterTime.value = time;
   els.entryUrineMl.value = "";
   els.entryWaterMl.value = "";
   els.entryNote.value = "";
+  renderEntryList();
   els.entryDialog.showModal();
 });
 
 els.cancelEntry.addEventListener("click", () => {
   els.entryDialog.close();
+});
+
+els.resetEntry.addEventListener("click", () => {
+  resetEntryForm();
+});
+
+els.entryDate.addEventListener("change", renderEntryList);
+
+els.entryList.addEventListener("click", (event) => {
+  const button = event.target.closest("button[data-action]");
+  if (!button) return;
+  const index = Number(button.dataset.index);
+  if (button.dataset.action === "edit") {
+    fillEntryForm(index);
+  }
+  if (button.dataset.action === "delete") {
+    deleteEntry(index);
+  }
 });
 
 els.entryForm.addEventListener("submit", (event) => {
@@ -742,15 +778,106 @@ els.entryForm.addEventListener("submit", (event) => {
 
   if (!entries.length) {
     els.status.textContent = "Kein Eintrag erstellt. Bitte Urin, Wasser oder Hinweis ausfüllen.";
-    els.entryDialog.close();
     return;
   }
 
-  rebuildFromEntries([...state.rows, ...entries].sort((a, b) => a.original - b.original));
+  const editIndex = els.entryEditIndex.value === "" ? -1 : Number(els.entryEditIndex.value);
+  const nextRows = state.rows.slice();
+  if (editIndex >= 0) nextRows.splice(editIndex, 1);
+  rebuildFromEntries([...nextRows, ...entries].sort((a, b) => a.original - b.original));
   rememberCurrentData();
-  els.status.textContent = `${state.days.length} Messtage · ${entries.length} Eintrag${entries.length === 1 ? "" : "e"} hinzugefügt`;
-  els.entryDialog.close();
+  els.status.textContent = `${state.days.length} Messtage · ${entries.length} Eintrag${entries.length === 1 ? "" : "e"} ${editIndex >= 0 ? "aktualisiert" : "hinzugefügt"}`;
+  if (event.submitter === els.addEntryAndClose) {
+    els.entryDialog.close();
+  } else {
+    resetEntryForm();
+  }
 });
+
+function resetEntryForm() {
+  const selectedDay = parseInputDay(els.entryDate.value) || toMesstag(new Date());
+  const now = new Date();
+  els.entryEditIndex.value = "";
+  els.entryDate.value = inputDateValue(selectedDay);
+  els.entryUrineTime.value = inputTimeValue(now);
+  els.entryWaterTime.value = inputTimeValue(now);
+  els.entryUrineMl.value = "";
+  els.entryWaterMl.value = "";
+  els.entryNote.value = "";
+  renderEntryList();
+}
+
+function parseInputDay(value) {
+  const [year, month, day] = String(value || "").split("-").map(Number);
+  if (!year || !month || !day) return null;
+  return new Date(year, month - 1, day);
+}
+
+function entryListRows() {
+  const selectedDay = parseInputDay(els.entryDate.value);
+  if (!selectedDay) return [];
+  const key = selectedDay.toISOString().slice(0, 10);
+  return state.rows
+    .map((entry, index) => ({ entry, index }))
+    .filter(({ entry }) => toMesstag(entry.original).toISOString().slice(0, 10) === key)
+    .sort((a, b) => a.entry.original - b.entry.original);
+}
+
+function renderEntryList() {
+  const rows = entryListRows();
+  if (!rows.length) {
+    els.entryList.innerHTML = `<p>Für diesen Messtag gibt es noch keine Einträge.</p>`;
+    return;
+  }
+  els.entryList.innerHTML = rows
+    .map(({ entry, index }) => {
+      const label = entry.type === "Hinweis" ? "Hinweis" : `${entry.ml} ml`;
+      const note = entry.note ? `<span class="entry-note">${escapeHtml(entry.note)}</span>` : "";
+      return `<div class="entry-list-row">
+        <span>${fmtDate(toMesstag(entry.original))}</span>
+        <span>${fmtTime(entry.original)}</span>
+        <strong>${escapeHtml(entry.type)}</strong>
+        <span>${escapeHtml(label)}</span>
+        ${note}
+        <button class="utility-button quiet" type="button" data-action="edit" data-index="${index}">Bearbeiten</button>
+        <button class="utility-button quiet" type="button" data-action="delete" data-index="${index}">Löschen</button>
+      </div>`;
+    })
+    .join("");
+}
+
+function fillEntryForm(index) {
+  const entry = state.rows[index];
+  if (!entry) return;
+  els.entryEditIndex.value = String(index);
+  els.entryDate.value = inputDateValue(toMesstag(entry.original));
+  els.entryUrineTime.value = inputTimeValue(entry.original);
+  els.entryWaterTime.value = inputTimeValue(entry.original);
+  els.entryUrineMl.value = entry.type === "Urin" ? String(entry.ml) : "";
+  els.entryWaterMl.value = entry.type === "Wasser" ? String(entry.ml) : "";
+  els.entryNote.value = entry.note || "";
+  if (entry.type === "Hinweis") {
+    els.entryUrineTime.value = inputTimeValue(entry.original);
+    els.entryWaterTime.value = inputTimeValue(entry.original);
+  }
+}
+
+function deleteEntry(index) {
+  if (!state.rows[index]) return;
+  const nextRows = state.rows.slice();
+  nextRows.splice(index, 1);
+  if (nextRows.length) {
+    rebuildFromEntries(nextRows.sort((a, b) => a.original - b.original));
+  } else {
+    state.rows = [];
+    state.days = [];
+    state.rawCsv = "";
+    render();
+  }
+  rememberCurrentData();
+  resetEntryForm();
+  els.status.textContent = `${state.days.length} Messtage · Eintrag gelöscht`;
+}
 
 els.themeSelect.addEventListener("change", (event) => {
   applyTheme(event.target.value);

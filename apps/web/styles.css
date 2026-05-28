@@ -743,7 +743,7 @@ td.high {
 }
 
 .entry-dialog {
-  width: min(520px, calc(100vw - 32px));
+  width: min(880px, calc(100vw - 32px));
   border: 1px solid var(--line);
   border-radius: 14px;
   background: var(--panel);
@@ -792,6 +792,54 @@ td.high {
   resize: none;
 }
 
+.entry-list-wrap {
+  grid-column: 1 / -1;
+  border-top: 1px solid var(--line);
+  padding-top: 10px;
+}
+
+.entry-list-wrap h3 {
+  margin: 0 0 8px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.entry-list {
+  display: grid;
+  gap: 6px;
+  max-height: 220px;
+  overflow: auto;
+}
+
+.entry-list p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.entry-list-row {
+  display: grid;
+  grid-template-columns: 92px 58px 76px 80px minmax(120px, 1fr) auto auto;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--row-odd);
+  padding: 7px 8px;
+  font-size: 13px;
+}
+
+.entry-list-row .utility-button {
+  padding: 6px 8px;
+  font-size: 12px;
+}
+
+.entry-note {
+  color: var(--muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .dialog-actions {
   display: flex;
   grid-column: 1 / -1;
@@ -831,5 +879,14 @@ td.high {
   .data-options {
     justify-content: flex-start;
     flex-wrap: wrap;
+  }
+
+  .entry-list-row {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .entry-note {
+    white-space: normal;
+    grid-column: 1 / -1;
   }
 }
