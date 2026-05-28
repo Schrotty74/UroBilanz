@@ -34,9 +34,10 @@ const els = {
   entryForm: document.querySelector("#entryForm"),
   cancelEntry: document.querySelector("#cancelEntry"),
   entryDate: document.querySelector("#entryDate"),
-  entryTime: document.querySelector("#entryTime"),
-  entryType: document.querySelector("#entryType"),
-  entryMl: document.querySelector("#entryMl"),
+  entryUrineTime: document.querySelector("#entryUrineTime"),
+  entryUrineMl: document.querySelector("#entryUrineMl"),
+  entryWaterTime: document.querySelector("#entryWaterTime"),
+  entryWaterMl: document.querySelector("#entryWaterMl"),
   entryNote: document.querySelector("#entryNote"),
   yearFilter: document.querySelector("#yearFilter"),
   monthFilter: document.querySelector("#monthFilter"),
@@ -187,8 +188,12 @@ function rebuildFromEntries(rows, rawCsv = "") {
       });
     }
     const day = byDay.get(row.messtagKey);
-    const target = row.type === "Wasser" ? day.water : day.urine;
-    target.push({ time: fmtTime(row.original), ml: row.ml });
+    if (row.type === "Wasser") {
+      day.water.push({ time: fmtTime(row.original), ml: row.ml });
+    }
+    if (row.type === "Urin") {
+      day.urine.push({ time: fmtTime(row.original), ml: row.ml });
+    }
     if (row.note) day.notes.push(row.note);
   }
 
@@ -261,7 +266,7 @@ function entryFromRawRow(entry) {
   if (!date) return null;
   return {
     original: date,
-    type: entry.Typ === "Wasser" ? "Wasser" : "Urin",
+    type: entry.Typ === "Wasser" ? "Wasser" : entry.Typ === "Hinweis" ? "Hinweis" : "Urin",
     ml: Math.round(Number(entry.ml || 0)),
     note: (entry.Hinweis || "").trim(),
   };
@@ -276,7 +281,11 @@ function entriesFromDay(day) {
     noteUsed = true;
     return entry;
   };
-  return [...day.urine.map((item) => make(item, "Urin")), ...day.water.map((item) => make(item, "Wasser"))].sort((a, b) => a.original - b.original);
+  const entries = [...day.urine.map((item) => make(item, "Urin")), ...day.water.map((item) => make(item, "Wasser"))];
+  if (!entries.length && note) {
+    entries.push({ original: new Date(day.messtag.getFullYear(), day.messtag.getMonth(), day.messtag.getDate(), 12, 0), type: "Hinweis", ml: 0, note });
+  }
+  return entries.sort((a, b) => a.original - b.original);
 }
 
 function dateFromMesstagTime(messtag, time) {
@@ -697,8 +706,11 @@ els.mergeCsvInput.addEventListener("change", async (event) => {
 els.addEntry.addEventListener("click", () => {
   const now = new Date();
   els.entryDate.value = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
-  els.entryTime.value = `${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}`;
-  els.entryMl.value = "";
+  const time = `${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}`;
+  els.entryUrineTime.value = time;
+  els.entryWaterTime.value = time;
+  els.entryUrineMl.value = "";
+  els.entryWaterMl.value = "";
   els.entryNote.value = "";
   els.entryDialog.showModal();
 });
@@ -710,21 +722,33 @@ els.cancelEntry.addEventListener("click", () => {
 els.entryForm.addEventListener("submit", (event) => {
   event.preventDefault();
   const [year, month, day] = els.entryDate.value.split("-").map(Number);
-  const [hour, minute] = els.entryTime.value.split(":").map(Number);
-  const entry = {
-    original: new Date(year, month - 1, day, hour, minute),
-    type: els.entryType.value,
-    ml: Math.round(Number(els.entryMl.value || 0)),
-    note: els.entryNote.value.trim(),
+  const note = els.entryNote.value.trim();
+  const entryFor = (timeValue, type, ml, entryNote = "") => {
+    const [hour = 12, minute = 0] = String(timeValue || "12:00").split(":").map(Number);
+    return {
+      original: new Date(year, month - 1, day, hour, minute),
+      type,
+      ml: Math.round(Number(ml || 0)),
+      note: entryNote,
+    };
   };
-  const existing = new Set(state.rows.map(entryKey));
-  if (!existing.has(entryKey(entry))) {
-    rebuildFromEntries([...state.rows, entry].sort((a, b) => a.original - b.original));
-    rememberCurrentData();
-    els.status.textContent = `${state.days.length} Messtage · Eintrag hinzugefügt`;
-  } else {
-    els.status.textContent = "Eintrag war bereits vorhanden.";
+  const entries = [];
+  if (els.entryUrineMl.value !== "") entries.push(entryFor(els.entryUrineTime.value, "Urin", els.entryUrineMl.value));
+  if (els.entryWaterMl.value !== "") entries.push(entryFor(els.entryWaterTime.value, "Wasser", els.entryWaterMl.value));
+  if (note) {
+    const noteTime = entries[0] ? fmtTime(entries[0].original) : (els.entryUrineTime.value || els.entryWaterTime.value || "12:00");
+    entries.push(entryFor(noteTime, "Hinweis", 0, note));
   }
+
+  if (!entries.length) {
+    els.status.textContent = "Kein Eintrag erstellt. Bitte Urin, Wasser oder Hinweis ausfüllen.";
+    els.entryDialog.close();
+    return;
+  }
+
+  rebuildFromEntries([...state.rows, ...entries].sort((a, b) => a.original - b.original));
+  rememberCurrentData();
+  els.status.textContent = `${state.days.length} Messtage · ${entries.length} Eintrag${entries.length === 1 ? "" : "e"} hinzugefügt`;
   els.entryDialog.close();
 });
 

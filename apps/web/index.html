@@ -130,19 +130,20 @@
           <input id="entryDate" type="date" required />
         </label>
         <label>
-          Uhrzeit
-          <input id="entryTime" type="time" required />
+          Urin Uhrzeit
+          <input id="entryUrineTime" type="time" />
         </label>
         <label>
-          Typ
-          <select id="entryType">
-            <option value="Urin">Urin</option>
-            <option value="Wasser">Wasser</option>
-          </select>
+          Urin ml
+          <input id="entryUrineMl" type="number" min="0" step="1" />
         </label>
         <label>
-          Menge ml
-          <input id="entryMl" type="number" min="0" step="1" required />
+          Wasser Uhrzeit
+          <input id="entryWaterTime" type="time" />
+        </label>
+        <label>
+          Wasser ml
+          <input id="entryWaterMl" type="number" min="0" step="1" />
         </label>
         <label>
           Hinweis
@@ -155,6 +156,6 @@
       </form>
     </dialog>
 
-    <script src="./app.js?v=20260527-violet-night"></script>
+    <script src="./app.js?v=1.5.0-beta.2"></script>
   </body>
 </html>

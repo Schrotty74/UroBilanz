@@ -4,9 +4,18 @@ Alle wichtigen Änderungen an UroBilanz werden hier dokumentiert.
 
 ## Unveröffentlicht
 
+## 1.5.0-beta.2 - 2026-05-28
+
 - Transparenzhinweis im README ergänzt: UroBilanz wurde gemeinsam mit OpenAI Codex entwickelt.
 - Transparenzhinweis erweitert: Grafiken, Symbole und App-Icons wurden für dieses Projekt mit Unterstützung von OpenAI Codex erstellt.
 - Dunkles Violett-Theme in `Violet Night` umbenannt und technische Theme-Kennung entsprechend angepasst.
+- Manuelle Eingabe erweitert: Urin, Wasser und Hinweis können getrennt erfasst werden, auch wenn vorher keine CSV geladen wurde.
+- Manuelle Web-Einträge werden zuverlässig angehängt und nicht mehr durch den Dubletten-Filter für CSV-Ergänzungen blockiert.
+- Manuelle SwiftUI-Einträge verhalten sich jetzt wie in der Web-App und erlauben mehrere Einträge am selben Messtag.
+- Hinweis-Einträge werden als Hinweis geführt und erzeugen keinen eigenen falschen 0-ml-Messtag mehr.
+- Einträge zwischen 00:00 und 05:59 bleiben beim manuellen Hinzufügen korrekt dem vorherigen Messtag zugeordnet.
+- SwiftUI-Tabellen in Monat, Woche und Tag starten bei wenigen Einträgen wieder oben statt mittig im freien Bereich.
+- Web-App JavaScript-Cache-Buster aktualisiert, damit Browser die neue manuelle Eingabelogik sicher laden.
 
 ## 1.5.0-beta.1 - 2026-05-27
 

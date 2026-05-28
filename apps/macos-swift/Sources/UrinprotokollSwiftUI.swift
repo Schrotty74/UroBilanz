@@ -336,11 +336,13 @@ final class UrinModel: ObservableObject {
         var nextEntries: [Entry] = []
         for row in parsed {
             guard let rawDate = row["Datum"], let date = dateFormatter.date(from: rawDate) else { continue }
+            let rawType = row["Typ"] ?? ""
+            let type = rawType == "Wasser" ? "Wasser" : rawType == "Hinweis" ? "Hinweis" : "Urin"
             let amount = Int(Double(row["ml"] ?? "0") ?? 0)
             nextEntries.append(Entry(
                 original: date,
                 messtag: measurementDay(for: date),
-                type: row["Typ"] ?? "",
+                type: type,
                 ml: amount,
                 note: (row["Hinweis"] ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
             ))
@@ -392,6 +394,36 @@ final class UrinModel: ObservableObject {
             defaults.set(rawCSV, forKey: "swiftUISavedCSV")
         }
         updateStatus(extra: "Eintrag hinzugefügt")
+    }
+
+    func addManualEntries(date: Date, urineTime: Date, urineMl: Int?, waterTime: Date, waterMl: Int?, note: String) {
+        let cleanNote = note.trimmingCharacters(in: .whitespacesAndNewlines)
+        let urineDate = combinedDate(day: date, time: urineTime)
+        let waterDate = combinedDate(day: date, time: waterTime)
+        var manualEntries: [Entry] = []
+        if let urineMl {
+            manualEntries.append(Entry(original: urineDate, messtag: measurementDay(for: urineDate), type: "Urin", ml: urineMl, note: ""))
+        }
+        if let waterMl {
+            manualEntries.append(Entry(original: waterDate, messtag: measurementDay(for: waterDate), type: "Wasser", ml: waterMl, note: ""))
+        }
+        if !cleanNote.isEmpty {
+            let noteDate = manualEntries.first?.original ?? urineDate
+            manualEntries.append(Entry(original: noteDate, messtag: measurementDay(for: noteDate), type: "Hinweis", ml: 0, note: cleanNote))
+        }
+
+        guard !manualEntries.isEmpty else {
+            updateStatus(extra: "Kein Eintrag erstellt")
+            return
+        }
+
+        entries = (entries + manualEntries).sorted { $0.original < $1.original }
+        days = makeDays(from: entries)
+        rawCSV = entriesToRawCSV(entries)
+        if rememberData {
+            defaults.set(rawCSV, forKey: "swiftUISavedCSV")
+        }
+        updateStatus(extra: "\(manualEntries.count) Eintrag\(manualEntries.count == 1 ? "" : "e") hinzugefügt")
     }
 
     func toggleRemember() {
@@ -503,10 +535,12 @@ final class UrinModel: ObservableObject {
 
     private func rawEntry(_ row: [String: String]) -> Entry? {
         guard let rawDate = row["Datum"], let date = dateFormatter.date(from: rawDate) else { return nil }
+        let rawType = row["Typ"] ?? ""
+        let type = rawType == "Wasser" ? "Wasser" : rawType == "Hinweis" ? "Hinweis" : "Urin"
         return Entry(
             original: date,
             messtag: measurementDay(for: date),
-            type: row["Typ"] == "Wasser" ? "Wasser" : "Urin",
+            type: type,
             ml: Int(Double(row["ml"] ?? "0") ?? 0),
             note: (row["Hinweis"] ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
         )
@@ -520,7 +554,12 @@ final class UrinModel: ObservableObject {
             noteUsed = true
             return Entry(original: original, messtag: measurementDay(for: original), type: type, ml: item.1, note: note)
         }
-        return (day.urine.map { make($0, type: "Urin") } + day.water.map { make($0, type: "Wasser") }).sorted { $0.original < $1.original }
+        var result = day.urine.map { make($0, type: "Urin") } + day.water.map { make($0, type: "Wasser") }
+        if result.isEmpty && !day.notesText.isEmpty {
+            let original = dateFromNoon(day.messtag)
+            result.append(Entry(original: original, messtag: measurementDay(for: original), type: "Hinweis", ml: 0, note: day.notesText))
+        }
+        return result.sorted { $0.original < $1.original }
     }
 
     private func dateFromMesstag(_ messtag: Date, time: String) -> Date {
@@ -532,6 +571,25 @@ final class UrinModel: ObservableObject {
         comps.minute = minute
         let date = calendar.date(from: comps) ?? messtag
         return hour < 6 ? calendar.date(byAdding: .day, value: 1, to: date) ?? date : date
+    }
+
+    private func combinedDate(day: Date, time: Date) -> Date {
+        let dayParts = calendar.dateComponents([.year, .month, .day], from: day)
+        let timeParts = calendar.dateComponents([.hour, .minute], from: time)
+        var comps = DateComponents()
+        comps.year = dayParts.year
+        comps.month = dayParts.month
+        comps.day = dayParts.day
+        comps.hour = timeParts.hour
+        comps.minute = timeParts.minute
+        return calendar.date(from: comps) ?? day
+    }
+
+    private func dateFromNoon(_ day: Date) -> Date {
+        var comps = calendar.dateComponents([.year, .month, .day], from: day)
+        comps.hour = 12
+        comps.minute = 0
+        return calendar.date(from: comps) ?? day
     }
 
     private func makeDays(from entries: [Entry]) -> [DaySummary] {
@@ -968,8 +1026,10 @@ struct EntrySheet: View {
     @EnvironmentObject private var model: UrinModel
     @Environment(\.dismiss) private var dismiss
     @State private var date = Date()
-    @State private var type = "Urin"
-    @State private var ml = ""
+    @State private var urineTime = Date()
+    @State private var urineMl = ""
+    @State private var waterTime = Date()
+    @State private var waterMl = ""
     @State private var note = ""
 
     var body: some View {
@@ -977,12 +1037,11 @@ struct EntrySheet: View {
             Text("Eintrag hinzufügen")
                 .font(.title2.weight(.bold))
             Form {
-                DatePicker("Datum und Uhrzeit", selection: $date, displayedComponents: [.date, .hourAndMinute])
-                Picker("Typ", selection: $type) {
-                    Text("Urin").tag("Urin")
-                    Text("Wasser").tag("Wasser")
-                }
-                TextField("Menge ml", text: $ml)
+                DatePicker("Datum", selection: $date, displayedComponents: [.date])
+                DatePicker("Urin Uhrzeit", selection: $urineTime, displayedComponents: [.hourAndMinute])
+                TextField("Urin ml", text: $urineMl)
+                DatePicker("Wasser Uhrzeit", selection: $waterTime, displayedComponents: [.hourAndMinute])
+                TextField("Wasser ml", text: $waterMl)
                 TextField("Hinweis", text: $note, axis: .vertical)
                     .lineLimit(3...5)
             }
@@ -990,15 +1049,22 @@ struct EntrySheet: View {
                 Spacer()
                 Button("Abbrechen") { dismiss() }
                 Button("Hinzufügen") {
-                    model.addEntry(original: date, type: type, ml: Int(ml) ?? 0, note: note)
+                    model.addManualEntries(
+                        date: date,
+                        urineTime: urineTime,
+                        urineMl: Int(urineMl),
+                        waterTime: waterTime,
+                        waterMl: Int(waterMl),
+                        note: note
+                    )
                     dismiss()
                 }
                 .keyboardShortcut(.defaultAction)
-                .disabled(Int(ml) == nil)
+                .disabled(Int(urineMl) == nil && Int(waterMl) == nil && note.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
             }
         }
         .padding(24)
-        .frame(width: 460)
+        .frame(width: 520)
     }
 }
 
@@ -1197,6 +1263,7 @@ struct ThemedDataTable<Row: Identifiable>: View {
             }
             .frame(minWidth: totalWidth, alignment: .leading)
         }
+        .defaultScrollAnchor(.topLeading)
         .frame(minHeight: minHeight ?? 0)
         .frame(maxHeight: maxHeight, alignment: .top)
         .background(theme.tableBackground)
