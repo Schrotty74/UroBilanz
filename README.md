@@ -13,6 +13,26 @@ UroBilanz ist ein Protokoll- und Auswertungstool. Es ist keine medizinische Diag
 
 Die Verarbeitung findet lokal statt. CSV-Dateien werden nicht hochgeladen.
 
+## Vorschau
+
+Die folgenden Bilder zeigen Demo-Daten. Es sind keine echten Gesundheitsdaten.
+
+### Web-App
+
+![Web-App Dashboard](docs/screenshots/github/web/web-dashboard-violet-night.png)
+
+![Web-App Tagesansicht](docs/screenshots/github/web/web-day-violet-night.png)
+
+![Web-App Eingabe](docs/screenshots/github/web/web-entry-violet-night.png)
+
+### SwiftUI-App
+
+![SwiftUI-App Dashboard](docs/screenshots/github/swift/swift-dashboard-creme-salbei.png)
+
+![SwiftUI-App Tagesansicht](docs/screenshots/github/swift/swift-day-creme-salbei.png)
+
+![SwiftUI-App Eingabe](docs/screenshots/github/swift/swift-entry-creme-salbei.png)
+
 ## Transparenz
 
 UroBilanz wurde als persoenliches Auswertungs- und Protokollwerkzeug gemeinsam mit OpenAI Codex entwickelt. Auch die im Projekt enthaltenen Grafiken, Symbole und App-Icons wurden fuer dieses Projekt mit Unterstuetzung von OpenAI Codex erstellt. Die medizinischen Inhalte, Grenzwerte und Darstellungen dienen nur der persoenlichen Uebersicht und ersetzen keine medizinische Beratung.
