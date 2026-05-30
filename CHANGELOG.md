@@ -4,6 +4,16 @@ Alle wichtigen Änderungen an UroBilanz werden hier dokumentiert.
 
 ## Unveröffentlicht
 
+## 1.5.0-beta.3 - 2026-05-30
+
+- Web-App und SwiftUI-App: Beim schnellen Mehrfach-Erfassen bleibt die zuletzt verwendete Uhrzeit nach `Hinzufügen` erhalten. Beim Öffnen der Eingabemaske wird weiterhin die aktuelle Uhrzeit eingesetzt.
+- Web-App und SwiftUI-App: Einzelne Urin-, Wasser- und Hinweis-Einträge können im Eingabe-Menü nur nach Sicherheitsabfrage gelöscht werden.
+- Web-App und SwiftUI-App: Ganze Messtage können direkt in der Tagesansicht gelöscht werden.
+- Web-App und SwiftUI-App: Vor dem Löschen eines Messtags erscheint eine klare Sicherheitsabfrage.
+- Web-App und SwiftUI-App: Nach dem Löschen eines Messtags werden Dashboard, Jahr, Monat, Woche, Tag und Notizen neu berechnet.
+- SwiftUI-App: Jahreswerte im Filtermenü werden wieder korrekt als `2024`, `2025` und `2026` ohne Tausenderpunkt angezeigt.
+- GitHub-Dokumentation: getrennte Demo-Screenshots für Web-App und SwiftUI-App ergänzt und auf der Startseite eingebunden. Die Bilder enthalten ausschließlich Demo-Daten.
+
 ## 1.5.0-beta.2 - 2026-05-28
 
 - Web-App und SwiftUI-App: Eintragsmaske erweitert, damit Einträge am gewählten Messtag sichtbar sind.

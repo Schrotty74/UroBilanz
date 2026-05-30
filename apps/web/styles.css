@@ -630,7 +630,7 @@ table {
 }
 
 .day-detail-table {
-  min-width: 2005px;
+  min-width: 2125px;
   table-layout: fixed;
 }
 
@@ -647,6 +647,7 @@ table {
 .day-detail-table col:nth-child(11) { width: 115px; }
 .day-detail-table col:nth-child(12) { width: 170px; }
 .day-detail-table col:nth-child(13) { width: 620px; }
+.day-detail-table col:nth-child(14) { width: 120px; }
 
 th {
   position: sticky;
@@ -704,6 +705,14 @@ th.note-col,
 td.note-col {
   white-space: normal;
   overflow-wrap: anywhere;
+}
+
+td.action-col {
+  vertical-align: top;
+}
+
+.delete-day {
+  white-space: nowrap;
 }
 
 td.note-col {

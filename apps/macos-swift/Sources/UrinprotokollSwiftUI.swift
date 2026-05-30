@@ -415,6 +415,17 @@ final class UrinModel: ObservableObject {
         updateStatus(extra: "Eintrag gelöscht")
     }
 
+    func deleteMeasurementDay(_ date: Date) {
+        let selectedDay = calendar.startOfDay(for: date)
+        entries.removeAll { measurementDay(for: $0.original) == selectedDay }
+        days = makeDays(from: entries)
+        rawCSV = entriesToRawCSV(entries)
+        if rememberData {
+            defaults.set(rawCSV, forKey: "swiftUISavedCSV")
+        }
+        updateStatus(extra: "Messtag gelöscht")
+    }
+
     func entriesForMesstag(_ date: Date) -> [(index: Int, entry: Entry)] {
         let selectedDay = calendar.startOfDay(for: date)
         return entries.enumerated()
@@ -1067,6 +1078,7 @@ struct EntrySheet: View {
     @State private var waterMl = ""
     @State private var note = ""
     @State private var editIndex: Int?
+    @State private var pendingDelete: PendingDelete?
 
     var body: some View {
         VStack(alignment: .leading, spacing: 18) {
@@ -1089,7 +1101,7 @@ struct EntrySheet: View {
                 Group {
                     Button("Hinzufügen") {
                         save()
-                        resetForm(keepDate: true)
+                        resetForm(keepDate: true, keepTime: true)
                     }
                     Button("Hinzufügen & schließen") {
                         save()
@@ -1102,6 +1114,19 @@ struct EntrySheet: View {
         }
         .padding(24)
         .frame(width: 680)
+        .alert("Eintrag löschen?", isPresented: deleteAlertBinding) {
+            Button("Abbrechen", role: .cancel) {
+                pendingDelete = nil
+            }
+            Button("Löschen", role: .destructive) {
+                if let pendingDelete {
+                    model.deleteEntry(index: pendingDelete.index)
+                }
+                pendingDelete = nil
+            }
+        } message: {
+            Text(pendingDelete?.message ?? "Diesen Eintrag wirklich löschen?")
+        }
     }
 
     private var hasInput: Bool {
@@ -1137,7 +1162,9 @@ struct EntrySheet: View {
                                     .lineLimit(1)
                                 Spacer()
                                 Button("Bearbeiten") { fillForm(row.index, row.entry) }
-                                Button("Löschen", role: .destructive) { model.deleteEntry(index: row.index) }
+                                Button("Löschen", role: .destructive) {
+                                    pendingDelete = pendingDeleteTarget(index: row.index, entry: row.entry)
+                                }
                             }
                             .font(.callout)
                             .padding(8)
@@ -1158,6 +1185,19 @@ struct EntrySheet: View {
         }
     }
 
+    private var deleteAlertBinding: Binding<Bool> {
+        Binding(
+            get: { pendingDelete != nil },
+            set: { if !$0 { pendingDelete = nil } }
+        )
+    }
+
+    private func pendingDeleteTarget(index: Int, entry: Entry) -> PendingDelete {
+        let value = entry.type == "Hinweis" ? "Hinweis" : "\(entry.type) \(entry.ml) ml"
+        let message = "\(model.formattedDate(entry.messtag)) \(model.formattedTime(entry.original)) · \(value)\n\nDiesen Eintrag wirklich löschen?"
+        return PendingDelete(index: index, message: message)
+    }
+
     private func fillForm(_ index: Int, _ entry: Entry) {
         editIndex = index
         date = entry.messtag
@@ -1169,16 +1209,28 @@ struct EntrySheet: View {
     }
 
     private func resetForm(keepDate: Bool) {
+        resetForm(keepDate: keepDate, keepTime: false)
+    }
+
+    private func resetForm(keepDate: Bool, keepTime: Bool) {
         let now = Date()
+        let previousUrineTime = urineTime
+        let previousWaterTime = waterTime
         editIndex = nil
         if !keepDate {
             date = now
         }
-        urineTime = now
-        waterTime = now
+        urineTime = keepTime ? previousUrineTime : now
+        waterTime = keepTime ? previousWaterTime : now
         urineMl = ""
         waterMl = ""
         note = ""
+    }
+
+    private struct PendingDelete: Identifiable {
+        let id = UUID()
+        let index: Int
+        let message: String
     }
 }
 
@@ -1190,7 +1242,7 @@ struct FilterBar: View {
             Picker("Jahr", selection: $model.selectedYear) {
                 Text("Alle Jahre").tag("all")
                 ForEach(model.years, id: \.self) { year in
-                    Text("\(year)").tag("\(year)")
+                    Text(verbatim: String(year)).tag(String(year))
                 }
             }
             Picker("Monat", selection: $model.selectedMonth) {
@@ -1470,6 +1522,7 @@ struct SummaryTableView: View {
 
 struct DayTableView: View {
     @EnvironmentObject private var model: UrinModel
+    @State private var pendingDeleteDay: DaySummary?
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -1486,10 +1539,42 @@ struct DayTableView: View {
                 ThemedTableColumn("Hinweise", width: 520) { day in
                     multilineCell(day.notesText, lineLimit: 3)
                         .help(day.notesText)
+                },
+                ThemedTableColumn("Aktion", width: 130) { day in
+                    Button("Tag löschen", role: .destructive) {
+                        pendingDeleteDay = day
+                    }
                 }
             ])
         }
         .padding(22)
+        .alert("Messtag löschen?", isPresented: deleteAlertBinding) {
+            Button("Abbrechen", role: .cancel) {
+                pendingDeleteDay = nil
+            }
+            Button("Löschen", role: .destructive) {
+                if let pendingDeleteDay {
+                    model.deleteMeasurementDay(pendingDeleteDay.messtag)
+                }
+                pendingDeleteDay = nil
+            }
+        } message: {
+            Text(deleteMessage)
+        }
+    }
+
+    private var deleteAlertBinding: Binding<Bool> {
+        Binding(
+            get: { pendingDeleteDay != nil },
+            set: { if !$0 { pendingDeleteDay = nil } }
+        )
+    }
+
+    private var deleteMessage: String {
+        guard let pendingDeleteDay else {
+            return "Alle Urin-, Wasser- und Hinweis-Einträge dieses Messtags werden gelöscht."
+        }
+        return "Messtag \(model.formattedDate(pendingDeleteDay.messtag)) wirklich löschen?\n\nAlle Urin-, Wasser- und Hinweis-Einträge dieses Messtags werden gelöscht."
     }
 
     @ViewBuilder

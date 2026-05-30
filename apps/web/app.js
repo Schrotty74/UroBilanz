@@ -480,7 +480,7 @@ function renderTables(days) {
       "💧 Wasser gesamt ml": day.waterTotal,
       Auffälligkeit: "niedrig",
     })));
-  renderTable(els.dayTable, ["Jahr", "Monat", "KW", "Messtag", "Tag", "● Urin Uhrzeit", "● Urin ml", "● Urin Anzahl", "● Urin gesamt ml", "💧 Wasser Uhrzeit", "💧 Wasser ml", "💧 Wasser gesamt ml", "Hinweise"], days.map(dayRow), true);
+  renderTable(els.dayTable, ["Jahr", "Monat", "KW", "Messtag", "Tag", "● Urin Uhrzeit", "● Urin ml", "● Urin Anzahl", "● Urin gesamt ml", "💧 Wasser Uhrzeit", "💧 Wasser ml", "💧 Wasser gesamt ml", "Hinweise", "Aktion"], days.map(dayRow), true);
 }
 
 function summaryRow(row) {
@@ -510,6 +510,7 @@ function dayRow(day) {
     "💧 Wasser ml": day.water.map((item) => `${item.ml} ml`).join("\n"),
     "💧 Wasser gesamt ml": day.waterTotal,
     Hinweise: day.notesText,
+    Aktion: day.key,
   };
 }
 
@@ -541,6 +542,7 @@ function headerClass(header) {
   if (header.includes("Urin")) return "urine";
   if (header.includes("Wasser")) return "water";
   if (header === "Hinweise") return "note-col";
+  if (header === "Aktion") return "action-col";
   return "";
 }
 
@@ -551,6 +553,9 @@ function alertClass(header, value) {
 }
 
 function formatCell(header, value) {
+  if (header === "Aktion") {
+    return `<button class="utility-button quiet delete-day" type="button" data-delete-day="${escapeHtml(value)}">Tag löschen</button>`;
+  }
   if (typeof value === "number" && !["Jahr", "Monat", "KW", "ISO Jahr", "ISO Woche", "Tage", "● Urin Anzahl"].includes(header)) {
     return fmtNumber(value);
   }
@@ -751,8 +756,14 @@ els.entryList.addEventListener("click", (event) => {
     fillEntryForm(index);
   }
   if (button.dataset.action === "delete") {
-    deleteEntry(index);
+    confirmDeleteEntry(index);
   }
+});
+
+els.dayTable.addEventListener("click", (event) => {
+  const button = event.target.closest("button[data-delete-day]");
+  if (!button) return;
+  confirmDeleteDay(button.dataset.deleteDay);
 });
 
 els.entryForm.addEventListener("submit", (event) => {
@@ -790,17 +801,19 @@ els.entryForm.addEventListener("submit", (event) => {
   if (event.submitter === els.addEntryAndClose) {
     els.entryDialog.close();
   } else {
-    resetEntryForm();
+    resetEntryForm({ keepTime: true });
   }
 });
 
-function resetEntryForm() {
+function resetEntryForm(options = {}) {
   const selectedDay = parseInputDay(els.entryDate.value) || toMesstag(new Date());
   const now = new Date();
+  const previousUrineTime = els.entryUrineTime.value;
+  const previousWaterTime = els.entryWaterTime.value;
   els.entryEditIndex.value = "";
   els.entryDate.value = inputDateValue(selectedDay);
-  els.entryUrineTime.value = inputTimeValue(now);
-  els.entryWaterTime.value = inputTimeValue(now);
+  els.entryUrineTime.value = options.keepTime && previousUrineTime ? previousUrineTime : inputTimeValue(now);
+  els.entryWaterTime.value = options.keepTime && previousWaterTime ? previousWaterTime : inputTimeValue(now);
   els.entryUrineMl.value = "";
   els.entryWaterMl.value = "";
   els.entryNote.value = "";
@@ -877,6 +890,34 @@ function deleteEntry(index) {
   rememberCurrentData();
   resetEntryForm();
   els.status.textContent = `${state.days.length} Messtage · Eintrag gelöscht`;
+}
+
+function confirmDeleteEntry(index) {
+  const entry = state.rows[index];
+  if (!entry) return;
+  const label = entry.type === "Hinweis" ? "Hinweis" : `${entry.type} ${entry.ml} ml`;
+  const message = `${fmtDate(toMesstag(entry.original))} ${fmtTime(entry.original)} · ${label}\n\nDiesen Eintrag wirklich löschen?`;
+  if (window.confirm(message)) {
+    deleteEntry(index);
+  }
+}
+
+function confirmDeleteDay(dayKey) {
+  const day = state.days.find((item) => item.key === dayKey);
+  if (!day) return;
+  if (!window.confirm(`Messtag ${fmtDate(day.messtag)} wirklich löschen?\n\nAlle Urin-, Wasser- und Hinweis-Einträge dieses Messtags werden gelöscht.`)) return;
+
+  const nextRows = state.rows.filter((entry) => toMesstag(entry.original).toISOString().slice(0, 10) !== dayKey);
+  if (nextRows.length) {
+    rebuildFromEntries(nextRows.sort((a, b) => a.original - b.original));
+  } else {
+    state.rows = [];
+    state.days = [];
+    state.rawCsv = "";
+    render();
+  }
+  rememberCurrentData();
+  els.status.textContent = `${state.days.length} Messtage · Messtag gelöscht`;
 }
 
 els.themeSelect.addEventListener("change", (event) => {
