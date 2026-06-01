@@ -11,12 +11,12 @@
   <body>
     <header class="app-header">
       <div>
-        <p class="eyebrow">06:00 bis 05:59 Messtag</p>
+        <p class="eyebrow" data-i18n="measurement_day">06:00 bis 05:59 Messtag</p>
         <h1><span class="app-mark-shell"><img class="app-mark" id="appMark" src="./assets/urobilanz-icon-light.svg" alt="" /></span> UroBilanz</h1>
       </div>
       <div class="header-actions">
         <label class="theme-control">
-          <span>Theme</span>
+          <span data-i18n="theme">Theme</span>
           <select id="themeSelect" aria-label="Theme auswählen">
             <option value="classic-light">Classic Hell</option>
             <option value="classic-dark">Classic Dunkel</option>
@@ -28,13 +28,20 @@
             <option value="cream-sage">Creme Salbei</option>
           </select>
         </label>
-        <button class="file-button" id="addEntry" type="button">Eintrag</button>
+        <label class="theme-control">
+          <span data-i18n="language">Sprache</span>
+          <select id="languageSelect" aria-label="Sprache">
+            <option value="de">DE</option>
+            <option value="en">EN</option>
+          </select>
+        </label>
+        <button class="file-button" id="addEntry" type="button" data-i18n="add_entry">Eintrag</button>
         <label class="file-button">
-          CSV ergänzen
+          <span data-i18n="merge_csv">CSV ergänzen</span>
           <input id="mergeCsvInput" type="file" accept=".csv,text/csv" />
         </label>
         <label class="file-button">
-          CSV laden
+          <span data-i18n="load_csv">CSV laden</span>
           <input id="csvInput" type="file" accept=".csv,text/csv" />
         </label>
       </div>
@@ -44,38 +51,38 @@
       <section class="toolbar">
         <div class="control-left">
           <section class="tabs" aria-label="Ansichten">
-            <button class="tab active" data-view="dashboard">Dashboard</button>
-            <button class="tab" data-view="year">Jahr</button>
-            <button class="tab" data-view="month">Monat</button>
-            <button class="tab" data-view="week">Woche</button>
-            <button class="tab" data-view="day">Tag</button>
-            <button class="tab" data-view="notes">Notizen</button>
+            <button class="tab active" data-view="dashboard" data-i18n="dashboard">Dashboard</button>
+            <button class="tab" data-view="year" data-i18n="year">Jahr</button>
+            <button class="tab" data-view="month" data-i18n="month">Monat</button>
+            <button class="tab" data-view="week" data-i18n="week">Woche</button>
+            <button class="tab" data-view="day" data-i18n="day">Tag</button>
+            <button class="tab" data-view="notes" data-i18n="notes">Notizen</button>
           </section>
-          <div class="status" id="status">Lade Daten...</div>
+          <div class="status" id="status" data-i18n="loading">Lade Daten...</div>
         </div>
 
         <div class="control-right">
           <div class="filters">
             <select id="yearFilter" aria-label="Jahr"></select>
             <select id="monthFilter" aria-label="Monat"></select>
-            <button class="utility-button" id="backupCsv" type="button">Backup</button>
-            <button class="utility-button" id="exportDays" type="button">Tagesdaten</button>
+            <button class="utility-button" id="backupCsv" type="button" data-i18n="backup">Backup</button>
+            <button class="utility-button" id="exportDays" type="button" data-i18n="daily_data">Tagesdaten</button>
           </div>
           <section class="data-options">
             <label class="remember-toggle">
               <input id="rememberData" type="checkbox" />
-              <span>Daten beim nächsten Start merken</span>
+              <span data-i18n="remember_data">Daten beim nächsten Start merken</span>
             </label>
-            <button class="utility-button quiet" id="forgetData" type="button">Gespeicherte Daten löschen</button>
+            <button class="utility-button quiet" id="forgetData" type="button" data-i18n="forget_data">Gespeicherte Daten löschen</button>
           </section>
         </div>
       </section>
 
       <section id="emptyState" class="empty-state">
-        <h2>Keine Daten geladen</h2>
-        <p>Lade einen CSV-Export aus Urinote, um Dashboard, Wochen- und Tagesansicht zu berechnen.</p>
+        <h2 data-i18n="no_data">Keine Daten geladen</h2>
+        <p data-i18n="no_data_help">Lade einen CSV-Export aus Urinote, um Dashboard, Wochen- und Tagesansicht zu berechnen.</p>
         <label class="primary-upload">
-          CSV laden
+          <span data-i18n="load_csv">CSV laden</span>
           <input id="emptyCsvInput" type="file" accept=".csv,text/csv" />
         </label>
       </section>
@@ -84,11 +91,11 @@
         <div class="metric-grid" id="metrics"></div>
         <div class="chart-grid">
           <div class="chart-panel">
-            <div class="panel-title">Tagesverlauf</div>
+            <div class="panel-title" data-i18n="daily_progress">Tagesverlauf</div>
             <canvas id="dailyChart" width="760" height="300"></canvas>
           </div>
           <div class="chart-panel">
-            <div class="panel-title">Monatsvergleich</div>
+            <div class="panel-title" data-i18n="monthly_comparison">Monatsvergleich</div>
             <canvas id="monthChart" width="760" height="300"></canvas>
           </div>
         </div>
@@ -114,55 +121,57 @@
       </section>
 
       <section id="notes" class="view notes">
-        <h2>Notizen</h2>
-        <p>Die Auswertung verwendet Messtage von 06:00 bis 05:59. Einträge zwischen 00:00 und 05:59 werden dem Vortag zugerechnet.</p>
-        <p>Die Uhrzeiten bleiben als tatsächliche Uhrzeiten erhalten; nur die Zuordnung zum Messtag wird verschoben.</p>
-        <p>Auffälligkeiten sind organisatorische Hinweise, keine medizinische Bewertung. Niedrig ist hier unter 800 ml pro Messtag; alle anderen Messtage werden als normal geführt.</p>
-        <p>Wasserwerte werden separat geführt und nicht mit Urinmengen vermischt.</p>
+        <h2 data-i18n="note_title">Notizen</h2>
+        <p data-i18n="note_1">Die Auswertung verwendet Messtage von 06:00 bis 05:59. Einträge zwischen 00:00 und 05:59 werden dem Vortag zugerechnet.</p>
+        <p data-i18n="note_2">Die Uhrzeiten bleiben als tatsächliche Uhrzeiten erhalten; nur die Zuordnung zum Messtag wird verschoben.</p>
+        <p data-i18n="note_3">Auffälligkeiten sind organisatorische Hinweise, keine medizinische Bewertung. Niedrig ist hier unter 800 ml pro Messtag; alle anderen Messtage werden als normal geführt.</p>
+        <p data-i18n="note_4">Wasserwerte werden separat geführt und nicht mit Urinmengen vermischt.</p>
       </section>
     </main>
 
     <dialog id="entryDialog" class="entry-dialog">
       <form id="entryForm" method="dialog">
-        <h2>Eintrag hinzufügen</h2>
+        <h2 id="entryDialogTitle" data-i18n="entry_add">Eintrag hinzufügen</h2>
         <input id="entryEditIndex" type="hidden" value="" />
         <label>
-          Datum
+          <span data-i18n="date">Datum</span>
           <input id="entryDate" type="date" required />
         </label>
         <label>
-          Urin Uhrzeit
+          <span data-i18n="urine_time">Urin Uhrzeit</span>
           <input id="entryUrineTime" type="time" />
         </label>
         <label>
-          Urin ml
+          <span data-i18n="urine_ml">Urin ml</span>
           <input id="entryUrineMl" type="number" min="0" step="1" />
         </label>
         <label>
-          Wasser Uhrzeit
+          <span data-i18n="water_time">Wasser Uhrzeit</span>
           <input id="entryWaterTime" type="time" />
         </label>
         <label>
-          Wasser ml
+          <span data-i18n="water_ml">Wasser ml</span>
           <input id="entryWaterMl" type="number" min="0" step="1" />
         </label>
         <label>
-          Tagesnotiz / Hinweis
+          <span data-i18n="daily_note">Tagesnotiz / Hinweis</span>
           <textarea id="entryNote" rows="3"></textarea>
         </label>
         <section class="entry-list-wrap">
-          <h3>Einträge an diesem Messtag</h3>
+          <h3 data-i18n="entries_day">Einträge an diesem Messtag</h3>
           <div id="entryList" class="entry-list"></div>
         </section>
         <div class="dialog-actions">
-          <button class="utility-button quiet" id="cancelEntry" type="button">Schließen</button>
-          <button class="utility-button quiet" id="resetEntry" type="button">Neu</button>
-          <button class="utility-button" type="submit">Hinzufügen</button>
-          <button class="utility-button" id="addEntryAndClose" type="submit">Hinzufügen & schließen</button>
+          <button class="utility-button quiet" id="cancelEntry" type="button" data-i18n="close">Schließen</button>
+          <button class="utility-button quiet" id="resetEntry" type="button" data-i18n="new">Neu</button>
+          <button class="utility-button" type="submit" data-i18n="add">Hinzufügen</button>
+          <button class="utility-button" id="addEntryAndClose" type="submit" data-i18n="add_close">Hinzufügen & schließen</button>
         </div>
       </form>
     </dialog>
 
-    <script src="./app.js?v=1.5.0-beta.3"></script>
+    <script src="./assets/i18n/de.js?v=localization-1"></script>
+    <script src="./assets/i18n/en.js?v=localization-1"></script>
+    <script src="./app.js?v=localization-1"></script>
   </body>
 </html>

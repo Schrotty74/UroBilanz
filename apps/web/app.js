@@ -1,4 +1,4 @@
-const monthNames = [
+const csvMonthNames = [
   "Januar",
   "Februar",
   "März",
@@ -13,6 +13,23 @@ const monthNames = [
   "Dezember",
 ];
 const dayNames = ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"];
+const supportedLanguages = new Set(["de", "en"]);
+let language = supportedLanguages.has(localStorage.getItem("uroLanguage"))
+  ? localStorage.getItem("uroLanguage")
+  : ((navigator.language || "de").toLowerCase().startsWith("de") ? "de" : "en");
+
+function t(key, replacements = {}) {
+  const value = window.URO_I18N?.[language]?.[key] ?? window.URO_I18N?.de?.[key] ?? key;
+  return Object.entries(replacements).reduce((text, [name, replacement]) => text.replaceAll(`{${name}}`, replacement), value);
+}
+
+function monthNames() {
+  return window.URO_I18N?.[language]?.months ?? csvMonthNames;
+}
+
+function weekdayNames() {
+  return window.URO_I18N?.[language]?.weekdays ?? dayNames;
+}
 
 let state = {
   rows: [],
@@ -28,6 +45,7 @@ const els = {
   emptyCsvInput: document.querySelector("#emptyCsvInput"),
   mergeCsvInput: document.querySelector("#mergeCsvInput"),
   themeSelect: document.querySelector("#themeSelect"),
+  languageSelect: document.querySelector("#languageSelect"),
   appMark: document.querySelector("#appMark"),
   addEntry: document.querySelector("#addEntry"),
   entryDialog: document.querySelector("#entryDialog"),
@@ -35,6 +53,7 @@ const els = {
   cancelEntry: document.querySelector("#cancelEntry"),
   resetEntry: document.querySelector("#resetEntry"),
   addEntryAndClose: document.querySelector("#addEntryAndClose"),
+  entryDialogTitle: document.querySelector("#entryDialogTitle"),
   entryEditIndex: document.querySelector("#entryEditIndex"),
   entryDate: document.querySelector("#entryDate"),
   entryUrineTime: document.querySelector("#entryUrineTime"),
@@ -142,15 +161,15 @@ function isoWeek(date) {
 }
 
 function fmtDate(date) {
-  return date.toLocaleDateString("de-AT", { day: "2-digit", month: "2-digit", year: "numeric" });
+  return date.toLocaleDateString(language === "de" ? "de-AT" : "en-US", { day: "2-digit", month: "2-digit", year: "numeric" });
 }
 
 function fmtNumber(value) {
-  return Number(value).toLocaleString("de-DE");
+  return Number(value).toLocaleString(language === "de" ? "de-DE" : "en-US");
 }
 
 function fmtTime(date) {
-  return date.toLocaleTimeString("de-AT", { hour: "2-digit", minute: "2-digit" });
+  return date.toLocaleTimeString(language === "de" ? "de-AT" : "en-US", { hour: "2-digit", minute: "2-digit", hour12: false });
 }
 
 function inputDateValue(date) {
@@ -195,8 +214,8 @@ function rebuildFromEntries(rows, rawCsv = "") {
         key: row.messtagKey,
         year: row.messtag.getFullYear(),
         month: row.messtag.getMonth() + 1,
-        monthName: monthNames[row.messtag.getMonth()],
-        dayName: dayNames[row.messtag.getDay()],
+        monthName: monthNames()[row.messtag.getMonth()],
+        dayName: weekdayNames()[row.messtag.getDay()],
         week: row.week,
         urine: [],
         water: [],
@@ -225,7 +244,7 @@ function rebuildFromEntries(rows, rawCsv = "") {
   state.days = days;
   state.rawCsv = rawCsv || entriesToRawCsv(rows);
   if (!state.days.length) {
-    throw new Error("Keine gültigen Einträge gefunden. Erwartet werden Spalten wie Datum, Typ, ml, Hinweis.");
+    throw new Error(t("invalid_entries"));
   }
   buildFilters();
   render();
@@ -251,8 +270,8 @@ function processDailyRows(raw) {
         key: messtag.toISOString().slice(0, 10),
         year: messtag.getFullYear(),
         month: messtag.getMonth() + 1,
-        monthName: entry.Monat || monthNames[messtag.getMonth()],
-        dayName: entry.Tag || dayNames[messtag.getDay()],
+        monthName: monthNames()[messtag.getMonth()],
+        dayName: weekdayNames()[messtag.getDay()],
         week: Number(entry.KW || iso.week),
         urine,
         water,
@@ -271,7 +290,7 @@ function processDailyRows(raw) {
   state.rows = days.flatMap(entriesFromDay);
   state.rawCsv = entriesToRawCsv(state.rows);
   if (!state.days.length) {
-    throw new Error("Tagesdaten-Format erkannt, aber keine Messtage gefunden.");
+    throw new Error(t("invalid_daily_data"));
   }
   buildFilters();
   render();
@@ -383,16 +402,16 @@ function aggregate(days, keys, buildLabel) {
   return Array.from(grouped.values()).map((row) => ({
     ...row,
     urineAverage: Math.round(row.urineTotal / row.days),
-    alert: row.lowDays ? "niedrig" : "normal",
+    alert: row.lowDays ? t("low") : t("normal"),
   }));
 }
 
 function buildFilters() {
   const years = [...new Set(state.days.map((day) => day.year))];
-  els.yearFilter.innerHTML = `<option value="all">Alle Jahre</option>${years
+  els.yearFilter.innerHTML = `<option value="all">${t("all_years")}</option>${years
     .map((year) => `<option value="${year}">${year}</option>`)
     .join("")}`;
-  els.monthFilter.innerHTML = `<option value="all">Alle Monate</option>${monthNames
+  els.monthFilter.innerHTML = `<option value="all">${t("all_months")}</option>${monthNames()
     .map((name, index) => `<option value="${index + 1}">${name}</option>`)
     .join("")}`;
 }
@@ -412,8 +431,8 @@ function render() {
 
   if (!hasData) {
     els.status.textContent = localStorage.getItem("urinSavedCsv")
-      ? "Gespeicherte Daten vorhanden. Daten merken ist aktiv."
-      : "Keine Daten geladen.";
+      ? t("saved_data_available")
+      : t("no_data");
     return;
   }
 
@@ -423,7 +442,7 @@ function render() {
   const days = filteredDays();
   const first = state.days[0]?.messtag;
   const last = state.days.at(-1)?.messtag;
-  els.status.textContent = `${state.days.length} Messtage · ${first ? fmtDate(first) : "-"} bis ${last ? fmtDate(last) : "-"}`;
+  els.status.textContent = `${state.days.length} ${t("measurement_days")} · ${first ? fmtDate(first) : "-"} ${t("to")} ${last ? fmtDate(last) : "-"}`;
 
   renderMetrics(days);
   renderTables(days);
@@ -446,26 +465,45 @@ function applyTheme(theme) {
   if (state.days.length) render();
 }
 
+function applyLanguage(nextLanguage) {
+  language = supportedLanguages.has(nextLanguage) ? nextLanguage : "de";
+  localStorage.setItem("uroLanguage", language);
+  document.documentElement.lang = language;
+  els.languageSelect.value = language;
+  document.querySelectorAll("[data-i18n]").forEach((element) => {
+    element.textContent = t(element.dataset.i18n);
+  });
+  Array.from(els.themeSelect.options).forEach((option) => {
+    option.textContent = window.URO_I18N?.[language]?.themes?.[option.value] ?? option.textContent;
+  });
+  els.themeSelect.setAttribute("aria-label", t("theme"));
+  els.languageSelect.setAttribute("aria-label", t("language"));
+  els.yearFilter.setAttribute("aria-label", t("year"));
+  els.monthFilter.setAttribute("aria-label", t("month"));
+  buildFilters();
+  render();
+}
+
 function renderMetrics(days) {
   const urineTotal = days.reduce((sum, day) => sum + day.urineTotal, 0);
   const waterTotal = days.reduce((sum, day) => sum + day.waterTotal, 0);
   const low = days.filter((day) => day.urineTotal < 800).length;
   const metrics = [
-    ["Messtage", days.length],
-    ["● Urin gesamt ml", fmtNumber(urineTotal)],
-    ["● Urin Ø ml/Tag", fmtNumber(Math.round(urineTotal / Math.max(days.length, 1)))],
-    ["💧 Wasser gesamt ml", fmtNumber(waterTotal)],
-    ["Niedrige Urin-Tage", low],
-    ["Normale Urin-Tage", days.length - low],
-    ["Urin-Einträge", fmtNumber(days.reduce((sum, day) => sum + day.urineCount, 0))],
-    ["Wasser-Einträge", fmtNumber(days.reduce((sum, day) => sum + day.water.length, 0))],
+    [t("measurement_days"), days.length],
+    [t("urine_total"), fmtNumber(urineTotal)],
+    [t("urine_average"), fmtNumber(Math.round(urineTotal / Math.max(days.length, 1)))],
+    [t("water_total"), fmtNumber(waterTotal)],
+    [t("low_days"), low],
+    [t("normal_days"), days.length - low],
+    [t("urine_entries"), fmtNumber(days.reduce((sum, day) => sum + day.urineCount, 0))],
+    [t("water_entries"), fmtNumber(days.reduce((sum, day) => sum + day.water.length, 0))],
   ];
   els.metrics.innerHTML = metrics.map(([label, value]) => `<div class="metric"><span>${label}</span><strong>${value}</strong></div>`).join("");
 }
 
 function renderTables(days) {
   const yearRows = aggregate(days, ["year"], (day) => ({ Jahr: day.year }));
-  const monthRows = aggregate(days, ["year", "month"], (day) => ({ Jahr: day.year, Monat: day.month, "Monat Name": day.monthName }));
+  const monthRows = aggregate(days, ["year", "month"], (day) => ({ Jahr: day.year, Monat: day.month, "Monat Name": monthNames()[day.month - 1] }));
   const weekRows = aggregate(days, ["year", "week"], (day) => ({ "ISO Jahr": day.year, "ISO Woche": day.week }));
 
   renderTable(els.yearTable, ["Jahr", "Tage", "● Urin Gesamt ml", "● Urin Ø ml/Tag", "● Urin Anzahl", "💧 Wasser Gesamt ml"], yearRows.map(summaryRow));
@@ -475,10 +513,10 @@ function renderTables(days) {
     .filter((day) => day.urineTotal < 800)
     .map((day) => ({
       Messtag: fmtDate(day.messtag),
-      Tag: day.dayName,
+      Tag: weekdayNames()[day.messtag.getDay()],
       "● Urin gesamt ml": day.urineTotal,
       "💧 Wasser gesamt ml": day.waterTotal,
-      Auffälligkeit: "niedrig",
+      Auffälligkeit: t("low"),
     })));
   renderTable(els.dayTable, ["Jahr", "Monat", "KW", "Messtag", "Tag", "● Urin Uhrzeit", "● Urin ml", "● Urin Anzahl", "● Urin gesamt ml", "💧 Wasser Uhrzeit", "💧 Wasser ml", "💧 Wasser gesamt ml", "Hinweise", "Aktion"], days.map(dayRow), true);
 }
@@ -498,10 +536,10 @@ function summaryRow(row) {
 function dayRow(day) {
   return {
     Jahr: day.year,
-    Monat: day.monthName,
+    Monat: monthNames()[day.month - 1],
     KW: day.week,
     Messtag: fmtDate(day.messtag),
-    Tag: day.dayName,
+    Tag: weekdayNames()[day.messtag.getDay()],
     "● Urin Uhrzeit": day.urine.map((item) => item.time).join("\n"),
     "● Urin ml": day.urine.map((item) => `${item.ml} ml`).join("\n"),
     "● Urin Anzahl": day.urineCount,
@@ -517,7 +555,7 @@ function dayRow(day) {
 function renderTable(table, headers, rows, separateDays = false) {
   table.innerHTML = `
     ${separateDays ? `<colgroup>${headers.map((header) => `<col class="${headerClass(header)}">`).join("")}</colgroup>` : ""}
-    <thead><tr>${headers.map((header) => `<th class="${headerClass(header)}">${header}</th>`).join("")}</tr></thead>
+    <thead><tr>${headers.map((header) => `<th class="${headerClass(header)}">${displayHeader(header)}</th>`).join("")}</tr></thead>
     <tbody>
       ${rows
         .map((row, index) => {
@@ -538,6 +576,34 @@ function renderTable(table, headers, rows, separateDays = false) {
   table.classList.toggle("day-detail-table", separateDays);
 }
 
+function displayHeader(header) {
+  const keys = {
+    Jahr: "year",
+    Monat: "month",
+    "Monat Name": "month",
+    Tage: "days",
+    Tag: "day",
+    Messtag: "date",
+    "ISO Jahr": "year",
+    "ISO Woche": "week",
+    KW: "week",
+    "● Urin Gesamt ml": "urine_total",
+    "● Urin gesamt ml": "urine_total",
+    "● Urin Ø ml/Tag": "urine_average",
+    "● Urin Anzahl": "urine_count",
+    "● Urin Uhrzeit": "urine_time",
+    "● Urin ml": "urine_ml",
+    "💧 Wasser Gesamt ml": "water_total",
+    "💧 Wasser gesamt ml": "water_total",
+    "💧 Wasser Uhrzeit": "water_time",
+    "💧 Wasser ml": "water_ml",
+    Hinweise: "hints",
+    Auffälligkeit: "flag",
+    Aktion: "action",
+  };
+  return escapeHtml(t(keys[header] || header));
+}
+
 function headerClass(header) {
   if (header.includes("Urin")) return "urine";
   if (header.includes("Wasser")) return "water";
@@ -554,7 +620,7 @@ function alertClass(header, value) {
 
 function formatCell(header, value) {
   if (header === "Aktion") {
-    return `<button class="utility-button quiet delete-day" type="button" data-delete-day="${escapeHtml(value)}">Tag löschen</button>`;
+    return `<button class="utility-button quiet delete-day" type="button" data-delete-day="${escapeHtml(value)}">${escapeHtml(t("delete_day"))}</button>`;
   }
   if (typeof value === "number" && !["Jahr", "Monat", "KW", "ISO Jahr", "ISO Woche", "Tage", "● Urin Anzahl"].includes(header)) {
     return fmtNumber(value);
@@ -572,7 +638,7 @@ function drawLineChart(canvas, days) {
   drawAxes(ctx, canvas.clientWidth, 260, theme);
   drawSeries(ctx, days.map((day) => day.urineTotal), theme.urine, canvas.clientWidth, 260);
   drawSeries(ctx, days.map((day) => day.waterTotal), theme.water, canvas.clientWidth, 260);
-  drawLegend(ctx, [["Urin", theme.urine], ["Wasser", theme.water]], theme);
+  drawLegend(ctx, [[t("urine"), theme.urine], [t("water"), theme.water]], theme);
 }
 
 function drawMonthChart(canvas, rows) {
@@ -597,7 +663,7 @@ function drawMonthChart(canvas, rows) {
     ctx.fillStyle = theme.water;
     ctx.fillRect(x + barW + 2, height - pad - wH, barW, wH);
   });
-  drawLegend(ctx, [["Urin", theme.urine], ["Wasser", theme.water]], theme);
+  drawLegend(ctx, [[t("urine"), theme.urine], [t("water"), theme.water]], theme);
 }
 
 function chartTheme() {
@@ -679,7 +745,7 @@ async function loadCsvFile(file) {
     state.days = [];
     state.rawCsv = "";
     render();
-    els.status.textContent = `CSV konnte nicht gelesen werden: ${error.message}`;
+    els.status.textContent = t("csv_read_error", { message: error.message });
     console.error(error);
   }
 }
@@ -690,19 +756,19 @@ async function mergeCsvFile(file) {
     const text = await file.text();
     const parsed = parseCsv(text);
     if (parsed[0] && Object.prototype.hasOwnProperty.call(parsed[0], "Messtag")) {
-      throw new Error("Ergänzen ist nur mit der originalen Urinote-CSV möglich, nicht mit der Tagesdaten-CSV.");
+      throw new Error(t("merge_original_only"));
     }
     const incoming = parsed.map(entryFromRawRow).filter(Boolean);
     if (!incoming.length) {
-      throw new Error("Keine gültigen neuen Einträge gefunden.");
+      throw new Error(t("no_new_entries"));
     }
     const existingKeys = new Set(state.rows.map(entryKey));
     const additions = incoming.filter((entry) => !existingKeys.has(entryKey(entry)));
     rebuildFromEntries([...state.rows, ...additions].sort((a, b) => a.original - b.original));
     rememberCurrentData();
-    els.status.textContent = `${state.days.length} Messtage · ${additions.length} neue Einträge ergänzt · ${incoming.length - additions.length} bereits vorhanden`;
+    els.status.textContent = t("merge_result", { days: state.days.length, added: additions.length, existing: incoming.length - additions.length });
   } catch (error) {
-    els.status.textContent = `CSV konnte nicht ergänzt werden: ${error.message}`;
+    els.status.textContent = t("csv_merge_error", { message: error.message });
     console.error(error);
   } finally {
     els.mergeCsvInput.value = "";
@@ -734,6 +800,7 @@ els.addEntry.addEventListener("click", () => {
   els.entryUrineMl.value = "";
   els.entryWaterMl.value = "";
   els.entryNote.value = "";
+  els.entryDialogTitle.textContent = t("entry_add");
   renderEntryList();
   els.entryDialog.showModal();
 });
@@ -788,7 +855,7 @@ els.entryForm.addEventListener("submit", (event) => {
   }
 
   if (!entries.length) {
-    els.status.textContent = "Kein Eintrag erstellt. Bitte Urin, Wasser oder Hinweis ausfüllen.";
+    els.status.textContent = t("no_entry_created");
     return;
   }
 
@@ -797,7 +864,7 @@ els.entryForm.addEventListener("submit", (event) => {
   if (editIndex >= 0) nextRows.splice(editIndex, 1);
   rebuildFromEntries([...nextRows, ...entries].sort((a, b) => a.original - b.original));
   rememberCurrentData();
-  els.status.textContent = `${state.days.length} Messtage · ${entries.length} Eintrag${entries.length === 1 ? "" : "e"} ${editIndex >= 0 ? "aktualisiert" : "hinzugefügt"}`;
+  els.status.textContent = t("entry_result", { days: state.days.length, count: entries.length, action: t(editIndex >= 0 ? "updated" : "added") });
   if (event.submitter === els.addEntryAndClose) {
     els.entryDialog.close();
   } else {
@@ -811,6 +878,7 @@ function resetEntryForm(options = {}) {
   const previousUrineTime = els.entryUrineTime.value;
   const previousWaterTime = els.entryWaterTime.value;
   els.entryEditIndex.value = "";
+  els.entryDialogTitle.textContent = t("entry_add");
   els.entryDate.value = inputDateValue(selectedDay);
   els.entryUrineTime.value = options.keepTime && previousUrineTime ? previousUrineTime : inputTimeValue(now);
   els.entryWaterTime.value = options.keepTime && previousWaterTime ? previousWaterTime : inputTimeValue(now);
@@ -839,21 +907,21 @@ function entryListRows() {
 function renderEntryList() {
   const rows = entryListRows();
   if (!rows.length) {
-    els.entryList.innerHTML = `<p>Für diesen Messtag gibt es noch keine Einträge.</p>`;
+    els.entryList.innerHTML = `<p>${escapeHtml(t("no_entries_day"))}</p>`;
     return;
   }
   els.entryList.innerHTML = rows
     .map(({ entry, index }) => {
-      const label = entry.type === "Hinweis" ? "Hinweis" : `${entry.ml} ml`;
+      const label = entry.type === "Hinweis" ? t("note") : `${entry.ml} ml`;
       const note = entry.note ? `<span class="entry-note">${escapeHtml(entry.note)}</span>` : "";
       return `<div class="entry-list-row">
         <span>${fmtDate(toMesstag(entry.original))}</span>
         <span>${fmtTime(entry.original)}</span>
-        <strong>${escapeHtml(entry.type)}</strong>
+        <strong>${escapeHtml(t(entry.type === "Wasser" ? "water" : entry.type === "Hinweis" ? "note" : "urine"))}</strong>
         <span>${escapeHtml(label)}</span>
         ${note}
-        <button class="utility-button quiet" type="button" data-action="edit" data-index="${index}">Bearbeiten</button>
-        <button class="utility-button quiet" type="button" data-action="delete" data-index="${index}">Löschen</button>
+        <button class="utility-button quiet" type="button" data-action="edit" data-index="${index}">${escapeHtml(t("edit"))}</button>
+        <button class="utility-button quiet" type="button" data-action="delete" data-index="${index}">${escapeHtml(t("delete"))}</button>
       </div>`;
     })
     .join("");
@@ -863,6 +931,7 @@ function fillEntryForm(index) {
   const entry = state.rows[index];
   if (!entry) return;
   els.entryEditIndex.value = String(index);
+  els.entryDialogTitle.textContent = t("entry_edit");
   els.entryDate.value = inputDateValue(toMesstag(entry.original));
   els.entryUrineTime.value = inputTimeValue(entry.original);
   els.entryWaterTime.value = inputTimeValue(entry.original);
@@ -889,14 +958,14 @@ function deleteEntry(index) {
   }
   rememberCurrentData();
   resetEntryForm();
-  els.status.textContent = `${state.days.length} Messtage · Eintrag gelöscht`;
+  els.status.textContent = `${state.days.length} ${t("measurement_days")} · ${t("entry_deleted")}`;
 }
 
 function confirmDeleteEntry(index) {
   const entry = state.rows[index];
   if (!entry) return;
-  const label = entry.type === "Hinweis" ? "Hinweis" : `${entry.type} ${entry.ml} ml`;
-  const message = `${fmtDate(toMesstag(entry.original))} ${fmtTime(entry.original)} · ${label}\n\nDiesen Eintrag wirklich löschen?`;
+  const label = entry.type === "Hinweis" ? t("note") : `${t(entry.type === "Wasser" ? "water" : "urine")} ${entry.ml} ml`;
+  const message = t("entry_delete_confirm", { date: fmtDate(toMesstag(entry.original)), time: fmtTime(entry.original), label });
   if (window.confirm(message)) {
     deleteEntry(index);
   }
@@ -905,7 +974,7 @@ function confirmDeleteEntry(index) {
 function confirmDeleteDay(dayKey) {
   const day = state.days.find((item) => item.key === dayKey);
   if (!day) return;
-  if (!window.confirm(`Messtag ${fmtDate(day.messtag)} wirklich löschen?\n\nAlle Urin-, Wasser- und Hinweis-Einträge dieses Messtags werden gelöscht.`)) return;
+  if (!window.confirm(t("day_delete_confirm", { date: fmtDate(day.messtag) }))) return;
 
   const nextRows = state.rows.filter((entry) => toMesstag(entry.original).toISOString().slice(0, 10) !== dayKey);
   if (nextRows.length) {
@@ -917,11 +986,15 @@ function confirmDeleteDay(dayKey) {
     render();
   }
   rememberCurrentData();
-  els.status.textContent = `${state.days.length} Messtage · Messtag gelöscht`;
+  els.status.textContent = `${state.days.length} ${t("measurement_days")} · ${t("day_deleted")}`;
 }
 
 els.themeSelect.addEventListener("change", (event) => {
   applyTheme(event.target.value);
+});
+
+els.languageSelect.addEventListener("change", (event) => {
+  applyLanguage(event.target.value);
 });
 
 window.addEventListener("resize", () => render());
@@ -929,6 +1002,7 @@ window.addEventListener("resize", () => render());
 const savedTheme = localStorage.getItem("urinTheme");
 const systemTheme = window.matchMedia?.("(prefers-color-scheme: dark)").matches ? "classic-dark" : "classic-light";
 applyTheme(savedTheme || systemTheme);
+applyLanguage(language);
 
 els.rememberData.addEventListener("change", () => {
   localStorage.setItem("urinRememberData", els.rememberData.checked ? "yes" : "no");
@@ -959,10 +1033,10 @@ els.backupCsv.addEventListener("click", () => {
 els.exportDays.addEventListener("click", () => {
   const rows = state.days.map((day) => ({
     Jahr: day.year,
-    Monat: day.monthName,
+    Monat: csvMonthNames[day.month - 1],
     KW: day.week,
-    Messtag: fmtDate(day.messtag),
-    Tag: day.dayName,
+    Messtag: `${String(day.messtag.getDate()).padStart(2, "0")}.${String(day.messtag.getMonth() + 1).padStart(2, "0")}.${day.messtag.getFullYear()}`,
+    Tag: dayNames[day.messtag.getDay()],
     "Urin Uhrzeit": day.urine.map((item) => item.time).join(" | "),
     "Urin ml": day.urine.map((item) => item.ml).join(" | "),
     "Urin Anzahl": day.urineCount,

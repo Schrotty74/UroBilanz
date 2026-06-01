@@ -4,6 +4,18 @@ Alle wichtigen Änderungen an UroBilanz werden hier dokumentiert.
 
 ## Unveröffentlicht
 
+## 1.5.0-beta.4 - 2026-06-01
+
+- Web-App und SwiftUI-App: Deutsch/Englisch-Lokalisierung ergänzt.
+- Web-App und SwiftUI-App: Sprache wird automatisch anhand der Systemsprache gewählt und kann manuell zwischen Deutsch und Englisch umgeschaltet werden.
+- Web-App und SwiftUI-App: Sprachauswahl wird gespeichert.
+- Web-App und SwiftUI-App: UI-Texte, Theme-Namen, Tabellenüberschriften, Dashboard-Texte, Hinweise und Fehlermeldungen lokalisiert.
+- Web-App und SwiftUI-App: Datums- und Zahlenanzeige an die gewählte Sprache angepasst.
+- Web-App: Sprachdateien unter `apps/web/assets/i18n/` ergänzt.
+- SwiftUI-App: Eingabedialog übernimmt die aktuell gewählte Sprache zuverlässig.
+- SwiftUI-App: Lokalisierungsfassung als neuer Hauptstand übernommen.
+- Technische CSV-Struktur bleibt unverändert deutsch, damit bestehende Backups und Importe kompatibel bleiben.
+
 ## 1.5.0-beta.3 - 2026-05-30
 
 - Web-App und SwiftUI-App: Beim schnellen Mehrfach-Erfassen bleibt die zuletzt verwendete Uhrzeit nach `Hinzufügen` erhalten. Beim Öffnen der Eingabemaske wird weiterhin die aktuelle Uhrzeit eingesetzt.

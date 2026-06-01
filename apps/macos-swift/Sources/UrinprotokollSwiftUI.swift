@@ -2,6 +2,98 @@ import SwiftUI
 import AppKit
 import UniformTypeIdentifiers
 
+enum AppLanguage: String, CaseIterable, Identifiable {
+    case de
+    case en
+
+    var id: String { rawValue }
+    var label: String { rawValue.uppercased() }
+
+    static var systemDefault: AppLanguage {
+        Locale.preferredLanguages.first?.lowercased().hasPrefix("de") == true ? .de : .en
+    }
+}
+
+private let translations: [AppLanguage: [String: String]] = [
+    .de: [
+        "dashboard": "Dashboard", "year": "Jahr", "month": "Monat", "week": "Woche", "day": "Tag", "notes": "Notizen",
+        "language": "Sprache", "remember_data": "Daten merken", "entry": "Eintrag", "merge_csv": "CSV ergänzen", "load_csv": "CSV laden",
+        "delete": "Löschen", "backup": "Backup", "daily_data": "Tagesdaten", "no_data": "Keine Daten geladen",
+        "no_data_help": "Lade einen CSV-Export aus Urinote oder eine Tagesdaten-CSV.", "csv_error": "CSV konnte nicht geladen werden",
+        "entry_add": "Eintrag hinzufügen", "entry_edit": "Eintrag bearbeiten", "date": "Datum", "urine_time": "Urin Uhrzeit",
+        "urine_ml": "Urin ml", "water_time": "Wasser Uhrzeit", "water_ml": "Wasser ml", "note": "Hinweis", "close": "Schließen",
+        "new": "Neu", "add": "Hinzufügen", "add_close": "Hinzufügen & schließen", "entry_delete": "Eintrag löschen?",
+        "cancel": "Abbrechen", "entry_delete_confirm": "Diesen Eintrag wirklich löschen?", "entries_day": "Einträge an diesem Messtag",
+        "no_entries_day": "Für diesen Messtag gibt es noch keine Einträge.", "edit": "Bearbeiten", "all_years": "Alle Jahre",
+        "all_months": "Alle Monate", "measurement_days": "Messtage", "urine_total": "Urin gesamt ml", "urine_average": "Urin Ø ml/Tag",
+        "water_total": "Wasser gesamt ml", "low_days": "Niedrige Urin-Tage", "normal_days": "Normale Urin-Tage",
+        "daily_progress": "Tagesverlauf", "monthly_comparison": "Monatsvergleich", "urine": "Urin", "water": "Wasser",
+        "flags": "Auffälligkeiten", "flag": "Auffälligkeit", "low": "niedrig", "normal": "normal", "days": "Tage",
+        "urine_count": "Urin Anzahl", "week_short": "KW", "urine_times": "Urin Zeiten", "urine_sum": "Urin Summe",
+        "water_times": "Wasser Zeiten", "water_sum": "Wasser Summe", "hints": "Hinweise", "action": "Aktion", "delete_day": "Tag löschen",
+        "delete_measurement_day": "Messtag löschen?", "delete_day_detail": "Alle Urin-, Wasser- und Hinweis-Einträge dieses Messtags werden gelöscht.",
+        "delete_day_confirm": "Messtag {date} wirklich löschen?\n\nAlle Urin-, Wasser- und Hinweis-Einträge dieses Messtags werden gelöscht.",
+        "medical_notes": "Medizinische Notizen", "note_1": "Die Auswertung verwendet Messtage von 06:00 bis 05:59.",
+        "note_2": "Einträge zwischen 00:00 und 05:59 werden dem Vortag zugerechnet.",
+        "note_3": "Auffälligkeiten sind organisatorische Hinweise, keine medizinische Bewertung.",
+        "note_4": "Wasserwerte werden separat geführt und nicht mit Urinmengen vermischt.",
+        "no_valid_entries": "Keine gültigen Einträge gefunden.", "merge_original_only": "Ergänzen ist nur mit der originalen Urinote-CSV möglich, nicht mit der Tagesdaten-CSV.",
+        "no_new_entries": "Keine gültigen neuen Einträge gefunden.", "encoding_error": "Die Textkodierung wurde nicht erkannt.",
+        "invalid_daily_data": "Tagesdaten-Format erkannt, aber keine Messtage gefunden.", "already_present": "Eintrag war bereits vorhanden",
+        "entry_added": "Eintrag hinzugefügt", "entry_deleted": "Eintrag gelöscht", "day_deleted": "Messtag gelöscht",
+        "no_entry_created": "Kein Eintrag erstellt", "to": "bis", "new_entries": "neue Einträge ergänzt", "existing_entries": "bereits vorhanden",
+        "added": "hinzugefügt", "updated": "aktualisiert"
+    ],
+    .en: [
+        "dashboard": "Dashboard", "year": "Year", "month": "Month", "week": "Week", "day": "Day", "notes": "Notes",
+        "language": "Language", "remember_data": "Remember data", "entry": "Entry", "merge_csv": "Merge CSV", "load_csv": "Load CSV",
+        "delete": "Delete", "backup": "Backup", "daily_data": "Daily data", "no_data": "No data loaded",
+        "no_data_help": "Load an Urinote CSV export or a daily data CSV.", "csv_error": "CSV could not be loaded",
+        "entry_add": "Add entry", "entry_edit": "Edit entry", "date": "Date", "urine_time": "Urine time",
+        "urine_ml": "Urine ml", "water_time": "Water time", "water_ml": "Water ml", "note": "Note", "close": "Close",
+        "new": "New", "add": "Add", "add_close": "Add & close", "entry_delete": "Delete entry?",
+        "cancel": "Cancel", "entry_delete_confirm": "Delete this entry?", "entries_day": "Entries for this day",
+        "no_entries_day": "There are no entries for this day yet.", "edit": "Edit", "all_years": "All years",
+        "all_months": "All months", "measurement_days": "Days", "urine_total": "Urine total ml", "urine_average": "Urine avg ml/day",
+        "water_total": "Water total ml", "low_days": "Low urine days", "normal_days": "Normal urine days",
+        "daily_progress": "Daily progress", "monthly_comparison": "Monthly comparison", "urine": "Urine", "water": "Water",
+        "flags": "Flags", "flag": "Flag", "low": "low", "normal": "normal", "days": "Days",
+        "urine_count": "Urine count", "week_short": "Week", "urine_times": "Urine times", "urine_sum": "Urine total",
+        "water_times": "Water times", "water_sum": "Water total", "hints": "Notes", "action": "Action", "delete_day": "Delete day",
+        "delete_measurement_day": "Delete measurement day?", "delete_day_detail": "All urine, water and note entries for this day will be deleted.",
+        "delete_day_confirm": "Delete measurement day {date}?\n\nAll urine, water and note entries for this day will be deleted.",
+        "medical_notes": "Medical notes", "note_1": "The analysis uses measurement days from 06:00 to 05:59.",
+        "note_2": "Entries between 00:00 and 05:59 are assigned to the previous day.",
+        "note_3": "Flags are organizational hints, not medical assessments.",
+        "note_4": "Water values are tracked separately and are not mixed with urine volumes.",
+        "no_valid_entries": "No valid entries found.", "merge_original_only": "Merging is only available for the original Urinote CSV, not the daily data CSV.",
+        "no_new_entries": "No valid new entries found.", "encoding_error": "The text encoding was not recognized.",
+        "invalid_daily_data": "Daily data format detected, but no measurement days were found.", "already_present": "Entry was already present",
+        "entry_added": "Entry added", "entry_deleted": "Entry deleted", "day_deleted": "Day deleted",
+        "no_entry_created": "No entry created", "to": "to", "new_entries": "new entries merged", "existing_entries": "already present",
+        "added": "added", "updated": "updated"
+    ]
+]
+
+private func tr(_ key: String, _ language: AppLanguage, replacements: [String: String] = [:]) -> String {
+    var text = translations[language]?[key] ?? translations[.de]?[key] ?? key
+    for (name, value) in replacements {
+        text = text.replacingOccurrences(of: "{\(name)}", with: value)
+    }
+    return text
+}
+
+private struct AppLanguageKey: EnvironmentKey {
+    static let defaultValue: AppLanguage = .de
+}
+
+extension EnvironmentValues {
+    var appLanguage: AppLanguage {
+        get { self[AppLanguageKey.self] }
+        set { self[AppLanguageKey.self] = newValue }
+    }
+}
+
 enum AppTheme: String, CaseIterable, Identifiable {
     case classicLight = "classic-light"
     case classicDark = "classic-dark"
@@ -14,16 +106,16 @@ enum AppTheme: String, CaseIterable, Identifiable {
 
     var id: String { rawValue }
 
-    var title: String {
+    func title(_ language: AppLanguage) -> String {
         switch self {
-        case .classicLight: "Classic Hell"
-        case .classicDark: "Classic Dunkel"
+        case .classicLight: language == .de ? "Classic Hell" : "Classic Light"
+        case .classicDark: language == .de ? "Classic Dunkel" : "Classic Dark"
         case .violetNight: "Violet Night"
         case .liquidDark: "Liquid Dark"
         case .medicalLight: "Medical Light"
         case .highContrast: "High Contrast"
-        case .summer: "Sommer Look"
-        case .creamSage: "Creme Salbei"
+        case .summer: language == .de ? "Sommer Look" : "Summer Look"
+        case .creamSage: language == .de ? "Creme Salbei" : "Cream Sage"
         }
     }
 
@@ -184,6 +276,17 @@ enum AppSection: String, CaseIterable, Identifiable {
 
     var id: String { rawValue }
 
+    func title(_ language: AppLanguage) -> String {
+        switch self {
+        case .dashboard: tr("dashboard", language)
+        case .year: tr("year", language)
+        case .month: tr("month", language)
+        case .week: tr("week", language)
+        case .day: tr("day", language)
+        case .notes: tr("notes", language)
+        }
+    }
+
     var symbol: String {
         switch self {
         case .dashboard: "chart.xyaxis.line"
@@ -237,11 +340,12 @@ final class UrinModel: ObservableObject {
     @Published var entries: [Entry] = []
     @Published var days: [DaySummary] = []
     @Published var rawCSV = ""
-    @Published var status = "Keine Daten geladen."
+    @Published var status = ""
     @Published var rememberData = UserDefaults.standard.bool(forKey: "swiftUIRememberData")
     @Published var selectedYear = "all"
     @Published var selectedMonth = "all"
     @Published var errorMessage: String?
+    @Published private(set) var language = AppLanguage.systemDefault
 
     private let defaults = UserDefaults.standard
     private let calendar = Calendar(identifier: .gregorian)
@@ -252,6 +356,12 @@ final class UrinModel: ObservableObject {
         return formatter
     }()
     private let displayDate: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "de_AT")
+        formatter.dateFormat = "dd.MM.yyyy"
+        return formatter
+    }()
+    private let rawDayFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "de_AT")
         formatter.dateFormat = "dd.MM.yyyy"
@@ -282,6 +392,16 @@ final class UrinModel: ObservableObject {
         } else {
             updateStatus()
         }
+    }
+
+    func setLanguage(_ nextLanguage: AppLanguage) {
+        language = nextLanguage
+        displayDate.locale = Locale(identifier: nextLanguage == .de ? "de_AT" : "en_US")
+        displayDate.dateFormat = nextLanguage == .de ? "dd.MM.yyyy" : "MM/dd/yyyy"
+        if !entries.isEmpty {
+            days = makeDays(from: entries)
+        }
+        updateStatus()
     }
 
     func openCSV() {
@@ -348,7 +468,7 @@ final class UrinModel: ObservableObject {
             ))
         }
         guard !nextEntries.isEmpty else {
-            throw NSError(domain: "Urinprotokoll", code: 1, userInfo: [NSLocalizedDescriptionKey: "Keine gültigen Einträge gefunden."])
+            throw NSError(domain: "Urinprotokoll", code: 1, userInfo: [NSLocalizedDescriptionKey: tr("no_valid_entries", language)])
         }
         entries = nextEntries.sorted { $0.original < $1.original }
         days = makeDays(from: entries)
@@ -361,11 +481,11 @@ final class UrinModel: ObservableObject {
             let csv = try readTextFile(url)
             let parsed = parseCSV(csv)
             if parsed.first?.keys.contains("Messtag") == true {
-                throw NSError(domain: "Urinprotokoll", code: 4, userInfo: [NSLocalizedDescriptionKey: "Ergänzen ist nur mit der originalen Urinote-CSV möglich, nicht mit der Tagesdaten-CSV."])
+                throw NSError(domain: "Urinprotokoll", code: 4, userInfo: [NSLocalizedDescriptionKey: tr("merge_original_only", language)])
             }
             let incoming = parsed.compactMap(rawEntry)
             guard !incoming.isEmpty else {
-                throw NSError(domain: "Urinprotokoll", code: 5, userInfo: [NSLocalizedDescriptionKey: "Keine gültigen neuen Einträge gefunden."])
+                throw NSError(domain: "Urinprotokoll", code: 5, userInfo: [NSLocalizedDescriptionKey: tr("no_new_entries", language)])
             }
             let existing = Set(entries.map(\.key))
             let additions = incoming.filter { !existing.contains($0.key) }
@@ -375,7 +495,7 @@ final class UrinModel: ObservableObject {
             if rememberData {
                 defaults.set(rawCSV, forKey: "swiftUISavedCSV")
             }
-            updateStatus(extra: "\(additions.count) neue Einträge ergänzt · \(incoming.count - additions.count) bereits vorhanden")
+            updateStatus(extra: "\(additions.count) \(tr("new_entries", language)) · \(incoming.count - additions.count) \(tr("existing_entries", language))")
         } catch {
             errorMessage = error.localizedDescription
         }
@@ -384,7 +504,7 @@ final class UrinModel: ObservableObject {
     func addEntry(original: Date, type: String, ml: Int, note: String) {
         let entry = Entry(original: original, messtag: measurementDay(for: original), type: type, ml: ml, note: note.trimmingCharacters(in: .whitespacesAndNewlines))
         if entries.contains(where: { $0.key == entry.key }) {
-            updateStatus(extra: "Eintrag war bereits vorhanden")
+            updateStatus(extra: tr("already_present", language))
             return
         }
         entries = (entries + [entry]).sorted { $0.original < $1.original }
@@ -393,7 +513,7 @@ final class UrinModel: ObservableObject {
         if rememberData {
             defaults.set(rawCSV, forKey: "swiftUISavedCSV")
         }
-        updateStatus(extra: "Eintrag hinzugefügt")
+        updateStatus(extra: tr("entry_added", language))
     }
 
     func addManualEntries(date: Date, urineTime: Date, urineMl: Int?, waterTime: Date, waterMl: Int?, note: String) {
@@ -412,7 +532,7 @@ final class UrinModel: ObservableObject {
         if rememberData {
             defaults.set(rawCSV, forKey: "swiftUISavedCSV")
         }
-        updateStatus(extra: "Eintrag gelöscht")
+        updateStatus(extra: tr("entry_deleted", language))
     }
 
     func deleteMeasurementDay(_ date: Date) {
@@ -423,7 +543,7 @@ final class UrinModel: ObservableObject {
         if rememberData {
             defaults.set(rawCSV, forKey: "swiftUISavedCSV")
         }
-        updateStatus(extra: "Messtag gelöscht")
+        updateStatus(extra: tr("day_deleted", language))
     }
 
     func entriesForMesstag(_ date: Date) -> [(index: Int, entry: Entry)] {
@@ -451,7 +571,7 @@ final class UrinModel: ObservableObject {
         }
 
         guard !manualEntries.isEmpty else {
-            updateStatus(extra: "Kein Eintrag erstellt")
+            updateStatus(extra: tr("no_entry_created", language))
             return
         }
 
@@ -465,7 +585,7 @@ final class UrinModel: ObservableObject {
         if rememberData {
             defaults.set(rawCSV, forKey: "swiftUISavedCSV")
         }
-        updateStatus(extra: "\(manualEntries.count) Eintrag\(manualEntries.count == 1 ? "" : "e") \(index == nil ? "hinzugefügt" : "aktualisiert")")
+        updateStatus(extra: "\(manualEntries.count) \(tr("entry", language)) \(tr(index == nil ? "added" : "updated", language))")
     }
 
     func toggleRemember() {
@@ -499,10 +619,10 @@ final class UrinModel: ObservableObject {
         let rows = days.map { day in
             [
                 "\(day.year)",
-                day.monthName,
+                stableMonthName(day.month),
                 "\(day.week)",
-                formattedDate(day.messtag),
-                day.dayName,
+                rawDayFormatter.string(from: day.messtag),
+                stableDayName(day.messtag),
                 day.urine.map(\.0).joined(separator: " | "),
                 day.urine.map { "\($0.1)" }.joined(separator: " | "),
                 "\(day.urineCount)",
@@ -526,7 +646,7 @@ final class UrinModel: ObservableObject {
 
     func format(_ value: Int) -> String {
         let formatter = NumberFormatter()
-        formatter.locale = Locale(identifier: "de_DE")
+        formatter.locale = Locale(identifier: language == .de ? "de_DE" : "en_US")
         formatter.numberStyle = .decimal
         return formatter.string(from: NSNumber(value: value)) ?? "\(value)"
     }
@@ -550,7 +670,7 @@ final class UrinModel: ObservableObject {
 
     private func loadDailyExport(_ rows: [[String: String]]) throws -> [DaySummary] {
         let imported = rows.compactMap { row -> DaySummary? in
-            guard let rawDay = row["Messtag"], let messtag = displayDate.date(from: rawDay) else { return nil }
+            guard let rawDay = row["Messtag"], let messtag = rawDayFormatter.date(from: rawDay) else { return nil }
             let comps = calendar.dateComponents([.year, .month, .weekOfYear], from: messtag)
             let urine = zipLists(
                 times: splitList(row["Urin Uhrzeit"] ?? row["● Urin Uhrzeit"] ?? ""),
@@ -565,16 +685,16 @@ final class UrinModel: ObservableObject {
                 messtag: messtag,
                 year: comps.year ?? Int(row["Jahr"] ?? "0") ?? 0,
                 month: comps.month ?? 0,
-                monthName: row["Monat"] ?? monthName(comps.month ?? 1),
+                monthName: monthName(comps.month ?? 1),
                 week: comps.weekOfYear ?? Int(row["KW"] ?? "0") ?? 0,
-                dayName: row["Tag"] ?? dayName(messtag),
+                dayName: dayName(messtag),
                 urine: urine,
                 water: water,
                 notes: notes
             )
         }.sorted { $0.messtag < $1.messtag }
         guard !imported.isEmpty else {
-            throw NSError(domain: "Urinprotokoll", code: 3, userInfo: [NSLocalizedDescriptionKey: "Tagesdaten-Format erkannt, aber keine Messtage gefunden."])
+            throw NSError(domain: "Urinprotokoll", code: 3, userInfo: [NSLocalizedDescriptionKey: tr("invalid_daily_data", language)])
         }
         return imported
     }
@@ -671,17 +791,17 @@ final class UrinModel: ObservableObject {
             values["● Urin Ø ml/Tag"] = format(average)
             values["● Urin Anzahl"] = "\(urineCount)"
             values["💧 Wasser Gesamt ml"] = format(waterTotal)
-            values["Auffälligkeit"] = hasLowDay ? "niedrig" : "normal"
+            values["Auffälligkeit"] = tr(hasLowDay ? "low" : "normal", language)
             return SummaryRow(id: key, values: values, urineAverage: average)
         }
     }
 
     private func updateStatus(extra: String? = nil) {
         guard let first = days.first?.messtag, let last = days.last?.messtag else {
-            status = "Keine Daten geladen."
+            status = tr("no_data", language)
             return
         }
-        status = "\(days.count) Messtage · \(formattedDate(first)) bis \(formattedDate(last))" + (extra.map { " · \($0)" } ?? "")
+        status = "\(days.count) \(tr("measurement_days", language)) · \(formattedDate(first)) \(tr("to", language)) \(formattedDate(last))" + (extra.map { " · \($0)" } ?? "")
     }
 
     private func measurementDay(for date: Date) -> Date {
@@ -696,7 +816,7 @@ final class UrinModel: ObservableObject {
         if let text = String(data: data, encoding: .utf8) { return text }
         if let text = String(data: data, encoding: .utf16) { return text }
         if let text = String(data: data, encoding: .isoLatin1) { return text }
-        throw NSError(domain: "Urinprotokoll", code: 2, userInfo: [NSLocalizedDescriptionKey: "Die Textkodierung wurde nicht erkannt."])
+        throw NSError(domain: "Urinprotokoll", code: 2, userInfo: [NSLocalizedDescriptionKey: tr("encoding_error", language)])
     }
 
     private func save(text: String, defaultName: String) {
@@ -778,7 +898,12 @@ final class UrinModel: ObservableObject {
     }
 
     private func parseAmount(_ value: String) -> Int {
-        Int(value.replacingOccurrences(of: "ml", with: "").replacingOccurrences(of: ".", with: "").trimmingCharacters(in: .whitespacesAndNewlines)) ?? 0
+        let cleaned = value
+            .replacingOccurrences(of: "ml", with: "")
+            .replacingOccurrences(of: ".", with: "")
+            .replacingOccurrences(of: ",", with: "")
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+        return Int(cleaned) ?? 0
     }
 
     private func zipLists(times: [String], amounts: [Int]) -> [(String, Int)] {
@@ -788,11 +913,24 @@ final class UrinModel: ObservableObject {
     }
 
     private func monthName(_ month: Int) -> String {
-        let names = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"]
+        let names = language == .de
+            ? ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"]
+            : ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
         return names[max(0, min(month - 1, names.count - 1))]
     }
 
     private func dayName(_ date: Date) -> String {
+        let names = language == .de
+            ? ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"]
+            : ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+        return names[calendar.component(.weekday, from: date) - 1]
+    }
+
+    private func stableMonthName(_ month: Int) -> String {
+        ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"][max(0, min(month - 1, 11))]
+    }
+
+    private func stableDayName(_ date: Date) -> String {
         ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"][calendar.component(.weekday, from: date) - 1]
     }
 
@@ -820,7 +958,7 @@ struct UrinprotokollSwiftUIApp: App {
         }
         .commands {
             CommandGroup(replacing: .newItem) {
-                Button("CSV laden...") { model.openCSV() }
+                Button("\(tr("load_csv", model.language))...") { model.openCSV() }
                     .keyboardShortcut("o")
             }
         }
@@ -852,20 +990,22 @@ struct ImportTestView: View {
 struct ContentView: View {
     @EnvironmentObject private var model: UrinModel
     @AppStorage("uroBilanzTheme") private var themeRaw = AppTheme.classicDark.rawValue
+    @AppStorage("uroBilanzLanguage") private var languageRaw = AppLanguage.systemDefault.rawValue
     @State private var selection: AppSection = .dashboard
     @State private var showsEntrySheet = false
 
     var body: some View {
         let theme = AppTheme(rawValue: themeRaw) ?? .classicDark
+        let language = AppLanguage(rawValue: languageRaw) ?? .de
         NavigationSplitView {
             List(AppSection.allCases, selection: $selection) { section in
-                Label(section.rawValue, systemImage: section.symbol)
+                Label(section.title(language), systemImage: section.symbol)
                     .tag(section)
             }
             .navigationSplitViewColumnWidth(min: 180, ideal: 200)
         } detail: {
             VStack(spacing: 0) {
-                ToolbarStrip(selection: $selection, showsEntrySheet: $showsEntrySheet, themeRaw: $themeRaw)
+                ToolbarStrip(selection: $selection, showsEntrySheet: $showsEntrySheet, themeRaw: $themeRaw, languageRaw: $languageRaw)
                 Divider()
                 detailView
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
@@ -874,13 +1014,20 @@ struct ContentView: View {
             .background(AppBackground(theme: theme))
         }
         .environment(\.appTheme, theme)
+        .environment(\.appLanguage, language)
         .preferredColorScheme(theme.preferredScheme)
         .tint(theme.accent)
+        .task { model.setLanguage(language) }
+        .onChange(of: languageRaw) { _, value in
+            model.setLanguage(AppLanguage(rawValue: value) ?? .de)
+        }
         .sheet(isPresented: $showsEntrySheet) {
             EntrySheet()
                 .environmentObject(model)
+                .environment(\.appLanguage, language)
+                .environment(\.appTheme, theme)
         }
-        .alert("CSV konnte nicht geladen werden", isPresented: Binding(
+        .alert(tr("csv_error", language), isPresented: Binding(
             get: { model.errorMessage != nil },
             set: { if !$0 { model.errorMessage = nil } }
         )) {
@@ -894,9 +1041,9 @@ struct ContentView: View {
     private var detailView: some View {
         switch selection {
         case .dashboard: DashboardView()
-        case .year: SummaryTableView(title: "Jahr", section: .year)
-        case .month: SummaryTableView(title: "Monat", section: .month)
-        case .week: SummaryTableView(title: "Woche", section: .week)
+        case .year: SummaryTableView(section: .year)
+        case .month: SummaryTableView(section: .month)
+        case .week: SummaryTableView(section: .week)
         case .day: DayTableView()
         case .notes: NotesView()
         }
@@ -909,12 +1056,14 @@ struct ToolbarStrip: View {
     @Binding var selection: AppSection
     @Binding var showsEntrySheet: Bool
     @Binding var themeRaw: String
+    @Binding var languageRaw: String
+    @Environment(\.appLanguage) private var language
 
     var body: some View {
         HStack(spacing: 12) {
             AppMark(size: 54)
             VStack(alignment: .leading, spacing: 2) {
-                Text(selection.rawValue)
+                Text(selection.title(language))
                     .font(.title2.weight(.bold))
                 Text(model.status)
                     .font(.callout)
@@ -922,23 +1071,24 @@ struct ToolbarStrip: View {
             }
             Spacer()
             HStack(spacing: 8) {
-                Text("Daten merken")
+                Text(tr("remember_data", language))
                     .lineLimit(1)
                     .fixedSize(horizontal: true, vertical: false)
-                Toggle("Daten merken", isOn: $model.rememberData)
+                Toggle(tr("remember_data", language), isOn: $model.rememberData)
                     .labelsHidden()
                     .onChange(of: model.rememberData) { _, _ in model.toggleRemember() }
                     .toggleStyle(.switch)
             }
             ThemeMenu(themeRaw: $themeRaw)
-            Button("Eintrag", systemImage: "plus.circle") { showsEntrySheet = true }
-            Button("CSV ergänzen", systemImage: "plus.square.on.square") { model.openMergeCSV() }
-            Button("CSV laden", systemImage: "square.and.arrow.down") { model.openCSV() }
-            Button("Löschen", systemImage: "trash", role: .destructive) { model.clearData() }
+            LanguageMenu(languageRaw: $languageRaw)
+            Button(tr("entry", language), systemImage: "plus.circle") { showsEntrySheet = true }
+            Button(tr("merge_csv", language), systemImage: "plus.square.on.square") { model.openMergeCSV() }
+            Button(tr("load_csv", language), systemImage: "square.and.arrow.down") { model.openCSV() }
+            Button(tr("delete", language), systemImage: "trash", role: .destructive) { model.clearData() }
                 .disabled(!model.hasData)
-            Button("Backup", systemImage: "externaldrive") { model.exportBackup() }
+            Button(tr("backup", language), systemImage: "externaldrive") { model.exportBackup() }
                 .disabled(!model.hasData)
-            Button("Tagesdaten", systemImage: "tablecells") { model.exportDays() }
+            Button(tr("daily_data", language), systemImage: "tablecells") { model.exportDays() }
                 .disabled(!model.hasData)
         }
         .padding(.horizontal, 22)
@@ -950,6 +1100,7 @@ struct ToolbarStrip: View {
 struct ThemeMenu: View {
     @Environment(\.appTheme) private var theme
     @Binding var themeRaw: String
+    @Environment(\.appLanguage) private var language
 
     private var selectedTheme: AppTheme {
         AppTheme(rawValue: themeRaw) ?? .classicDark
@@ -962,15 +1113,15 @@ struct ThemeMenu: View {
                     themeRaw = option.rawValue
                 } label: {
                     if option == selectedTheme {
-                        Label(option.title, systemImage: "checkmark")
+                        Label(option.title(language), systemImage: "checkmark")
                     } else {
-                        Text(option.title)
+                        Text(option.title(language))
                     }
                 }
             }
         } label: {
             HStack(spacing: 8) {
-                Text(selectedTheme.title)
+                Text(selectedTheme.title(language))
                     .lineLimit(1)
                     .fixedSize(horizontal: true, vertical: false)
                 Image(systemName: "chevron.down")
@@ -986,6 +1137,42 @@ struct ThemeMenu: View {
                     .stroke(theme.controlBorder, lineWidth: theme == .highContrast ? 1.5 : 1)
             }
         }
+        .buttonStyle(.plain)
+        .menuStyle(.borderlessButton)
+    }
+}
+
+struct LanguageMenu: View {
+    @Environment(\.appTheme) private var theme
+    @Environment(\.appLanguage) private var language
+    @Binding var languageRaw: String
+
+    var body: some View {
+        Menu {
+            ForEach(AppLanguage.allCases) { option in
+                Button {
+                    languageRaw = option.rawValue
+                } label: {
+                    if option == language {
+                        Label(option.label, systemImage: "checkmark")
+                    } else {
+                        Text(option.label)
+                    }
+                }
+            }
+        } label: {
+            Label(language.label, systemImage: "globe")
+                .font(.callout.weight(.semibold))
+                .foregroundStyle(theme.controlForeground)
+                .padding(.horizontal, 10)
+                .frame(height: 34)
+                .background(theme.controlBackground, in: RoundedRectangle(cornerRadius: 9, style: .continuous))
+                .overlay {
+                    RoundedRectangle(cornerRadius: 9, style: .continuous)
+                        .stroke(theme.controlBorder, lineWidth: theme == .highContrast ? 1.5 : 1)
+                }
+        }
+        .help(tr("language", language))
         .buttonStyle(.plain)
         .menuStyle(.borderlessButton)
     }
@@ -1050,17 +1237,18 @@ struct DashboardView: View {
 
 struct EmptyStateView: View {
     @EnvironmentObject private var model: UrinModel
+    @Environment(\.appLanguage) private var language
 
     var body: some View {
         VStack(spacing: 14) {
             Image(systemName: "drop.triangle")
                 .font(.system(size: 42))
                 .foregroundStyle(.secondary)
-            Text("Keine Daten geladen")
+            Text(tr("no_data", language))
                 .font(.title2.weight(.bold))
-            Text("Lade einen CSV-Export aus Urinote oder eine Tagesdaten-CSV.")
+            Text(tr("no_data_help", language))
                 .foregroundStyle(.secondary)
-            Button("CSV laden", systemImage: "square.and.arrow.down") { model.openCSV() }
+            Button(tr("load_csv", language), systemImage: "square.and.arrow.down") { model.openCSV() }
                 .controlSize(.large)
         }
         .frame(maxWidth: .infinity, minHeight: 360)
@@ -1079,31 +1267,32 @@ struct EntrySheet: View {
     @State private var note = ""
     @State private var editIndex: Int?
     @State private var pendingDelete: PendingDelete?
+    @Environment(\.appLanguage) private var language
 
     var body: some View {
         VStack(alignment: .leading, spacing: 18) {
-            Text(editIndex == nil ? "Eintrag hinzufügen" : "Eintrag bearbeiten")
+            Text(tr(editIndex == nil ? "entry_add" : "entry_edit", language))
                 .font(.title2.weight(.bold))
             Form {
-                DatePicker("Datum", selection: $date, displayedComponents: [.date])
-                DatePicker("Urin Uhrzeit", selection: $urineTime, displayedComponents: [.hourAndMinute])
-                TextField("Urin ml", text: $urineMl)
-                DatePicker("Wasser Uhrzeit", selection: $waterTime, displayedComponents: [.hourAndMinute])
-                TextField("Wasser ml", text: $waterMl)
-                TextField("Hinweis", text: $note, axis: .vertical)
+                DatePicker(tr("date", language), selection: $date, displayedComponents: [.date])
+                DatePicker(tr("urine_time", language), selection: $urineTime, displayedComponents: [.hourAndMinute])
+                TextField(tr("urine_ml", language), text: $urineMl)
+                DatePicker(tr("water_time", language), selection: $waterTime, displayedComponents: [.hourAndMinute])
+                TextField(tr("water_ml", language), text: $waterMl)
+                TextField(tr("note", language), text: $note, axis: .vertical)
                     .lineLimit(3...5)
             }
             entryList
             HStack {
                 Spacer()
-                Button("Schließen") { dismiss() }
-                Button("Neu") { resetForm(keepDate: true) }
+                Button(tr("close", language)) { dismiss() }
+                Button(tr("new", language)) { resetForm(keepDate: true) }
                 Group {
-                    Button("Hinzufügen") {
+                    Button(tr("add", language)) {
                         save()
                         resetForm(keepDate: true, keepTime: true)
                     }
-                    Button("Hinzufügen & schließen") {
+                    Button(tr("add_close", language)) {
                         save()
                         dismiss()
                     }
@@ -1114,18 +1303,18 @@ struct EntrySheet: View {
         }
         .padding(24)
         .frame(width: 680)
-        .alert("Eintrag löschen?", isPresented: deleteAlertBinding) {
-            Button("Abbrechen", role: .cancel) {
+        .alert(tr("entry_delete", language), isPresented: deleteAlertBinding) {
+            Button(tr("cancel", language), role: .cancel) {
                 pendingDelete = nil
             }
-            Button("Löschen", role: .destructive) {
+            Button(tr("delete", language), role: .destructive) {
                 if let pendingDelete {
                     model.deleteEntry(index: pendingDelete.index)
                 }
                 pendingDelete = nil
             }
         } message: {
-            Text(pendingDelete?.message ?? "Diesen Eintrag wirklich löschen?")
+            Text(pendingDelete?.message ?? tr("entry_delete_confirm", language))
         }
     }
 
@@ -1136,11 +1325,11 @@ struct EntrySheet: View {
     private var entryList: some View {
         let rows = model.entriesForMesstag(date)
         return VStack(alignment: .leading, spacing: 8) {
-            Text("Einträge an diesem Messtag")
+            Text(tr("entries_day", language))
                 .font(.caption.weight(.bold))
                 .foregroundStyle(.secondary)
             if rows.isEmpty {
-                Text("Für diesen Messtag gibt es noch keine Einträge.")
+                Text(tr("no_entries_day", language))
                     .font(.callout)
                     .foregroundStyle(.secondary)
             } else {
@@ -1151,18 +1340,18 @@ struct EntrySheet: View {
                                 Text(model.formattedTime(row.entry.original))
                                     .monospacedDigit()
                                     .frame(width: 54, alignment: .leading)
-                                Text(row.entry.type)
+                                Text(typeTitle(row.entry.type))
                                     .fontWeight(.semibold)
                                     .frame(width: 70, alignment: .leading)
-                                Text(row.entry.type == "Hinweis" ? "Hinweis" : "\(row.entry.ml) ml")
+                                Text(row.entry.type == "Hinweis" ? tr("note", language) : "\(row.entry.ml) ml")
                                     .monospacedDigit()
                                     .frame(width: 86, alignment: .leading)
                                 Text(row.entry.note)
                                     .foregroundStyle(.secondary)
                                     .lineLimit(1)
                                 Spacer()
-                                Button("Bearbeiten") { fillForm(row.index, row.entry) }
-                                Button("Löschen", role: .destructive) {
+                                Button(tr("edit", language)) { fillForm(row.index, row.entry) }
+                                Button(tr("delete", language), role: .destructive) {
                                     pendingDelete = pendingDeleteTarget(index: row.index, entry: row.entry)
                                 }
                             }
@@ -1193,9 +1382,13 @@ struct EntrySheet: View {
     }
 
     private func pendingDeleteTarget(index: Int, entry: Entry) -> PendingDelete {
-        let value = entry.type == "Hinweis" ? "Hinweis" : "\(entry.type) \(entry.ml) ml"
-        let message = "\(model.formattedDate(entry.messtag)) \(model.formattedTime(entry.original)) · \(value)\n\nDiesen Eintrag wirklich löschen?"
+        let value = entry.type == "Hinweis" ? tr("note", language) : "\(typeTitle(entry.type)) \(entry.ml) ml"
+        let message = "\(model.formattedDate(entry.messtag)) \(model.formattedTime(entry.original)) · \(value)\n\n\(tr("entry_delete_confirm", language))"
         return PendingDelete(index: index, message: message)
+    }
+
+    private func typeTitle(_ type: String) -> String {
+        tr(type == "Wasser" ? "water" : type == "Hinweis" ? "note" : "urine", language)
     }
 
     private func fillForm(_ index: Int, _ entry: Entry) {
@@ -1236,18 +1429,19 @@ struct EntrySheet: View {
 
 struct FilterBar: View {
     @EnvironmentObject private var model: UrinModel
+    @Environment(\.appLanguage) private var language
 
     var body: some View {
         HStack {
-            Picker("Jahr", selection: $model.selectedYear) {
-                Text("Alle Jahre").tag("all")
+            Picker(tr("year", language), selection: $model.selectedYear) {
+                Text(tr("all_years", language)).tag("all")
                 ForEach(model.years, id: \.self) { year in
                     Text(verbatim: String(year)).tag(String(year))
                 }
             }
-            Picker("Monat", selection: $model.selectedMonth) {
-                Text("Alle Monate").tag("all")
-                ForEach(Array(["Januar","Februar","März","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember"].enumerated()), id: \.offset) { index, name in
+            Picker(tr("month", language), selection: $model.selectedMonth) {
+                Text(tr("all_months", language)).tag("all")
+                ForEach(Array(monthNames.enumerated()), id: \.offset) { index, name in
                     Text(name).tag("\(index + 1)")
                 }
             }
@@ -1255,22 +1449,29 @@ struct FilterBar: View {
         }
         .disabled(!model.hasData)
     }
+
+    private var monthNames: [String] {
+        language == .de
+            ? ["Januar","Februar","März","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember"]
+            : ["January","February","March","April","May","June","July","August","September","October","November","December"]
+    }
 }
 
 struct MetricGrid: View {
     @EnvironmentObject private var model: UrinModel
+    @Environment(\.appLanguage) private var language
 
     var body: some View {
         let days = model.filteredDays
         let urineTotal = days.reduce(0) { $0 + $1.urineTotal }
         let waterTotal = days.reduce(0) { $0 + $1.waterTotal }
         let metrics = [
-            ("Messtage", "\(days.count)", "calendar"),
-            ("Urin gesamt ml", model.format(urineTotal), "circle.fill"),
-            ("Urin Ø ml/Tag", model.format(days.isEmpty ? 0 : urineTotal / days.count), "chart.line.uptrend.xyaxis"),
-            ("Wasser gesamt ml", model.format(waterTotal), "drop.fill"),
-            ("Niedrige Urin-Tage", "\(days.filter { $0.urineTotal < 800 }.count)", "exclamationmark.triangle"),
-            ("Normale Urin-Tage", "\(days.filter { $0.urineTotal >= 800 }.count)", "checkmark.circle")
+            (tr("measurement_days", language), "\(days.count)", "calendar"),
+            (tr("urine_total", language), model.format(urineTotal), "circle.fill"),
+            (tr("urine_average", language), model.format(days.isEmpty ? 0 : urineTotal / days.count), "chart.line.uptrend.xyaxis"),
+            (tr("water_total", language), model.format(waterTotal), "drop.fill"),
+            (tr("low_days", language), "\(days.filter { $0.urineTotal < 800 }.count)", "exclamationmark.triangle"),
+            (tr("normal_days", language), "\(days.filter { $0.urineTotal >= 800 }.count)", "checkmark.circle")
         ]
         LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: 6), spacing: 12) {
             ForEach(metrics, id: \.0) { metric in
@@ -1295,11 +1496,12 @@ struct MetricGrid: View {
 
 struct LineChartView: View {
     @Environment(\.appTheme) private var theme
+    @Environment(\.appLanguage) private var language
     let days: [DaySummary]
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            ChartHeader(title: "Tagesverlauf")
+            ChartHeader(title: tr("daily_progress", language))
             Canvas { context, size in
                 let area = CGRect(x: 28, y: 4, width: max(size.width - 42, 1), height: max(size.height - 24, 1))
                 drawAxes(context: &context, area: area)
@@ -1332,18 +1534,19 @@ struct LineChartView: View {
 
 struct MonthBarChart: View {
     @Environment(\.appTheme) private var theme
+    @Environment(\.appLanguage) private var language
     let rows: [SummaryRow]
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            ChartHeader(title: "Monatsvergleich")
+            ChartHeader(title: tr("monthly_comparison", language))
             Canvas { context, size in
                 let area = CGRect(x: 28, y: 4, width: max(size.width - 42, 1), height: max(size.height - 24, 1))
-                let maxValue = CGFloat(max(rows.compactMap { Int(($0.values["● Urin Gesamt ml"] ?? "0").replacingOccurrences(of: ".", with: "")) }.max() ?? 1, 1))
+                let maxValue = CGFloat(max(rows.compactMap { parseFormattedInt($0.values["● Urin Gesamt ml"] ?? "0") }.max() ?? 1, 1))
                 let step = area.width / CGFloat(max(rows.count, 1))
                 for (index, row) in rows.enumerated() {
-                    let urine = CGFloat(Int((row.values["● Urin Gesamt ml"] ?? "0").replacingOccurrences(of: ".", with: "")) ?? 0)
-                    let water = CGFloat(Int((row.values["💧 Wasser Gesamt ml"] ?? "0").replacingOccurrences(of: ".", with: "")) ?? 0)
+                    let urine = CGFloat(parseFormattedInt(row.values["● Urin Gesamt ml"] ?? "0"))
+                    let water = CGFloat(parseFormattedInt(row.values["💧 Wasser Gesamt ml"] ?? "0"))
                     let x = area.minX + CGFloat(index) * step
                     context.fill(Path(CGRect(x: x, y: area.maxY - (urine / maxValue * area.height), width: max(step * 0.28, 4), height: urine / maxValue * area.height)), with: .color(theme.urineColor.opacity(0.80)))
                     context.fill(Path(CGRect(x: x + max(step * 0.34, 6), y: area.maxY - (water / maxValue * area.height), width: max(step * 0.28, 4), height: water / maxValue * area.height)), with: .color(theme.waterColor.opacity(0.80)))
@@ -1351,19 +1554,24 @@ struct MonthBarChart: View {
             }
         }
     }
+
+    private func parseFormattedInt(_ text: String) -> Int {
+        Int(text.replacingOccurrences(of: ".", with: "").replacingOccurrences(of: ",", with: "")) ?? 0
+    }
 }
 
 struct ChartHeader: View {
     @Environment(\.appTheme) private var theme
+    @Environment(\.appLanguage) private var language
     let title: String
 
     var body: some View {
         HStack(spacing: 14) {
             Text(title)
                 .font(.headline)
-            Label("Urin", systemImage: "circle.fill")
+            Label(tr("urine", language), systemImage: "circle.fill")
                 .foregroundStyle(theme.urineColor)
-            Label("Wasser", systemImage: "drop.fill")
+            Label(tr("water", language), systemImage: "drop.fill")
                 .foregroundStyle(theme.waterColor)
             Spacer()
         }
@@ -1443,23 +1651,24 @@ struct ThemedDataTable<Row: Identifiable>: View {
 
 struct AlertTable: View {
     @EnvironmentObject private var model: UrinModel
+    @Environment(\.appLanguage) private var language
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text("Auffälligkeiten")
+            Text(tr("flags", language))
                 .font(.headline)
             ThemedDataTable(
                 rows: model.alertRows(),
                 columns: [
-                    ThemedTableColumn("Messtag", width: 160) { Text(model.formattedDate($0.messtag)) },
-                    ThemedTableColumn("Tag", width: 160) { Text($0.dayName) },
-                    ThemedTableColumn("Urin gesamt ml", width: 170) { day in
+                    ThemedTableColumn(tr("date", language), width: 160) { Text(model.formattedDate($0.messtag)) },
+                    ThemedTableColumn(tr("day", language), width: 160) { Text($0.dayName) },
+                    ThemedTableColumn(tr("urine_total", language), width: 170) { day in
                         Text(model.format(day.urineTotal))
                             .foregroundStyle(day.urineTotal < 800 ? .red : .orange)
                             .monospacedDigit()
                     },
-                    ThemedTableColumn("Wasser gesamt ml", width: 180) { Text(model.format($0.waterTotal)).monospacedDigit() },
-                    ThemedTableColumn("Auffälligkeit", width: 180) { _ in Text("niedrig") }
+                    ThemedTableColumn(tr("water_total", language), width: 180) { Text(model.format($0.waterTotal)).monospacedDigit() },
+                    ThemedTableColumn(tr("flag", language), width: 180) { _ in Text(tr("low", language)) }
                 ],
                 minHeight: 210
             )
@@ -1470,7 +1679,7 @@ struct AlertTable: View {
 
 struct SummaryTableView: View {
     @EnvironmentObject private var model: UrinModel
-    let title: String
+    @Environment(\.appLanguage) private var language
     let section: AppSection
 
     var body: some View {
@@ -1490,19 +1699,19 @@ struct SummaryTableView: View {
         switch section {
         case .year:
             return commonSummaryColumns(prefix: [
-                ThemedTableColumn("Jahr", width: 120) { Text($0.values["Jahr"] ?? "") }
+                ThemedTableColumn(tr("year", language), width: 120) { Text($0.values["Jahr"] ?? "") }
             ])
         case .month:
             return commonSummaryColumns(prefix: [
-                ThemedTableColumn("Jahr", width: 110) { Text($0.values["Jahr"] ?? "") },
-                ThemedTableColumn("Monat", width: 150) { Text($0.values["Monat Name"] ?? "") }
+                ThemedTableColumn(tr("year", language), width: 110) { Text($0.values["Jahr"] ?? "") },
+                ThemedTableColumn(tr("month", language), width: 150) { Text($0.values["Monat Name"] ?? "") }
             ])
         case .week:
             var result = commonSummaryColumns(prefix: [
-                ThemedTableColumn("Jahr", width: 100) { Text($0.values["Jahr"] ?? "") },
-                ThemedTableColumn("KW", width: 90) { Text($0.values["KW"] ?? "") }
+                ThemedTableColumn(tr("year", language), width: 100) { Text($0.values["Jahr"] ?? "") },
+                ThemedTableColumn(tr("week_short", language), width: 90) { Text($0.values["KW"] ?? "") }
             ])
-            result.append(ThemedTableColumn("Auffälligkeit", width: 150) { Text($0.values["Auffälligkeit"] ?? "") })
+            result.append(ThemedTableColumn(tr("flag", language), width: 150) { Text($0.values["Auffälligkeit"] ?? "") })
             return result
         default:
             return []
@@ -1511,48 +1720,49 @@ struct SummaryTableView: View {
 
     private func commonSummaryColumns(prefix: [ThemedTableColumn<SummaryRow>]) -> [ThemedTableColumn<SummaryRow>] {
         prefix + [
-            ThemedTableColumn("Tage", width: 90) { Text($0.values["Tage"] ?? "") },
-            ThemedTableColumn("Urin Gesamt ml", width: 170) { Text($0.values["● Urin Gesamt ml"] ?? "").monospacedDigit() },
-            ThemedTableColumn("Urin Ø ml/Tag", width: 170) { Text($0.values["● Urin Ø ml/Tag"] ?? "").monospacedDigit() },
-            ThemedTableColumn("Urin Anzahl", width: 140) { Text($0.values["● Urin Anzahl"] ?? "").monospacedDigit() },
-            ThemedTableColumn("Wasser Gesamt ml", width: 180) { Text($0.values["💧 Wasser Gesamt ml"] ?? "").monospacedDigit() }
+            ThemedTableColumn(tr("days", language), width: 90) { Text($0.values["Tage"] ?? "") },
+            ThemedTableColumn(tr("urine_total", language), width: 170) { Text($0.values["● Urin Gesamt ml"] ?? "").monospacedDigit() },
+            ThemedTableColumn(tr("urine_average", language), width: 170) { Text($0.values["● Urin Ø ml/Tag"] ?? "").monospacedDigit() },
+            ThemedTableColumn(tr("urine_count", language), width: 140) { Text($0.values["● Urin Anzahl"] ?? "").monospacedDigit() },
+            ThemedTableColumn(tr("water_total", language), width: 180) { Text($0.values["💧 Wasser Gesamt ml"] ?? "").monospacedDigit() }
         ]
     }
 }
 
 struct DayTableView: View {
     @EnvironmentObject private var model: UrinModel
+    @Environment(\.appLanguage) private var language
     @State private var pendingDeleteDay: DaySummary?
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             FilterBar()
             ThemedDataTable(rows: model.filteredDays, columns: [
-                ThemedTableColumn("Datum", width: 110) { Text(model.formattedDate($0.messtag)) },
-                ThemedTableColumn("Tag", width: 100) { Text($0.dayName) },
-                ThemedTableColumn("Urin Zeiten", width: 120) { multilineCell($0.urine.map(\.0).joined(separator: "\n"), monospaced: true) },
-                ThemedTableColumn("Urin ml", width: 110) { multilineCell($0.urine.map { "\($0.1) ml" }.joined(separator: "\n"), monospaced: true) },
-                ThemedTableColumn("Urin Summe", width: 120) { Text(model.format($0.urineTotal)).monospacedDigit() },
-                ThemedTableColumn("Wasser Zeiten", width: 120) { multilineCell($0.water.map(\.0).joined(separator: "\n"), monospaced: true) },
-                ThemedTableColumn("Wasser ml", width: 110) { multilineCell($0.water.map { "\($0.1) ml" }.joined(separator: "\n"), monospaced: true) },
-                ThemedTableColumn("Wasser Summe", width: 130) { Text(model.format($0.waterTotal)).monospacedDigit() },
-                ThemedTableColumn("Hinweise", width: 520) { day in
+                ThemedTableColumn(tr("date", language), width: 110) { Text(model.formattedDate($0.messtag)) },
+                ThemedTableColumn(tr("day", language), width: 100) { Text($0.dayName) },
+                ThemedTableColumn(tr("urine_times", language), width: 120) { multilineCell($0.urine.map(\.0).joined(separator: "\n"), monospaced: true) },
+                ThemedTableColumn(tr("urine_ml", language), width: 110) { multilineCell($0.urine.map { "\($0.1) ml" }.joined(separator: "\n"), monospaced: true) },
+                ThemedTableColumn(tr("urine_sum", language), width: 120) { Text(model.format($0.urineTotal)).monospacedDigit() },
+                ThemedTableColumn(tr("water_times", language), width: 120) { multilineCell($0.water.map(\.0).joined(separator: "\n"), monospaced: true) },
+                ThemedTableColumn(tr("water_ml", language), width: 110) { multilineCell($0.water.map { "\($0.1) ml" }.joined(separator: "\n"), monospaced: true) },
+                ThemedTableColumn(tr("water_sum", language), width: 130) { Text(model.format($0.waterTotal)).monospacedDigit() },
+                ThemedTableColumn(tr("hints", language), width: 520) { day in
                     multilineCell(day.notesText, lineLimit: 3)
                         .help(day.notesText)
                 },
-                ThemedTableColumn("Aktion", width: 130) { day in
-                    Button("Tag löschen", role: .destructive) {
+                ThemedTableColumn(tr("action", language), width: 130) { day in
+                    Button(tr("delete_day", language), role: .destructive) {
                         pendingDeleteDay = day
                     }
                 }
             ])
         }
         .padding(22)
-        .alert("Messtag löschen?", isPresented: deleteAlertBinding) {
-            Button("Abbrechen", role: .cancel) {
+        .alert(tr("delete_measurement_day", language), isPresented: deleteAlertBinding) {
+            Button(tr("cancel", language), role: .cancel) {
                 pendingDeleteDay = nil
             }
-            Button("Löschen", role: .destructive) {
+            Button(tr("delete", language), role: .destructive) {
                 if let pendingDeleteDay {
                     model.deleteMeasurementDay(pendingDeleteDay.messtag)
                 }
@@ -1572,9 +1782,9 @@ struct DayTableView: View {
 
     private var deleteMessage: String {
         guard let pendingDeleteDay else {
-            return "Alle Urin-, Wasser- und Hinweis-Einträge dieses Messtags werden gelöscht."
+            return tr("delete_day_detail", language)
         }
-        return "Messtag \(model.formattedDate(pendingDeleteDay.messtag)) wirklich löschen?\n\nAlle Urin-, Wasser- und Hinweis-Einträge dieses Messtags werden gelöscht."
+        return tr("delete_day_confirm", language, replacements: ["date": model.formattedDate(pendingDeleteDay.messtag)])
     }
 
     @ViewBuilder
@@ -1592,15 +1802,17 @@ struct DayTableView: View {
 }
 
 struct NotesView: View {
+    @Environment(\.appLanguage) private var language
+
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("Medizinische Notizen")
+            Text(tr("medical_notes", language))
                 .font(.title.weight(.bold))
             Group {
-                Text("Die Auswertung verwendet Messtage von 06:00 bis 05:59.")
-                Text("Einträge zwischen 00:00 und 05:59 werden dem Vortag zugerechnet.")
-                Text("Auffälligkeiten sind organisatorische Hinweise, keine medizinische Bewertung.")
-                Text("Wasserwerte werden separat geführt und nicht mit Urinmengen vermischt.")
+                Text(tr("note_1", language))
+                Text(tr("note_2", language))
+                Text(tr("note_3", language))
+                Text(tr("note_4", language))
             }
             .font(.body)
             .foregroundStyle(.secondary)
