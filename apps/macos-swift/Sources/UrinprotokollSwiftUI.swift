@@ -28,14 +28,14 @@ private let translations: [AppLanguage: [String: String]] = [
         "all_months": "Alle Monate", "measurement_days": "Messtage", "urine_total": "Urin gesamt ml", "urine_average": "Urin Ø ml/Tag",
         "water_total": "Wasser gesamt ml", "low_days": "Niedrige Urin-Tage", "normal_days": "Normale Urin-Tage",
         "daily_progress": "Tagesverlauf", "monthly_comparison": "Monatsvergleich", "urine": "Urin", "water": "Wasser",
-        "flags": "Auffälligkeiten", "flag": "Auffälligkeit", "low": "niedrig", "normal": "normal", "days": "Tage",
+        "flags": "Auffälligkeiten", "flag": "Auffälligkeit", "low": "niedrig", "normal": "normal", "incomplete": "unvollständig", "low_with_incomplete": "niedrig · {count} unvollständig", "normal_with_incomplete": "normal · {count} unvollständig", "days": "Tage", "incomplete_days": "Unvollständige Tage",
         "urine_count": "Urin Anzahl", "week_short": "KW", "urine_times": "Urin Zeiten", "urine_sum": "Urin Summe",
         "water_times": "Wasser Zeiten", "water_sum": "Wasser Summe", "hints": "Hinweise", "action": "Aktion", "delete_day": "Tag löschen",
         "delete_measurement_day": "Messtag löschen?", "delete_day_detail": "Alle Urin-, Wasser- und Hinweis-Einträge dieses Messtags werden gelöscht.",
         "delete_day_confirm": "Messtag {date} wirklich löschen?\n\nAlle Urin-, Wasser- und Hinweis-Einträge dieses Messtags werden gelöscht.",
         "medical_notes": "Medizinische Notizen", "note_1": "Die Auswertung verwendet Messtage von 06:00 bis 05:59.",
         "note_2": "Einträge zwischen 00:00 und 05:59 werden dem Vortag zugerechnet.",
-        "note_3": "Auffälligkeiten sind organisatorische Hinweise, keine medizinische Bewertung.",
+        "note_3": "Auffälligkeiten sind organisatorische Hinweise, keine medizinische Bewertung. Niedrig ist hier unter 700 ml pro vollständigem Messtag; unvollständige Randtage bleiben im Protokoll sichtbar, werden aber nicht bewertet.",
         "note_4": "Wasserwerte werden separat geführt und nicht mit Urinmengen vermischt.",
         "no_valid_entries": "Keine gültigen Einträge gefunden.", "merge_original_only": "Ergänzen ist nur mit der originalen Urinote-CSV möglich, nicht mit der Tagesdaten-CSV.",
         "no_new_entries": "Keine gültigen neuen Einträge gefunden.", "encoding_error": "Die Textkodierung wurde nicht erkannt.",
@@ -57,14 +57,14 @@ private let translations: [AppLanguage: [String: String]] = [
         "all_months": "All months", "measurement_days": "Days", "urine_total": "Urine total ml", "urine_average": "Urine avg ml/day",
         "water_total": "Water total ml", "low_days": "Low urine days", "normal_days": "Normal urine days",
         "daily_progress": "Daily progress", "monthly_comparison": "Monthly comparison", "urine": "Urine", "water": "Water",
-        "flags": "Flags", "flag": "Flag", "low": "low", "normal": "normal", "days": "Days",
+        "flags": "Flags", "flag": "Flag", "low": "low", "normal": "normal", "incomplete": "incomplete", "low_with_incomplete": "low · {count} incomplete", "normal_with_incomplete": "normal · {count} incomplete", "days": "Days", "incomplete_days": "Incomplete days",
         "urine_count": "Urine count", "week_short": "Week", "urine_times": "Urine times", "urine_sum": "Urine total",
         "water_times": "Water times", "water_sum": "Water total", "hints": "Notes", "action": "Action", "delete_day": "Delete day",
         "delete_measurement_day": "Delete measurement day?", "delete_day_detail": "All urine, water and note entries for this day will be deleted.",
         "delete_day_confirm": "Delete measurement day {date}?\n\nAll urine, water and note entries for this day will be deleted.",
         "medical_notes": "Medical notes", "note_1": "The analysis uses measurement days from 06:00 to 05:59.",
         "note_2": "Entries between 00:00 and 05:59 are assigned to the previous day.",
-        "note_3": "Flags are organizational hints, not medical assessments.",
+        "note_3": "Flags are organizational hints, not medical assessments. Low means below 700 ml per complete measurement day; incomplete boundary days remain visible in the log but are not evaluated.",
         "note_4": "Water values are tracked separately and are not mixed with urine volumes.",
         "no_valid_entries": "No valid entries found.", "merge_original_only": "Merging is only available for the original Urinote CSV, not the daily data CSV.",
         "no_new_entries": "No valid new entries found.", "encoding_error": "The text encoding was not recognized.",
@@ -327,6 +327,16 @@ struct DaySummary: Identifiable {
     var waterTotal: Int { water.reduce(0) { $0 + $1.1 } }
     var urineCount: Int { urine.count }
     var notesText: String { notes.joined(separator: " | ") }
+    var isCompleteMeasurementDay: Bool {
+        let minutes = (urine + water).compactMap { item -> Int? in
+            let parts = item.0.split(separator: ":").compactMap { Int($0) }
+            guard parts.count == 2 else { return nil }
+            let hour = parts[0] < 6 ? parts[0] + 24 : parts[0]
+            return hour * 60 + parts[1]
+        }
+        guard let first = minutes.min(), let last = minutes.max() else { return false }
+        return last - first >= 8 * 60
+    }
 }
 
 struct SummaryRow: Identifiable {
@@ -381,6 +391,9 @@ final class UrinModel: ObservableObject {
             (selectedYear == "all" || String(day.year) == selectedYear) &&
             (selectedMonth == "all" || String(day.month) == selectedMonth)
         }
+    }
+    var filteredEvaluationDays: [DaySummary] {
+        filteredDays.filter(\.isCompleteMeasurementDay)
     }
 
     init() {
@@ -651,21 +664,22 @@ final class UrinModel: ObservableObject {
         return formatter.string(from: NSNumber(value: value)) ?? "\(value)"
     }
 
-    func summaryRows(kind: AppSection) -> [SummaryRow] {
+    func summaryRows(kind: AppSection, evaluationOnly: Bool = false) -> [SummaryRow] {
+        let sourceDays = evaluationOnly ? filteredEvaluationDays : filteredDays
         switch kind {
         case .year:
-            summarize(grouping: { "\($0.year)" }, labels: { ["Jahr": "\($0.year)"] })
+            return summarize(days: sourceDays, grouping: { "\($0.year)" }, labels: { ["Jahr": "\($0.year)"] })
         case .month:
-            summarize(grouping: { "\($0.year)-\($0.month)" }, labels: { ["Jahr": "\($0.year)", "Monat": "\($0.month)", "Monat Name": $0.monthName] })
+            return summarize(days: sourceDays, grouping: { "\($0.year)-\($0.month)" }, labels: { ["Jahr": "\($0.year)", "Monat": "\($0.month)", "Monat Name": $0.monthName] })
         case .week:
-            summarize(grouping: { "\($0.year)-\($0.week)" }, labels: { ["Jahr": "\($0.year)", "KW": "\($0.week)"] })
+            return summarize(days: sourceDays, grouping: { "\($0.year)-\($0.week)" }, labels: { ["Jahr": "\($0.year)", "KW": "\($0.week)"] })
         default:
-            []
+            return []
         }
     }
 
     func alertRows() -> [DaySummary] {
-        filteredDays.filter { $0.urineTotal < 800 }
+        filteredDays.filter { !$0.isCompleteMeasurementDay || $0.urineTotal < 700 }
     }
 
     private func loadDailyExport(_ rows: [[String: String]]) throws -> [DaySummary] {
@@ -776,22 +790,29 @@ final class UrinModel: ObservableObject {
         }
     }
 
-    private func summarize(grouping: (DaySummary) -> String, labels: (DaySummary) -> [String: String]) -> [SummaryRow] {
-        let grouped = Dictionary(grouping: filteredDays, by: grouping)
+    private func summarize(days: [DaySummary], grouping: (DaySummary) -> String, labels: (DaySummary) -> [String: String]) -> [SummaryRow] {
+        let grouped = Dictionary(grouping: days, by: grouping)
         return grouped.keys.sorted().compactMap { key in
             guard let rows = grouped[key], let first = rows.first else { return nil }
-            let urineTotal = rows.reduce(0) { $0 + $1.urineTotal }
-            let waterTotal = rows.reduce(0) { $0 + $1.waterTotal }
-            let urineCount = rows.reduce(0) { $0 + $1.urineCount }
-            let average = rows.isEmpty ? 0 : urineTotal / rows.count
-            let hasLowDay = rows.contains { $0.urineTotal < 800 }
+            let evaluatedRows = rows.filter(\.isCompleteMeasurementDay)
+            let incompleteDays = rows.count - evaluatedRows.count
+            let urineTotal = evaluatedRows.reduce(0) { $0 + $1.urineTotal }
+            let waterTotal = evaluatedRows.reduce(0) { $0 + $1.waterTotal }
+            let urineCount = evaluatedRows.reduce(0) { $0 + $1.urineCount }
+            let average = evaluatedRows.isEmpty ? 0 : urineTotal / evaluatedRows.count
+            let hasLowDay = evaluatedRows.contains { $0.urineTotal < 700 }
             var values = labels(first)
-            values["Tage"] = "\(rows.count)"
+            values["Tage"] = "\(evaluatedRows.count)"
+            values["Unvollständige Tage"] = "\(incompleteDays)"
             values["● Urin Gesamt ml"] = format(urineTotal)
             values["● Urin Ø ml/Tag"] = format(average)
             values["● Urin Anzahl"] = "\(urineCount)"
             values["💧 Wasser Gesamt ml"] = format(waterTotal)
-            values["Auffälligkeit"] = tr(hasLowDay ? "low" : "normal", language)
+            values["Auffälligkeit"] = incompleteDays > 0
+                ? evaluatedRows.isEmpty
+                    ? tr("incomplete", language)
+                    : tr(hasLowDay ? "low_with_incomplete" : "normal_with_incomplete", language, replacements: ["count": "\(incompleteDays)"])
+                : tr(hasLowDay ? "low" : "normal", language)
             return SummaryRow(id: key, values: values, urineAverage: average)
         }
     }
@@ -1218,10 +1239,10 @@ struct DashboardView: View {
                 if model.hasData {
                     MetricGrid()
                     HStack(alignment: .top, spacing: 14) {
-                        LineChartView(days: model.filteredDays)
+                        LineChartView(days: model.filteredEvaluationDays)
                             .frame(height: 240)
                             .liquidCard()
-                        MonthBarChart(rows: model.summaryRows(kind: .month))
+                        MonthBarChart(rows: model.summaryRows(kind: .month, evaluationOnly: true))
                             .frame(height: 240)
                             .liquidCard()
                     }
@@ -1462,7 +1483,7 @@ struct MetricGrid: View {
     @Environment(\.appLanguage) private var language
 
     var body: some View {
-        let days = model.filteredDays
+        let days = model.filteredEvaluationDays
         let urineTotal = days.reduce(0) { $0 + $1.urineTotal }
         let waterTotal = days.reduce(0) { $0 + $1.waterTotal }
         let metrics = [
@@ -1470,8 +1491,8 @@ struct MetricGrid: View {
             (tr("urine_total", language), model.format(urineTotal), "circle.fill"),
             (tr("urine_average", language), model.format(days.isEmpty ? 0 : urineTotal / days.count), "chart.line.uptrend.xyaxis"),
             (tr("water_total", language), model.format(waterTotal), "drop.fill"),
-            (tr("low_days", language), "\(days.filter { $0.urineTotal < 800 }.count)", "exclamationmark.triangle"),
-            (tr("normal_days", language), "\(days.filter { $0.urineTotal >= 800 }.count)", "checkmark.circle")
+            (tr("low_days", language), "\(days.filter { $0.urineTotal < 700 }.count)", "exclamationmark.triangle"),
+            (tr("normal_days", language), "\(days.filter { $0.urineTotal >= 700 }.count)", "checkmark.circle")
         ]
         LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: 6), spacing: 12) {
             ForEach(metrics, id: \.0) { metric in
@@ -1664,11 +1685,13 @@ struct AlertTable: View {
                     ThemedTableColumn(tr("day", language), width: 160) { Text($0.dayName) },
                     ThemedTableColumn(tr("urine_total", language), width: 170) { day in
                         Text(model.format(day.urineTotal))
-                            .foregroundStyle(day.urineTotal < 800 ? .red : .orange)
+                            .foregroundStyle(day.urineTotal < 700 ? .red : .orange)
                             .monospacedDigit()
                     },
                     ThemedTableColumn(tr("water_total", language), width: 180) { Text(model.format($0.waterTotal)).monospacedDigit() },
-                    ThemedTableColumn(tr("flag", language), width: 180) { _ in Text(tr("low", language)) }
+                    ThemedTableColumn(tr("flag", language), width: 180) { day in
+                        Text(tr(day.isCompleteMeasurementDay ? "low" : "incomplete", language))
+                    }
                 ],
                 minHeight: 210
             )
@@ -1721,6 +1744,7 @@ struct SummaryTableView: View {
     private func commonSummaryColumns(prefix: [ThemedTableColumn<SummaryRow>]) -> [ThemedTableColumn<SummaryRow>] {
         prefix + [
             ThemedTableColumn(tr("days", language), width: 90) { Text($0.values["Tage"] ?? "") },
+            ThemedTableColumn(tr("incomplete_days", language), width: 170) { Text($0.values["Unvollständige Tage"] ?? "") },
             ThemedTableColumn(tr("urine_total", language), width: 170) { Text($0.values["● Urin Gesamt ml"] ?? "").monospacedDigit() },
             ThemedTableColumn(tr("urine_average", language), width: 170) { Text($0.values["● Urin Ø ml/Tag"] ?? "").monospacedDigit() },
             ThemedTableColumn(tr("urine_count", language), width: 140) { Text($0.values["● Urin Anzahl"] ?? "").monospacedDigit() },
@@ -1746,6 +1770,9 @@ struct DayTableView: View {
                 ThemedTableColumn(tr("water_times", language), width: 120) { multilineCell($0.water.map(\.0).joined(separator: "\n"), monospaced: true) },
                 ThemedTableColumn(tr("water_ml", language), width: 110) { multilineCell($0.water.map { "\($0.1) ml" }.joined(separator: "\n"), monospaced: true) },
                 ThemedTableColumn(tr("water_sum", language), width: 130) { Text(model.format($0.waterTotal)).monospacedDigit() },
+                ThemedTableColumn(tr("flag", language), width: 140) { day in
+                    Text(tr(!day.isCompleteMeasurementDay ? "incomplete" : day.urineTotal < 700 ? "low" : "normal", language))
+                },
                 ThemedTableColumn(tr("hints", language), width: 520) { day in
                     multilineCell(day.notesText, lineLimit: 3)
                         .help(day.notesText)

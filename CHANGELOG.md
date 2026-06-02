@@ -2,7 +2,26 @@
 
 Alle wichtigen Änderungen an UroBilanz werden hier dokumentiert.
 
-## Unveröffentlicht
+## 1.5.0-beta.5 - 2026-06-02
+
+- Web-App und SwiftUI-App: Auffälligkeitsregel präzisiert. Ein Messtag wird als
+  `niedrig` markiert, wenn innerhalb des Messtags weniger als `700 ml` Urin
+  erfasst wurden.
+- Web-App und SwiftUI-App: Hinweise zur Auffälligkeitsregel in Deutsch und
+  Englisch aktualisiert.
+- Web-App und SwiftUI-App: Unvollständige Randtage einer Messreihe bleiben in
+  Protokollansichten und Exporten erhalten, werden aber nicht mehr als
+  vollständige 24-Stunden-Messtage in Dashboard-Kennzahlen, Diagrammen und
+  Auffälligkeiten bewertet. Als vollständiger Messtag gilt ein Zeitraum mit
+  mindestens acht Stunden Abstand zwischen erstem und letztem Eintrag.
+- Web-App und SwiftUI-App: Jahr, Monat und Woche berechnen Summen,
+  Durchschnitt und Anzahl nur noch aus vollständigen Messtagen. Eine neue
+  Spalte `Unvollständige Tage` macht nicht bewertete Randtage transparent.
+- Web-App und SwiftUI-App: Tagesansicht und Dashboard-Auffälligkeiten zeigen
+  unvollständige Randtage ausdrücklich als `unvollständig` an.
+- Web-App und SwiftUI-App: Zusammenfassungen mit vollständigen und
+  unvollständigen Tagen kennzeichnen beide Informationen gemeinsam, zum
+  Beispiel als `normal · 1 unvollständig`.
 
 ## 1.5.0-beta.4 - 2026-06-01
 

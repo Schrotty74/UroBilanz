@@ -378,6 +378,24 @@ function filteredDays() {
   });
 }
 
+function measurementMinute(time) {
+  const [hour, minute] = String(time || "").split(":").map(Number);
+  if (!Number.isFinite(hour) || !Number.isFinite(minute)) return null;
+  return (hour < 6 ? hour + 24 : hour) * 60 + minute;
+}
+
+function isCompleteMeasurementDay(day) {
+  const minutes = [...day.urine, ...day.water]
+    .map((entry) => measurementMinute(entry.time))
+    .filter((minute) => minute !== null);
+  if (minutes.length < 2) return false;
+  return Math.max(...minutes) - Math.min(...minutes) >= 8 * 60;
+}
+
+function evaluationDays(days) {
+  return days.filter(isCompleteMeasurementDay);
+}
+
 function aggregate(days, keys, buildLabel) {
   const grouped = new Map();
   for (const day of days) {
@@ -390,19 +408,28 @@ function aggregate(days, keys, buildLabel) {
         waterTotal: 0,
         urineCount: 0,
         lowDays: 0,
+        incompleteDays: 0,
       });
     }
     const row = grouped.get(key);
+    if (!isCompleteMeasurementDay(day)) {
+      row.incompleteDays += 1;
+      continue;
+    }
     row.days += 1;
     row.urineTotal += day.urineTotal;
     row.waterTotal += day.waterTotal;
     row.urineCount += day.urineCount;
-    if (day.urineTotal < 800) row.lowDays += 1;
+    if (day.urineTotal < 700) row.lowDays += 1;
   }
   return Array.from(grouped.values()).map((row) => ({
     ...row,
-    urineAverage: Math.round(row.urineTotal / row.days),
-    alert: row.lowDays ? t("low") : t("normal"),
+    urineAverage: row.days ? Math.round(row.urineTotal / row.days) : 0,
+    alert: row.incompleteDays
+      ? row.days
+        ? t(row.lowDays ? "low_with_incomplete" : "normal_with_incomplete", { count: row.incompleteDays })
+        : t("incomplete")
+      : t(row.lowDays ? "low" : "normal"),
   }));
 }
 
@@ -440,14 +467,15 @@ function render() {
   document.body.dataset.view = activeView;
   document.querySelector(`#${activeView}`).classList.add("active");
   const days = filteredDays();
+  const dashboardDays = evaluationDays(days);
   const first = state.days[0]?.messtag;
   const last = state.days.at(-1)?.messtag;
   els.status.textContent = `${state.days.length} ${t("measurement_days")} · ${first ? fmtDate(first) : "-"} ${t("to")} ${last ? fmtDate(last) : "-"}`;
 
-  renderMetrics(days);
-  renderTables(days);
-  drawLineChart(els.dailyChart, days.slice(-120));
-  drawMonthChart(els.monthChart, aggregate(state.days, ["year", "month"], (day) => ({
+  renderMetrics(dashboardDays);
+  renderTables(days, dashboardDays);
+  drawLineChart(els.dailyChart, dashboardDays.slice(-120));
+  drawMonthChart(els.monthChart, aggregate(evaluationDays(state.days), ["year", "month"], (day) => ({
     label: `${day.year}-${String(day.month).padStart(2, "0")}`,
   })));
 }
@@ -487,7 +515,7 @@ function applyLanguage(nextLanguage) {
 function renderMetrics(days) {
   const urineTotal = days.reduce((sum, day) => sum + day.urineTotal, 0);
   const waterTotal = days.reduce((sum, day) => sum + day.waterTotal, 0);
-  const low = days.filter((day) => day.urineTotal < 800).length;
+  const low = days.filter((day) => day.urineTotal < 700).length;
   const metrics = [
     [t("measurement_days"), days.length],
     [t("urine_total"), fmtNumber(urineTotal)],
@@ -501,30 +529,31 @@ function renderMetrics(days) {
   els.metrics.innerHTML = metrics.map(([label, value]) => `<div class="metric"><span>${label}</span><strong>${value}</strong></div>`).join("");
 }
 
-function renderTables(days) {
+function renderTables(days, dashboardDays = evaluationDays(days)) {
   const yearRows = aggregate(days, ["year"], (day) => ({ Jahr: day.year }));
   const monthRows = aggregate(days, ["year", "month"], (day) => ({ Jahr: day.year, Monat: day.month, "Monat Name": monthNames()[day.month - 1] }));
   const weekRows = aggregate(days, ["year", "week"], (day) => ({ "ISO Jahr": day.year, "ISO Woche": day.week }));
 
-  renderTable(els.yearTable, ["Jahr", "Tage", "● Urin Gesamt ml", "● Urin Ø ml/Tag", "● Urin Anzahl", "💧 Wasser Gesamt ml"], yearRows.map(summaryRow));
-  renderTable(els.monthTable, ["Jahr", "Monat", "Monat Name", "Tage", "● Urin Gesamt ml", "● Urin Ø ml/Tag", "● Urin Anzahl", "💧 Wasser Gesamt ml"], monthRows.map(summaryRow));
-  renderTable(els.weekTable, ["ISO Jahr", "ISO Woche", "Tage", "● Urin Gesamt ml", "● Urin Ø ml/Tag", "● Urin Anzahl", "💧 Wasser Gesamt ml", "Auffälligkeit"], weekRows.map(summaryRow));
+  renderTable(els.yearTable, ["Jahr", "Tage", "Unvollständige Tage", "● Urin Gesamt ml", "● Urin Ø ml/Tag", "● Urin Anzahl", "💧 Wasser Gesamt ml"], yearRows.map(summaryRow));
+  renderTable(els.monthTable, ["Jahr", "Monat", "Monat Name", "Tage", "Unvollständige Tage", "● Urin Gesamt ml", "● Urin Ø ml/Tag", "● Urin Anzahl", "💧 Wasser Gesamt ml"], monthRows.map(summaryRow));
+  renderTable(els.weekTable, ["ISO Jahr", "ISO Woche", "Tage", "Unvollständige Tage", "● Urin Gesamt ml", "● Urin Ø ml/Tag", "● Urin Anzahl", "💧 Wasser Gesamt ml", "Auffälligkeit"], weekRows.map(summaryRow));
   renderTable(els.alertTable, ["Messtag", "Tag", "● Urin gesamt ml", "💧 Wasser gesamt ml", "Auffälligkeit"], days
-    .filter((day) => day.urineTotal < 800)
+    .filter((day) => !isCompleteMeasurementDay(day) || day.urineTotal < 700)
     .map((day) => ({
       Messtag: fmtDate(day.messtag),
       Tag: weekdayNames()[day.messtag.getDay()],
       "● Urin gesamt ml": day.urineTotal,
       "💧 Wasser gesamt ml": day.waterTotal,
-      Auffälligkeit: t("low"),
+      Auffälligkeit: t(isCompleteMeasurementDay(day) ? "low" : "incomplete"),
     })));
-  renderTable(els.dayTable, ["Jahr", "Monat", "KW", "Messtag", "Tag", "● Urin Uhrzeit", "● Urin ml", "● Urin Anzahl", "● Urin gesamt ml", "💧 Wasser Uhrzeit", "💧 Wasser ml", "💧 Wasser gesamt ml", "Hinweise", "Aktion"], days.map(dayRow), true);
+  renderTable(els.dayTable, ["Jahr", "Monat", "KW", "Messtag", "Tag", "● Urin Uhrzeit", "● Urin ml", "● Urin Anzahl", "● Urin gesamt ml", "💧 Wasser Uhrzeit", "💧 Wasser ml", "💧 Wasser gesamt ml", "Auffälligkeit", "Hinweise", "Aktion"], days.map(dayRow), true);
 }
 
 function summaryRow(row) {
   return {
     ...row,
     Tage: row.days,
+    "Unvollständige Tage": row.incompleteDays,
     "● Urin Gesamt ml": row.urineTotal,
     "● Urin Ø ml/Tag": row.urineAverage,
     "● Urin Anzahl": row.urineCount,
@@ -547,6 +576,7 @@ function dayRow(day) {
     "💧 Wasser Uhrzeit": day.water.map((item) => item.time).join("\n"),
     "💧 Wasser ml": day.water.map((item) => `${item.ml} ml`).join("\n"),
     "💧 Wasser gesamt ml": day.waterTotal,
+    Auffälligkeit: t(!isCompleteMeasurementDay(day) ? "incomplete" : day.urineTotal < 700 ? "low" : "normal"),
     Hinweise: day.notesText,
     Aktion: day.key,
   };
@@ -563,7 +593,7 @@ function renderTable(table, headers, rows, separateDays = false) {
           return `<tr class="${classes}">${headers
             .map((header) => {
               const value = row[header] ?? "";
-              const valueClass = alertClass(header, value);
+              const valueClass = alertClass(header, value, row);
               const stack = String(value).includes("\n") ? "stack" : "";
               const cell = formatCell(header, value);
               return `<td class="${headerClass(header)} ${valueClass} ${stack}">${cell}</td>`;
@@ -582,6 +612,7 @@ function displayHeader(header) {
     Monat: "month",
     "Monat Name": "month",
     Tage: "days",
+    "Unvollständige Tage": "incomplete_days",
     Tag: "day",
     Messtag: "date",
     "ISO Jahr": "year",
@@ -612,9 +643,9 @@ function headerClass(header) {
   return "";
 }
 
-function alertClass(header, value) {
+function alertClass(header, value, row) {
   if (!header.includes("Urin") || typeof value !== "number") return "";
-  if (value < 800 && header.includes("gesamt")) return "low";
+  if (row.Auffälligkeit === t("low") && header.includes("gesamt")) return "low";
   return "";
 }
 
