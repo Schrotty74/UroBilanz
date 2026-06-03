@@ -13,6 +13,17 @@ const csvMonthNames = [
   "Dezember",
 ];
 const dayNames = ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"];
+const {
+  escapeHtml,
+  inputDateValue,
+  inputTimeValue,
+  isoWeek,
+  parseCsv,
+  parseDate,
+  parseDayDate,
+  toMesstag,
+} = window.UroCore;
+const { drawLineChart, drawMonthChart } = window.UroCharts;
 const supportedLanguages = new Set(["de", "en"]);
 let language = supportedLanguages.has(localStorage.getItem("uroLanguage"))
   ? localStorage.getItem("uroLanguage")
@@ -79,87 +90,6 @@ const els = {
   monthChart: document.querySelector("#monthChart"),
 };
 
-function parseCsv(text) {
-  const delimiter = detectDelimiter(text);
-  const rows = [];
-  let current = "";
-  let row = [];
-  let quoted = false;
-
-  for (let i = 0; i < text.length; i += 1) {
-    const char = text[i];
-    const next = text[i + 1];
-    if (char === '"' && quoted && next === '"') {
-      current += '"';
-      i += 1;
-    } else if (char === '"') {
-      quoted = !quoted;
-    } else if (char === delimiter && !quoted) {
-      row.push(current);
-      current = "";
-    } else if ((char === "\n" || char === "\r") && !quoted) {
-      if (char === "\r" && next === "\n") i += 1;
-      row.push(current);
-      if (row.some((value) => value.length)) rows.push(row);
-      row = [];
-      current = "";
-    } else {
-      current += char;
-    }
-  }
-  if (current.length || row.length) {
-    row.push(current);
-    rows.push(row);
-  }
-
-  const headers = rows.shift()?.map(normalizeHeader) || [];
-  return rows.map((values) =>
-    Object.fromEntries(headers.map((header, index) => [header, String(values[index] ?? "").trim()]))
-  );
-}
-
-function parseDate(value) {
-  const match = String(value || "").trim().match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})\s+(\d{1,2}):(\d{2})$/);
-  if (!match) return null;
-  const [, d, m, y, h, min] = match.map(Number);
-  return new Date(y, m - 1, d, h, min);
-}
-
-function detectDelimiter(text) {
-  const firstLine = String(text || "").split(/\r?\n/)[0] || "";
-  const commaCount = (firstLine.match(/,/g) || []).length;
-  const semicolonCount = (firstLine.match(/;/g) || []).length;
-  return semicolonCount > commaCount ? ";" : ",";
-}
-
-function normalizeHeader(header) {
-  return String(header || "")
-    .replace(/^\uFEFF/, "")
-    .trim();
-}
-
-function parseDayDate(value) {
-  const match = String(value || "").match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})$/);
-  if (!match) return null;
-  const [, d, m, y] = match.map(Number);
-  return new Date(y, m - 1, d);
-}
-
-function toMesstag(date) {
-  const result = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-  if (date.getHours() < 6) result.setDate(result.getDate() - 1);
-  return result;
-}
-
-function isoWeek(date) {
-  const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
-  const day = d.getUTCDay() || 7;
-  d.setUTCDate(d.getUTCDate() + 4 - day);
-  const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
-  const week = Math.ceil(((d - yearStart) / 86400000 + 1) / 7);
-  return { year: d.getUTCFullYear(), week };
-}
-
 function fmtDate(date) {
   return date.toLocaleDateString(language === "de" ? "de-AT" : "en-US", { day: "2-digit", month: "2-digit", year: "numeric" });
 }
@@ -170,18 +100,6 @@ function fmtNumber(value) {
 
 function fmtTime(date) {
   return date.toLocaleTimeString(language === "de" ? "de-AT" : "en-US", { hour: "2-digit", minute: "2-digit", hour12: false });
-}
-
-function inputDateValue(date) {
-  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
-}
-
-function inputTimeValue(date) {
-  return `${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}`;
-}
-
-function escapeHtml(value) {
-  return String(value).replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
 }
 
 function processRows(raw, rawCsv = "") {
@@ -474,10 +392,10 @@ function render() {
 
   renderMetrics(dashboardDays);
   renderTables(days, dashboardDays);
-  drawLineChart(els.dailyChart, dashboardDays.slice(-120));
+  drawLineChart(els.dailyChart, dashboardDays.slice(-120), { urine: t("urine"), water: t("water") });
   drawMonthChart(els.monthChart, aggregate(evaluationDays(state.days), ["year", "month"], (day) => ({
     label: `${day.year}-${String(day.month).padStart(2, "0")}`,
-  })));
+  })), { urine: t("urine"), water: t("water") });
 }
 
 function applyTheme(theme) {
@@ -657,91 +575,6 @@ function formatCell(header, value) {
     return fmtNumber(value);
   }
   return escapeHtml(value);
-}
-
-function drawLineChart(canvas, days) {
-  const ctx = canvas.getContext("2d");
-  const dpr = window.devicePixelRatio || 1;
-  canvas.width = canvas.clientWidth * dpr;
-  canvas.height = 260 * dpr;
-  ctx.scale(dpr, dpr);
-  const theme = chartTheme();
-  drawAxes(ctx, canvas.clientWidth, 260, theme);
-  drawSeries(ctx, days.map((day) => day.urineTotal), theme.urine, canvas.clientWidth, 260);
-  drawSeries(ctx, days.map((day) => day.waterTotal), theme.water, canvas.clientWidth, 260);
-  drawLegend(ctx, [[t("urine"), theme.urine], [t("water"), theme.water]], theme);
-}
-
-function drawMonthChart(canvas, rows) {
-  const ctx = canvas.getContext("2d");
-  const dpr = window.devicePixelRatio || 1;
-  canvas.width = canvas.clientWidth * dpr;
-  canvas.height = 260 * dpr;
-  ctx.scale(dpr, dpr);
-  const width = canvas.clientWidth;
-  const height = 260;
-  const theme = chartTheme();
-  ctx.clearRect(0, 0, width, height);
-  const pad = 34;
-  const max = Math.max(...rows.flatMap((row) => [row.urineTotal, row.waterTotal]), 1);
-  const barW = Math.max(5, (width - pad * 2) / rows.length / 3);
-  rows.forEach((row, index) => {
-    const x = pad + index * ((width - pad * 2) / rows.length);
-    const uH = (row.urineTotal / max) * (height - pad * 2);
-    const wH = (row.waterTotal / max) * (height - pad * 2);
-    ctx.fillStyle = theme.urine;
-    ctx.fillRect(x, height - pad - uH, barW, uH);
-    ctx.fillStyle = theme.water;
-    ctx.fillRect(x + barW + 2, height - pad - wH, barW, wH);
-  });
-  drawLegend(ctx, [[t("urine"), theme.urine], [t("water"), theme.water]], theme);
-}
-
-function chartTheme() {
-  const styles = getComputedStyle(document.body);
-  return {
-    text: styles.getPropertyValue("--ink").trim(),
-    line: styles.getPropertyValue("--line").trim(),
-    urine: styles.getPropertyValue("--chart-urine").trim(),
-    water: styles.getPropertyValue("--chart-water").trim(),
-  };
-}
-
-function drawAxes(ctx, width, height, theme) {
-  ctx.clearRect(0, 0, width, height);
-  ctx.strokeStyle = theme.line;
-  ctx.lineWidth = 1;
-  ctx.beginPath();
-  ctx.moveTo(34, 14);
-  ctx.lineTo(34, height - 30);
-  ctx.lineTo(width - 12, height - 30);
-  ctx.stroke();
-}
-
-function drawSeries(ctx, values, color, width, height) {
-  const max = Math.max(...values, 1);
-  const xStep = (width - 52) / Math.max(values.length - 1, 1);
-  ctx.strokeStyle = color;
-  ctx.lineWidth = 2;
-  ctx.beginPath();
-  values.forEach((value, index) => {
-    const x = 34 + index * xStep;
-    const y = height - 30 - (value / max) * (height - 52);
-    if (index === 0) ctx.moveTo(x, y);
-    else ctx.lineTo(x, y);
-  });
-  ctx.stroke();
-}
-
-function drawLegend(ctx, items, theme) {
-  items.forEach(([label, color], index) => {
-    const x = 42 + index * 90;
-    ctx.fillStyle = color;
-    ctx.fillRect(x, 16, 12, 12);
-    ctx.fillStyle = theme.text;
-    ctx.font = "12px -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif";
-    ctx.fillText(label, x + 18, 26);
-  });
 }
 
 document.querySelectorAll(".tab").forEach((button) => {

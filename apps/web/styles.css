@@ -630,7 +630,7 @@ table {
 }
 
 .day-detail-table {
-  min-width: 2125px;
+  min-width: 2185px;
   table-layout: fixed;
 }
 
@@ -646,8 +646,9 @@ table {
 .day-detail-table col:nth-child(10) { width: 150px; }
 .day-detail-table col:nth-child(11) { width: 115px; }
 .day-detail-table col:nth-child(12) { width: 170px; }
-.day-detail-table col:nth-child(13) { width: 620px; }
-.day-detail-table col:nth-child(14) { width: 120px; }
+.day-detail-table col:nth-child(13) { width: 140px; }
+.day-detail-table col:nth-child(14) { width: 560px; }
+.day-detail-table col:nth-child(15) { width: 150px; }
 
 th {
   position: sticky;
@@ -721,6 +722,8 @@ td.note-col {
   vertical-align: top;
   white-space: normal;
   overflow-wrap: anywhere;
+  padding-left: 18px;
+  border-left: 1px solid color-mix(in srgb, var(--line) 70%, transparent);
 }
 
 td.low {

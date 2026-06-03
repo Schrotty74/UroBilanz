@@ -49,16 +49,32 @@ Die gebaute App liegt hier:
 
 Die Swift-App ist aktuell fuer Apple Silicon (`arm64`) und macOS 26 gebaut.
 
+## Entwicklung pruefen
+
+Der interne Pruefablauf baut die SwiftUI-App neu und kontrolliert beide
+unterstuetzten CSV-Importwege:
+
+```text
+./verify_apps.sh
+```
+
 ## Projektstruktur
 
 ```text
 UroBilanz/
   apps/
     web/
+      assets/js/core.js
+      tests/core-smoke-test.js
     macos-swift/
+      Sources/UroModels.swift
+      Sources/UroCSVSupport.swift
+      build_app.sh
+      smoke_test.sh
   assets/
     icon/
   docs/
+  verify_apps.sh
 ```
 
 ## Datenschutz

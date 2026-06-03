@@ -8,6 +8,13 @@ Die gebaute App liegt hier:
 
 `build/UroBilanz.app`
 
+Neu bauen und prüfen:
+
+```text
+./build_app.sh
+./smoke_test.sh
+```
+
 ## Funktionen
 
 - CSV laden

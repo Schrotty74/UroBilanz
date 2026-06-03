@@ -2,6 +2,36 @@
 
 Alle wichtigen Änderungen an UroBilanz werden hier dokumentiert.
 
+## Unveröffentlicht
+
+- Noch keine Änderungen.
+
+## 1.5.0-beta.6 - 2026-06-03
+
+- Interner Aufräumdurchgang ohne beabsichtigte Änderungen an Optik oder
+  Verhalten fortgesetzt.
+- Web-App: CSV- und Datums-Hilfsfunktionen nach `assets/js/core.js`
+  ausgelagert.
+- Web-App: Diagramm-Zeichenlogik nach `assets/js/charts.js` ausgelagert.
+- Web-App: Smoke-Tests erweitert. Geprüft werden jetzt zusätzlich
+  CSV-Ergänzung ohne Duplikate, manuelle Eingabe, Bearbeiten, Löschen,
+  Backup-CSV und Tagesdaten-Import.
+- SwiftUI-App: Datenmodelle und CSV-Hilfsfunktionen in eigene Quelldateien
+  aufgeteilt.
+- SwiftUI-App: Toolbar sowie Tabellen- und Diagramm-Ansichten in eigene
+  Quelldateien ausgelagert.
+- SwiftUI-App: Import- und Workflow-Testansicht nach `Sources/UroSmokeTests.swift`
+  ausgelagert.
+- SwiftUI-App: Workflow-Test ergänzt. Geprüft werden Laden, manuelle Eingabe,
+  Bearbeiten, einzelnes Löschen, Backup-CSV und Messtag-Löschen.
+- Web-App und SwiftUI-App: Randfalltests für unvollständige Messtage ergänzt.
+  Geprüft wird, dass unvollständige Tage Summen und Durchschnitt nicht
+  verfälschen und gemischte Wochen korrekt als `niedrig · unvollständig`
+  gekennzeichnet werden.
+- Gemeinsamen Prüfablauf `verify_apps.sh` ergänzt. Er prüft Web-Hilfslogik,
+  JavaScript-Syntax, SwiftUI-Build, Signierung sowie den Import von
+  Original-Urinote-CSV, Tagesdaten-CSV und die manuellen Kernabläufe.
+
 ## 1.5.0-beta.5 - 2026-06-02
 
 - Web-App und SwiftUI-App: Auffälligkeitsregel präzisiert. Ein Messtag wird als
