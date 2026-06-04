@@ -6,6 +6,67 @@ Alle wichtigen Änderungen an UroBilanz werden hier dokumentiert.
 
 - Noch keine Änderungen.
 
+## 1.5.0 Final - 2026-06-04
+
+Finale Version der 1.5-Reihe. Diese Version fasst die Änderungen aus
+`1.5.0-beta.1` bis `1.5.0-beta.6` zusammen und baut auf `1.0.0` auf.
+
+### Neu seit 1.0.0
+
+- Web-App und SwiftUI-App um Deutsch/Englisch-Lokalisierung ergänzt.
+- Sprache wird automatisch anhand der Systemsprache gewählt und kann manuell
+  zwischen Deutsch und Englisch umgeschaltet werden.
+- Manuelles Protokoll ohne vorher geladenen CSV-Start ergänzt.
+- Urin-, Wasser- und Hinweis-Einträge können getrennt erfasst werden.
+- Mehrere Werte am selben Messtag können nacheinander erfasst werden.
+- Bestehende Urin-, Wasser- und Hinweis-Einträge können bearbeitet und gelöscht
+  werden.
+- Ganze Messtage können aus der Tagesansicht gelöscht werden.
+- Sicherheitsabfragen für das Löschen einzelner Einträge und ganzer Messtage
+  ergänzt.
+- Backup-CSV und Tagesdaten-CSV können exportiert und wieder geladen werden.
+- Original-Urinote-CSV-Dateien können ergänzend importiert werden, ohne bereits
+  vorhandene Einträge doppelt aufzunehmen.
+- Theme-Auswahl in Web-App und SwiftUI-App ergänzt und die vorhandenen Themes
+  optisch verbessert.
+- Demo-Screenshots und Projektdokumentation ergänzt.
+
+### Auswertung und Bewertung
+
+- Bewertungslogik auf `unvollständig`, `niedrig` und `normal` umgestellt.
+- Unvollständige Randtage bleiben in Tagesansicht und Exporten erhalten, werden
+  aber nicht mehr als vollständige Messtage in Summen, Durchschnitt und
+  Auffälligkeiten bewertet.
+- Tages-, Wochen-, Monats- und Jahresberechnung korrigiert, damit nur
+  vollständige Messtage in die Auswertung einfließen.
+- Wochen mit unvollständigen Tagen zeigen diese Information separat an.
+- Dashboard-Auffälligkeiten zeigen unvollständige Tage wieder transparent an.
+- Die frühere starre Hoch-Bewertung wurde entfernt; nicht niedrige vollständige
+  Messtage werden als `normal` geführt.
+
+### Technik und Qualität
+
+- Web-App: CSV- und Datums-Hilfslogik nach `assets/js/core.js` ausgelagert.
+- Web-App: Diagrammzeichnung nach `assets/js/charts.js` ausgelagert.
+- SwiftUI-App: Modelle, CSV-Helfer, Toolbar, Tabellen, Diagramme und
+  Testansichten in eigene Dateien aufgeteilt.
+- Tests erweitert für CSV-Hilfslogik, Web-Workflow, SwiftUI-Build,
+  SwiftUI-Workflow, Original-Urinote-CSV-Import, Tagesdaten-CSV-Import und
+  Randfälle mit unvollständigen Messtagen.
+- Gemeinsamer Prüfablauf `verify_apps.sh` ergänzt.
+
+### Geprüft
+
+- Web Smoke Tests.
+- Web Workflow Tests.
+- Swift Build und Signierung.
+- Swift Smoke Tests.
+- Original-Urinote-CSV Import.
+- Tagesdaten-CSV Import.
+- Manuelle Kernabläufe mit Hinzufügen, Bearbeiten, Löschen und Messtag-Löschen.
+- Randfalltests für unvollständige Messtage und Wochen.
+- Funktionaler Alltagstest des Abschlusskandidaten `1.5.0-beta.6`.
+
 ## 1.5.0-beta.6 - 2026-06-03
 
 - Interner Aufräumdurchgang ohne beabsichtigte Änderungen an Optik oder

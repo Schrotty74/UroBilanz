@@ -1,112 +1,212 @@
 # UroBilanz - Naechste Schritte
 
-Stand: 03.06.2026
+Stand: 04.06.2026
 
-Speicherort: `lokaler Backup-Ordner`
+Aktueller Hauptstand: `v1.5.0 Final`
 
-## Pflegehinweis
+Release-Einordnung: `v1.5.0 Final` schliesst die 1.5-Reihe ab. Version 1.5
+soll nicht weiter funktional erweitert werden.
 
-Diese Datei ist die Aufgabenliste fuer neue Chats. Erledigte Punkte sollen
-entfernt oder als abgeschlossen dokumentiert werden. Neue Bugs, geplante
-Verbesserungen und wichtige Ideen werden hier ergaenzt.
+Projektordner:
 
-## Erledigt - Beta 4 kontrolliert
+`.`
 
-Die Lokalisierungsfassung wurde als neuer Hauptstand nach
-`.` uebernommen.
-Sie wurde als `v1.5.0-beta.4` auf GitHub veroeffentlicht.
+Backup- und Kontextordner:
 
-Der Nutzer hat die Funktionen soweit praktisch möglich geprüft. Der dabei
-gefundene Fehler im englischen SwiftUI-Eingabedialog wurde behoben.
+`lokaler Backup-Ordner`
 
-Der alte Hauptstand liegt als kompaktes Meilenstein-Backup unter:
+## Zweck dieser Datei
 
-`lokale Projektsicherung`
+Diese Datei ist die kurze Aufgabenliste fuer neue Chats. Sie soll nach groesseren
+Aenderungen aktualisiert werden, damit ohne Informationsverlust weitergearbeitet
+werden kann.
 
-## Prioritaet 1 - Bekannte offene Themen
+## Aktueller Stand
 
-### App-Icon
+UroBilanz besteht aktuell aus zwei gepflegten Apps:
+
+- Web-App unter `apps/web`
+- SwiftUI-App unter `apps/macos-swift`
+
+Beide Apps koennen:
+
+- Original-Urinote-CSV laden
+- Tagesdaten-CSV laden
+- neue CSV ergaenzend importieren
+- manuelle Urin-, Wasser- und Hinweis-Eintraege erfassen
+- bestehende manuelle Eintraege bearbeiten und loeschen
+- ganze Messtage aus der Tagesansicht loeschen
+- Dashboard, Jahr, Monat, Woche, Tag und Notizen neu berechnen
+- Backup-CSV und Tagesdaten-CSV exportieren
+- Deutsch und Englisch anzeigen
+- mehrere Themes nutzen
+
+Die letzte lokale Vollpruefung fuer Beta 6 war erfolgreich:
+
+- Web Smoke Tests
+- Web Workflow Tests
+- Swift Build
+- Swift Smoke Tests
+- Original-Urinote-CSV Import
+- Tagesdaten-CSV Import
+- Randfalltests fuer unvollstaendige Messtage und Wochen
+
+## Erledigt Im Aktuellen Beta-6-Stand
+
+- Lokalisierung Deutsch/Englisch in Web-App und SwiftUI-App ergaenzt
+- englischen SwiftUI-Eingabedialog korrigiert
+- leeren Start mit manueller Erfassung stabilisiert
+- manuelle Eintraege koennen nachtraeglich bearbeitet und geloescht werden
+- ganze Messtage koennen geloescht werden
+- Sicherheitsabfragen fuer Loeschvorgaenge ergaenzt
+- Tages-/Wochenbewertung fuer unvollstaendige Messtage korrigiert
+- Bewertungslogik unterscheidet `unvollstaendig`, `niedrig` und `normal`
+- Dashboard zeigt unvollstaendige Tage wieder als Auffaelligkeiten
+- Web-App: CSV-/Datums-Hilfslogik nach `assets/js/core.js` ausgelagert
+- Web-App: Diagrammzeichnung nach `assets/js/charts.js` ausgelagert
+- Web-App: Smoke- und Workflow-Tests ergaenzt
+- SwiftUI-App: Modelle, CSV-Helfer, Toolbar, Tabellen/Diagramme und Tests in
+  eigene Dateien aufgeteilt
+- gemeinsamer Pruefablauf `verify_apps.sh` ergaenzt
+- Beta 6 lokal gesichert und auf GitHub als Pre-Release veroeffentlicht
+- Beta 6 im Alltag funktional geprueft; aktueller Stand sieht gut aus
+
+## Erledigt - v1.5.0 Final
+
+`v1.5.0-beta.6` wurde als Abschlusskandidat fuer `v1.5.0 Final` behandelt.
+Keine neuen groesseren Funktionen mehr in Version 1.5 aufnehmen.
+
+Version 1.5 umfasst:
+
+- Lokalisierung Deutsch/Englisch
+- manuelles Protokoll
+- Bearbeiten und Loeschen einzelner Eintraege
+- Loeschen ganzer Messtage
+- Bewertungskorrekturen fuer unvollstaendige Messtage
+- Tests fuer Web-App und SwiftUI-App
+- Refactorings in Web-App und SwiftUI-App
+
+Final-Vorbereitung:
+
+- `CHANGELOG.md` enthaelt einen zusammenfassenden Final-Eintrag fuer
+  `v1.5.0`.
+- Lokale Final-Downloads liegen unter
+  `./release/v1.5.0`.
+- Lokale Projektsicherung wurde erstellt.
+- GitHub-Release fuer `v1.5.0` wurde nach ausdruecklicher Freigabe
+  veroeffentlicht.
+
+## Erledigt: Alltagstest Beta 6
+
+- Web-App und SwiftUI-App wurden nach dem Beta-6-Stand im Alltag getestet.
+- Funktional geprueft wurden insbesondere:
+  - manuell neue Werte ohne geladene CSV erfassen
+  - Werte am gleichen Tag mehrfach erfassen
+  - vergessene Uhrzeiten nachtragen
+  - einzelne Urin-/Wasser-/Hinweis-Eintraege bearbeiten
+  - einzelne Eintraege loeschen
+  - ganze Messtage loeschen
+  - Backup-CSV exportieren und wieder laden
+  - Tagesdaten-CSV exportieren und wieder laden
+  - Deutsch/Englisch umschalten
+  - Theme umschalten
+- Ergebnis: aktuell kein konkreter neuer Fehler und kein unmittelbarer
+  Aenderungsbedarf bekannt.
+
+## Naechster Geplanter Schwerpunkt - Benutzerdefinierte Themes
+
+Als neuer Entwicklungszweig `v1.6.0-beta.1` planen. Erst Format und Umfang
+festlegen, nicht sofort bauen.
+
+Ziel fuer Version 1.6:
+
+- Theme-System erweitern, damit eigene Themes importiert werden koennen.
+- Eine verstaendliche Theme-Vorlage bereitstellen.
+- Web-App und SwiftUI-App moeglichst konsistent halten.
+- Importformat definieren, zum Beispiel JSON fuer Farben, Glaswirkung, Schatten,
+  Tabellenfarben und Diagrammfarben.
+- Optional Theme-Export anbieten.
+- Vor Umsetzung zuerst Format und Umfang festlegen, damit es nicht unnoetig
+  kompliziert wird.
+
+## Spaetere Idee - Optionaler Feinschliff
+
+### Bedienung
+
+- Eingabemaske weiter verfeinern, falls im Alltag noch Reibung auffaellt.
+- Sicherheitsabfragen sprachlich oder optisch weiter verbessern, falls noetig.
+- Bei sehr vielen manuellen Eintraegen pruefen, ob die Tagesliste im Dialog noch
+  angenehm bedienbar bleibt.
+
+### Tabellen
+
+- Spaltenbreiten weiter nur nach konkretem Screenshot anpassen.
+- Bei der Tag-Ansicht besonders auf `Hinweise`, `Auffaelligkeit` und `Aktion`
+  achten.
+- Bei der SwiftUI-App Tabellen in sehr kleinen Fenstern beobachten.
+
+### Auswertung
+
+- Aktuelle Regel:
+  - unvollstaendige Messtage werden separat markiert
+  - niedrige Werte werden nur bei vollstaendigen Messtagen bewertet
+  - Wochen mit unvollstaendigen Tagen zeigen diese Information separat
+- Falls gewuenscht spaeter eine kleine Infoseite ergaenzen, die diese Regeln
+  in der App erklaert.
+
+## Prioritaet 3 - Technische Verbesserungen Spaeter
+
+### Web-App
+
+- `app.js` bei Bedarf weiter aufteilen:
+  - UI-Rendering
+  - Speicherlogik
+  - Import/Export
+  - Sprache
+  - Themes
+- Automatische Tests optional erweitern fuer:
+  - Sprachumschaltung
+  - Theme-Wechsel
+  - Import-/Export-Randfaelle
+  - geloeschte Messtage
+  - geloeschte Eintraege
+
+### SwiftUI-App
+
+- Export- und Merge-Logik bei Bedarf weiter auslagern.
+- Theme- und Sprachlogik bei kuenftigen Aenderungen weiter ordnen.
+- Automatische Tests optional erweitern fuer:
+  - Sprachumschaltung
+  - Theme-Wechsel
+  - Export-Randfaelle
+  - geloeschte Messtage
+  - geloeschte Eintraege
+
+## App-Icon
 
 Optional spaeter mit Apples Icon Composer beziehungsweise Xcode als echtes
 adaptives Liquid-Glass-Icon exportieren. Das betrifft vor allem die passende
 Finder-Darstellung in Hell und Dunkel.
 
-## Prioritaet 2 - Technischer Aufraeumdurchgang
+## Ideen Fuer Spaeter
 
-Der technische Aufraeumdurchgang ist fuer `v1.5.0-beta.6` weitgehend erledigt.
-Optik und Verhalten wurden nicht bewusst veraendert.
-
-### Erledigt - bisheriger Aufraeumstand
-
-- Web-App: CSV- und Datums-Hilfsfunktionen nach `assets/js/core.js`
-  ausgelagert
-- Web-App: Diagramm-Zeichenlogik nach `assets/js/charts.js` ausgelagert
-- Web-App: Smoke-Tests fuer stabile Hilfslogik sowie Import, Ergaenzen, Export,
-  manuelle Eingaben, Bearbeiten und Loeschen ergaenzt
-- SwiftUI-App: Datenmodelle und CSV-Hilfsfunktionen in eigene Dateien
-  aufgeteilt
-- SwiftUI-App: Toolbar, Tabellen und Diagramme in eigene Dateien aufgeteilt
-- SwiftUI-App: Import- und Workflow-Testansicht in eigene Datei ausgelagert
-- SwiftUI-App: reproduzierbaren Build-, Import- und Workflowtest ergaenzt
-- gemeinsamer Pruefablauf `verify_apps.sh` ergaenzt
-- Original-Urinote-CSV und Tagesdaten-CSV mit jeweils `247 Messtagen`
-  erfolgreich geprueft
-- Manueller SwiftUI-Workflow fuer Hinzufuegen, Bearbeiten, Eintrag-Loeschen,
-  Backup-CSV und Messtag-Loeschen erfolgreich geprueft
-- Randfalltests fuer unvollstaendige Messtage und gemischte Wochen in Web-App
-  und SwiftUI-App ergaenzt
-
-### Optional spaeter fortsetzen
-
-### Web-App
-
-- Datenmodell, UI und Speicherlogik bei Bedarf weiter trennen
-- Theme- und Sprachlogik bei Bedarf sauberer strukturieren
-- Rendering bei Bedarf gezielter aktualisieren
-
-### SwiftUI-App
-
-- Export- und Merge-Logik bei Bedarf weiter trennen
-- Tabellen und Diagramme bei weiteren Aenderungen effizient halten
-- nur benoetigte Assets behalten
-- automatisierte Tests optional weiter ausbauen, z.B. fuer Sprache, Themes und
-  weitere Import-/Export-Randfaelle
-
-Vorher und nachher pruefen:
-
-- CSV laden
-- CSV ergaenzen
-- manuellen Eintrag erstellen
-- Eintrag bearbeiten und loeschen
-- Messtag loeschen
-- Backup exportieren
-- Tagesdaten exportieren
-- Filter und Ansichten
-
-## Bugs und Beobachtungsliste
-
-- Sehr schmale Browserfenster koennen die Toolbar enger darstellen.
-- SwiftUI besitzt noch keine umfassende automatisierte Testsuite.
-- Der direkte Swift-Testmodus funktioniert fuer Original-Urinote-CSV und
-  Tagesdaten-CSV. Eine umfassendere automatisierte Testsuite bleibt optional.
-
-## Ideen fuer zukuenftige Entwicklungen
-
-- weitere Themes nach Bedarf
 - weitere Sprachen nach Deutsch und Englisch
-- optional bessere Verlaufsvergleiche zwischen frei waehlbaren Zeitraeumen
-- optional Druck- oder PDF-Bericht fuer Arzttermine
-- optional App-Store-Vorbereitung mit Xcode-Projekt, Ressourcenpaketen,
-  Signierung und Datenschutztexten
-- optional universeller Swift-Build fuer Intel nur falls noch wirklich
-  benoetigt; derzeit reicht Apple Silicon fuer den Nutzer
+- frei waehlbare Vergleichszeitraeume
+- Druck- oder PDF-Bericht fuer Arzttermine
+- App-Store-Vorbereitung mit Xcode-Projekt, Ressourcenpaketen, Signierung und
+  Datenschutztexten
+- universeller Swift-Build fuer Intel nur falls wirklich benoetigt; aktuell
+  reicht Apple Silicon fuer den Nutzer
 
-## Veroeffentlichungsregel
+## Arbeitsregeln
 
-- Nie persoenliche CSV-, Excel- oder Gesundheitsdaten hochladen.
-- GitHub-Aenderungen mit aussagekraeftigem `CHANGELOG.md` pflegen.
+- Keine persoenlichen CSV-, Excel- oder Gesundheitsdaten ins Repository.
+- Vor groesseren Aenderungen lokales Backup erstellen.
+- Keine UI- oder Code-Aenderungen ohne konkreten neuen Fehler oder ausdruecklich
+  gewuenschte neue Funktion.
+- Keine neuen groesseren Funktionen mehr in `v1.5`; neue Entwicklungsarbeit
+  beginnt erst mit `v1.6.0-beta.1`.
+- `CHANGELOG.md` bei GitHub-Releases aktualisieren.
 - Releases nur nach erfolgreichem lokalen Test und ausdruecklicher Freigabe.
-- Vor jedem groesseren Schritt ein lokales Backup mit kurzer Zusammenfassung
-  anlegen.
-- Fuer zusaetzliche reine Projektbackups im stabilen Hauptstand
-  `./backup_projekt.sh` verwenden.
+- Bei UI-Aenderungen nach Moeglichkeit Web-App und SwiftUI-App konsistent halten.
+- Bei laengeren oder riskanten Aenderungen lieber in kleinen Schritten arbeiten.
