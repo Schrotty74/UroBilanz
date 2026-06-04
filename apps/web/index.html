@@ -6,7 +6,7 @@
     <title>UroBilanz</title>
     <link rel="icon" href="./assets/urobilanz-icon-light.svg" media="(prefers-color-scheme: light)" />
     <link rel="icon" href="./assets/urobilanz-icon-dark.svg" media="(prefers-color-scheme: dark)" />
-    <link rel="stylesheet" href="./styles.css?v=20260603-column-spacing" />
+    <link rel="stylesheet" href="./styles.css?v=header-button-font-1" />
     <script src="./assets/js/charts.js?v=refactor-2"></script>
   </head>
   <body>
@@ -16,9 +16,14 @@
         <h1><span class="app-mark-shell"><img class="app-mark" id="appMark" src="./assets/urobilanz-icon-light.svg" alt="" /></span> UroBilanz</h1>
       </div>
       <div class="header-actions">
-        <label class="theme-control">
-          <span data-i18n="theme">Theme</span>
-          <select id="themeSelect" aria-label="Theme auswählen">
+        <div class="theme-menu" id="themeMenu">
+          <button class="theme-menu-button" id="themeMenuButton" type="button" aria-expanded="false">
+            <span data-i18n="theme">Theme</span>
+            <strong id="selectedThemeLabel">Classic Hell</strong>
+            <span aria-hidden="true">⌄</span>
+          </button>
+          <div class="theme-menu-panel" id="themeMenuPanel" hidden>
+            <select id="themeSelect" class="visually-hidden" aria-label="Theme auswählen">
             <option value="classic-light">Classic Hell</option>
             <option value="classic-dark">Classic Dunkel</option>
             <option value="violet-night">Violet Night</option>
@@ -27,8 +32,17 @@
             <option value="high-contrast">High Contrast</option>
             <option value="summer">Sommer Look</option>
             <option value="cream-sage">Creme Salbei</option>
-          </select>
-        </label>
+            </select>
+            <div class="theme-menu-options" id="themeMenuOptions"></div>
+            <div class="theme-menu-actions">
+              <label class="theme-menu-action">
+                <span data-i18n="import_theme">Theme importieren</span>
+                <input id="themeInput" type="file" accept=".json,application/json" />
+              </label>
+              <button class="theme-menu-action" id="exportTheme" type="button" data-i18n="export_theme">Theme exportieren</button>
+            </div>
+          </div>
+        </div>
         <label class="theme-control">
           <span data-i18n="language">Sprache</span>
           <select id="languageSelect" aria-label="Sprache">
@@ -171,9 +185,9 @@
       </form>
     </dialog>
 
-    <script src="./assets/i18n/de.js?v=mixed-flags-1"></script>
-    <script src="./assets/i18n/en.js?v=mixed-flags-1"></script>
-    <script src="./assets/js/core.js?v=refactor-2"></script>
-    <script src="./app.js?v=refactor-2"></script>
+    <script src="./assets/i18n/de.js?v=theme-menu-scroll-2"></script>
+    <script src="./assets/i18n/en.js?v=theme-menu-scroll-2"></script>
+    <script src="./assets/js/core.js?v=theme-menu-scroll-2"></script>
+    <script src="./app.js?v=theme-menu-scroll-2"></script>
   </body>
 </html>

@@ -8,6 +8,9 @@ struct ToolbarStrip: View {
     @Binding var showsEntrySheet: Bool
     @Binding var themeRaw: String
     @Binding var languageRaw: String
+    let customThemes: [CustomThemeDefinition]
+    let importTheme: () -> Void
+    let exportTheme: () -> Void
     @Environment(\.appLanguage) private var language
 
     var body: some View {
@@ -30,7 +33,7 @@ struct ToolbarStrip: View {
                     .onChange(of: model.rememberData) { _, _ in model.toggleRemember() }
                     .toggleStyle(.switch)
             }
-            ThemeMenu(themeRaw: $themeRaw)
+            ThemeMenu(themeRaw: $themeRaw, customThemes: customThemes, importTheme: importTheme, exportTheme: exportTheme)
             LanguageMenu(languageRaw: $languageRaw)
             Button(tr("entry", language), systemImage: "plus.circle") { showsEntrySheet = true }
             Button(tr("merge_csv", language), systemImage: "plus.square.on.square") { model.openMergeCSV() }
@@ -51,10 +54,19 @@ struct ToolbarStrip: View {
 struct ThemeMenu: View {
     @Environment(\.appTheme) private var theme
     @Binding var themeRaw: String
+    let customThemes: [CustomThemeDefinition]
+    let importTheme: () -> Void
+    let exportTheme: () -> Void
     @Environment(\.appLanguage) private var language
 
-    private var selectedTheme: AppTheme {
-        AppTheme(rawValue: themeRaw) ?? .classicDark
+    private var selectedTitle: String {
+        if let builtIn = AppTheme(rawValue: themeRaw) {
+            return builtIn.title(language)
+        }
+        if let custom = customThemes.first(where: { $0.id == themeRaw }) {
+            return custom.title(language)
+        }
+        return AppTheme.classicDark.title(language)
     }
 
     var body: some View {
@@ -63,16 +75,38 @@ struct ThemeMenu: View {
                 Button {
                     themeRaw = option.rawValue
                 } label: {
-                    if option == selectedTheme {
+                    if option.rawValue == themeRaw {
                         Label(option.title(language), systemImage: "checkmark")
                     } else {
                         Text(option.title(language))
                     }
                 }
             }
+            if !customThemes.isEmpty {
+                Divider()
+                ForEach(customThemes) { option in
+                    Button {
+                        themeRaw = option.id
+                    } label: {
+                        if option.id == themeRaw {
+                            Label(option.title(language), systemImage: "checkmark")
+                        } else {
+                            Text(option.title(language))
+                        }
+                    }
+                }
+            }
+            Divider()
+            Button(tr("import_theme", language), systemImage: "square.and.arrow.down") {
+                importTheme()
+            }
+            Button(tr("export_theme", language), systemImage: "square.and.arrow.up") {
+                exportTheme()
+            }
+            .disabled(customThemes.first(where: { $0.id == themeRaw }) == nil)
         } label: {
             HStack(spacing: 8) {
-                Text(selectedTheme.title(language))
+                Text(selectedTitle)
                     .lineLimit(1)
                     .fixedSize(horizontal: true, vertical: false)
                 Image(systemName: "chevron.down")
@@ -85,7 +119,7 @@ struct ThemeMenu: View {
             .background(theme.controlBackground, in: RoundedRectangle(cornerRadius: 9, style: .continuous))
             .overlay {
                 RoundedRectangle(cornerRadius: 9, style: .continuous)
-                    .stroke(theme.controlBorder, lineWidth: theme == .highContrast ? 1.5 : 1)
+                    .stroke(theme.controlBorder, lineWidth: theme.isHighContrast ? 1.5 : 1)
             }
         }
         .buttonStyle(.plain)
@@ -120,7 +154,7 @@ struct LanguageMenu: View {
                 .background(theme.controlBackground, in: RoundedRectangle(cornerRadius: 9, style: .continuous))
                 .overlay {
                     RoundedRectangle(cornerRadius: 9, style: .continuous)
-                        .stroke(theme.controlBorder, lineWidth: theme == .highContrast ? 1.5 : 1)
+                        .stroke(theme.controlBorder, lineWidth: theme.isHighContrast ? 1.5 : 1)
                 }
         }
         .help(tr("language", language))

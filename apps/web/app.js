@@ -22,9 +22,14 @@ const {
   parseDate,
   parseDayDate,
   toMesstag,
+  validateUroTheme,
 } = window.UroCore;
 const { drawLineChart, drawMonthChart } = window.UroCharts;
 const supportedLanguages = new Set(["de", "en"]);
+const builtInThemeIds = ["classic-light", "classic-dark", "violet-night", "liquid-dark", "medical-light", "high-contrast", "summer", "cream-sage"];
+const builtInThemeSet = new Set(builtInThemeIds);
+const darkThemeSet = new Set(["classic-dark", "violet-night", "liquid-dark", "high-contrast"]);
+let customThemes = loadCustomThemes();
 let language = supportedLanguages.has(localStorage.getItem("uroLanguage"))
   ? localStorage.getItem("uroLanguage")
   : ((navigator.language || "de").toLowerCase().startsWith("de") ? "de" : "en");
@@ -55,6 +60,13 @@ const els = {
   csvInput: document.querySelector("#csvInput"),
   emptyCsvInput: document.querySelector("#emptyCsvInput"),
   mergeCsvInput: document.querySelector("#mergeCsvInput"),
+  themeInput: document.querySelector("#themeInput"),
+  exportTheme: document.querySelector("#exportTheme"),
+  themeMenu: document.querySelector("#themeMenu"),
+  themeMenuButton: document.querySelector("#themeMenuButton"),
+  themeMenuPanel: document.querySelector("#themeMenuPanel"),
+  themeMenuOptions: document.querySelector("#themeMenuOptions"),
+  selectedThemeLabel: document.querySelector("#selectedThemeLabel"),
   themeSelect: document.querySelector("#themeSelect"),
   languageSelect: document.querySelector("#languageSelect"),
   appMark: document.querySelector("#appMark"),
@@ -100,6 +112,111 @@ function fmtNumber(value) {
 
 function fmtTime(date) {
   return date.toLocaleTimeString(language === "de" ? "de-AT" : "en-US", { hour: "2-digit", minute: "2-digit", hour12: false });
+}
+
+function loadCustomThemes() {
+  try {
+    const parsed = JSON.parse(localStorage.getItem("uroCustomThemes") || "[]");
+    if (!Array.isArray(parsed)) return [];
+    return parsed.map((theme) => validateUroTheme(theme, builtInThemeIds));
+  } catch {
+    localStorage.removeItem("uroCustomThemes");
+    return [];
+  }
+}
+
+function saveCustomThemes() {
+  localStorage.setItem("uroCustomThemes", JSON.stringify(customThemes));
+}
+
+function themeFileName(theme) {
+  return `urobilanz-theme-${theme.id}.json`;
+}
+
+function customThemeTitle(theme) {
+  return theme.name?.[language] || theme.name?.de || theme.name?.en || theme.id;
+}
+
+function rebuildThemeOptions(activeTheme = els.themeSelect.value || localStorage.getItem("urinTheme") || "classic-light") {
+  els.themeSelect.innerHTML = "";
+  els.themeMenuOptions.innerHTML = "";
+  const addThemeOption = (id, title) => {
+    const option = document.createElement("option");
+    option.value = id;
+    option.textContent = title;
+    els.themeSelect.append(option);
+
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = `theme-menu-option${id === activeTheme ? " active" : ""}`;
+    button.dataset.theme = id;
+    button.textContent = title;
+    if (id === activeTheme) {
+      const check = document.createElement("span");
+      check.textContent = "✓";
+      button.append(check);
+      els.selectedThemeLabel.textContent = title;
+    }
+    els.themeMenuOptions.append(button);
+  };
+  for (const id of builtInThemeIds) addThemeOption(id, window.URO_I18N?.[language]?.themes?.[id] ?? id);
+  for (const theme of customThemes) addThemeOption(theme.id, customThemeTitle(theme));
+}
+
+function customThemeById(id) {
+  return customThemes.find((theme) => theme.id === id);
+}
+
+function clearCustomThemeVariables() {
+  [
+    "--ink", "--muted", "--line", "--teal", "--teal-dark", "--accent", "--accent-ink",
+    "--urine", "--urine-strong", "--water", "--water-strong", "--soft", "--paper",
+    "--panel", "--panel-soft", "--glass-bg", "--glass-line", "--glass-shadow",
+    "--chart-urine", "--chart-water", "--low", "--body-bg", "--row-odd", "--row-even",
+  ].forEach((name) => document.body.style.removeProperty(name));
+}
+
+function hexToRgb(hex) {
+  const value = hex.replace("#", "");
+  return [0, 2, 4].map((start) => parseInt(value.slice(start, start + 2), 16));
+}
+
+function rgba(hex, opacity) {
+  const [r, g, b] = hexToRgb(hex);
+  return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+}
+
+function applyCustomThemeVariables(theme) {
+  const c = theme.colors;
+  const e = theme.effects || {};
+  const set = (name, value) => document.body.style.setProperty(name, value);
+  const panelOpacity = e.glassOpacity ?? 0.86;
+  const borderOpacity = e.glassBorderOpacity ?? 0.30;
+  const shadowOpacity = e.shadowOpacity ?? 0.24;
+  set("--ink", c.text);
+  set("--muted", c.mutedText || c.text);
+  set("--line", c.border || rgba(c.accent, borderOpacity));
+  set("--teal", c.backgroundAlt || c.panel);
+  set("--teal-dark", c.accent);
+  set("--accent", c.accent);
+  set("--accent-ink", c.accentText || c.background);
+  set("--urine", c.urineSoft || rgba(c.urine, theme.mode === "dark" ? 0.22 : 0.30));
+  set("--urine-strong", c.urine);
+  set("--water", c.waterSoft || rgba(c.water, theme.mode === "dark" ? 0.22 : 0.30));
+  set("--water-strong", c.water);
+  set("--soft", c.panelSoft || c.backgroundAlt || c.panel);
+  set("--paper", c.panel);
+  set("--panel", rgba(c.panel, panelOpacity));
+  set("--panel-soft", rgba(c.panelSoft || c.panel, Math.max(0.35, panelOpacity - 0.08)));
+  set("--glass-bg", rgba(c.panel, Math.max(0.10, panelOpacity - 0.50)));
+  set("--glass-line", rgba(c.accent, borderOpacity));
+  set("--glass-shadow", rgba("#000000", shadowOpacity));
+  set("--chart-urine", c.chartUrine || c.urine);
+  set("--chart-water", c.chartWater || c.water);
+  set("--low", c.low || (theme.mode === "dark" ? "#5C252B" : "#F8D7DA"));
+  set("--body-bg", c.background);
+  set("--row-odd", c.rowOdd || c.panelSoft || c.panel);
+  set("--row-even", c.rowEven || c.panel);
 }
 
 function processRows(raw, rawCsv = "") {
@@ -400,13 +517,19 @@ function render() {
 
 function applyTheme(theme) {
   const themeAliases = { light: "classic-light", dark: "classic-dark" };
-  const validThemes = new Set(["classic-light", "classic-dark", "violet-night", "liquid-dark", "medical-light", "high-contrast", "summer", "cream-sage"]);
-  const selectedTheme = validThemes.has(themeAliases[theme] || theme) ? (themeAliases[theme] || theme) : "classic-light";
-  const darkThemes = new Set(["classic-dark", "violet-night", "liquid-dark", "high-contrast"]);
+  const requestedTheme = themeAliases[theme] || theme;
+  const selectedTheme = builtInThemeSet.has(requestedTheme) || customThemeById(requestedTheme) ? requestedTheme : "classic-light";
+  const customTheme = customThemeById(selectedTheme);
+  const isDark = customTheme ? customTheme.mode === "dark" : darkThemeSet.has(selectedTheme);
+  clearCustomThemeVariables();
   document.body.dataset.theme = selectedTheme;
-  document.body.classList.toggle("dark", darkThemes.has(selectedTheme));
+  document.body.classList.toggle("dark", isDark);
+  if (customTheme) applyCustomThemeVariables(customTheme);
+  rebuildThemeOptions(selectedTheme);
   els.themeSelect.value = selectedTheme;
-  els.appMark.src = darkThemes.has(selectedTheme) ? "./assets/urobilanz-icon-dark.svg" : "./assets/urobilanz-icon-light.svg";
+  els.selectedThemeLabel.textContent = els.themeSelect.selectedOptions[0]?.textContent || selectedTheme;
+  els.exportTheme.disabled = !customTheme;
+  els.appMark.src = isDark ? "./assets/urobilanz-icon-dark.svg" : "./assets/urobilanz-icon-light.svg";
   localStorage.setItem("urinTheme", selectedTheme);
   if (state.days.length) render();
 }
@@ -419,15 +542,51 @@ function applyLanguage(nextLanguage) {
   document.querySelectorAll("[data-i18n]").forEach((element) => {
     element.textContent = t(element.dataset.i18n);
   });
-  Array.from(els.themeSelect.options).forEach((option) => {
-    option.textContent = window.URO_I18N?.[language]?.themes?.[option.value] ?? option.textContent;
-  });
+  const activeTheme = els.themeSelect.value;
+  rebuildThemeOptions(activeTheme);
+  els.themeSelect.value = activeTheme;
+  els.selectedThemeLabel.textContent = els.themeSelect.selectedOptions[0]?.textContent || activeTheme;
   els.themeSelect.setAttribute("aria-label", t("theme"));
   els.languageSelect.setAttribute("aria-label", t("language"));
   els.yearFilter.setAttribute("aria-label", t("year"));
   els.monthFilter.setAttribute("aria-label", t("month"));
   buildFilters();
   render();
+}
+
+async function importThemeFile(file) {
+  if (!file) return;
+  try {
+    const text = await file.text();
+    const theme = validateUroTheme(JSON.parse(text), builtInThemeIds);
+    customThemes = [...customThemes.filter((item) => item.id !== theme.id), theme].sort((a, b) => customThemeTitle(a).localeCompare(customThemeTitle(b)));
+    saveCustomThemes();
+    applyTheme(theme.id);
+    els.status.textContent = t("theme_imported", { name: customThemeTitle(theme) });
+  } catch (error) {
+    window.alert(t("theme_import_error", { message: error.message || String(error) }));
+  } finally {
+    els.themeInput.value = "";
+  }
+}
+
+function exportSelectedTheme() {
+  const theme = customThemeById(els.themeSelect.value);
+  if (!theme) {
+    window.alert(t("theme_export_builtin"));
+    return;
+  }
+  downloadText(themeFileName(theme), `${JSON.stringify(theme, null, 2)}\n`, "application/json;charset=utf-8");
+  closeThemeMenu();
+}
+
+function setThemeMenuOpen(open) {
+  els.themeMenuPanel.hidden = !open;
+  els.themeMenuButton.setAttribute("aria-expanded", String(open));
+}
+
+function closeThemeMenu() {
+  setThemeMenuOpen(false);
 }
 
 function renderMetrics(days) {
@@ -855,6 +1014,34 @@ function confirmDeleteDay(dayKey) {
 
 els.themeSelect.addEventListener("change", (event) => {
   applyTheme(event.target.value);
+});
+
+els.themeMenuButton.addEventListener("click", (event) => {
+  event.stopPropagation();
+  setThemeMenuOpen(els.themeMenuPanel.hidden);
+});
+
+els.themeMenuOptions.addEventListener("click", (event) => {
+  const button = event.target.closest("button[data-theme]");
+  if (!button) return;
+  applyTheme(button.dataset.theme);
+  closeThemeMenu();
+});
+
+els.themeInput.addEventListener("change", (event) => {
+  importThemeFile(event.target.files?.[0]);
+  closeThemeMenu();
+});
+
+els.exportTheme.addEventListener("click", exportSelectedTheme);
+
+document.addEventListener("pointerdown", (event) => {
+  if (els.themeMenu.contains(event.target)) return;
+  closeThemeMenu();
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") closeThemeMenu();
 });
 
 els.languageSelect.addEventListener("change", (event) => {

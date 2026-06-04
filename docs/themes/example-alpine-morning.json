@@ -1,0 +1,35 @@
+{
+  "format": "urobilanz-theme",
+  "version": 1,
+  "id": "alpine-morning",
+  "name": {
+    "de": "Alpen Morgen",
+    "en": "Alpine Morning"
+  },
+  "mode": "light",
+  "colors": {
+    "text": "#1E2A2E",
+    "mutedText": "#61747B",
+    "background": "#F5FAF9",
+    "backgroundAlt": "#E2F0EF",
+    "panel": "#FFFFFF",
+    "panelSoft": "#EAF5F3",
+    "border": "#C8DEDA",
+    "accent": "#4F9D8F",
+    "accentText": "#10221E",
+    "urine": "#D99A20",
+    "urineSoft": "#FFF0C7",
+    "water": "#2387B8",
+    "waterSoft": "#DCEFF8",
+    "low": "#F4D1D5",
+    "rowOdd": "#EEF7F5",
+    "rowEven": "#FFFFFF",
+    "chartUrine": "#D99A20",
+    "chartWater": "#2387B8"
+  },
+  "effects": {
+    "glassOpacity": 0.88,
+    "glassBorderOpacity": 0.26,
+    "shadowOpacity": 0.16
+  }
+}

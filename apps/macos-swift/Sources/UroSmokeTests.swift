@@ -22,6 +22,7 @@ struct ImportTestView: View {
                 if runWorkflow {
                     runWorkflowTest()
                     runEvaluationEdgeTests()
+                    runThemeImportTest()
                 }
                 exit(0)
             }
@@ -101,6 +102,33 @@ struct ImportTestView: View {
         assertWorkflow(row.values["Auffälligkeit"]?.contains("unvollständig") == true, "incomplete day missing in week flag")
         assertWorkflow(model.alertRows().count == 2, "alerts should include low and incomplete days")
         print("Swift evaluation edge test passed")
+    }
+
+    private func runThemeImportTest() {
+        let path = FileManager.default.currentDirectoryPath + "/docs/themes/example-custom-theme.json"
+        do {
+            let data = try Data(contentsOf: URL(fileURLWithPath: path))
+            let theme = try JSONDecoder().decode(CustomThemeDefinition.self, from: data).validated()
+            assertWorkflow(theme.id == "harbor-night", "custom theme id mismatch")
+            assertWorkflow(theme.title(.en) == "Harbor Night", "custom theme title mismatch")
+            assertWorkflow(theme.style.isDark, "custom theme should be dark")
+            let encoded = try JSONEncoder().encode(theme)
+            let decoded = try JSONDecoder().decode(CustomThemeDefinition.self, from: encoded).validated()
+            assertWorkflow(decoded.id == theme.id, "custom theme export roundtrip failed")
+
+            var duplicate = theme
+            duplicate.id = AppTheme.classicLight.rawValue
+            do {
+                _ = try duplicate.validated()
+                assertWorkflow(false, "built-in theme id should be rejected")
+            } catch {
+                // Expected.
+            }
+            print("Swift theme import smoke test passed")
+        } catch {
+            print("Theme-Importtest Fehler: \(error.localizedDescription)")
+            exit(1)
+        }
     }
 
     private func date(_ year: Int, _ month: Int, _ day: Int, _ hour: Int, _ minute: Int) -> Date {

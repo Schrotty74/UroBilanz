@@ -1,0 +1,35 @@
+{
+  "format": "urobilanz-theme",
+  "version": 1,
+  "id": "graphite-lime",
+  "name": {
+    "de": "Graphit Limette",
+    "en": "Graphite Lime"
+  },
+  "mode": "dark",
+  "colors": {
+    "text": "#F2F5F3",
+    "mutedText": "#AAB6AF",
+    "background": "#101412",
+    "backgroundAlt": "#1B2420",
+    "panel": "#1F2924",
+    "panelSoft": "#2A352F",
+    "border": "#4A5A51",
+    "accent": "#B7E35F",
+    "accentText": "#10160A",
+    "urine": "#F0C44D",
+    "urineSoft": "#473A16",
+    "water": "#50C7E8",
+    "waterSoft": "#153D48",
+    "low": "#682D3A",
+    "rowOdd": "#243029",
+    "rowEven": "#18211D",
+    "chartUrine": "#F0C44D",
+    "chartWater": "#50C7E8"
+  },
+  "effects": {
+    "glassOpacity": 0.76,
+    "glassBorderOpacity": 0.32,
+    "shadowOpacity": 0.38
+  }
+}

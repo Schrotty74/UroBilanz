@@ -1,0 +1,35 @@
+{
+  "format": "urobilanz-theme",
+  "version": 1,
+  "id": "harbor-night",
+  "name": {
+    "de": "Hafen Nacht",
+    "en": "Harbor Night"
+  },
+  "mode": "dark",
+  "colors": {
+    "text": "#F4F7F8",
+    "mutedText": "#A9B8BC",
+    "background": "#0D1518",
+    "backgroundAlt": "#163038",
+    "panel": "#17242A",
+    "panelSoft": "#22353D",
+    "border": "#3E5E68",
+    "accent": "#E9B949",
+    "accentText": "#211A06",
+    "urine": "#F6C85F",
+    "urineSoft": "#493715",
+    "water": "#47B8E8",
+    "waterSoft": "#12384A",
+    "low": "#5F2832",
+    "rowOdd": "#1B2B31",
+    "rowEven": "#121E23",
+    "chartUrine": "#F6C85F",
+    "chartWater": "#47B8E8"
+  },
+  "effects": {
+    "glassOpacity": 0.74,
+    "glassBorderOpacity": 0.28,
+    "shadowOpacity": 0.36
+  }
+}

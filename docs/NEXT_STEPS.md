@@ -2,10 +2,10 @@
 
 Stand: 04.06.2026
 
-Aktueller Hauptstand: `v1.5.0 Final`
+Aktueller Hauptstand: `v1.6.0-beta.1`
 
-Release-Einordnung: `v1.5.0 Final` schliesst die 1.5-Reihe ab. Version 1.5
-soll nicht weiter funktional erweitert werden.
+Release-Einordnung: `v1.6.0-beta.1` startet die 1.6-Reihe mit
+benutzerdefinierten Themes. Version 1.5 bleibt abgeschlossen.
 
 Projektordner:
 
@@ -113,10 +113,17 @@ Final-Vorbereitung:
 - Ergebnis: aktuell kein konkreter neuer Fehler und kein unmittelbarer
   Aenderungsbedarf bekannt.
 
-## Naechster Geplanter Schwerpunkt - Benutzerdefinierte Themes
+## Erledigt - v1.6.0-beta.1 Benutzerdefinierte Themes
 
-Als neuer Entwicklungszweig `v1.6.0-beta.1` planen. Erst Format und Umfang
-festlegen, nicht sofort bauen.
+`v1.6.0-beta.1` wurde vorbereitet und als Beta veroeffentlicht.
+
+Planungsstand:
+
+- Entwicklungszweig: `v1.6.0-beta.1-plan`
+- Planungsdatei im Projekt:
+  `./docs/THEME_IMPORT_PLAN.md`
+- Umsetzung fuer `v1.6.0-beta.1` lokal gebaut und geprueft.
+- GitHub-Release fuer `v1.6.0-beta.1` veroeffentlicht.
 
 Ziel fuer Version 1.6:
 
@@ -128,6 +135,23 @@ Ziel fuer Version 1.6:
 - Optional Theme-Export anbieten.
 - Vor Umsetzung zuerst Format und Umfang festlegen, damit es nicht unnoetig
   kompliziert wird.
+
+Umgesetzt:
+
+- Gemeinsames JSON-Format `urobilanz-theme` Version `1`.
+- Theme-Vorlage und Beispielthemes unter `docs/themes/`.
+- Web-App: Theme-JSON importieren, validieren, lokal speichern und anwenden.
+- SwiftUI-App: Theme-JSON importieren, validieren, lokal speichern und anwenden.
+- Web-App und SwiftUI-App: importierte Themes als JSON exportieren.
+- Web-App: Theme-Auswahl, Import und Export in ein gemeinsames Theme-Menue
+  zusammengefuehrt.
+- Tests fuer gueltige und ungueltige Theme-Dateien ergaenzt.
+- Praktischer Importtest in Web-App und SwiftUI-App erfolgreich.
+
+Naechster Schritt:
+
+- `v1.6.0-beta.1` in Web-App und SwiftUI-App im Alltag testen.
+- Optional spaeter klaeren, ob importierte Themes geloescht werden sollen.
 
 ## Spaetere Idee - Optionaler Feinschliff
 
