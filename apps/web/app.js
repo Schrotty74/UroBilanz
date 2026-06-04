@@ -62,6 +62,11 @@ const els = {
   mergeCsvInput: document.querySelector("#mergeCsvInput"),
   themeInput: document.querySelector("#themeInput"),
   exportTheme: document.querySelector("#exportTheme"),
+  themeMenu: document.querySelector("#themeMenu"),
+  themeMenuButton: document.querySelector("#themeMenuButton"),
+  themeMenuPanel: document.querySelector("#themeMenuPanel"),
+  themeMenuOptions: document.querySelector("#themeMenuOptions"),
+  selectedThemeLabel: document.querySelector("#selectedThemeLabel"),
   themeSelect: document.querySelector("#themeSelect"),
   languageSelect: document.querySelector("#languageSelect"),
   appMark: document.querySelector("#appMark"),
@@ -132,20 +137,30 @@ function customThemeTitle(theme) {
   return theme.name?.[language] || theme.name?.de || theme.name?.en || theme.id;
 }
 
-function rebuildThemeOptions() {
+function rebuildThemeOptions(activeTheme = els.themeSelect.value || localStorage.getItem("urinTheme") || "classic-light") {
   els.themeSelect.innerHTML = "";
-  for (const id of builtInThemeIds) {
+  els.themeMenuOptions.innerHTML = "";
+  const addThemeOption = (id, title) => {
     const option = document.createElement("option");
     option.value = id;
-    option.textContent = window.URO_I18N?.[language]?.themes?.[id] ?? id;
+    option.textContent = title;
     els.themeSelect.append(option);
-  }
-  for (const theme of customThemes) {
-    const option = document.createElement("option");
-    option.value = theme.id;
-    option.textContent = customThemeTitle(theme);
-    els.themeSelect.append(option);
-  }
+
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = `theme-menu-option${id === activeTheme ? " active" : ""}`;
+    button.dataset.theme = id;
+    button.textContent = title;
+    if (id === activeTheme) {
+      const check = document.createElement("span");
+      check.textContent = "✓";
+      button.append(check);
+      els.selectedThemeLabel.textContent = title;
+    }
+    els.themeMenuOptions.append(button);
+  };
+  for (const id of builtInThemeIds) addThemeOption(id, window.URO_I18N?.[language]?.themes?.[id] ?? id);
+  for (const theme of customThemes) addThemeOption(theme.id, customThemeTitle(theme));
 }
 
 function customThemeById(id) {
@@ -510,8 +525,9 @@ function applyTheme(theme) {
   document.body.dataset.theme = selectedTheme;
   document.body.classList.toggle("dark", isDark);
   if (customTheme) applyCustomThemeVariables(customTheme);
-  rebuildThemeOptions();
+  rebuildThemeOptions(selectedTheme);
   els.themeSelect.value = selectedTheme;
+  els.selectedThemeLabel.textContent = els.themeSelect.selectedOptions[0]?.textContent || selectedTheme;
   els.exportTheme.disabled = !customTheme;
   els.appMark.src = isDark ? "./assets/urobilanz-icon-dark.svg" : "./assets/urobilanz-icon-light.svg";
   localStorage.setItem("urinTheme", selectedTheme);
@@ -527,8 +543,9 @@ function applyLanguage(nextLanguage) {
     element.textContent = t(element.dataset.i18n);
   });
   const activeTheme = els.themeSelect.value;
-  rebuildThemeOptions();
+  rebuildThemeOptions(activeTheme);
   els.themeSelect.value = activeTheme;
+  els.selectedThemeLabel.textContent = els.themeSelect.selectedOptions[0]?.textContent || activeTheme;
   els.themeSelect.setAttribute("aria-label", t("theme"));
   els.languageSelect.setAttribute("aria-label", t("language"));
   els.yearFilter.setAttribute("aria-label", t("year"));
@@ -989,11 +1006,33 @@ els.themeSelect.addEventListener("change", (event) => {
   applyTheme(event.target.value);
 });
 
+els.themeMenuButton.addEventListener("click", () => {
+  const isOpen = !els.themeMenuPanel.hidden;
+  els.themeMenuPanel.hidden = isOpen;
+  els.themeMenuButton.setAttribute("aria-expanded", String(!isOpen));
+});
+
+els.themeMenuOptions.addEventListener("click", (event) => {
+  const button = event.target.closest("button[data-theme]");
+  if (!button) return;
+  applyTheme(button.dataset.theme);
+  els.themeMenuPanel.hidden = true;
+  els.themeMenuButton.setAttribute("aria-expanded", "false");
+});
+
 els.themeInput.addEventListener("change", (event) => {
   importThemeFile(event.target.files?.[0]);
+  els.themeMenuPanel.hidden = true;
+  els.themeMenuButton.setAttribute("aria-expanded", "false");
 });
 
 els.exportTheme.addEventListener("click", exportSelectedTheme);
+
+document.addEventListener("click", (event) => {
+  if (els.themeMenu.contains(event.target)) return;
+  els.themeMenuPanel.hidden = true;
+  els.themeMenuButton.setAttribute("aria-expanded", "false");
+});
 
 els.languageSelect.addEventListener("change", (event) => {
   applyLanguage(event.target.value);

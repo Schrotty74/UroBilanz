@@ -144,6 +144,8 @@ Umgesetzt:
 - Web-App: Theme-JSON importieren, validieren, lokal speichern und anwenden.
 - SwiftUI-App: Theme-JSON importieren, validieren, lokal speichern und anwenden.
 - Web-App und SwiftUI-App: importierte Themes als JSON exportieren.
+- Web-App: Theme-Auswahl, Import und Export in ein gemeinsames Theme-Menue
+  zusammengefuehrt.
 - Tests fuer gueltige und ungueltige Theme-Dateien ergaenzt.
 - Praktischer Importtest in Web-App und SwiftUI-App erfolgreich.
 
