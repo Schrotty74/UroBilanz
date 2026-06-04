@@ -505,6 +505,10 @@ main {
   opacity: 0;
 }
 
+.header-actions > .file-button {
+  min-width: 138px;
+}
+
 .tabs {
   display: flex;
   gap: 6px;

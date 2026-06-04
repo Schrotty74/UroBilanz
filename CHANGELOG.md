@@ -25,6 +25,8 @@ Alle wichtigen Änderungen an UroBilanz werden hier dokumentiert.
   dauerhaft unterhalb der scrollbaren Theme-Liste.
 - Web-App: CSS-Regel ergänzt, damit das geschlossene Theme-Menü wirklich
   ausgeblendet wird.
+- Web-App: Kopfbereich-Buttons angeglichen, damit `Eintrag` nicht deutlich
+  kleiner als die CSV-Aktionen wirkt.
 - Web- und Swift-Tests um gültige und ungültige Theme-Dateien erweitert.
 - Importierte Themes in Web-App und SwiftUI-App praktisch geprüft.
 
