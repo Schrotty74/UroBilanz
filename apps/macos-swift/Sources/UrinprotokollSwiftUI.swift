@@ -17,7 +17,7 @@ enum AppLanguage: String, CaseIterable, Identifiable {
 private let translations: [AppLanguage: [String: String]] = [
     .de: [
         "dashboard": "Dashboard", "year": "Jahr", "month": "Monat", "week": "Woche", "day": "Tag", "notes": "Notizen",
-        "language": "Sprache", "import_theme": "Theme importieren", "remember_data": "Daten merken", "entry": "Eintrag", "merge_csv": "CSV ergänzen", "load_csv": "CSV laden",
+        "language": "Sprache", "import_theme": "Theme importieren", "export_theme": "Theme exportieren", "remember_data": "Daten merken", "entry": "Eintrag", "merge_csv": "CSV ergänzen", "load_csv": "CSV laden",
         "delete": "Löschen", "backup": "Backup", "daily_data": "Tagesdaten", "no_data": "Keine Daten geladen",
         "no_data_help": "Lade einen CSV-Export aus Urinote oder eine Tagesdaten-CSV.", "csv_error": "CSV konnte nicht geladen werden",
         "entry_add": "Eintrag hinzufügen", "entry_edit": "Eintrag bearbeiten", "date": "Datum", "urine_time": "Urin Uhrzeit",
@@ -46,7 +46,7 @@ private let translations: [AppLanguage: [String: String]] = [
     ],
     .en: [
         "dashboard": "Dashboard", "year": "Year", "month": "Month", "week": "Week", "day": "Day", "notes": "Notes",
-        "language": "Language", "import_theme": "Import theme", "remember_data": "Remember data", "entry": "Entry", "merge_csv": "Merge CSV", "load_csv": "Load CSV",
+        "language": "Language", "import_theme": "Import theme", "export_theme": "Export theme", "remember_data": "Remember data", "entry": "Entry", "merge_csv": "Merge CSV", "load_csv": "Load CSV",
         "delete": "Delete", "backup": "Backup", "daily_data": "Daily data", "no_data": "No data loaded",
         "no_data_help": "Load an Urinote CSV export or a daily data CSV.", "csv_error": "CSV could not be loaded",
         "entry_add": "Add entry", "entry_edit": "Edit entry", "date": "Date", "urine_time": "Urine time",
@@ -1097,7 +1097,8 @@ struct ContentView: View {
                     themeRaw: $themeRaw,
                     languageRaw: $languageRaw,
                     customThemes: customThemes,
-                    importTheme: { showsThemeImporter = true }
+                    importTheme: { showsThemeImporter = true },
+                    exportTheme: exportSelectedTheme
                 )
                 Divider()
                 detailView
@@ -1155,6 +1156,28 @@ struct ContentView: View {
             themeRaw = theme.id
         } catch {
             themeErrorMessage = error.localizedDescription
+        }
+    }
+
+    private func exportSelectedTheme() {
+        guard let theme = customThemes.first(where: { $0.id == themeRaw }) else { return }
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
+        guard let data = try? encoder.encode(theme),
+              let text = String(data: data, encoding: .utf8) else {
+            themeErrorMessage = tr("export_theme", AppLanguage(rawValue: languageRaw) ?? .de)
+            return
+        }
+        saveTheme(text: text + "\n", defaultName: "urobilanz-theme-\(theme.id).json")
+    }
+
+    private func saveTheme(text: String, defaultName: String) {
+        let panel = NSSavePanel()
+        panel.nameFieldStringValue = defaultName
+        panel.allowedContentTypes = [.json]
+        panel.begin { response in
+            guard response == .OK, let url = panel.url else { return }
+            try? text.write(to: url, atomically: true, encoding: .utf8)
         }
     }
 

@@ -61,6 +61,7 @@ const els = {
   emptyCsvInput: document.querySelector("#emptyCsvInput"),
   mergeCsvInput: document.querySelector("#mergeCsvInput"),
   themeInput: document.querySelector("#themeInput"),
+  exportTheme: document.querySelector("#exportTheme"),
   themeSelect: document.querySelector("#themeSelect"),
   languageSelect: document.querySelector("#languageSelect"),
   appMark: document.querySelector("#appMark"),
@@ -121,6 +122,10 @@ function loadCustomThemes() {
 
 function saveCustomThemes() {
   localStorage.setItem("uroCustomThemes", JSON.stringify(customThemes));
+}
+
+function themeFileName(theme) {
+  return `urobilanz-theme-${theme.id}.json`;
 }
 
 function customThemeTitle(theme) {
@@ -507,6 +512,7 @@ function applyTheme(theme) {
   if (customTheme) applyCustomThemeVariables(customTheme);
   rebuildThemeOptions();
   els.themeSelect.value = selectedTheme;
+  els.exportTheme.disabled = !customTheme;
   els.appMark.src = isDark ? "./assets/urobilanz-icon-dark.svg" : "./assets/urobilanz-icon-light.svg";
   localStorage.setItem("urinTheme", selectedTheme);
   if (state.days.length) render();
@@ -545,6 +551,15 @@ async function importThemeFile(file) {
   } finally {
     els.themeInput.value = "";
   }
+}
+
+function exportSelectedTheme() {
+  const theme = customThemeById(els.themeSelect.value);
+  if (!theme) {
+    window.alert(t("theme_export_builtin"));
+    return;
+  }
+  downloadText(themeFileName(theme), `${JSON.stringify(theme, null, 2)}\n`, "application/json;charset=utf-8");
 }
 
 function renderMetrics(days) {
@@ -977,6 +992,8 @@ els.themeSelect.addEventListener("change", (event) => {
 els.themeInput.addEventListener("change", (event) => {
   importThemeFile(event.target.files?.[0]);
 });
+
+els.exportTheme.addEventListener("click", exportSelectedTheme);
 
 els.languageSelect.addEventListener("change", (event) => {
   applyLanguage(event.target.value);

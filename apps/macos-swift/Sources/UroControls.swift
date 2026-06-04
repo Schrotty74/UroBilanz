@@ -10,6 +10,7 @@ struct ToolbarStrip: View {
     @Binding var languageRaw: String
     let customThemes: [CustomThemeDefinition]
     let importTheme: () -> Void
+    let exportTheme: () -> Void
     @Environment(\.appLanguage) private var language
 
     var body: some View {
@@ -32,7 +33,7 @@ struct ToolbarStrip: View {
                     .onChange(of: model.rememberData) { _, _ in model.toggleRemember() }
                     .toggleStyle(.switch)
             }
-            ThemeMenu(themeRaw: $themeRaw, customThemes: customThemes, importTheme: importTheme)
+            ThemeMenu(themeRaw: $themeRaw, customThemes: customThemes, importTheme: importTheme, exportTheme: exportTheme)
             LanguageMenu(languageRaw: $languageRaw)
             Button(tr("entry", language), systemImage: "plus.circle") { showsEntrySheet = true }
             Button(tr("merge_csv", language), systemImage: "plus.square.on.square") { model.openMergeCSV() }
@@ -55,6 +56,7 @@ struct ThemeMenu: View {
     @Binding var themeRaw: String
     let customThemes: [CustomThemeDefinition]
     let importTheme: () -> Void
+    let exportTheme: () -> Void
     @Environment(\.appLanguage) private var language
 
     private var selectedTitle: String {
@@ -98,6 +100,10 @@ struct ThemeMenu: View {
             Button(tr("import_theme", language), systemImage: "square.and.arrow.down") {
                 importTheme()
             }
+            Button(tr("export_theme", language), systemImage: "square.and.arrow.up") {
+                exportTheme()
+            }
+            .disabled(customThemes.first(where: { $0.id == themeRaw }) == nil)
         } label: {
             HStack(spacing: 8) {
                 Text(selectedTitle)

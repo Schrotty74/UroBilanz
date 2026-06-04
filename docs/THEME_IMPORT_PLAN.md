@@ -3,7 +3,8 @@
 Stand: 04.06.2026
 
 Umsetzungsstand: Die erste Umsetzung fuer `v1.6.0-beta.1` ist lokal gebaut und
-geprueft. Web-App und SwiftUI-App koennen eigene Theme-JSON-Dateien importieren.
+geprueft. Web-App und SwiftUI-App koennen eigene Theme-JSON-Dateien importieren
+und importierte Themes wieder exportieren.
 
 ## Ziel
 
@@ -244,14 +245,13 @@ Die Vorlage soll kurz erklaeren:
 - Importierte Themes koennen eingebaute Theme-IDs nicht ueberschreiben.
 - Bereits importierte eigene Themes mit gleicher ID werden beim erneuten Import
   ersetzt.
-- `Theme exportieren` bleibt vorerst optional fuer spaeter.
+- `Theme exportieren` ist fuer importierte Themes enthalten.
 - SwiftUI speichert importierte Themes gesammelt als JSON in `AppStorage`.
 - Das Minimalformat benoetigt sechs Pflichtfarben plus Metadaten.
 
 ## Offene Entscheidungen Nach beta.1
 
 - Soll ein importiertes Theme geloescht werden koennen?
-- Soll `Theme exportieren` spaeter ergaenzt werden?
 - Soll es eine kleine Verwaltungsansicht fuer importierte Themes geben?
 
 ## Empfohlener Kleiner Umfang Fuer beta.1
@@ -261,4 +261,4 @@ Die Vorlage soll kurz erklaeren:
 3. Import in der Web-App umsetzen.
 4. Import in der SwiftUI-App umsetzen.
 5. Tests fuer gueltige und ungueltige Theme-Dateien ergaenzen.
-6. Erst danach optional ueber Theme-Export entscheiden.
+6. Importierte Themes exportieren.

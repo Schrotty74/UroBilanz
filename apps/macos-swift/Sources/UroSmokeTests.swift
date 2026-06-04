@@ -112,6 +112,9 @@ struct ImportTestView: View {
             assertWorkflow(theme.id == "harbor-night", "custom theme id mismatch")
             assertWorkflow(theme.title(.en) == "Harbor Night", "custom theme title mismatch")
             assertWorkflow(theme.style.isDark, "custom theme should be dark")
+            let encoded = try JSONEncoder().encode(theme)
+            let decoded = try JSONDecoder().decode(CustomThemeDefinition.self, from: encoded).validated()
+            assertWorkflow(decoded.id == theme.id, "custom theme export roundtrip failed")
 
             var duplicate = theme
             duplicate.id = AppTheme.classicLight.rawValue

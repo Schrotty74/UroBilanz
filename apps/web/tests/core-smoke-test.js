@@ -48,6 +48,7 @@ const validTheme = validateUroTheme({
 }, ["classic-light"]);
 assert.equal(validTheme.id, "harbor-night");
 assert.equal(validTheme.name.en, "Harbor Night");
+assert.deepEqual(validateUroTheme(JSON.parse(JSON.stringify(validTheme))).colors, validTheme.colors);
 assert.throws(() => validateUroTheme({ ...validTheme, id: "classic-light" }, ["classic-light"]), /ueberschrieben/);
 assert.throws(() => validateUroTheme({ ...validTheme, colors: { ...validTheme.colors, accent: "gold" } }), /accent/);
 assert.throws(() => validateUroTheme({ ...validTheme, version: 2 }), /Version/);

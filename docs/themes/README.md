@@ -25,6 +25,9 @@ Farben werden als Hex-Werte geschrieben, zum Beispiel `#F2BD00`.
 In Web-App und SwiftUI-App wird das Theme ueber `Theme importieren` geladen.
 Eingebaute Themes bleiben erhalten und koennen nicht ueberschrieben werden.
 
+Importierte Themes koennen ueber `Theme exportieren` wieder als JSON-Datei
+gespeichert und weitergegeben werden.
+
 ## Beispiel
 
 Beispiele:

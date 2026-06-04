@@ -15,6 +15,8 @@ Alle wichtigen Änderungen an UroBilanz werden hier dokumentiert.
 - SwiftUI-App: importierte Themes werden lokal gespeichert, in der Theme-Auswahl
   angezeigt und über dieselbe Darstellungslogik wie eingebaute Themes
   angewendet.
+- Web-App und SwiftUI-App: aktuell ausgewählte importierte Themes können wieder
+  als JSON-Datei exportiert werden.
 - Web- und Swift-Tests um gültige und ungültige Theme-Dateien erweitert.
 - Importierte Themes in Web-App und SwiftUI-App praktisch geprüft.
 

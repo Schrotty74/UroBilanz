@@ -143,6 +143,7 @@ Umgesetzt:
 - Theme-Vorlage und Beispielthemes unter `docs/themes/`.
 - Web-App: Theme-JSON importieren, validieren, lokal speichern und anwenden.
 - SwiftUI-App: Theme-JSON importieren, validieren, lokal speichern und anwenden.
+- Web-App und SwiftUI-App: importierte Themes als JSON exportieren.
 - Tests fuer gueltige und ungueltige Theme-Dateien ergaenzt.
 - Praktischer Importtest in Web-App und SwiftUI-App erfolgreich.
 
@@ -150,8 +151,7 @@ Naechster Schritt:
 
 - `v1.6.0-beta.1` vorbereiten, Changelog finalisieren, lokale Sicherung
   erstellen und erst nach ausdruecklicher Freigabe veroeffentlichen.
-- Optional spaeter klaeren, ob importierte Themes geloescht oder exportiert
-  werden sollen.
+- Optional spaeter klaeren, ob importierte Themes geloescht werden sollen.
 
 ## Spaetere Idee - Optionaler Feinschliff
 
