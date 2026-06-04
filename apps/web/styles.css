@@ -395,6 +395,10 @@ main {
   overflow: hidden;
 }
 
+.theme-menu-panel[hidden] {
+  display: none;
+}
+
 .theme-menu-options,
 .theme-menu-actions {
   display: grid;
