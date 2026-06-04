@@ -494,6 +494,7 @@ main {
   border-radius: 7px;
   background: color-mix(in srgb, var(--header-text) 10%, transparent);
   color: var(--header-text);
+  font: inherit;
   font-weight: 750;
   cursor: pointer;
 }
