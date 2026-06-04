@@ -403,7 +403,7 @@ struct NotesView: View {
 }
 
 struct AppBackground: View {
-    let theme: AppTheme
+    let theme: ThemeStyle
 
     var body: some View {
         ZStack {
@@ -432,7 +432,7 @@ private struct LiquidCardModifier: ViewModifier {
                 .glassEffect(.regular, in: RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
                 .overlay(
                     RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
-                        .stroke(theme.accent.opacity(theme == .highContrast ? 0.70 : 0.16), lineWidth: theme == .highContrast ? 1.5 : 1)
+                        .stroke(theme.accent.opacity(theme.isHighContrast ? 0.70 : 0.16), lineWidth: theme.isHighContrast ? 1.5 : 1)
                 )
         } else {
             content
@@ -440,7 +440,7 @@ private struct LiquidCardModifier: ViewModifier {
                 .background(.regularMaterial, in: RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
                 .overlay(
                     RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
-                        .stroke(theme.accent.opacity(theme == .highContrast ? 0.70 : 0.24), lineWidth: 1)
+                        .stroke(theme.accent.opacity(theme.isHighContrast ? 0.70 : 0.24), lineWidth: 1)
                 )
         }
     }

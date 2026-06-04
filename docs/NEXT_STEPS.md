@@ -123,7 +123,8 @@ Planungsstand:
 - Lokaler Planungszweig: `v1.6.0-beta.1-plan`
 - Planungsdatei im Projekt:
   `./docs/THEME_IMPORT_PLAN.md`
-- Noch keine App-, UI- oder Code-Umsetzung begonnen.
+- Erste Umsetzung fuer `v1.6.0-beta.1` lokal gebaut und geprueft.
+- Noch nicht als GitHub-Release veroeffentlicht.
 
 Ziel fuer Version 1.6:
 
@@ -136,14 +137,22 @@ Ziel fuer Version 1.6:
 - Vor Umsetzung zuerst Format und Umfang festlegen, damit es nicht unnoetig
   kompliziert wird.
 
-Naechster Schritt vor Umsetzung:
+Umgesetzt:
 
-- JSON-Format final entscheiden.
-- Klaeren, ob `name` mehrsprachig sein muss oder ein einfacher String reicht.
-- Klaeren, ob importierte Themes geloescht werden koennen sollen.
-- Klaeren, ob `Theme exportieren` schon in `v1.6.0-beta.1` enthalten sein soll.
-- Klaeren, wo SwiftUI importierte Themes speichern soll.
-- Danach erst mit Web-App-Import beginnen.
+- Gemeinsames JSON-Format `urobilanz-theme` Version `1`.
+- Theme-Vorlage und Beispieltheme unter `docs/themes/`.
+- Web-App: Theme-JSON importieren, validieren, lokal speichern und anwenden.
+- SwiftUI-App: Theme-JSON importieren, validieren, lokal speichern und anwenden.
+- Tests fuer gueltige und ungueltige Theme-Dateien ergaenzt.
+
+Naechster Schritt:
+
+- Funktion in Web-App und SwiftUI-App kurz praktisch pruefen.
+- Falls alles passt: `v1.6.0-beta.1` vorbereiten, Changelog finalisieren,
+  lokale Sicherung erstellen und erst nach ausdruecklicher Freigabe
+  veroeffentlichen.
+- Optional spaeter klaeren, ob importierte Themes geloescht oder exportiert
+  werden sollen.
 
 ## Spaetere Idee - Optionaler Feinschliff
 

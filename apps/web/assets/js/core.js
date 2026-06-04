@@ -92,6 +92,86 @@
     return String(value).replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
   }
 
+  const requiredThemeColors = ["text", "background", "panel", "accent", "urine", "water"];
+  const optionalThemeColors = [
+    "mutedText",
+    "backgroundAlt",
+    "panelSoft",
+    "border",
+    "accentText",
+    "urineSoft",
+    "waterSoft",
+    "low",
+    "rowOdd",
+    "rowEven",
+    "chartUrine",
+    "chartWater",
+  ];
+  const themeEffects = ["glassOpacity", "glassBorderOpacity", "shadowOpacity"];
+
+  function normalizeThemeName(name) {
+    if (typeof name === "string" && name.trim()) {
+      return { de: name.trim(), en: name.trim() };
+    }
+    if (name && typeof name === "object") {
+      const de = String(name.de || name.en || "").trim();
+      const en = String(name.en || name.de || "").trim();
+      if (de || en) return { de: de || en, en: en || de };
+    }
+    return null;
+  }
+
+  function validateUroTheme(theme, builtInIds = []) {
+    if (!theme || typeof theme !== "object" || Array.isArray(theme)) {
+      throw new Error("Theme-Datei ist kein gueltiges Objekt.");
+    }
+    if (theme.format !== "urobilanz-theme") {
+      throw new Error("Theme-Format wird nicht erkannt.");
+    }
+    if (theme.version !== 1) {
+      throw new Error("Theme-Version wird nicht unterstuetzt.");
+    }
+    const id = String(theme.id || "").trim();
+    if (!/^[a-z0-9][a-z0-9-]*$/.test(id)) {
+      throw new Error("Theme-ID darf nur Kleinbuchstaben, Zahlen und Bindestriche enthalten.");
+    }
+    if (builtInIds.includes(id)) {
+      throw new Error("Eingebaute Themes duerfen nicht ueberschrieben werden.");
+    }
+    const name = normalizeThemeName(theme.name);
+    if (!name) {
+      throw new Error("Theme-Name fehlt.");
+    }
+    if (!["light", "dark"].includes(theme.mode)) {
+      throw new Error("Theme-Modus muss light oder dark sein.");
+    }
+    const colors = {};
+    const sourceColors = theme.colors || {};
+    for (const key of requiredThemeColors) {
+      if (!/^#[0-9a-fA-F]{6}$/.test(String(sourceColors[key] || ""))) {
+        throw new Error(`Theme-Farbe ${key} fehlt oder ist ungueltig.`);
+      }
+      colors[key] = String(sourceColors[key]).toUpperCase();
+    }
+    for (const key of optionalThemeColors) {
+      if (sourceColors[key] == null || sourceColors[key] === "") continue;
+      if (!/^#[0-9a-fA-F]{6}$/.test(String(sourceColors[key]))) {
+        throw new Error(`Theme-Farbe ${key} ist ungueltig.`);
+      }
+      colors[key] = String(sourceColors[key]).toUpperCase();
+    }
+    const effects = {};
+    for (const key of themeEffects) {
+      if (theme.effects?.[key] == null || theme.effects[key] === "") continue;
+      const value = Number(theme.effects[key]);
+      if (!Number.isFinite(value) || value < 0 || value > 1) {
+        throw new Error(`Theme-Effekt ${key} muss zwischen 0 und 1 liegen.`);
+      }
+      effects[key] = value;
+    }
+    return { format: "urobilanz-theme", version: 1, id, name, mode: theme.mode, colors, effects };
+  }
+
   const api = {
     detectDelimiter,
     normalizeHeader,
@@ -103,6 +183,7 @@
     inputDateValue,
     inputTimeValue,
     escapeHtml,
+    validateUroTheme,
   };
 
   root.UroCore = api;

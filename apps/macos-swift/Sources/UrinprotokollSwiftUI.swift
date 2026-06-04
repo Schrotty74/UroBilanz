@@ -17,7 +17,7 @@ enum AppLanguage: String, CaseIterable, Identifiable {
 private let translations: [AppLanguage: [String: String]] = [
     .de: [
         "dashboard": "Dashboard", "year": "Jahr", "month": "Monat", "week": "Woche", "day": "Tag", "notes": "Notizen",
-        "language": "Sprache", "remember_data": "Daten merken", "entry": "Eintrag", "merge_csv": "CSV ergänzen", "load_csv": "CSV laden",
+        "language": "Sprache", "import_theme": "Theme importieren", "remember_data": "Daten merken", "entry": "Eintrag", "merge_csv": "CSV ergänzen", "load_csv": "CSV laden",
         "delete": "Löschen", "backup": "Backup", "daily_data": "Tagesdaten", "no_data": "Keine Daten geladen",
         "no_data_help": "Lade einen CSV-Export aus Urinote oder eine Tagesdaten-CSV.", "csv_error": "CSV konnte nicht geladen werden",
         "entry_add": "Eintrag hinzufügen", "entry_edit": "Eintrag bearbeiten", "date": "Datum", "urine_time": "Urin Uhrzeit",
@@ -46,7 +46,7 @@ private let translations: [AppLanguage: [String: String]] = [
     ],
     .en: [
         "dashboard": "Dashboard", "year": "Year", "month": "Month", "week": "Week", "day": "Day", "notes": "Notes",
-        "language": "Language", "remember_data": "Remember data", "entry": "Entry", "merge_csv": "Merge CSV", "load_csv": "Load CSV",
+        "language": "Language", "import_theme": "Import theme", "remember_data": "Remember data", "entry": "Entry", "merge_csv": "Merge CSV", "load_csv": "Load CSV",
         "delete": "Delete", "backup": "Backup", "daily_data": "Daily data", "no_data": "No data loaded",
         "no_data_help": "Load an Urinote CSV export or a daily data CSV.", "csv_error": "CSV could not be loaded",
         "entry_add": "Add entry", "entry_edit": "Edit entry", "date": "Date", "urine_time": "Urine time",
@@ -253,14 +253,213 @@ enum AppTheme: String, CaseIterable, Identifiable {
             Color.white.opacity(0.07)
         }
     }
+
+    var style: ThemeStyle {
+        ThemeStyle(
+            id: rawValue,
+            preferredScheme: preferredScheme,
+            isHighContrast: self == .highContrast,
+            accent: accent,
+            urineColor: urineColor,
+            waterColor: waterColor,
+            background: background,
+            controlBackground: controlBackground,
+            controlForeground: controlForeground,
+            controlBorder: controlBorder,
+            tableBackground: tableBackground,
+            tableRow: tableRow
+        )
+    }
+}
+
+struct ThemeStyle {
+    let id: String
+    let preferredScheme: ColorScheme
+    let isHighContrast: Bool
+    let accent: Color
+    let urineColor: Color
+    let waterColor: Color
+    let background: [Color]
+    let controlBackground: Color
+    let controlForeground: Color
+    let controlBorder: Color
+    let tableBackground: Color
+    let tableRow: Color
+
+    var isDark: Bool { preferredScheme == .dark }
+
+    static func resolve(id: String, customThemes: [CustomThemeDefinition]) -> ThemeStyle {
+        if let builtIn = AppTheme(rawValue: id) {
+            return builtIn.style
+        }
+        if let custom = customThemes.first(where: { $0.id == id }) {
+            return custom.style
+        }
+        return AppTheme.classicDark.style
+    }
+}
+
+struct CustomThemeDefinition: Codable, Identifiable, Equatable {
+    struct ThemeName: Codable, Equatable {
+        var de: String?
+        var en: String?
+    }
+
+    struct ThemeColors: Codable, Equatable {
+        var text: String
+        var mutedText: String?
+        var background: String
+        var backgroundAlt: String?
+        var panel: String
+        var panelSoft: String?
+        var border: String?
+        var accent: String
+        var accentText: String?
+        var urine: String
+        var urineSoft: String?
+        var water: String
+        var waterSoft: String?
+        var low: String?
+        var rowOdd: String?
+        var rowEven: String?
+        var chartUrine: String?
+        var chartWater: String?
+    }
+
+    struct ThemeEffects: Codable, Equatable {
+        var glassOpacity: Double?
+        var glassBorderOpacity: Double?
+        var shadowOpacity: Double?
+    }
+
+    var format: String
+    var version: Int
+    var id: String
+    var name: ThemeName
+    var mode: String
+    var colors: ThemeColors
+    var effects: ThemeEffects?
+
+    static let builtInIds = Set(AppTheme.allCases.map(\.rawValue))
+
+    func title(_ language: AppLanguage) -> String {
+        switch language {
+        case .de: name.de ?? name.en ?? id
+        case .en: name.en ?? name.de ?? id
+        }
+    }
+
+    var style: ThemeStyle {
+        let isDark = mode == "dark"
+        let panelOpacity = effects?.glassOpacity ?? 0.86
+        let borderOpacity = effects?.glassBorderOpacity ?? 0.30
+        let accent = Color(hex: colors.accent) ?? .yellow
+        let text = Color(hex: colors.text) ?? (isDark ? .white : .black)
+        let background = Color(hex: colors.background) ?? (isDark ? .black : .white)
+        let backgroundAlt = Color(hex: colors.backgroundAlt) ?? Color(hex: colors.panelSoft) ?? background
+        let panel = Color(hex: colors.panel) ?? background
+        let panelSoft = Color(hex: colors.panelSoft) ?? panel
+        return ThemeStyle(
+            id: id,
+            preferredScheme: isDark ? .dark : .light,
+            isHighContrast: false,
+            accent: accent,
+            urineColor: Color(hex: colors.chartUrine) ?? Color(hex: colors.urine) ?? .yellow,
+            waterColor: Color(hex: colors.chartWater) ?? Color(hex: colors.water) ?? .blue,
+            background: [background, backgroundAlt, panelSoft.opacity(0.55)],
+            controlBackground: panel.opacity(panelOpacity),
+            controlForeground: text,
+            controlBorder: Color(hex: colors.border) ?? accent.opacity(borderOpacity),
+            tableBackground: panel.opacity(max(0.40, panelOpacity - 0.08)),
+            tableRow: (Color(hex: colors.rowOdd) ?? panelSoft).opacity(0.46)
+        )
+    }
+
+    func validated() throws -> CustomThemeDefinition {
+        guard format == "urobilanz-theme" else { throw ThemeImportError.invalidFormat }
+        guard version == 1 else { throw ThemeImportError.invalidVersion }
+        guard id.range(of: #"^[a-z0-9][a-z0-9-]*$"#, options: .regularExpression) != nil else { throw ThemeImportError.invalidId }
+        guard !Self.builtInIds.contains(id) else { throw ThemeImportError.builtInId }
+        guard mode == "light" || mode == "dark" else { throw ThemeImportError.invalidMode }
+        guard !(name.de ?? name.en ?? "").trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { throw ThemeImportError.missingName }
+        let colorValues = [
+            colors.text, colors.background, colors.panel, colors.accent, colors.urine, colors.water,
+            colors.mutedText, colors.backgroundAlt, colors.panelSoft, colors.border, colors.accentText,
+            colors.urineSoft, colors.waterSoft, colors.low, colors.rowOdd, colors.rowEven,
+            colors.chartUrine, colors.chartWater,
+        ].compactMap { $0 }
+        guard colorValues.allSatisfy({ Color.isHexColor($0) }) else { throw ThemeImportError.invalidColor }
+        let effectValues = [effects?.glassOpacity, effects?.glassBorderOpacity, effects?.shadowOpacity].compactMap { $0 }
+        guard effectValues.allSatisfy({ $0 >= 0 && $0 <= 1 }) else { throw ThemeImportError.invalidEffect }
+        return self
+    }
+
+    static func decodeList(_ raw: String) -> [CustomThemeDefinition] {
+        guard let data = raw.data(using: .utf8),
+              let themes = try? JSONDecoder().decode([CustomThemeDefinition].self, from: data) else {
+            return []
+        }
+        return themes.compactMap { try? $0.validated() }
+    }
+
+    static func encodeList(_ themes: [CustomThemeDefinition]) -> String {
+        guard let data = try? JSONEncoder().encode(themes),
+              let raw = String(data: data, encoding: .utf8) else {
+            return "[]"
+        }
+        return raw
+    }
+}
+
+enum ThemeImportError: LocalizedError {
+    case invalidFormat
+    case invalidVersion
+    case invalidId
+    case builtInId
+    case invalidMode
+    case missingName
+    case invalidColor
+    case invalidEffect
+
+    var errorDescription: String? {
+        switch self {
+        case .invalidFormat: "Theme-Format wird nicht erkannt."
+        case .invalidVersion: "Theme-Version wird nicht unterstuetzt."
+        case .invalidId: "Theme-ID darf nur Kleinbuchstaben, Zahlen und Bindestriche enthalten."
+        case .builtInId: "Eingebaute Themes duerfen nicht ueberschrieben werden."
+        case .invalidMode: "Theme-Modus muss light oder dark sein."
+        case .missingName: "Theme-Name fehlt."
+        case .invalidColor: "Eine Theme-Farbe fehlt oder ist ungueltig."
+        case .invalidEffect: "Theme-Effekte muessen zwischen 0 und 1 liegen."
+        }
+    }
+}
+
+extension Color {
+    init?(hex: String?) {
+        guard let hex else { return nil }
+        let clean = hex.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard Self.isHexColor(clean) else { return nil }
+        let value = String(clean.dropFirst())
+        guard let rgb = Int(value, radix: 16) else { return nil }
+        self.init(
+            red: Double((rgb >> 16) & 0xff) / 255,
+            green: Double((rgb >> 8) & 0xff) / 255,
+            blue: Double(rgb & 0xff) / 255
+        )
+    }
+
+    static func isHexColor(_ value: String) -> Bool {
+        value.range(of: #"^#[0-9A-Fa-f]{6}$"#, options: .regularExpression) != nil
+    }
 }
 
 private struct AppThemeKey: EnvironmentKey {
-    static let defaultValue: AppTheme = .classicDark
+    static let defaultValue: ThemeStyle = AppTheme.classicDark.style
 }
 
 extension EnvironmentValues {
-    var appTheme: AppTheme {
+    var appTheme: ThemeStyle {
         get { self[AppThemeKey.self] }
         set { self[AppThemeKey.self] = newValue }
     }
@@ -870,12 +1069,19 @@ struct UrinprotokollSwiftUIApp: App {
 struct ContentView: View {
     @EnvironmentObject private var model: UrinModel
     @AppStorage("uroBilanzTheme") private var themeRaw = AppTheme.classicDark.rawValue
+    @AppStorage("uroBilanzCustomThemes") private var customThemesRaw = "[]"
     @AppStorage("uroBilanzLanguage") private var languageRaw = AppLanguage.systemDefault.rawValue
     @State private var selection: AppSection = .dashboard
     @State private var showsEntrySheet = false
+    @State private var showsThemeImporter = false
+    @State private var themeErrorMessage: String?
+
+    private var customThemes: [CustomThemeDefinition] {
+        CustomThemeDefinition.decodeList(customThemesRaw)
+    }
 
     var body: some View {
-        let theme = AppTheme(rawValue: themeRaw) ?? .classicDark
+        let theme = ThemeStyle.resolve(id: themeRaw, customThemes: customThemes)
         let language = AppLanguage(rawValue: languageRaw) ?? .de
         NavigationSplitView {
             List(AppSection.allCases, selection: $selection) { section in
@@ -885,7 +1091,14 @@ struct ContentView: View {
             .navigationSplitViewColumnWidth(min: 180, ideal: 200)
         } detail: {
             VStack(spacing: 0) {
-                ToolbarStrip(selection: $selection, showsEntrySheet: $showsEntrySheet, themeRaw: $themeRaw, languageRaw: $languageRaw)
+                ToolbarStrip(
+                    selection: $selection,
+                    showsEntrySheet: $showsEntrySheet,
+                    themeRaw: $themeRaw,
+                    languageRaw: $languageRaw,
+                    customThemes: customThemes,
+                    importTheme: { showsThemeImporter = true }
+                )
                 Divider()
                 detailView
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
@@ -907,6 +1120,9 @@ struct ContentView: View {
                 .environment(\.appLanguage, language)
                 .environment(\.appTheme, theme)
         }
+        .fileImporter(isPresented: $showsThemeImporter, allowedContentTypes: [.json]) { result in
+            importCustomTheme(result)
+        }
         .alert(tr("csv_error", language), isPresented: Binding(
             get: { model.errorMessage != nil },
             set: { if !$0 { model.errorMessage = nil } }
@@ -914,6 +1130,31 @@ struct ContentView: View {
             Button("OK", role: .cancel) { model.errorMessage = nil }
         } message: {
             Text(model.errorMessage ?? "")
+        }
+        .alert(tr("import_theme", language), isPresented: Binding(
+            get: { themeErrorMessage != nil },
+            set: { if !$0 { themeErrorMessage = nil } }
+        )) {
+            Button("OK", role: .cancel) { themeErrorMessage = nil }
+        } message: {
+            Text(themeErrorMessage ?? "")
+        }
+    }
+
+    private func importCustomTheme(_ result: Result<URL, Error>) {
+        do {
+            let url = try result.get()
+            let hasAccess = url.startAccessingSecurityScopedResource()
+            defer {
+                if hasAccess { url.stopAccessingSecurityScopedResource() }
+            }
+            let data = try Data(contentsOf: url)
+            let theme = try JSONDecoder().decode(CustomThemeDefinition.self, from: data).validated()
+            let themes = (customThemes.filter { $0.id != theme.id } + [theme]).sorted { $0.id < $1.id }
+            customThemesRaw = CustomThemeDefinition.encodeList(themes)
+            themeRaw = theme.id
+        } catch {
+            themeErrorMessage = error.localizedDescription
         }
     }
 

@@ -22,9 +22,14 @@ const {
   parseDate,
   parseDayDate,
   toMesstag,
+  validateUroTheme,
 } = window.UroCore;
 const { drawLineChart, drawMonthChart } = window.UroCharts;
 const supportedLanguages = new Set(["de", "en"]);
+const builtInThemeIds = ["classic-light", "classic-dark", "violet-night", "liquid-dark", "medical-light", "high-contrast", "summer", "cream-sage"];
+const builtInThemeSet = new Set(builtInThemeIds);
+const darkThemeSet = new Set(["classic-dark", "violet-night", "liquid-dark", "high-contrast"]);
+let customThemes = loadCustomThemes();
 let language = supportedLanguages.has(localStorage.getItem("uroLanguage"))
   ? localStorage.getItem("uroLanguage")
   : ((navigator.language || "de").toLowerCase().startsWith("de") ? "de" : "en");
@@ -55,6 +60,7 @@ const els = {
   csvInput: document.querySelector("#csvInput"),
   emptyCsvInput: document.querySelector("#emptyCsvInput"),
   mergeCsvInput: document.querySelector("#mergeCsvInput"),
+  themeInput: document.querySelector("#themeInput"),
   themeSelect: document.querySelector("#themeSelect"),
   languageSelect: document.querySelector("#languageSelect"),
   appMark: document.querySelector("#appMark"),
@@ -100,6 +106,97 @@ function fmtNumber(value) {
 
 function fmtTime(date) {
   return date.toLocaleTimeString(language === "de" ? "de-AT" : "en-US", { hour: "2-digit", minute: "2-digit", hour12: false });
+}
+
+function loadCustomThemes() {
+  try {
+    const parsed = JSON.parse(localStorage.getItem("uroCustomThemes") || "[]");
+    if (!Array.isArray(parsed)) return [];
+    return parsed.map((theme) => validateUroTheme(theme, builtInThemeIds));
+  } catch {
+    localStorage.removeItem("uroCustomThemes");
+    return [];
+  }
+}
+
+function saveCustomThemes() {
+  localStorage.setItem("uroCustomThemes", JSON.stringify(customThemes));
+}
+
+function customThemeTitle(theme) {
+  return theme.name?.[language] || theme.name?.de || theme.name?.en || theme.id;
+}
+
+function rebuildThemeOptions() {
+  els.themeSelect.innerHTML = "";
+  for (const id of builtInThemeIds) {
+    const option = document.createElement("option");
+    option.value = id;
+    option.textContent = window.URO_I18N?.[language]?.themes?.[id] ?? id;
+    els.themeSelect.append(option);
+  }
+  for (const theme of customThemes) {
+    const option = document.createElement("option");
+    option.value = theme.id;
+    option.textContent = customThemeTitle(theme);
+    els.themeSelect.append(option);
+  }
+}
+
+function customThemeById(id) {
+  return customThemes.find((theme) => theme.id === id);
+}
+
+function clearCustomThemeVariables() {
+  [
+    "--ink", "--muted", "--line", "--teal", "--teal-dark", "--accent", "--accent-ink",
+    "--urine", "--urine-strong", "--water", "--water-strong", "--soft", "--paper",
+    "--panel", "--panel-soft", "--glass-bg", "--glass-line", "--glass-shadow",
+    "--chart-urine", "--chart-water", "--low", "--body-bg", "--row-odd", "--row-even",
+  ].forEach((name) => document.body.style.removeProperty(name));
+}
+
+function hexToRgb(hex) {
+  const value = hex.replace("#", "");
+  return [0, 2, 4].map((start) => parseInt(value.slice(start, start + 2), 16));
+}
+
+function rgba(hex, opacity) {
+  const [r, g, b] = hexToRgb(hex);
+  return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+}
+
+function applyCustomThemeVariables(theme) {
+  const c = theme.colors;
+  const e = theme.effects || {};
+  const set = (name, value) => document.body.style.setProperty(name, value);
+  const panelOpacity = e.glassOpacity ?? 0.86;
+  const borderOpacity = e.glassBorderOpacity ?? 0.30;
+  const shadowOpacity = e.shadowOpacity ?? 0.24;
+  set("--ink", c.text);
+  set("--muted", c.mutedText || c.text);
+  set("--line", c.border || rgba(c.accent, borderOpacity));
+  set("--teal", c.backgroundAlt || c.panel);
+  set("--teal-dark", c.accent);
+  set("--accent", c.accent);
+  set("--accent-ink", c.accentText || c.background);
+  set("--urine", c.urineSoft || rgba(c.urine, theme.mode === "dark" ? 0.22 : 0.30));
+  set("--urine-strong", c.urine);
+  set("--water", c.waterSoft || rgba(c.water, theme.mode === "dark" ? 0.22 : 0.30));
+  set("--water-strong", c.water);
+  set("--soft", c.panelSoft || c.backgroundAlt || c.panel);
+  set("--paper", c.panel);
+  set("--panel", rgba(c.panel, panelOpacity));
+  set("--panel-soft", rgba(c.panelSoft || c.panel, Math.max(0.35, panelOpacity - 0.08)));
+  set("--glass-bg", rgba(c.panel, Math.max(0.10, panelOpacity - 0.50)));
+  set("--glass-line", rgba(c.accent, borderOpacity));
+  set("--glass-shadow", rgba("#000000", shadowOpacity));
+  set("--chart-urine", c.chartUrine || c.urine);
+  set("--chart-water", c.chartWater || c.water);
+  set("--low", c.low || (theme.mode === "dark" ? "#5C252B" : "#F8D7DA"));
+  set("--body-bg", c.background);
+  set("--row-odd", c.rowOdd || c.panelSoft || c.panel);
+  set("--row-even", c.rowEven || c.panel);
 }
 
 function processRows(raw, rawCsv = "") {
@@ -400,13 +497,17 @@ function render() {
 
 function applyTheme(theme) {
   const themeAliases = { light: "classic-light", dark: "classic-dark" };
-  const validThemes = new Set(["classic-light", "classic-dark", "violet-night", "liquid-dark", "medical-light", "high-contrast", "summer", "cream-sage"]);
-  const selectedTheme = validThemes.has(themeAliases[theme] || theme) ? (themeAliases[theme] || theme) : "classic-light";
-  const darkThemes = new Set(["classic-dark", "violet-night", "liquid-dark", "high-contrast"]);
+  const requestedTheme = themeAliases[theme] || theme;
+  const selectedTheme = builtInThemeSet.has(requestedTheme) || customThemeById(requestedTheme) ? requestedTheme : "classic-light";
+  const customTheme = customThemeById(selectedTheme);
+  const isDark = customTheme ? customTheme.mode === "dark" : darkThemeSet.has(selectedTheme);
+  clearCustomThemeVariables();
   document.body.dataset.theme = selectedTheme;
-  document.body.classList.toggle("dark", darkThemes.has(selectedTheme));
+  document.body.classList.toggle("dark", isDark);
+  if (customTheme) applyCustomThemeVariables(customTheme);
+  rebuildThemeOptions();
   els.themeSelect.value = selectedTheme;
-  els.appMark.src = darkThemes.has(selectedTheme) ? "./assets/urobilanz-icon-dark.svg" : "./assets/urobilanz-icon-light.svg";
+  els.appMark.src = isDark ? "./assets/urobilanz-icon-dark.svg" : "./assets/urobilanz-icon-light.svg";
   localStorage.setItem("urinTheme", selectedTheme);
   if (state.days.length) render();
 }
@@ -419,15 +520,31 @@ function applyLanguage(nextLanguage) {
   document.querySelectorAll("[data-i18n]").forEach((element) => {
     element.textContent = t(element.dataset.i18n);
   });
-  Array.from(els.themeSelect.options).forEach((option) => {
-    option.textContent = window.URO_I18N?.[language]?.themes?.[option.value] ?? option.textContent;
-  });
+  const activeTheme = els.themeSelect.value;
+  rebuildThemeOptions();
+  els.themeSelect.value = activeTheme;
   els.themeSelect.setAttribute("aria-label", t("theme"));
   els.languageSelect.setAttribute("aria-label", t("language"));
   els.yearFilter.setAttribute("aria-label", t("year"));
   els.monthFilter.setAttribute("aria-label", t("month"));
   buildFilters();
   render();
+}
+
+async function importThemeFile(file) {
+  if (!file) return;
+  try {
+    const text = await file.text();
+    const theme = validateUroTheme(JSON.parse(text), builtInThemeIds);
+    customThemes = [...customThemes.filter((item) => item.id !== theme.id), theme].sort((a, b) => customThemeTitle(a).localeCompare(customThemeTitle(b)));
+    saveCustomThemes();
+    applyTheme(theme.id);
+    els.status.textContent = t("theme_imported", { name: customThemeTitle(theme) });
+  } catch (error) {
+    window.alert(t("theme_import_error", { message: error.message || String(error) }));
+  } finally {
+    els.themeInput.value = "";
+  }
 }
 
 function renderMetrics(days) {
@@ -855,6 +972,10 @@ function confirmDeleteDay(dayKey) {
 
 els.themeSelect.addEventListener("change", (event) => {
   applyTheme(event.target.value);
+});
+
+els.themeInput.addEventListener("change", (event) => {
+  importThemeFile(event.target.files?.[0]);
 });
 
 els.languageSelect.addEventListener("change", (event) => {

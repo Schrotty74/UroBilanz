@@ -1,0 +1,35 @@
+{
+  "format": "urobilanz-theme",
+  "version": 1,
+  "id": "my-custom-theme",
+  "name": {
+    "de": "Mein eigenes Theme",
+    "en": "My Custom Theme"
+  },
+  "mode": "dark",
+  "colors": {
+    "text": "#F5F7FA",
+    "mutedText": "#B7C1C9",
+    "background": "#101418",
+    "backgroundAlt": "#182128",
+    "panel": "#1E2930",
+    "panelSoft": "#26343D",
+    "border": "#40515C",
+    "accent": "#F2BD00",
+    "accentText": "#201B0A",
+    "urine": "#FFD447",
+    "urineSoft": "#4B3915",
+    "water": "#35AAFF",
+    "waterSoft": "#17364C",
+    "low": "#5C252B",
+    "rowOdd": "#17252B",
+    "rowEven": "#111A1F",
+    "chartUrine": "#FFD447",
+    "chartWater": "#35AAFF"
+  },
+  "effects": {
+    "glassOpacity": 0.72,
+    "glassBorderOpacity": 0.24,
+    "shadowOpacity": 0.32
+  }
+}

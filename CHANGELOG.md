@@ -4,7 +4,16 @@ Alle wichtigen Änderungen an UroBilanz werden hier dokumentiert.
 
 ## Unveröffentlicht
 
-- Noch keine Änderungen.
+- Web-App und SwiftUI-App: benutzerdefinierte Themes als JSON-Datei importieren.
+- Gemeinsames Theme-Format `urobilanz-theme` in Version `1` eingeführt.
+- Theme-Vorlage, Beispieltheme und kurze Theme-Dokumentation unter
+  `docs/themes/` ergänzt.
+- Web-App: importierte Themes werden lokal im Browser gespeichert, in der
+  Theme-Auswahl angezeigt und über CSS-Variablen angewendet.
+- SwiftUI-App: importierte Themes werden lokal gespeichert, in der Theme-Auswahl
+  angezeigt und über dieselbe Darstellungslogik wie eingebaute Themes
+  angewendet.
+- Web- und Swift-Tests um gültige und ungültige Theme-Dateien erweitert.
 
 ## 1.5.0 Final - 2026-06-04
 

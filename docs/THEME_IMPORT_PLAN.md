@@ -2,6 +2,9 @@
 
 Stand: 04.06.2026
 
+Umsetzungsstand: Die erste Umsetzung fuer `v1.6.0-beta.1` ist lokal gebaut und
+geprueft. Web-App und SwiftUI-App koennen eigene Theme-JSON-Dateien importieren.
+
 ## Ziel
 
 Version `v1.6.0-beta.1` soll benutzerdefinierte Themes vorbereiten und spaeter
@@ -9,6 +12,8 @@ umsetzen. Eigene Themes sollen als Datei importiert werden koennen, ohne CSV-
 Daten, Berechnungen, Exporte oder bestehende eingebaute Themes zu beeinflussen.
 
 Wichtig fuer den Start: zuerst Format und Umfang festlegen, dann erst bauen.
+Dieser Schritt ist abgeschlossen; die erste Implementierung folgt dem unten
+beschriebenen kleinen Umfang.
 
 ## Grundentscheidung
 
@@ -232,16 +237,22 @@ Die Vorlage soll kurz erklaeren:
 - CSV laden, CSV ergaenzen, manuelle Eintraege, Loeschen, Filter und Exporte
   funktionieren unveraendert.
 
-## Offene Entscheidungen Vor Umsetzung
+## Getroffene Entscheidungen Fuer beta.1
 
-- Soll `name` zwingend mehrsprachig sein oder reicht ein String?
+- `name` wird als Objekt mit optionalem `de` und `en` verwendet. Mindestens eine
+  Sprache muss vorhanden sein.
+- Importierte Themes koennen eingebaute Theme-IDs nicht ueberschreiben.
+- Bereits importierte eigene Themes mit gleicher ID werden beim erneuten Import
+  ersetzt.
+- `Theme exportieren` bleibt vorerst optional fuer spaeter.
+- SwiftUI speichert importierte Themes gesammelt als JSON in `AppStorage`.
+- Das Minimalformat benoetigt sechs Pflichtfarben plus Metadaten.
+
+## Offene Entscheidungen Nach beta.1
+
 - Soll ein importiertes Theme geloescht werden koennen?
-- Soll `Theme exportieren` schon in `v1.6.0-beta.1` enthalten sein oder erst
-  spaeter?
-- Soll die SwiftUI-App importierte Themes als einzelne Dateien oder gesammelt in
-  einer JSON-Liste speichern?
-- Soll ein sehr schlichtes Minimalformat erlaubt sein, das nur sechs Farben
-  benoetigt?
+- Soll `Theme exportieren` spaeter ergaenzt werden?
+- Soll es eine kleine Verwaltungsansicht fuer importierte Themes geben?
 
 ## Empfohlener Kleiner Umfang Fuer beta.1
 
