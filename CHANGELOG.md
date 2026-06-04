@@ -8,12 +8,15 @@ Alle wichtigen Änderungen an UroBilanz werden hier dokumentiert.
 - Gemeinsames Theme-Format `urobilanz-theme` in Version `1` eingeführt.
 - Theme-Vorlage, Beispieltheme und kurze Theme-Dokumentation unter
   `docs/themes/` ergänzt.
+- Zwei zusätzliche Beispielthemes ergänzt: `Alpen Morgen` und
+  `Graphit Limette`.
 - Web-App: importierte Themes werden lokal im Browser gespeichert, in der
   Theme-Auswahl angezeigt und über CSS-Variablen angewendet.
 - SwiftUI-App: importierte Themes werden lokal gespeichert, in der Theme-Auswahl
   angezeigt und über dieselbe Darstellungslogik wie eingebaute Themes
   angewendet.
 - Web- und Swift-Tests um gültige und ungültige Theme-Dateien erweitert.
+- Importierte Themes in Web-App und SwiftUI-App praktisch geprüft.
 
 ## 1.5.0 Final - 2026-06-04
 

@@ -140,17 +140,16 @@ Ziel fuer Version 1.6:
 Umgesetzt:
 
 - Gemeinsames JSON-Format `urobilanz-theme` Version `1`.
-- Theme-Vorlage und Beispieltheme unter `docs/themes/`.
+- Theme-Vorlage und Beispielthemes unter `docs/themes/`.
 - Web-App: Theme-JSON importieren, validieren, lokal speichern und anwenden.
 - SwiftUI-App: Theme-JSON importieren, validieren, lokal speichern und anwenden.
 - Tests fuer gueltige und ungueltige Theme-Dateien ergaenzt.
+- Praktischer Importtest in Web-App und SwiftUI-App erfolgreich.
 
 Naechster Schritt:
 
-- Funktion in Web-App und SwiftUI-App kurz praktisch pruefen.
-- Falls alles passt: `v1.6.0-beta.1` vorbereiten, Changelog finalisieren,
-  lokale Sicherung erstellen und erst nach ausdruecklicher Freigabe
-  veroeffentlichen.
+- `v1.6.0-beta.1` vorbereiten, Changelog finalisieren, lokale Sicherung
+  erstellen und erst nach ausdruecklicher Freigabe veroeffentlichen.
 - Optional spaeter klaeren, ob importierte Themes geloescht oder exportiert
   werden sollen.
 
