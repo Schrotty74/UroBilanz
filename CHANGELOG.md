@@ -19,6 +19,8 @@ Alle wichtigen Änderungen an UroBilanz werden hier dokumentiert.
   als JSON-Datei exportiert werden.
 - Web-App: Theme-Auswahl, Theme-Import und Theme-Export in ein gemeinsames
   Dropdown-Menü zusammengeführt.
+- Web-App: Theme-Menü bekommt einen eigenen begrenzten Scrollbereich, damit das
+  Seitenfenster beim Scrollen nicht mitwandert.
 - Web- und Swift-Tests um gültige und ungültige Theme-Dateien erweitert.
 - Importierte Themes in Web-App und SwiftUI-App praktisch geprüft.
 
