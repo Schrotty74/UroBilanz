@@ -27,4 +27,8 @@ Eingebaute Themes bleiben erhalten und koennen nicht ueberschrieben werden.
 
 ## Beispiel
 
-`example-custom-theme.json` enthaelt ein vollstaendiges Beispieltheme.
+Beispiele:
+
+- `example-custom-theme.json`: dunkles Beispieltheme
+- `example-alpine-morning.json`: helles, ruhiges Beispieltheme
+- `example-graphite-lime.json`: dunkles, kontrastreicheres Beispieltheme
