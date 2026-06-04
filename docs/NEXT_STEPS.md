@@ -118,6 +118,13 @@ Final-Vorbereitung:
 Als neuer Entwicklungszweig `v1.6.0-beta.1` planen. Erst Format und Umfang
 festlegen, nicht sofort bauen.
 
+Planungsstand:
+
+- Lokaler Planungszweig: `v1.6.0-beta.1-plan`
+- Planungsdatei im Projekt:
+  `./docs/THEME_IMPORT_PLAN.md`
+- Noch keine App-, UI- oder Code-Umsetzung begonnen.
+
 Ziel fuer Version 1.6:
 
 - Theme-System erweitern, damit eigene Themes importiert werden koennen.
@@ -128,6 +135,15 @@ Ziel fuer Version 1.6:
 - Optional Theme-Export anbieten.
 - Vor Umsetzung zuerst Format und Umfang festlegen, damit es nicht unnoetig
   kompliziert wird.
+
+Naechster Schritt vor Umsetzung:
+
+- JSON-Format final entscheiden.
+- Klaeren, ob `name` mehrsprachig sein muss oder ein einfacher String reicht.
+- Klaeren, ob importierte Themes geloescht werden koennen sollen.
+- Klaeren, ob `Theme exportieren` schon in `v1.6.0-beta.1` enthalten sein soll.
+- Klaeren, wo SwiftUI importierte Themes speichern soll.
+- Danach erst mit Web-App-Import beginnen.
 
 ## Spaetere Idee - Optionaler Feinschliff
 
