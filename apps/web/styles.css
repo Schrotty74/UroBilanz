@@ -506,7 +506,7 @@ main {
 }
 
 .header-actions > .file-button {
-  min-width: 138px;
+  width: 150px;
 }
 
 .tabs {
