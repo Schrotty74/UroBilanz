@@ -577,6 +577,16 @@ function exportSelectedTheme() {
     return;
   }
   downloadText(themeFileName(theme), `${JSON.stringify(theme, null, 2)}\n`, "application/json;charset=utf-8");
+  closeThemeMenu();
+}
+
+function setThemeMenuOpen(open) {
+  els.themeMenuPanel.hidden = !open;
+  els.themeMenuButton.setAttribute("aria-expanded", String(open));
+}
+
+function closeThemeMenu() {
+  setThemeMenuOpen(false);
 }
 
 function renderMetrics(days) {
@@ -1006,32 +1016,32 @@ els.themeSelect.addEventListener("change", (event) => {
   applyTheme(event.target.value);
 });
 
-els.themeMenuButton.addEventListener("click", () => {
-  const isOpen = !els.themeMenuPanel.hidden;
-  els.themeMenuPanel.hidden = isOpen;
-  els.themeMenuButton.setAttribute("aria-expanded", String(!isOpen));
+els.themeMenuButton.addEventListener("click", (event) => {
+  event.stopPropagation();
+  setThemeMenuOpen(els.themeMenuPanel.hidden);
 });
 
 els.themeMenuOptions.addEventListener("click", (event) => {
   const button = event.target.closest("button[data-theme]");
   if (!button) return;
   applyTheme(button.dataset.theme);
-  els.themeMenuPanel.hidden = true;
-  els.themeMenuButton.setAttribute("aria-expanded", "false");
+  closeThemeMenu();
 });
 
 els.themeInput.addEventListener("change", (event) => {
   importThemeFile(event.target.files?.[0]);
-  els.themeMenuPanel.hidden = true;
-  els.themeMenuButton.setAttribute("aria-expanded", "false");
+  closeThemeMenu();
 });
 
 els.exportTheme.addEventListener("click", exportSelectedTheme);
 
-document.addEventListener("click", (event) => {
+document.addEventListener("pointerdown", (event) => {
   if (els.themeMenu.contains(event.target)) return;
-  els.themeMenuPanel.hidden = true;
-  els.themeMenuButton.setAttribute("aria-expanded", "false");
+  closeThemeMenu();
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") closeThemeMenu();
 });
 
 els.languageSelect.addEventListener("change", (event) => {
