@@ -241,11 +241,38 @@ Optional spaeter mit Apples Icon Composer beziehungsweise Xcode als echtes
 adaptives Liquid-Glass-Icon exportieren. Das betrifft vor allem die passende
 Finder-Darstellung in Hell und Dunkel.
 
+## Geplanter Neuer Schwerpunkt - v1.7.0-beta.1 PDF-Bericht
+
+Sinnvoll als eigener Entwicklungszweig nach der 1.6-Reihe, nicht als
+Feinschliff fuer `v1.6.0-beta.2`.
+
+Zielidee:
+
+- Gute Variante eines PDF- oder Druckberichts fuer Arzttermine vorbereiten,
+  nicht nur einen einfachen Tabellenexport.
+- Zeitraum auswaehlbar machen.
+- Zusammenfassung mit Summen, Durchschnitt, Auffaelligkeiten und
+  unvollstaendigen Messtagen darstellen.
+- Tagesdetails mit Urin, Wasser und Hinweisen aufnehmen.
+- Bewertungsregeln kurz erklaeren, damit `unvollstaendig`, `niedrig` und
+  `normal` nachvollziehbar sind.
+- Diagramme einbinden, wenn das Layout stabil und drucktauglich bleibt.
+- Bericht mit klarer Struktur planen, zum Beispiel Deckbereich, kurze
+  Zusammenfassung, Diagramme, Tagesdetails und Hinweise.
+
+Umsetzung zuerst planen:
+
+- Wahrscheinlich zuerst in der Web-App starten, weil Browser-Druck/PDF dafuer
+  einfacher ist.
+- Vor Umsetzung Layout und Umfang festlegen, damit der Bericht fuer Arzttermine
+  gut lesbar bleibt und lange Tabellen/Hinweise sauber umbrechen.
+- SwiftUI-PDF erst danach bewerten, damit die Funktion nicht unnoetig gross
+  wird.
+
 ## Ideen Fuer Spaeter
 
 - weitere Sprachen nach Deutsch und Englisch
 - frei waehlbare Vergleichszeitraeume
-- Druck- oder PDF-Bericht fuer Arzttermine
 - App-Store-Vorbereitung mit Xcode-Projekt, Ressourcenpaketen, Signierung und
   Datenschutztexten
 - universeller Swift-Build fuer Intel nur falls wirklich benoetigt; aktuell
