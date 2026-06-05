@@ -49,6 +49,18 @@ Die gebaute App liegt hier:
 
 Die Swift-App ist aktuell fuer Apple Silicon (`arm64`) und macOS 26 gebaut.
 
+## Eigene Themes
+
+Ab Version `1.6.0-beta.1` koennen Web-App und SwiftUI-App eigene Themes im
+JSON-Format importieren. Die Vorlage und Beispiele liegen hier:
+
+- [Theme-Vorlage](docs/themes/urobilanz-theme-template.json)
+- [Beispieltheme](docs/themes/example-custom-theme.json)
+- [Theme-Dokumentation](docs/themes/README.md)
+
+Eingebaute Themes koennen aus der App heraus als bearbeitbare JSON-Kopie
+exportiert werden. Importierte Themes koennen wieder geloescht werden.
+
 ## Entwicklung pruefen
 
 Der interne Pruefablauf baut die SwiftUI-App neu und kontrolliert beide

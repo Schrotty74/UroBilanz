@@ -4,7 +4,8 @@ Alle wichtigen Änderungen an UroBilanz werden hier dokumentiert.
 
 ## Unveröffentlicht
 
-- Noch keine Änderungen.
+- README-Startseite um direkte Links zur Theme-Vorlage, zum Beispieltheme und
+  zur Theme-Dokumentation ergaenzt.
 
 ## 1.6.0-beta.2 - 2026-06-05
 
