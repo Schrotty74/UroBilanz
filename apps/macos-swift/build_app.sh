@@ -5,7 +5,10 @@ script_dir="$(cd "$(dirname "$0")" && pwd)"
 cd "$script_dir"
 
 mkdir -p /private/tmp/urobilanz-clang-cache \
-  build/UroBilanz.app/Contents/MacOS \
+  build
+
+rm -rf build/UroBilanz.app
+mkdir -p build/UroBilanz.app/Contents/MacOS \
   build/UroBilanz.app/Contents/Resources
 
 rm -rf build/UroBilanz.iconset
@@ -26,6 +29,39 @@ for spec in \
   sips -z "$size" "$size" Assets/urobilanz-app-icon.png --out "build/UroBilanz.iconset/$file" >/dev/null
 done
 iconutil -c icns build/UroBilanz.iconset -o build/UroBilanz.icns
+
+cat > build/UroBilanz.app/Contents/Info.plist <<'PLIST'
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>CFBundleDevelopmentRegion</key>
+  <string>de</string>
+  <key>CFBundleDisplayName</key>
+  <string>UroBilanz</string>
+  <key>CFBundleExecutable</key>
+  <string>UrinprotokollSwiftUI</string>
+  <key>CFBundleIconFile</key>
+  <string>UroBilanz</string>
+  <key>CFBundleIdentifier</key>
+  <string>local.martin.urobilanz</string>
+  <key>CFBundleInfoDictionaryVersion</key>
+  <string>6.0</string>
+  <key>CFBundleName</key>
+  <string>UroBilanz</string>
+  <key>CFBundlePackageType</key>
+  <string>APPL</string>
+  <key>CFBundleShortVersionString</key>
+  <string>1.6.0-beta.2</string>
+  <key>CFBundleVersion</key>
+  <string>22</string>
+  <key>LSMinimumSystemVersion</key>
+  <string>26.0</string>
+  <key>NSHighResolutionCapable</key>
+  <true/>
+</dict>
+</plist>
+PLIST
 
 CLANG_MODULE_CACHE_PATH=/private/tmp/urobilanz-clang-cache \
   swiftc -parse-as-library \

@@ -13,6 +13,8 @@ Alle wichtigen Änderungen an UroBilanz werden hier dokumentiert.
   eingebunden.
 - App-Symbol: finale randlose Day/Night-Variante ohne separaten Aussenbereich
   eingebunden.
+- SwiftUI-App: App-Bundle wird beim Bauen frisch erstellt, damit Finder und
+  Dock keine alten Icon-/Versionsreste aus vorherigen Builds behalten.
 
 ## 1.6.0-beta.2 - 2026-06-05
 
