@@ -9,6 +9,8 @@ Alle wichtigen Änderungen an UroBilanz werden hier dokumentiert.
 - Web-App und SwiftUI-App: Infoseite zu Bewertungsregeln ergaenzt. Die Seite
   erklaert Messtag, vollstaendige Tage, `niedrig`, `normal`,
   `unvollstaendig`, Wasserwerte und Hinweise.
+- Web-App und SwiftUI-App: neues Liquid-Balance-Day/Night-App-Symbol
+  eingebunden.
 
 ## 1.6.0-beta.2 - 2026-06-05
 

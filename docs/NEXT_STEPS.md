@@ -182,6 +182,8 @@ Geprueft:
   - Tagesansicht mit Hinweisen in Web-App und SwiftUI-App beobachtet.
   - SwiftUI-Tag-Ansicht scrollt wieder fluessig.
 - Web-App und SwiftUI-App: Infoseite `Regeln` zu Bewertungsregeln ergaenzt.
+- Web-App und SwiftUI-App: neues Liquid-Balance-Day/Night-App-Symbol
+  eingebunden.
 
 ## Spaetere Idee - Optionaler Feinschliff
 
@@ -225,12 +227,6 @@ Geprueft:
   - Export-Randfaelle
   - geloeschte Messtage
   - geloeschte Eintraege
-
-## App-Icon
-
-Optional spaeter mit Apples Icon Composer beziehungsweise Xcode als echtes
-adaptives Liquid-Glass-Icon exportieren. Das betrifft vor allem die passende
-Finder-Darstellung in Hell und Dunkel.
 
 ## Geplanter Neuer Schwerpunkt - v1.7.0-beta.1 PDF-Bericht
 

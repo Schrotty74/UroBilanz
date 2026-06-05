@@ -629,7 +629,7 @@ function applyTheme(theme) {
   els.selectedThemeLabel.textContent = els.themeSelect.selectedOptions[0]?.textContent || selectedTheme;
   els.exportTheme.disabled = false;
   els.deleteTheme.disabled = !customTheme;
-  els.appMark.src = isDark ? "./assets/urobilanz-icon-dark.svg" : "./assets/urobilanz-icon-light.svg";
+  els.appMark.src = "./assets/urobilanz-app-icon.png";
   localStorage.setItem("urinTheme", selectedTheme);
   if (state.days.length) render();
 }

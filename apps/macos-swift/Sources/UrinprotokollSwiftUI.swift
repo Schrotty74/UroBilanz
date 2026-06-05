@@ -1213,6 +1213,13 @@ final class UrinModel: ObservableObject {
 struct UrinprotokollSwiftUIApp: App {
     @StateObject private var model = UrinModel()
 
+    init() {
+        if let url = Bundle.main.url(forResource: "urobilanz-app-icon", withExtension: "png"),
+           let image = NSImage(contentsOf: url) {
+            NSApplication.shared.applicationIconImage = image
+        }
+    }
+
     var body: some Scene {
         WindowGroup("UroBilanz") {
             ContentView()
@@ -1411,7 +1418,6 @@ struct AppMark: View {
     let size: CGFloat
 
     var body: some View {
-        let fileName = theme.isDark || isDarkAppearance ? "urobilanz-icon-dark.svg" : "urobilanz-icon-light.svg"
         ZStack {
             RoundedRectangle(cornerRadius: size * 0.24, style: .continuous)
                 .fill(.ultraThinMaterial)
@@ -1419,7 +1425,7 @@ struct AppMark: View {
                     RoundedRectangle(cornerRadius: size * 0.24, style: .continuous)
                         .stroke(.white.opacity(isDarkAppearance ? 0.18 : 0.30), lineWidth: 1)
                 }
-            Image(nsImage: NSImage(contentsOfFile: "\(Bundle.main.resourcePath ?? "")/\(fileName)") ?? NSImage())
+            Image(nsImage: NSImage(contentsOfFile: "\(Bundle.main.resourcePath ?? "")/urobilanz-app-icon.png") ?? NSImage())
                 .resizable()
                 .scaledToFit()
                 .padding(size * 0.08)

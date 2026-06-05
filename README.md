@@ -7,6 +7,12 @@ Das Projekt enthaelt zwei Apps:
 - `apps/web`: portable Web-App fuer macOS, Windows und Linux im Browser.
 - `apps/macos-swift`: native macOS-App mit SwiftUI fuer Apple-Silicon-Macs.
 
+<img src="assets/icon/app-icon/urobilanz-liquid-balance-day-night.png" alt="UroBilanz App-Symbol" width="160">
+
+Das aktuelle App-Symbol wurde fuer UroBilanz mit Unterstuetzung von OpenAI Codex
+erzeugt. Falls eine unbeabsichtigte Aehnlichkeit zu einer anderen App auffaellt,
+kann das Symbol jederzeit ersetzt werden.
+
 ## Wichtig
 
 UroBilanz ist ein Protokoll- und Auswertungstool. Es ist keine medizinische Diagnose-App und gibt keine medizinischen Empfehlungen.
