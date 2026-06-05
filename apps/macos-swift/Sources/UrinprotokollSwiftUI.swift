@@ -16,7 +16,7 @@ enum AppLanguage: String, CaseIterable, Identifiable {
 
 private let translations: [AppLanguage: [String: String]] = [
     .de: [
-        "dashboard": "Dashboard", "year": "Jahr", "month": "Monat", "week": "Woche", "day": "Tag", "notes": "Notizen",
+        "dashboard": "Dashboard", "year": "Jahr", "month": "Monat", "week": "Woche", "day": "Tag", "notes": "Regeln",
         "language": "Sprache", "import_theme": "Theme importieren", "export_theme": "Theme exportieren", "delete_theme": "Theme löschen", "delete_theme_confirm": "Importiertes Theme wirklich löschen?", "remember_data": "Daten merken", "entry": "Eintrag", "merge_csv": "CSV ergänzen", "load_csv": "CSV laden",
         "delete": "Löschen", "backup": "Backup", "daily_data": "Tagesdaten", "no_data": "Keine Daten geladen",
         "no_data_help": "Lade einen CSV-Export aus Urinote oder eine Tagesdaten-CSV.", "csv_error": "CSV konnte nicht geladen werden",
@@ -33,10 +33,13 @@ private let translations: [AppLanguage: [String: String]] = [
         "water_times": "Wasser Zeiten", "water_sum": "Wasser Summe", "hints": "Hinweise", "action": "Aktion", "delete_day": "Tag löschen",
         "delete_measurement_day": "Messtag löschen?", "delete_day_detail": "Alle Urin-, Wasser- und Hinweis-Einträge dieses Messtags werden gelöscht.",
         "delete_day_confirm": "Messtag {date} wirklich löschen?\n\nAlle Urin-, Wasser- und Hinweis-Einträge dieses Messtags werden gelöscht.",
-        "medical_notes": "Medizinische Notizen", "note_1": "Die Auswertung verwendet Messtage von 06:00 bis 05:59.",
-        "note_2": "Einträge zwischen 00:00 und 05:59 werden dem Vortag zugerechnet.",
-        "note_3": "Auffälligkeiten sind organisatorische Hinweise, keine medizinische Bewertung. Niedrig ist hier unter 700 ml pro vollständigem Messtag; unvollständige Randtage bleiben im Protokoll sichtbar, werden aber nicht bewertet.",
-        "note_4": "Wasserwerte werden separat geführt und nicht mit Urinmengen vermischt.",
+        "medical_notes": "Bewertungsregeln", "note_intro": "Diese Regeln beschreiben nur die organisatorische Auswertung in UroBilanz. Sie ersetzen keine medizinische Bewertung.",
+        "rule_day_title": "Messtag", "rule_day_text": "Ein Messtag läuft von 06:00 bis 05:59. Einträge zwischen 00:00 und 05:59 werden dem Vortag zugerechnet, die Uhrzeit selbst bleibt erhalten.",
+        "rule_complete_title": "Vollständig", "rule_complete_text": "Ein Messtag wird für Summen, Durchschnitt und Bewertung nur ausgewertet, wenn zwischen erstem und letztem Urin- oder Wasserwert mindestens acht Stunden liegen.",
+        "rule_low_title": "Niedrig", "rule_low_text": "Ein vollständiger Messtag gilt als niedrig, wenn die Urin-Gesamtmenge unter 700 ml liegt.",
+        "rule_normal_title": "Normal", "rule_normal_text": "Ein vollständiger Messtag ab 700 ml Urin wird als normal geführt. Eine automatische Hoch-Bewertung gibt es nicht.",
+        "rule_incomplete_title": "Unvollständig", "rule_incomplete_text": "Unvollständige Randtage bleiben in der Tagesansicht sichtbar, werden aber nicht in Summen, Durchschnitt oder niedrig/normal-Bewertung eingerechnet.",
+        "rule_water_title": "Wasser und Hinweise", "rule_water_text": "Wasser wird separat geführt und nicht mit Urin vermischt. Hinweise bleiben als Kontext sichtbar und verändern keine Bewertung.",
         "no_valid_entries": "Keine gültigen Einträge gefunden.", "merge_original_only": "Ergänzen ist nur mit der originalen Urinote-CSV möglich, nicht mit der Tagesdaten-CSV.",
         "no_new_entries": "Keine gültigen neuen Einträge gefunden.", "encoding_error": "Die Textkodierung wurde nicht erkannt.",
         "invalid_daily_data": "Tagesdaten-Format erkannt, aber keine Messtage gefunden.", "already_present": "Eintrag war bereits vorhanden",
@@ -45,7 +48,7 @@ private let translations: [AppLanguage: [String: String]] = [
         "added": "hinzugefügt", "updated": "aktualisiert"
     ],
     .en: [
-        "dashboard": "Dashboard", "year": "Year", "month": "Month", "week": "Week", "day": "Day", "notes": "Notes",
+        "dashboard": "Dashboard", "year": "Year", "month": "Month", "week": "Week", "day": "Day", "notes": "Rules",
         "language": "Language", "import_theme": "Import theme", "export_theme": "Export theme", "delete_theme": "Delete theme", "delete_theme_confirm": "Delete imported theme?", "remember_data": "Remember data", "entry": "Entry", "merge_csv": "Merge CSV", "load_csv": "Load CSV",
         "delete": "Delete", "backup": "Backup", "daily_data": "Daily data", "no_data": "No data loaded",
         "no_data_help": "Load an Urinote CSV export or a daily data CSV.", "csv_error": "CSV could not be loaded",
@@ -62,10 +65,13 @@ private let translations: [AppLanguage: [String: String]] = [
         "water_times": "Water times", "water_sum": "Water total", "hints": "Notes", "action": "Action", "delete_day": "Delete day",
         "delete_measurement_day": "Delete measurement day?", "delete_day_detail": "All urine, water and note entries for this day will be deleted.",
         "delete_day_confirm": "Delete measurement day {date}?\n\nAll urine, water and note entries for this day will be deleted.",
-        "medical_notes": "Medical notes", "note_1": "The analysis uses measurement days from 06:00 to 05:59.",
-        "note_2": "Entries between 00:00 and 05:59 are assigned to the previous day.",
-        "note_3": "Flags are organizational hints, not medical assessments. Low means below 700 ml per complete measurement day; incomplete boundary days remain visible in the log but are not evaluated.",
-        "note_4": "Water values are tracked separately and are not mixed with urine volumes.",
+        "medical_notes": "Evaluation rules", "note_intro": "These rules describe only the organizational analysis in UroBilanz. They do not replace medical assessment.",
+        "rule_day_title": "Measurement day", "rule_day_text": "A measurement day runs from 06:00 to 05:59. Entries between 00:00 and 05:59 are assigned to the previous day; the actual time remains unchanged.",
+        "rule_complete_title": "Complete", "rule_complete_text": "A measurement day is included in totals, averages and evaluation only if there are at least eight hours between the first and last urine or water value.",
+        "rule_low_title": "Low", "rule_low_text": "A complete measurement day is marked low when the urine total is below 700 ml.",
+        "rule_normal_title": "Normal", "rule_normal_text": "A complete measurement day from 700 ml urine upward is marked normal. There is no automatic high evaluation.",
+        "rule_incomplete_title": "Incomplete", "rule_incomplete_text": "Incomplete boundary days remain visible in the daily view, but are not included in totals, averages or low/normal evaluation.",
+        "rule_water_title": "Water and notes", "rule_water_text": "Water is tracked separately and is not mixed with urine. Notes remain visible as context and do not change the evaluation.",
         "no_valid_entries": "No valid entries found.", "merge_original_only": "Merging is only available for the original Urinote CSV, not the daily data CSV.",
         "no_new_entries": "No valid new entries found.", "encoding_error": "The text encoding was not recognized.",
         "invalid_daily_data": "Daily data format detected, but no measurement days were found.", "already_present": "Entry was already present",
@@ -622,7 +628,7 @@ enum AppSection: String, CaseIterable, Identifiable {
         case .month: "calendar.badge.clock"
         case .week: "calendar.day.timeline.left"
         case .day: "list.bullet.rectangle"
-        case .notes: "note.text"
+        case .notes: "info.circle"
         }
     }
 }

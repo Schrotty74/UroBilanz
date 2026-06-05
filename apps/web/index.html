@@ -6,7 +6,7 @@
     <title>UroBilanz</title>
     <link rel="icon" href="./assets/urobilanz-icon-light.svg" media="(prefers-color-scheme: light)" />
     <link rel="icon" href="./assets/urobilanz-icon-dark.svg" media="(prefers-color-scheme: dark)" />
-    <link rel="stylesheet" href="./styles.css?v=v1-6-0-beta-2" />
+    <link rel="stylesheet" href="./styles.css?v=rules-info-1" />
     <script src="./assets/js/charts.js?v=v1-6-0-beta-2"></script>
   </head>
   <body>
@@ -72,7 +72,7 @@
             <button class="tab" data-view="month" data-i18n="month">Monat</button>
             <button class="tab" data-view="week" data-i18n="week">Woche</button>
             <button class="tab" data-view="day" data-i18n="day">Tag</button>
-            <button class="tab" data-view="notes" data-i18n="notes">Notizen</button>
+            <button class="tab" data-view="notes" data-i18n="notes">Regeln</button>
           </section>
           <div class="status" id="status" data-i18n="loading">Lade Daten...</div>
         </div>
@@ -137,11 +137,34 @@
       </section>
 
       <section id="notes" class="view notes">
-        <h2 data-i18n="note_title">Notizen</h2>
-        <p data-i18n="note_1">Die Auswertung verwendet Messtage von 06:00 bis 05:59. Einträge zwischen 00:00 und 05:59 werden dem Vortag zugerechnet.</p>
-        <p data-i18n="note_2">Die Uhrzeiten bleiben als tatsächliche Uhrzeiten erhalten; nur die Zuordnung zum Messtag wird verschoben.</p>
-        <p data-i18n="note_3">Auffälligkeiten sind organisatorische Hinweise, keine medizinische Bewertung. Niedrig ist hier unter 700 ml pro vollständigem Messtag; unvollständige Randtage bleiben im Protokoll sichtbar, werden aber nicht bewertet.</p>
-        <p data-i18n="note_4">Wasserwerte werden separat geführt und nicht mit Urinmengen vermischt.</p>
+        <h2 data-i18n="note_title">Bewertungsregeln</h2>
+        <p class="notes-intro" data-i18n="note_intro">Diese Regeln beschreiben nur die organisatorische Auswertung in UroBilanz. Sie ersetzen keine medizinische Bewertung.</p>
+        <div class="rules-grid">
+          <article>
+            <h3 data-i18n="rule_day_title">Messtag</h3>
+            <p data-i18n="rule_day_text">Ein Messtag läuft von 06:00 bis 05:59. Einträge zwischen 00:00 und 05:59 werden dem Vortag zugerechnet, die Uhrzeit selbst bleibt erhalten.</p>
+          </article>
+          <article>
+            <h3 data-i18n="rule_complete_title">Vollständig</h3>
+            <p data-i18n="rule_complete_text">Ein Messtag wird für Summen, Durchschnitt und Bewertung nur ausgewertet, wenn zwischen erstem und letztem Urin- oder Wasserwert mindestens acht Stunden liegen.</p>
+          </article>
+          <article>
+            <h3 data-i18n="rule_low_title">Niedrig</h3>
+            <p data-i18n="rule_low_text">Ein vollständiger Messtag gilt als niedrig, wenn die Urin-Gesamtmenge unter 700 ml liegt.</p>
+          </article>
+          <article>
+            <h3 data-i18n="rule_normal_title">Normal</h3>
+            <p data-i18n="rule_normal_text">Ein vollständiger Messtag ab 700 ml Urin wird als normal geführt. Eine automatische Hoch-Bewertung gibt es nicht.</p>
+          </article>
+          <article>
+            <h3 data-i18n="rule_incomplete_title">Unvollständig</h3>
+            <p data-i18n="rule_incomplete_text">Unvollständige Randtage bleiben in der Tagesansicht sichtbar, werden aber nicht in Summen, Durchschnitt oder niedrig/normal-Bewertung eingerechnet.</p>
+          </article>
+          <article>
+            <h3 data-i18n="rule_water_title">Wasser und Hinweise</h3>
+            <p data-i18n="rule_water_text">Wasser wird separat geführt und nicht mit Urin vermischt. Hinweise bleiben als Kontext sichtbar und verändern keine Bewertung.</p>
+          </article>
+        </div>
       </section>
     </main>
 
@@ -186,8 +209,8 @@
       </form>
     </dialog>
 
-    <script src="./assets/i18n/de.js?v=v1-6-0-beta-2"></script>
-    <script src="./assets/i18n/en.js?v=v1-6-0-beta-2"></script>
+    <script src="./assets/i18n/de.js?v=rules-info-1"></script>
+    <script src="./assets/i18n/en.js?v=rules-info-1"></script>
     <script src="./assets/js/core.js?v=v1-6-0-beta-2"></script>
     <script src="./app.js?v=v1-6-0-beta-2"></script>
   </body>

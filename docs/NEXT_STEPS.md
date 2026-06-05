@@ -181,12 +181,12 @@ Geprueft:
   - importierte Themes geloescht.
   - Tagesansicht mit Hinweisen in Web-App und SwiftUI-App beobachtet.
   - SwiftUI-Tag-Ansicht scrollt wieder fluessig.
+- Web-App und SwiftUI-App: Infoseite `Regeln` zu Bewertungsregeln ergaenzt.
 
 ## Spaetere Idee - Optionaler Feinschliff
 
 ### Bedienung
 
-- Eingabemaske weiter verfeinern, falls im Alltag noch Reibung auffaellt.
 - Sicherheitsabfragen sprachlich oder optisch weiter verbessern, falls noetig.
 - Bei sehr vielen manuellen Eintraegen pruefen, ob die Tagesliste im Dialog noch
   angenehm bedienbar bleibt.
@@ -197,15 +197,6 @@ Geprueft:
 - Bei der Tag-Ansicht besonders auf `Hinweise`, `Auffaelligkeit` und `Aktion`
   achten.
 - Bei der SwiftUI-App Tabellen in sehr kleinen Fenstern beobachten.
-
-### Auswertung
-
-- Aktuelle Regel:
-  - unvollstaendige Messtage werden separat markiert
-  - niedrige Werte werden nur bei vollstaendigen Messtagen bewertet
-  - Wochen mit unvollstaendigen Tagen zeigen diese Information separat
-- Falls gewuenscht spaeter eine kleine Infoseite ergaenzen, die diese Regeln
-  in der App erklaert.
 
 ## Prioritaet 3 - Technische Verbesserungen Spaeter
 

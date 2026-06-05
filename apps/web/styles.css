@@ -912,6 +912,37 @@ td.high {
   color: var(--teal-dark);
 }
 
+.notes-intro {
+  max-width: 860px;
+  margin: 0 0 18px;
+  color: var(--muted);
+}
+
+.rules-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px;
+  max-width: 1120px;
+}
+
+.rules-grid article {
+  border: 1px solid var(--glass-line);
+  border-radius: 10px;
+  background: var(--panel-soft);
+  padding: 14px 16px;
+}
+
+.rules-grid h3 {
+  margin: 0 0 6px;
+  font-size: 1rem;
+  color: var(--ink);
+}
+
+.rules-grid p {
+  margin: 0;
+  color: var(--muted);
+}
+
 .entry-dialog {
   width: min(880px, calc(100vw - 32px));
   border: 1px solid var(--line);

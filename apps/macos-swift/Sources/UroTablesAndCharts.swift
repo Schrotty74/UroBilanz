@@ -437,20 +437,39 @@ struct NotesView: View {
     @Environment(\.appLanguage) private var language
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            Text(tr("medical_notes", language))
-                .font(.title.weight(.bold))
-            Group {
-                Text(tr("note_1", language))
-                Text(tr("note_2", language))
-                Text(tr("note_3", language))
-                Text(tr("note_4", language))
+        ScrollView {
+            VStack(alignment: .leading, spacing: 18) {
+                Text(tr("medical_notes", language))
+                    .font(.title.weight(.bold))
+                Text(tr("note_intro", language))
+                    .foregroundStyle(.secondary)
+                    .frame(maxWidth: 860, alignment: .leading)
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 280), spacing: 12)], alignment: .leading, spacing: 12) {
+                    ruleCard(title: tr("rule_day_title", language), text: tr("rule_day_text", language), symbol: "clock")
+                    ruleCard(title: tr("rule_complete_title", language), text: tr("rule_complete_text", language), symbol: "checkmark.seal")
+                    ruleCard(title: tr("rule_low_title", language), text: tr("rule_low_text", language), symbol: "exclamationmark.triangle")
+                    ruleCard(title: tr("rule_normal_title", language), text: tr("rule_normal_text", language), symbol: "checkmark.circle")
+                    ruleCard(title: tr("rule_incomplete_title", language), text: tr("rule_incomplete_text", language), symbol: "hourglass")
+                    ruleCard(title: tr("rule_water_title", language), text: tr("rule_water_text", language), symbol: "drop")
+                }
             }
-            .font(.body)
-            .foregroundStyle(.secondary)
-            Spacer()
+            .padding(28)
+            .frame(maxWidth: .infinity, alignment: .leading)
         }
-        .padding(28)
+    }
+
+    private func ruleCard(title: String, text: String, symbol: String) -> some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Label(title, systemImage: symbol)
+                .font(.headline)
+            Text(text)
+                .font(.body)
+                .foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+        .padding(16)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .liquidCard(cornerRadius: 12)
     }
 }
 
