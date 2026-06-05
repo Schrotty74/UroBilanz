@@ -17,7 +17,7 @@ enum AppLanguage: String, CaseIterable, Identifiable {
 private let translations: [AppLanguage: [String: String]] = [
     .de: [
         "dashboard": "Dashboard", "year": "Jahr", "month": "Monat", "week": "Woche", "day": "Tag", "notes": "Notizen",
-        "language": "Sprache", "import_theme": "Theme importieren", "export_theme": "Theme exportieren", "remember_data": "Daten merken", "entry": "Eintrag", "merge_csv": "CSV ergänzen", "load_csv": "CSV laden",
+        "language": "Sprache", "import_theme": "Theme importieren", "export_theme": "Theme exportieren", "delete_theme": "Theme löschen", "delete_theme_confirm": "Importiertes Theme wirklich löschen?", "remember_data": "Daten merken", "entry": "Eintrag", "merge_csv": "CSV ergänzen", "load_csv": "CSV laden",
         "delete": "Löschen", "backup": "Backup", "daily_data": "Tagesdaten", "no_data": "Keine Daten geladen",
         "no_data_help": "Lade einen CSV-Export aus Urinote oder eine Tagesdaten-CSV.", "csv_error": "CSV konnte nicht geladen werden",
         "entry_add": "Eintrag hinzufügen", "entry_edit": "Eintrag bearbeiten", "date": "Datum", "urine_time": "Urin Uhrzeit",
@@ -46,7 +46,7 @@ private let translations: [AppLanguage: [String: String]] = [
     ],
     .en: [
         "dashboard": "Dashboard", "year": "Year", "month": "Month", "week": "Week", "day": "Day", "notes": "Notes",
-        "language": "Language", "import_theme": "Import theme", "export_theme": "Export theme", "remember_data": "Remember data", "entry": "Entry", "merge_csv": "Merge CSV", "load_csv": "Load CSV",
+        "language": "Language", "import_theme": "Import theme", "export_theme": "Export theme", "delete_theme": "Delete theme", "delete_theme_confirm": "Delete imported theme?", "remember_data": "Remember data", "entry": "Entry", "merge_csv": "Merge CSV", "load_csv": "Load CSV",
         "delete": "Delete", "backup": "Backup", "daily_data": "Daily data", "no_data": "No data loaded",
         "no_data_help": "Load an Urinote CSV export or a daily data CSV.", "csv_error": "CSV could not be loaded",
         "entry_add": "Add entry", "entry_edit": "Edit entry", "date": "Date", "urine_time": "Urine time",
@@ -268,6 +268,135 @@ enum AppTheme: String, CaseIterable, Identifiable {
             controlBorder: controlBorder,
             tableBackground: tableBackground,
             tableRow: tableRow
+        )
+    }
+
+    func exportCopy(existingIds: Set<String>) throws -> CustomThemeDefinition {
+        let baseId = "\(rawValue)-custom"
+        let theme = CustomThemeDefinition(
+            format: "urobilanz-theme",
+            version: 1,
+            id: Self.uniqueCustomId(baseId: baseId, existingIds: existingIds),
+            name: CustomThemeDefinition.ThemeName(
+                de: "\(title(.de)) Kopie",
+                en: "\(title(.en)) Copy"
+            ),
+            mode: isDark ? "dark" : "light",
+            colors: exportColors,
+            effects: CustomThemeDefinition.ThemeEffects(
+                glassOpacity: 0.86,
+                glassBorderOpacity: 0.30,
+                shadowOpacity: isDark ? 0.28 : 0.16
+            )
+        )
+        return try theme.validated()
+    }
+
+    private static func uniqueCustomId(baseId: String, existingIds: Set<String>) -> String {
+        var id = baseId
+        var index = 2
+        while CustomThemeDefinition.builtInIds.contains(id) || existingIds.contains(id) {
+            id = "\(baseId)-\(index)"
+            index += 1
+        }
+        return id
+    }
+
+    private var exportColors: CustomThemeDefinition.ThemeColors {
+        switch self {
+        case .classicLight:
+            Self.colors(
+                text: "#172024", mutedText: "#60706D", background: "#F6FBFA", backgroundAlt: "#EAF5F2",
+                panel: "#FFFFFF", panelSoft: "#F2F8F6", border: "#C8D8D5", accent: "#A8C957",
+                accentText: "#172024", urine: "#E8B923", urineSoft: "#F7E3A4", water: "#2D91E8",
+                waterSoft: "#B9DBF8", low: "#F8D7DA", rowOdd: "#F4FAF8", rowEven: "#FFFFFF",
+                chartUrine: "#E8B923", chartWater: "#2D91E8"
+            )
+        case .classicDark:
+            Self.colors(
+                text: "#F6FBFA", mutedText: "#C9D4D2", background: "#0E171A", backgroundAlt: "#172326",
+                panel: "#142024", panelSoft: "#1B292C", border: "#3E5E59", accent: "#A8C957",
+                accentText: "#101614", urine: "#F6C84F", urineSoft: "#51451D", water: "#4AA3FF",
+                waterSoft: "#173A52", low: "#5C252B", rowOdd: "#192529", rowEven: "#101A1D",
+                chartUrine: "#F6C84F", chartWater: "#4AA3FF"
+            )
+        case .violetNight:
+            Self.colors(
+                text: "#FFF7FF", mutedText: "#D8CBE3", background: "#1C1B29", backgroundAlt: "#2E2945",
+                panel: "#292638", panelSoft: "#3B344F", border: "#70588A", accent: "#FF78C7",
+                accentText: "#221527", urine: "#F3FA8C", urineSoft: "#4D4525", water: "#8DE9FC",
+                waterSoft: "#25475B", low: "#603044", rowOdd: "#363647", rowEven: "#282738",
+                chartUrine: "#F3FA8C", chartWater: "#8DE9FC"
+            )
+        case .liquidDark:
+            Self.colors(
+                text: "#EFFAF9", mutedText: "#B7D2D0", background: "#0B1316", backgroundAlt: "#102F36",
+                panel: "#122328", panelSoft: "#1A383F", border: "#3E747C", accent: "#FFD24C",
+                accentText: "#142024", urine: "#FFD24C", urineSoft: "#4C421C", water: "#41D1C7",
+                waterSoft: "#193E45", low: "#5B2530", rowOdd: "#172B30", rowEven: "#0F1C20",
+                chartUrine: "#FFD24C", chartWater: "#41D1C7"
+            )
+        case .medicalLight:
+            Self.colors(
+                text: "#183033", mutedText: "#5C7376", background: "#F6FCFC", backgroundAlt: "#DDEFF1",
+                panel: "#FFFFFF", panelSoft: "#ECF7F8", border: "#B8D4D8", accent: "#2E8792",
+                accentText: "#FFFFFF", urine: "#E8B923", urineSoft: "#F5E6AE", water: "#227DC6",
+                waterSoft: "#C2DFF1", low: "#F5D5D8", rowOdd: "#F0F8F9", rowEven: "#FFFFFF",
+                chartUrine: "#E8B923", chartWater: "#227DC6"
+            )
+        case .highContrast:
+            Self.colors(
+                text: "#FFFFFF", mutedText: "#FFFFFF", background: "#000000", backgroundAlt: "#000000",
+                panel: "#000000", panelSoft: "#111111", border: "#FFFFFF", accent: "#FFFF00",
+                accentText: "#000000", urine: "#FFFF00", urineSoft: "#333300", water: "#00FFFF",
+                waterSoft: "#003333", low: "#FF4D4D", rowOdd: "#141414", rowEven: "#000000",
+                chartUrine: "#FFFF00", chartWater: "#00FFFF"
+            )
+        case .summer:
+            Self.colors(
+                text: "#2A2618", mutedText: "#74664A", background: "#FFF3C8", backgroundAlt: "#FFD48A",
+                panel: "#FFF0C2", panelSoft: "#FFE19E", border: "#D99635", accent: "#FFB32E",
+                accentText: "#2A1A0A", urine: "#E08C04", urineSoft: "#F8DDA7", water: "#21A6BF",
+                waterSoft: "#BCE7E7", low: "#F7C6B8", rowOdd: "#FFE1A0", rowEven: "#FFF0C2",
+                chartUrine: "#E08C04", chartWater: "#21A6BF"
+            )
+        case .creamSage:
+            Self.colors(
+                text: "#34281F", mutedText: "#766E5F", background: "#F8F0E2", backgroundAlt: "#E8E0CE",
+                panel: "#FDF4E6", panelSoft: "#E8DECB", border: "#B6C3A7", accent: "#78AD75",
+                accentText: "#172015", urine: "#C77F14", urineSoft: "#ECD7AF", water: "#2E8F9E",
+                waterSoft: "#C2DCD5", low: "#F2CFCB", rowOdd: "#E8DECB", rowEven: "#FDF4E6",
+                chartUrine: "#C77F14", chartWater: "#2E8F9E"
+            )
+        }
+    }
+
+    private static func colors(
+        text: String, mutedText: String, background: String, backgroundAlt: String,
+        panel: String, panelSoft: String, border: String, accent: String,
+        accentText: String, urine: String, urineSoft: String, water: String,
+        waterSoft: String, low: String, rowOdd: String, rowEven: String,
+        chartUrine: String, chartWater: String
+    ) -> CustomThemeDefinition.ThemeColors {
+        CustomThemeDefinition.ThemeColors(
+            text: text,
+            mutedText: mutedText,
+            background: background,
+            backgroundAlt: backgroundAlt,
+            panel: panel,
+            panelSoft: panelSoft,
+            border: border,
+            accent: accent,
+            accentText: accentText,
+            urine: urine,
+            urineSoft: urineSoft,
+            water: water,
+            waterSoft: waterSoft,
+            low: low,
+            rowOdd: rowOdd,
+            rowEven: rowEven,
+            chartUrine: chartUrine,
+            chartWater: chartWater
         )
     }
 }
@@ -781,9 +910,15 @@ final class UrinModel: ObservableObject {
     }
 
     func exportDays() {
-        let header = ["Jahr","Monat","KW","Messtag","Tag","Urin Uhrzeit","Urin ml","Urin Anzahl","Urin gesamt ml","Wasser Uhrzeit","Wasser ml","Wasser gesamt ml","Hinweise"]
+        let header = ["Jahr","Monat","KW","Messtag","Tag","Urin Uhrzeit","Urin ml","Urin Hinweis","Urin Anzahl","Urin gesamt ml","Wasser Uhrzeit","Wasser ml","Wasser gesamt ml","Hinweise","Allgemeine Hinweise"]
         let rows = days.map { day in
-            [
+            let urineNotes = day.urine.map { item in
+                day.noteRows
+                    .filter { $0.0 == item.0 }
+                    .map(\.1)
+                    .joined(separator: " / ")
+            }
+            return [
                 "\(day.year)",
                 stableMonthName(day.month),
                 "\(day.week)",
@@ -791,12 +926,14 @@ final class UrinModel: ObservableObject {
                 stableDayName(day.messtag),
                 day.urine.map(\.0).joined(separator: " | "),
                 day.urine.map { "\($0.1)" }.joined(separator: " | "),
+                urineNotes.joined(separator: " | "),
                 "\(day.urineCount)",
                 "\(day.urineTotal)",
                 day.water.map(\.0).joined(separator: " | "),
                 day.water.map { "\($0.1)" }.joined(separator: " | "),
                 "\(day.waterTotal)",
-                day.notesText
+                day.notesText,
+                day.generalNotes.joined(separator: " | ")
             ].map(escape).joined(separator: ",")
         }
         save(text: ([header.joined(separator: ",")] + rows).joined(separator: "\n"), defaultName: "urobilanz-tagesdaten.csv")
@@ -847,7 +984,16 @@ final class UrinModel: ObservableObject {
                 times: splitList(row["Wasser Uhrzeit"] ?? row["💧 Wasser Uhrzeit"] ?? ""),
                 amounts: splitList(row["Wasser ml"] ?? row["💧 Wasser ml"] ?? "").map(parseAmount)
             )
-            let notes = (row["Hinweise"] ?? "").isEmpty ? [] : [row["Hinweise"] ?? ""]
+            let generalNotes = splitList(row["Allgemeine Hinweise"] ?? "")
+            let urineNoteSlots = splitListKeepingEmpty(row["Urin Hinweis"] ?? "")
+            let importedNoteRows = urine.enumerated().compactMap { index, item -> (String, String)? in
+                guard urineNoteSlots.indices.contains(index) else { return nil }
+                let note = urineNoteSlots[index]
+                guard !note.isEmpty else { return nil }
+                return (item.0, note)
+            }
+            let notes = (importedNoteRows.map(\.1) + generalNotes)
+            let legacyNotes = (row["Hinweise"] ?? "").isEmpty ? [] : [row["Hinweise"] ?? ""]
             return DaySummary(
                 messtag: messtag,
                 year: comps.year ?? Int(row["Jahr"] ?? "0") ?? 0,
@@ -857,13 +1003,19 @@ final class UrinModel: ObservableObject {
                 dayName: dayName(messtag),
                 urine: urine,
                 water: water,
-                notes: notes
+                notes: notes.isEmpty ? legacyNotes : notes,
+                noteRows: importedNoteRows,
+                generalNotes: generalNotes.isEmpty && importedNoteRows.isEmpty ? legacyNotes : generalNotes
             )
         }.sorted { $0.messtag < $1.messtag }
         guard !imported.isEmpty else {
             throw NSError(domain: "Urinprotokoll", code: 3, userInfo: [NSLocalizedDescriptionKey: tr("invalid_daily_data", language)])
         }
         return imported
+    }
+
+    private func splitListKeepingEmpty(_ value: String) -> [String] {
+        value.components(separatedBy: "|").map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
     }
 
     private func rawEntry(_ row: [String: String]) -> Entry? {
@@ -880,14 +1032,17 @@ final class UrinModel: ObservableObject {
     }
 
     private func entriesFromDay(_ day: DaySummary) -> [Entry] {
-        var noteUsed = false
-        func make(_ item: (String, Int), type: String) -> Entry {
+        func make(_ item: (String, Int), type: String, note: String = "") -> Entry {
             let original = dateFromMesstag(day.messtag, time: item.0)
-            let note = noteUsed ? "" : day.notesText
-            noteUsed = true
             return Entry(original: original, messtag: measurementDay(for: original), type: type, ml: item.1, note: note)
         }
-        var result = day.urine.map { make($0, type: "Urin") } + day.water.map { make($0, type: "Wasser") }
+        var result = day.urine.map { item in
+            make(item, type: "Urin", note: day.noteRows.filter { $0.0 == item.0 }.map(\.1).joined(separator: " / "))
+        } + day.water.map { make($0, type: "Wasser") }
+        for note in day.generalNotes {
+            let original = dateFromNoon(day.messtag)
+            result.append(Entry(original: original, messtag: measurementDay(for: original), type: "Hinweis", ml: 0, note: note))
+        }
         if result.isEmpty && !day.notesText.isEmpty {
             let original = dateFromNoon(day.messtag)
             result.append(Entry(original: original, messtag: measurementDay(for: original), type: "Hinweis", ml: 0, note: day.notesText))
@@ -929,6 +1084,12 @@ final class UrinModel: ObservableObject {
         Dictionary(grouping: entries, by: { $0.messtag }).keys.sorted().map { day in
             let rows = entries.filter { $0.messtag == day }.sorted { $0.original < $1.original }
             let comps = calendar.dateComponents([.year, .month, .weekOfYear], from: day)
+            let noteRows = rows
+                .filter { $0.type == "Urin" && !$0.note.isEmpty }
+                .map { (timeFormatter.string(from: $0.original), $0.note) }
+            let generalNotes = rows
+                .filter { $0.type == "Hinweis" && !$0.note.isEmpty }
+                .map(\.note)
             return DaySummary(
                 messtag: day,
                 year: comps.year ?? 0,
@@ -938,7 +1099,9 @@ final class UrinModel: ObservableObject {
                 dayName: dayName(day),
                 urine: rows.filter { $0.type == "Urin" }.map { (timeFormatter.string(from: $0.original), $0.ml) },
                 water: rows.filter { $0.type == "Wasser" }.map { (timeFormatter.string(from: $0.original), $0.ml) },
-                notes: Array(NSOrderedSet(array: rows.map(\.note).filter { !$0.isEmpty })) as? [String] ?? []
+                notes: Array(NSOrderedSet(array: rows.map(\.note).filter { !$0.isEmpty })) as? [String] ?? [],
+                noteRows: noteRows,
+                generalNotes: generalNotes
             )
         }
     }
@@ -1041,21 +1204,14 @@ final class UrinModel: ObservableObject {
 
 }
 
-@main
 struct UrinprotokollSwiftUIApp: App {
     @StateObject private var model = UrinModel()
 
     var body: some Scene {
         WindowGroup("UroBilanz") {
-            if ProcessInfo.processInfo.arguments.contains("--test-import") {
-                ImportTestView()
-                    .environmentObject(model)
-                    .frame(width: 420, height: 160)
-            } else {
-                ContentView()
-                    .environmentObject(model)
-                    .frame(minWidth: 1120, minHeight: 760)
-            }
+            ContentView()
+                .environmentObject(model)
+                .frame(minWidth: 1120, minHeight: 760)
         }
         .commands {
             CommandGroup(replacing: .newItem) {
@@ -1063,6 +1219,16 @@ struct UrinprotokollSwiftUIApp: App {
                     .keyboardShortcut("o")
             }
         }
+    }
+}
+
+@main
+enum UroBilanzMain {
+    static func main() {
+        if ProcessInfo.processInfo.arguments.contains("--test-import") {
+            ImportSmokeTestRunner.run()
+        }
+        UrinprotokollSwiftUIApp.main()
     }
 }
 
@@ -1075,6 +1241,7 @@ struct ContentView: View {
     @State private var showsEntrySheet = false
     @State private var showsThemeImporter = false
     @State private var themeErrorMessage: String?
+    @State private var pendingDeleteTheme: CustomThemeDefinition?
 
     private var customThemes: [CustomThemeDefinition] {
         CustomThemeDefinition.decodeList(customThemesRaw)
@@ -1098,7 +1265,8 @@ struct ContentView: View {
                     languageRaw: $languageRaw,
                     customThemes: customThemes,
                     importTheme: { showsThemeImporter = true },
-                    exportTheme: exportSelectedTheme
+                    exportTheme: exportSelectedTheme,
+                    deleteTheme: prepareDeleteSelectedTheme
                 )
                 Divider()
                 detailView
@@ -1140,6 +1308,17 @@ struct ContentView: View {
         } message: {
             Text(themeErrorMessage ?? "")
         }
+        .alert(tr("delete_theme", language), isPresented: Binding(
+            get: { pendingDeleteTheme != nil },
+            set: { if !$0 { pendingDeleteTheme = nil } }
+        )) {
+            Button(tr("cancel", language), role: .cancel) { pendingDeleteTheme = nil }
+            Button(tr("delete_theme", language), role: .destructive) {
+                deleteCustomTheme(pendingDeleteTheme)
+            }
+        } message: {
+            Text(tr("delete_theme_confirm", language))
+        }
     }
 
     private func importCustomTheme(_ result: Result<URL, Error>) {
@@ -1160,15 +1339,41 @@ struct ContentView: View {
     }
 
     private func exportSelectedTheme() {
-        guard let theme = customThemes.first(where: { $0.id == themeRaw }) else { return }
+        let language = AppLanguage(rawValue: languageRaw) ?? .de
+        let theme: CustomThemeDefinition
+        if let customTheme = customThemes.first(where: { $0.id == themeRaw }) {
+            theme = customTheme
+        } else if let builtInTheme = AppTheme(rawValue: themeRaw) {
+            do {
+                theme = try builtInTheme.exportCopy(existingIds: Set(customThemes.map(\.id)))
+            } catch {
+                themeErrorMessage = error.localizedDescription
+                return
+            }
+        } else {
+            return
+        }
         let encoder = JSONEncoder()
         encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
         guard let data = try? encoder.encode(theme),
               let text = String(data: data, encoding: .utf8) else {
-            themeErrorMessage = tr("export_theme", AppLanguage(rawValue: languageRaw) ?? .de)
+            themeErrorMessage = tr("export_theme", language)
             return
         }
         saveTheme(text: text + "\n", defaultName: "urobilanz-theme-\(theme.id).json")
+    }
+
+    private func prepareDeleteSelectedTheme() {
+        pendingDeleteTheme = customThemes.first { $0.id == themeRaw }
+    }
+
+    private func deleteCustomTheme(_ theme: CustomThemeDefinition?) {
+        guard let theme else { return }
+        customThemesRaw = CustomThemeDefinition.encodeList(customThemes.filter { $0.id != theme.id })
+        if themeRaw == theme.id {
+            themeRaw = AppTheme.classicDark.rawValue
+        }
+        pendingDeleteTheme = nil
     }
 
     private func saveTheme(text: String, defaultName: String) {

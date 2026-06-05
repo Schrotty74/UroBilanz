@@ -11,6 +11,7 @@ struct ToolbarStrip: View {
     let customThemes: [CustomThemeDefinition]
     let importTheme: () -> Void
     let exportTheme: () -> Void
+    let deleteTheme: () -> Void
     @Environment(\.appLanguage) private var language
 
     var body: some View {
@@ -33,7 +34,7 @@ struct ToolbarStrip: View {
                     .onChange(of: model.rememberData) { _, _ in model.toggleRemember() }
                     .toggleStyle(.switch)
             }
-            ThemeMenu(themeRaw: $themeRaw, customThemes: customThemes, importTheme: importTheme, exportTheme: exportTheme)
+            ThemeMenu(themeRaw: $themeRaw, customThemes: customThemes, importTheme: importTheme, exportTheme: exportTheme, deleteTheme: deleteTheme)
             LanguageMenu(languageRaw: $languageRaw)
             Button(tr("entry", language), systemImage: "plus.circle") { showsEntrySheet = true }
             Button(tr("merge_csv", language), systemImage: "plus.square.on.square") { model.openMergeCSV() }
@@ -57,6 +58,7 @@ struct ThemeMenu: View {
     let customThemes: [CustomThemeDefinition]
     let importTheme: () -> Void
     let exportTheme: () -> Void
+    let deleteTheme: () -> Void
     @Environment(\.appLanguage) private var language
 
     private var selectedTitle: String {
@@ -75,11 +77,7 @@ struct ThemeMenu: View {
                 Button {
                     themeRaw = option.rawValue
                 } label: {
-                    if option.rawValue == themeRaw {
-                        Label(option.title(language), systemImage: "checkmark")
-                    } else {
-                        Text(option.title(language))
-                    }
+                    themeOptionLabel(option.title(language), isSelected: option.rawValue == themeRaw)
                 }
             }
             if !customThemes.isEmpty {
@@ -88,11 +86,7 @@ struct ThemeMenu: View {
                     Button {
                         themeRaw = option.id
                     } label: {
-                        if option.id == themeRaw {
-                            Label(option.title(language), systemImage: "checkmark")
-                        } else {
-                            Text(option.title(language))
-                        }
+                        themeOptionLabel(option.title(language), isSelected: option.id == themeRaw)
                     }
                 }
             }
@@ -102,6 +96,9 @@ struct ThemeMenu: View {
             }
             Button(tr("export_theme", language), systemImage: "square.and.arrow.up") {
                 exportTheme()
+            }
+            Button(tr("delete_theme", language), systemImage: "trash", role: .destructive) {
+                deleteTheme()
             }
             .disabled(customThemes.first(where: { $0.id == themeRaw }) == nil)
         } label: {
@@ -124,6 +121,20 @@ struct ThemeMenu: View {
         }
         .buttonStyle(.plain)
         .menuStyle(.borderlessButton)
+    }
+
+    @ViewBuilder
+    private func themeOptionLabel(_ title: String, isSelected: Bool) -> some View {
+        HStack(spacing: 8) {
+            if isSelected {
+                Image(systemName: "checkmark")
+                    .frame(width: 16)
+            } else {
+                Color.clear
+                    .frame(width: 16, height: 1)
+            }
+            Text(title)
+        }
     }
 }
 

@@ -158,11 +158,21 @@ struct ThemedTableColumn<Row: Identifiable>: Identifiable {
     let id = UUID()
     let title: String
     let width: CGFloat
+    let alignment: Alignment
+    let textAlignment: TextAlignment
     let content: (Row) -> AnyView
 
-    init<Content: View>(_ title: String, width: CGFloat, @ViewBuilder content: @escaping (Row) -> Content) {
+    init<Content: View>(
+        _ title: String,
+        width: CGFloat,
+        alignment: Alignment = .center,
+        textAlignment: TextAlignment = .center,
+        @ViewBuilder content: @escaping (Row) -> Content
+    ) {
         self.title = title
         self.width = width
+        self.alignment = alignment
+        self.textAlignment = textAlignment
         self.content = { AnyView(content($0)) }
     }
 }
@@ -186,7 +196,8 @@ struct ThemedDataTable<Row: Identifiable>: View {
                         HStack(alignment: .top, spacing: 0) {
                             ForEach(columns) { column in
                                 column.content(row)
-                                    .frame(width: column.width, alignment: .leading)
+                                    .multilineTextAlignment(column.textAlignment)
+                                    .frame(width: column.width, alignment: column.alignment)
                                     .padding(.horizontal, 12)
                                     .padding(.vertical, 8)
                             }
@@ -200,7 +211,8 @@ struct ThemedDataTable<Row: Identifiable>: View {
                             Text(column.title)
                                 .font(.caption.weight(.bold))
                                 .foregroundStyle(theme.controlForeground.opacity(0.80))
-                                .frame(width: column.width, alignment: .leading)
+                                .multilineTextAlignment(column.textAlignment)
+                                .frame(width: column.width, alignment: column.alignment)
                                 .padding(.horizontal, 12)
                                 .padding(.vertical, 9)
                         }
@@ -242,7 +254,7 @@ struct AlertTable: View {
                             .monospacedDigit()
                     },
                     ThemedTableColumn(tr("water_total", language), width: 180) { Text(model.format($0.waterTotal)).monospacedDigit() },
-                    ThemedTableColumn(tr("flag", language), width: 180) { day in
+                    ThemedTableColumn(tr("flag", language), width: 180, alignment: .leading, textAlignment: .leading) { day in
                         Text(tr(day.isCompleteMeasurementDay ? "low" : "incomplete", language))
                     }
                 ],
@@ -287,7 +299,7 @@ struct SummaryTableView: View {
                 ThemedTableColumn(tr("year", language), width: 90) { Text($0.values["Jahr"] ?? "") },
                 ThemedTableColumn(tr("week_short", language), width: 70) { Text($0.values["KW"] ?? "") }
             ])
-            result.append(ThemedTableColumn(tr("flag", language), width: 120) { Text($0.values["Auffälligkeit"] ?? "") })
+            result.append(ThemedTableColumn(tr("flag", language), width: 120, alignment: .leading, textAlignment: .leading) { Text($0.values["Auffälligkeit"] ?? "") })
             return result
         default:
             return []
@@ -315,20 +327,21 @@ struct DayTableView: View {
         VStack(alignment: .leading, spacing: 12) {
             FilterBar()
             ThemedDataTable(rows: model.filteredDays, columns: [
-                ThemedTableColumn(tr("date", language), width: 110) { Text(model.formattedDate($0.messtag)) },
-                ThemedTableColumn(tr("day", language), width: 100) { Text($0.dayName) },
-                ThemedTableColumn(tr("urine_times", language), width: 120) { multilineCell($0.urine.map(\.0).joined(separator: "\n"), monospaced: true) },
-                ThemedTableColumn(tr("urine_ml", language), width: 110) { multilineCell($0.urine.map { "\($0.1) ml" }.joined(separator: "\n"), monospaced: true) },
-                ThemedTableColumn(tr("urine_sum", language), width: 120) { Text(model.format($0.urineTotal)).monospacedDigit() },
-                ThemedTableColumn(tr("water_times", language), width: 120) { multilineCell($0.water.map(\.0).joined(separator: "\n"), monospaced: true) },
-                ThemedTableColumn(tr("water_ml", language), width: 110) { multilineCell($0.water.map { "\($0.1) ml" }.joined(separator: "\n"), monospaced: true) },
-                ThemedTableColumn(tr("water_sum", language), width: 130) { Text(model.format($0.waterTotal)).monospacedDigit() },
-                ThemedTableColumn(tr("flag", language), width: 140) { day in
+                ThemedTableColumn(tr("date", language), width: 100) { Text(model.formattedDate($0.messtag)).lineLimit(1) },
+                ThemedTableColumn(tr("day", language), width: 90) { Text($0.dayName).lineLimit(1) },
+                ThemedTableColumn(tr("urine_times", language), width: 105) { multilineCell($0.urine.map(\.0).joined(separator: "\n"), monospaced: true) },
+                ThemedTableColumn(tr("urine_ml", language), width: 90) { multilineCell($0.urine.map { "\($0.1) ml" }.joined(separator: "\n"), monospaced: true) },
+                ThemedTableColumn(tr("urine_sum", language), width: 95) { Text(model.format($0.urineTotal)).monospacedDigit().lineLimit(1) },
+                ThemedTableColumn(tr("water_times", language), width: 105) { multilineCell($0.water.map(\.0).joined(separator: "\n"), monospaced: true) },
+                ThemedTableColumn(tr("water_ml", language), width: 90) { multilineCell($0.water.map { "\($0.1) ml" }.joined(separator: "\n"), monospaced: true) },
+                ThemedTableColumn(tr("water_sum", language), width: 92) { Text(model.format($0.waterTotal)).monospacedDigit().lineLimit(1) },
+                ThemedTableColumn(tr("flag", language), width: 100) { day in
                     Text(tr(!day.isCompleteMeasurementDay ? "incomplete" : day.urineTotal < 700 ? "low" : "normal", language))
+                        .lineLimit(1)
                 },
-                ThemedTableColumn(tr("hints", language), width: 470) { day in
-                    multilineCell(day.notesText, lineLimit: 3)
-                        .help(day.notesText)
+                ThemedTableColumn(tr("hints", language), width: 398, alignment: .leading, textAlignment: .leading) { day in
+                    noteRowsCell(day.noteRows, urineTimes: day.urine.map(\.0), generalNotes: day.generalNotes)
+                        .help(notesHelpForDay(day))
                 },
                 ThemedTableColumn(tr("action", language), width: 130) { day in
                     Button(tr("delete_day", language), role: .destructive) {
@@ -378,6 +391,45 @@ struct DayTableView: View {
         } else {
             view
         }
+    }
+
+    @ViewBuilder
+    private func noteRowsCell(_ rows: [(String, String)], urineTimes: [String], generalNotes: [String]) -> some View {
+        let alignedRows = alignedNoteRows(rows, urineTimes: urineTimes)
+        if alignedRows.isEmpty && generalNotes.isEmpty {
+            Text(" ")
+        } else {
+            VStack(alignment: .leading, spacing: 0) {
+                ForEach(Array(alignedRows.enumerated()), id: \.offset) { _, note in
+                    Text(note.isEmpty ? " " : note)
+                        .lineLimit(1)
+                        .frame(height: 19, alignment: .center)
+                }
+                ForEach(Array(generalNotes.enumerated()), id: \.offset) { _, note in
+                    Text(note)
+                        .lineLimit(1)
+                        .frame(height: 19, alignment: .center)
+                }
+            }
+            .fixedSize(horizontal: false, vertical: true)
+        }
+    }
+
+    private func alignedNoteRows(_ rows: [(String, String)], urineTimes: [String]) -> [String] {
+        guard !rows.isEmpty else { return [] }
+        var unmatched = rows
+        var result = urineTimes.map { time -> String in
+            let matching = unmatched.filter { $0.0 == time }.map(\.1).joined(separator: " | ")
+            unmatched.removeAll { $0.0 == time }
+            return matching
+        }
+        result.append(contentsOf: unmatched.map(\.1))
+        return result
+    }
+
+    private func notesHelpForDay(_ day: DaySummary) -> String {
+        let attached = day.noteRows.map { "\($0.0) · \($0.1)" }
+        return (attached + day.generalNotes).joined(separator: "\n")
     }
 }
 

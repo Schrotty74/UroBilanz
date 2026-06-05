@@ -23,6 +23,10 @@ function splitList(value) {
   return String(value || "").split("|").map((item) => item.trim()).filter(Boolean);
 }
 
+function splitListKeepingEmpty(value) {
+  return String(value || "").split("|").map((item) => item.trim());
+}
+
 function zipTimesAmounts(times, amounts) {
   const count = Math.max(times.length, amounts.length);
   return Array.from({ length: count }, (_, index) => ({ time: times[index] || "", ml: amounts[index] || 0 }));
@@ -46,15 +50,23 @@ function dateFromMesstagTime(messtag, time) {
   return date;
 }
 
+function localDayKey(date) {
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+}
+
 function entriesFromDay(day) {
   const note = day.notesText || "";
-  let noteUsed = false;
-  const make = (item, type) => {
-    const entry = { original: dateFromMesstagTime(day.messtag, item.time), type, ml: item.ml, note: noteUsed ? "" : note };
-    noteUsed = true;
-    return entry;
-  };
-  const entries = [...day.urine.map((item) => make(item, "Urin")), ...day.water.map((item) => make(item, "Wasser"))];
+  const make = (item, type, entryNote = "") => ({ original: dateFromMesstagTime(day.messtag, item.time), type, ml: item.ml, note: entryNote });
+  const entries = [
+    ...day.urine.map((item) => make(item, "Urin", (day.noteRows || []).filter((noteRow) => noteRow.time === item.time).map((noteRow) => noteRow.note).join(" / "))),
+    ...day.water.map((item) => make(item, "Wasser")),
+    ...(day.generalNotes || []).map((generalNote) => ({
+      original: new Date(day.messtag.getFullYear(), day.messtag.getMonth(), day.messtag.getDate(), 12, 0),
+      type: "Hinweis",
+      ml: 0,
+      note: generalNote,
+    })),
+  ];
   if (!entries.length && note) {
     entries.push({ original: new Date(day.messtag.getFullYear(), day.messtag.getMonth(), day.messtag.getDate(), 12, 0), type: "Hinweis", ml: 0, note });
   }
@@ -69,9 +81,14 @@ function processDailyRows(raw) {
     const urine = zipTimesAmounts(splitList(entry["Urin Uhrzeit"] || ""), splitList(entry["Urin ml"] || "").map(parseAmount));
     const water = zipTimesAmounts(splitList(entry["Wasser Uhrzeit"] || ""), splitList(entry["Wasser ml"] || "").map(parseAmount));
     const notesText = (entry.Hinweise || "").trim();
+    const generalNotes = splitList(entry["Allgemeine Hinweise"] || "");
+    const urineNoteSlots = splitListKeepingEmpty(entry["Urin Hinweis"] || "");
+    const noteRows = urine
+      .map((item, index) => ({ time: item.time, note: urineNoteSlots[index] || "" }))
+      .filter((item) => item.note);
     return {
       messtag,
-      key: messtag.toISOString().slice(0, 10),
+      key: localDayKey(messtag),
       year: messtag.getFullYear(),
       month: messtag.getMonth() + 1,
       monthName: monthNames[messtag.getMonth()],
@@ -80,6 +97,8 @@ function processDailyRows(raw) {
       urine,
       water,
       notes: notesText ? [notesText] : [],
+      noteRows,
+      generalNotes,
       urineTotal: String(entry["Urin gesamt ml"] || "").trim() ? parseAmount(entry["Urin gesamt ml"]) : urine.reduce((sum, item) => sum + item.ml, 0),
       waterTotal: String(entry["Wasser gesamt ml"] || "").trim() ? parseAmount(entry["Wasser gesamt ml"]) : water.reduce((sum, item) => sum + item.ml, 0),
       urineCount: Number(entry["Urin Anzahl"] || urine.length),
@@ -93,7 +112,7 @@ function groupEntries(rows) {
   const byDay = new Map();
   for (const row of rows) {
     const messtag = toMesstag(row.original);
-    const key = messtag.toISOString().slice(0, 10);
+    const key = localDayKey(messtag);
     if (!byDay.has(key)) byDay.set(key, { key, messtag, urine: [], water: [], notes: [] });
     const day = byDay.get(key);
     if (row.type === "Urin") day.urine.push({ time: fmtTime(row.original), ml: row.ml });
@@ -107,6 +126,27 @@ function groupEntries(rows) {
     urineCount: day.urine.length,
     notesText: [...new Set(day.notes)].join(" | "),
   }));
+}
+
+function noteRowsForDay(day, rows) {
+  const entryDayKey = (entry) => localDayKey(toMesstag(entry.original));
+  return rows
+    .filter((entry) => entryDayKey(entry) === day.key && entry.type === "Urin" && entry.note)
+    .map((entry) => ({ time: fmtTime(entry.original), note: entry.note }));
+}
+
+function alignedNoteRows(rows, urineTimes) {
+  if (!rows.length) return [];
+  const unmatched = rows.slice();
+  const result = urineTimes.map((time) => {
+    const notes = unmatched.filter((item) => item.time === time).map((item) => item.note).join(" | ");
+    for (let index = unmatched.length - 1; index >= 0; index -= 1) {
+      if (unmatched[index].time === time) unmatched.splice(index, 1);
+    }
+    return notes;
+  });
+  result.push(...unmatched.map((item) => item.note));
+  return result;
 }
 
 function entryKey(entry) {
@@ -188,12 +228,48 @@ assert.match(exported, /^Datum,Typ,ml,Hinweis/);
 assert.match(exported, /1\.6\.2026 08:00,Urin,400,/);
 
 const dailyCsv = [
-  "Jahr,Monat,KW,Messtag,Tag,Urin Uhrzeit,Urin ml,Urin Anzahl,Urin gesamt ml,Wasser Uhrzeit,Wasser ml,Wasser gesamt ml,Hinweise",
-  "2026,Juni,23,01.06.2026,Montag,06:10 | 08:00,260 | 400,2,660,06:20,300,300,Demo",
+  "Jahr,Monat,KW,Messtag,Tag,Urin Uhrzeit,Urin ml,Urin Hinweis,Urin Anzahl,Urin gesamt ml,Wasser Uhrzeit,Wasser ml,Wasser gesamt ml,Hinweise,Allgemeine Hinweise",
+  "2026,Juni,23,01.06.2026,Montag,06:10 | 08:00,260 | 400, | Demo,2,660,06:20,300,300,Demo,",
 ].join("\n");
 const dailyEntries = processDailyRows(parseCsv(dailyCsv));
 assert.equal(dailyEntries.length, 3);
 assert.equal(groupEntries(dailyEntries)[0].notesText, "Demo");
+assert.equal(dailyEntries.find((entry) => fmtTime(entry.original) === "08:00")?.note, "Demo");
+
+const noteAlignmentCsv = [
+  "Datum,Typ,ml,Hinweis",
+  "21.5.2026 09:16,Urin,100,wenig Stuhl",
+  "21.5.2026 11:26,Urin,250,wenig Stuhl",
+  "21.5.2026 14:26,Urin,200,",
+  "21.5.2026 16:29,Urin,80,Katastrophe heute",
+  "21.5.2026 18:20,Urin,150,",
+  "22.5.2026 05:27,Urin,120,",
+  "23.5.2026 07:43,Urin,50,Stuhlgang",
+  "23.5.2026 11:33,Urin,130,massiv weniger seit Tadalafil.",
+  "23.5.2026 14:36,Urin,390,besser jetzt aber noch immer unterbrochen",
+  "23.5.2026 16:32,Urin,260,",
+  "23.5.2026 18:24,Urin,170,",
+  "23.5.2026 22:11,Urin,120,",
+  "24.5.2026 05:24,Urin,100,sehr wenig für einen Morgenurin",
+].join("\n");
+const noteAlignmentEntries = parseCsv(noteAlignmentCsv).map(entryFromRawRow).filter(Boolean);
+const alignmentDays = groupEntries(noteAlignmentEntries);
+const noteAlignmentDay21 = alignmentDays.find((day) => day.key === "2026-05-21");
+assert.ok(noteAlignmentDay21);
+const alignedNotes21 = alignedNoteRows(noteRowsForDay(noteAlignmentDay21, noteAlignmentEntries), noteAlignmentDay21.urine.map((item) => item.time));
+assert.equal(alignedNotes21[0], "wenig Stuhl");
+assert.equal(alignedNotes21[1], "wenig Stuhl");
+assert.equal(alignedNotes21[3], "Katastrophe heute");
+assert.equal(alignedNotes21[5], "");
+const noteAlignmentDay = alignmentDays.find((day) => day.key === "2026-05-23");
+assert.ok(noteAlignmentDay);
+assert.deepEqual(noteAlignmentDay.urine.map((item) => item.time), ["07:43", "11:33", "14:36", "16:32", "18:24", "22:11", "05:24"]);
+const alignedNotes = alignedNoteRows(noteRowsForDay(noteAlignmentDay, noteAlignmentEntries), noteAlignmentDay.urine.map((item) => item.time));
+assert.equal(alignedNotes[0], "Stuhlgang");
+assert.equal(alignedNotes[1], "massiv weniger seit Tadalafil.");
+assert.equal(alignedNotes[2], "besser jetzt aber noch immer unterbrochen");
+assert.equal(alignedNotes[3], "");
+assert.equal(alignedNotes[6], "sehr wenig für einen Morgenurin");
 
 const edgeEntries = [
   { original: new Date(2031, 0, 1, 8, 0), type: "Urin", ml: 420, note: "" },

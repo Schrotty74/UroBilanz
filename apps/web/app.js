@@ -62,6 +62,7 @@ const els = {
   mergeCsvInput: document.querySelector("#mergeCsvInput"),
   themeInput: document.querySelector("#themeInput"),
   exportTheme: document.querySelector("#exportTheme"),
+  deleteTheme: document.querySelector("#deleteTheme"),
   themeMenu: document.querySelector("#themeMenu"),
   themeMenuButton: document.querySelector("#themeMenuButton"),
   themeMenuPanel: document.querySelector("#themeMenuPanel"),
@@ -135,6 +136,73 @@ function themeFileName(theme) {
 
 function customThemeTitle(theme) {
   return theme.name?.[language] || theme.name?.de || theme.name?.en || theme.id;
+}
+
+function uniqueCustomThemeId(baseId) {
+  let id = baseId;
+  let index = 2;
+  while (builtInThemeSet.has(id) || customThemeById(id)) {
+    id = `${baseId}-${index}`;
+    index += 1;
+  }
+  return id;
+}
+
+function cssColorToHex(value) {
+  const text = String(value || "").trim();
+  const hex = text.match(/^#([0-9a-f]{6})$/i);
+  if (hex) return `#${hex[1].toUpperCase()}`;
+  const shortHex = text.match(/^#([0-9a-f]{3})$/i);
+  if (shortHex) return `#${shortHex[1].split("").map((part) => `${part}${part}`).join("").toUpperCase()}`;
+  const rgb = text.match(/^rgba?\(\s*([0-9.]+)[,\s]+([0-9.]+)[,\s]+([0-9.]+)/i);
+  if (!rgb) return null;
+  return `#${rgb.slice(1, 4).map((part) => Math.max(0, Math.min(255, Math.round(Number(part)))).toString(16).padStart(2, "0")).join("").toUpperCase()}`;
+}
+
+function themeColor(styles, property, fallback) {
+  return cssColorToHex(styles.getPropertyValue(property)) || fallback;
+}
+
+function builtInThemeCopy(id) {
+  const styles = getComputedStyle(document.body);
+  const titleDe = window.URO_I18N?.de?.themes?.[id] ?? id;
+  const titleEn = window.URO_I18N?.en?.themes?.[id] ?? titleDe;
+  const theme = {
+    format: "urobilanz-theme",
+    version: 1,
+    id: uniqueCustomThemeId(`${id}-custom`),
+    name: {
+      de: `${titleDe} Kopie`,
+      en: `${titleEn} Copy`,
+    },
+    mode: darkThemeSet.has(id) ? "dark" : "light",
+    colors: {
+      text: themeColor(styles, "--ink", darkThemeSet.has(id) ? "#FFFFFF" : "#172024"),
+      mutedText: themeColor(styles, "--muted", darkThemeSet.has(id) ? "#C9D4D2" : "#64706E"),
+      background: themeColor(styles, "--body-bg", darkThemeSet.has(id) ? "#0E171A" : "#F6FBFA"),
+      backgroundAlt: themeColor(styles, "--soft", darkThemeSet.has(id) ? "#172326" : "#E8F3F1"),
+      panel: themeColor(styles, "--paper", darkThemeSet.has(id) ? "#142024" : "#FFFFFF"),
+      panelSoft: themeColor(styles, "--panel-soft", darkThemeSet.has(id) ? "#1B292C" : "#F2F8F6"),
+      border: themeColor(styles, "--line", darkThemeSet.has(id) ? "#4E6B66" : "#C8D8D5"),
+      accent: themeColor(styles, "--accent", "#A8C957"),
+      accentText: themeColor(styles, "--accent-ink", darkThemeSet.has(id) ? "#101614" : "#FFFFFF"),
+      urine: themeColor(styles, "--urine-strong", "#F6C84F"),
+      urineSoft: themeColor(styles, "--urine", "#F7E3A4"),
+      water: themeColor(styles, "--water-strong", "#2D91E8"),
+      waterSoft: themeColor(styles, "--water", "#B9DBF8"),
+      low: themeColor(styles, "--low", darkThemeSet.has(id) ? "#5C252B" : "#F8D7DA"),
+      rowOdd: themeColor(styles, "--row-odd", darkThemeSet.has(id) ? "#192529" : "#F4FAF8"),
+      rowEven: themeColor(styles, "--row-even", darkThemeSet.has(id) ? "#101A1D" : "#FFFFFF"),
+      chartUrine: themeColor(styles, "--chart-urine", "#F6C84F"),
+      chartWater: themeColor(styles, "--chart-water", "#2D91E8"),
+    },
+    effects: {
+      glassOpacity: 0.86,
+      glassBorderOpacity: 0.3,
+      shadowOpacity: darkThemeSet.has(id) ? 0.28 : 0.16,
+    },
+  };
+  return validateUroTheme(theme, builtInThemeIds);
 }
 
 function rebuildThemeOptions(activeTheme = els.themeSelect.value || localStorage.getItem("urinTheme") || "classic-light") {
@@ -240,7 +308,7 @@ function rebuildFromEntries(rows, rawCsv = "") {
     const messtag = toMesstag(row.original);
     const iso = isoWeek(messtag);
     row.messtag = messtag;
-    row.messtagKey = messtag.toISOString().slice(0, 10);
+    row.messtagKey = localDayKey(messtag);
     row.isoYear = iso.year;
     row.week = iso.week;
     if (!byDay.has(row.messtagKey)) {
@@ -255,6 +323,8 @@ function rebuildFromEntries(rows, rawCsv = "") {
         urine: [],
         water: [],
         notes: [],
+        noteRows: [],
+        generalNotes: [],
       });
     }
     const day = byDay.get(row.messtagKey);
@@ -264,7 +334,15 @@ function rebuildFromEntries(rows, rawCsv = "") {
     if (row.type === "Urin") {
       day.urine.push({ time: fmtTime(row.original), ml: row.ml });
     }
-    if (row.note) day.notes.push(row.note);
+    if (row.note) {
+      day.notes.push(row.note);
+      if (row.type === "Urin") {
+        day.noteRows.push({ time: fmtTime(row.original), note: row.note });
+      }
+      if (row.type === "Hinweis") {
+        day.generalNotes.push(row.note);
+      }
+    }
   }
 
   const days = Array.from(byDay.values()).map((day) => ({
@@ -300,9 +378,16 @@ function processDailyRows(raw) {
       const rawUrineTotal = entry["Urin gesamt ml"] || entry["● Urin gesamt ml"] || "";
       const rawWaterTotal = entry["Wasser gesamt ml"] || entry["💧 Wasser gesamt ml"] || "";
       const notesText = (entry.Hinweise || "").trim();
+      const generalNotes = splitList(entry["Allgemeine Hinweise"] || "");
+      const urineNoteSlots = splitListKeepingEmpty(entry["Urin Hinweis"] || "");
+      const importedNoteRows = urine
+        .map((item, index) => ({ time: item.time, note: urineNoteSlots[index] || "" }))
+        .filter((item) => item.note);
+      const legacyNotes = notesText ? [notesText] : [];
+      const notes = [...importedNoteRows.map((item) => item.note), ...generalNotes];
       return {
         messtag,
-        key: messtag.toISOString().slice(0, 10),
+        key: localDayKey(messtag),
         year: messtag.getFullYear(),
         month: messtag.getMonth() + 1,
         monthName: monthNames()[messtag.getMonth()],
@@ -310,7 +395,9 @@ function processDailyRows(raw) {
         week: Number(entry.KW || iso.week),
         urine,
         water,
-        notes: notesText ? [notesText] : [],
+        notes: notes.length ? notes : legacyNotes,
+        noteRows: importedNoteRows,
+        generalNotes,
         urineTotal: String(rawUrineTotal).trim() ? parseAmount(rawUrineTotal) : urine.reduce((sum, item) => sum + item.ml, 0),
         waterTotal: String(rawWaterTotal).trim() ? parseAmount(rawWaterTotal) : water.reduce((sum, item) => sum + item.ml, 0),
         urineCount: Number(entry["Urin Anzahl"] || entry["● Urin Anzahl"] || urine.length),
@@ -344,14 +431,20 @@ function entryFromRawRow(entry) {
 
 function entriesFromDay(day) {
   const note = day.notesText || "";
-  let noteUsed = false;
-  const make = (item, type) => {
+  const make = (item, type, entryNote = "") => {
     const original = dateFromMesstagTime(day.messtag, item.time);
-    const entry = { original, type, ml: item.ml, note: noteUsed ? "" : note };
-    noteUsed = true;
-    return entry;
+    return { original, type, ml: item.ml, note: entryNote };
   };
-  const entries = [...day.urine.map((item) => make(item, "Urin")), ...day.water.map((item) => make(item, "Wasser"))];
+  const entries = [
+    ...day.urine.map((item) => make(item, "Urin", (day.noteRows || []).filter((noteRow) => noteRow.time === item.time).map((noteRow) => noteRow.note).join(" / "))),
+    ...day.water.map((item) => make(item, "Wasser")),
+    ...(day.generalNotes || []).map((generalNote) => ({
+      original: new Date(day.messtag.getFullYear(), day.messtag.getMonth(), day.messtag.getDate(), 12, 0),
+      type: "Hinweis",
+      ml: 0,
+      note: generalNote,
+    })),
+  ];
   if (!entries.length && note) {
     entries.push({ original: new Date(day.messtag.getFullYear(), day.messtag.getMonth(), day.messtag.getDate(), 12, 0), type: "Hinweis", ml: 0, note });
   }
@@ -387,6 +480,12 @@ function splitList(value) {
     .split("|")
     .map((item) => item.trim())
     .filter(Boolean);
+}
+
+function splitListKeepingEmpty(value) {
+  return String(value || "")
+    .split("|")
+    .map((item) => item.trim());
 }
 
 function parseAmount(value) {
@@ -528,7 +627,8 @@ function applyTheme(theme) {
   rebuildThemeOptions(selectedTheme);
   els.themeSelect.value = selectedTheme;
   els.selectedThemeLabel.textContent = els.themeSelect.selectedOptions[0]?.textContent || selectedTheme;
-  els.exportTheme.disabled = !customTheme;
+  els.exportTheme.disabled = false;
+  els.deleteTheme.disabled = !customTheme;
   els.appMark.src = isDark ? "./assets/urobilanz-icon-dark.svg" : "./assets/urobilanz-icon-light.svg";
   localStorage.setItem("urinTheme", selectedTheme);
   if (state.days.length) render();
@@ -571,12 +671,24 @@ async function importThemeFile(file) {
 }
 
 function exportSelectedTheme() {
+  const selectedId = els.themeSelect.value;
+  const theme = customThemeById(selectedId) || builtInThemeCopy(selectedId);
+  downloadText(themeFileName(theme), `${JSON.stringify(theme, null, 2)}\n`, "application/json;charset=utf-8");
+  closeThemeMenu();
+}
+
+function deleteSelectedTheme() {
   const theme = customThemeById(els.themeSelect.value);
   if (!theme) {
-    window.alert(t("theme_export_builtin"));
+    window.alert(t("theme_delete_builtin"));
     return;
   }
-  downloadText(themeFileName(theme), `${JSON.stringify(theme, null, 2)}\n`, "application/json;charset=utf-8");
+  const name = customThemeTitle(theme);
+  if (!window.confirm(t("theme_delete_confirm", { name }))) return;
+  customThemes = customThemes.filter((item) => item.id !== theme.id);
+  saveCustomThemes();
+  applyTheme("classic-light");
+  els.status.textContent = t("theme_deleted", { name });
   closeThemeMenu();
 }
 
@@ -640,6 +752,8 @@ function summaryRow(row) {
 }
 
 function dayRow(day) {
+  const noteRows = alignedNoteRows(noteRowsForDay(day), day.urine.map((item) => item.time));
+  noteRows.push(...generalNotesForDay(day));
   return {
     Jahr: day.year,
     Monat: monthNames()[day.month - 1],
@@ -654,9 +768,45 @@ function dayRow(day) {
     "💧 Wasser ml": day.water.map((item) => `${item.ml} ml`).join("\n"),
     "💧 Wasser gesamt ml": day.waterTotal,
     Auffälligkeit: t(!isCompleteMeasurementDay(day) ? "incomplete" : day.urineTotal < 700 ? "low" : "normal"),
-    Hinweise: day.notesText,
+    Hinweise: noteRows,
     Aktion: day.key,
   };
+}
+
+function noteRowsForDay(day) {
+  const rows = state.rows
+    .filter((entry) => entryDayKey(entry) === day.key && entry.type === "Urin" && entry.note)
+    .map((entry) => ({ time: fmtTime(entry.original), note: entry.note }));
+  return rows.length ? rows : (day.noteRows || []);
+}
+
+function generalNotesForDay(day) {
+  const rows = state.rows
+    .filter((entry) => entryDayKey(entry) === day.key && entry.type === "Hinweis" && entry.note)
+    .map((entry) => entry.note);
+  return rows.length ? rows : (day.generalNotes || []);
+}
+
+function entryDayKey(entry) {
+  return entry.messtagKey || localDayKey(toMesstag(entry.original));
+}
+
+function localDayKey(date) {
+  return inputDateValue(date);
+}
+
+function alignedNoteRows(rows, urineTimes) {
+  if (!rows.length) return [];
+  const unmatched = rows.slice();
+  const result = urineTimes.map((time) => {
+    const notes = unmatched.filter((item) => item.time === time).map((item) => item.note).join(" | ");
+    for (let index = unmatched.length - 1; index >= 0; index -= 1) {
+      if (unmatched[index].time === time) unmatched.splice(index, 1);
+    }
+    return notes;
+  });
+  result.push(...unmatched.map((item) => item.note));
+  return result;
 }
 
 function renderTable(table, headers, rows, separateDays = false) {
@@ -671,7 +821,7 @@ function renderTable(table, headers, rows, separateDays = false) {
             .map((header) => {
               const value = row[header] ?? "";
               const valueClass = alertClass(header, value, row);
-              const stack = String(value).includes("\n") ? "stack" : "";
+              const stack = String(value).includes("\n") || Array.isArray(value) ? "stack" : "";
               const cell = formatCell(header, value);
               return `<td class="${headerClass(header)} ${valueClass} ${stack}">${cell}</td>`;
             })
@@ -729,6 +879,10 @@ function alertClass(header, value, row) {
 function formatCell(header, value) {
   if (header === "Aktion") {
     return `<button class="utility-button quiet delete-day" type="button" data-delete-day="${escapeHtml(value)}">${escapeHtml(t("delete_day"))}</button>`;
+  }
+  if (header === "Hinweise" && Array.isArray(value)) {
+    if (!value.length) return "";
+    return `<div class="note-lines">${value.map((note) => `<div class="note-line"><span class="note-text">${escapeHtml(note || " ")}</span></div>`).join("")}</div>`;
   }
   if (typeof value === "number" && !["Jahr", "Monat", "KW", "ISO Jahr", "ISO Woche", "Tage", "● Urin Anzahl"].includes(header)) {
     return fmtNumber(value);
@@ -920,10 +1074,10 @@ function parseInputDay(value) {
 function entryListRows() {
   const selectedDay = parseInputDay(els.entryDate.value);
   if (!selectedDay) return [];
-  const key = selectedDay.toISOString().slice(0, 10);
+  const key = localDayKey(selectedDay);
   return state.rows
     .map((entry, index) => ({ entry, index }))
-    .filter(({ entry }) => toMesstag(entry.original).toISOString().slice(0, 10) === key)
+    .filter(({ entry }) => localDayKey(toMesstag(entry.original)) === key)
     .sort((a, b) => a.entry.original - b.entry.original);
 }
 
@@ -999,7 +1153,7 @@ function confirmDeleteDay(dayKey) {
   if (!day) return;
   if (!window.confirm(t("day_delete_confirm", { date: fmtDate(day.messtag) }))) return;
 
-  const nextRows = state.rows.filter((entry) => toMesstag(entry.original).toISOString().slice(0, 10) !== dayKey);
+  const nextRows = state.rows.filter((entry) => localDayKey(toMesstag(entry.original)) !== dayKey);
   if (nextRows.length) {
     rebuildFromEntries(nextRows.sort((a, b) => a.original - b.original));
   } else {
@@ -1034,6 +1188,7 @@ els.themeInput.addEventListener("change", (event) => {
 });
 
 els.exportTheme.addEventListener("click", exportSelectedTheme);
+els.deleteTheme.addEventListener("click", deleteSelectedTheme);
 
 document.addEventListener("pointerdown", (event) => {
   if (els.themeMenu.contains(event.target)) return;
@@ -1090,12 +1245,14 @@ els.exportDays.addEventListener("click", () => {
     Tag: dayNames[day.messtag.getDay()],
     "Urin Uhrzeit": day.urine.map((item) => item.time).join(" | "),
     "Urin ml": day.urine.map((item) => item.ml).join(" | "),
+    "Urin Hinweis": day.urine.map((item) => (day.noteRows || []).filter((note) => note.time === item.time).map((note) => note.note).join(" / ")).join(" | "),
     "Urin Anzahl": day.urineCount,
     "Urin gesamt ml": day.urineTotal,
     "Wasser Uhrzeit": day.water.map((item) => item.time).join(" | "),
     "Wasser ml": day.water.map((item) => item.ml).join(" | "),
     "Wasser gesamt ml": day.waterTotal,
     Hinweise: day.notesText,
+    "Allgemeine Hinweise": (day.generalNotes || []).join(" | "),
   }));
   downloadText(`urobilanz-tagesdaten-${dateStamp()}.csv`, toCsv(rows), "text/csv;charset=utf-8");
 });

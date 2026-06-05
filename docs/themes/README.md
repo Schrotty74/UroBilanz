@@ -26,7 +26,11 @@ In Web-App und SwiftUI-App wird das Theme ueber `Theme importieren` geladen.
 Eingebaute Themes bleiben erhalten und koennen nicht ueberschrieben werden.
 
 Importierte Themes koennen ueber `Theme exportieren` wieder als JSON-Datei
-gespeichert und weitergegeben werden.
+gespeichert und weitergegeben werden. Eingebaute Themes koennen ebenfalls
+exportiert werden; dabei entsteht eine bearbeitbare Kopie mit eigener ID.
+
+Importierte Themes koennen ueber `Theme löschen` wieder entfernt werden.
+Eingebaute Themes bleiben geschuetzt.
 
 ## Beispiel
 

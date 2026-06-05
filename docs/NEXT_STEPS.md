@@ -1,11 +1,11 @@
 # UroBilanz - Naechste Schritte
 
-Stand: 04.06.2026
+Stand: 05.06.2026
 
-Aktueller Hauptstand: `v1.6.0-beta.1`
+Aktueller Hauptstand: `v1.6.0-beta.2`
 
-Release-Einordnung: `v1.6.0-beta.1` startet die 1.6-Reihe mit
-benutzerdefinierten Themes. Version 1.5 bleibt abgeschlossen.
+Release-Einordnung: `v1.6.0-beta.2` baut auf der 1.6-Reihe mit
+benutzerdefinierten Themes auf. Version 1.5 bleibt abgeschlossen.
 
 Projektordner:
 
@@ -143,15 +143,41 @@ Umgesetzt:
 - Web-App: Theme-JSON importieren, validieren, lokal speichern und anwenden.
 - SwiftUI-App: Theme-JSON importieren, validieren, lokal speichern und anwenden.
 - Web-App und SwiftUI-App: importierte Themes als JSON exportieren.
+- Web-App und SwiftUI-App: eingebaute Themes als bearbeitbare JSON-Kopie
+  exportieren.
+- Web-App und SwiftUI-App: importierte Themes wieder loeschen.
 - Web-App: Theme-Auswahl, Import und Export in ein gemeinsames Theme-Menue
   zusammengefuehrt.
 - Tests fuer gueltige und ungueltige Theme-Dateien ergaenzt.
 - Praktischer Importtest in Web-App und SwiftUI-App erfolgreich.
 
+## Erledigt - v1.6.0-beta.2 Theme-Export Und Hinweis-Fixes
+
+`v1.6.0-beta.2` wurde nach Alltagstest vorbereitet.
+
+Umgesetzt:
+
+- Web-App und SwiftUI-App: eingebaute Themes koennen als bearbeitbare
+  JSON-Kopie exportiert werden.
+- Web-App und SwiftUI-App: importierte Themes koennen wieder geloescht werden.
+- Web-App und SwiftUI-App: Hinweise aus Urinote-CSV bleiben in der Tagesansicht
+  an der passenden Urin-Uhrzeit ausgerichtet.
+- Web-App: lokale Messtag-Schluessel statt UTC-Schluessel fuer stabile
+  Zuordnung von fruehen 05:xx-Eintraegen.
+- SwiftUI-App: Tagesansicht performanter gemacht; Scrollen mit dem Balken ist
+  wieder fluessig.
+- SwiftUI-App: Import-/Workflow-Testmodus startet ohne SwiftUI/AppKit-Fenster,
+  damit automatische Tests keine macOS-Absturzmeldungen mehr erzeugen.
+- Web- und Swift-Tests fuer die Uhrzeit-genaue Hinweis-Zuordnung erweitert.
+
+Geprueft:
+
+- `./verify_apps.sh` erfolgreich.
+- Web-App und SwiftUI-App im Alltag kurz geprueft; erster Blick sieht gut aus.
+
 Naechster Schritt:
 
-- `v1.6.0-beta.1` in Web-App und SwiftUI-App im Alltag testen.
-- Optional spaeter klaeren, ob importierte Themes geloescht werden sollen.
+- `v1.6.0-beta.2` in Web-App und SwiftUI-App im Alltag testen.
 
 ## Spaetere Idee - Optionaler Feinschliff
 

@@ -22,12 +22,20 @@ struct DaySummary: Identifiable {
     let urine: [(String, Int)]
     let water: [(String, Int)]
     let notes: [String]
+    let noteRows: [(String, String)]
+    let generalNotes: [String]
 
     var id: Date { messtag }
     var urineTotal: Int { urine.reduce(0) { $0 + $1.1 } }
     var waterTotal: Int { water.reduce(0) { $0 + $1.1 } }
     var urineCount: Int { urine.count }
     var notesText: String { notes.joined(separator: " | ") }
+    var noteRowsText: String {
+        let attached = noteRows.map { time, note in
+            time.isEmpty ? note : "\(time) · \(note)"
+        }
+        return (attached + generalNotes).joined(separator: "\n")
+    }
     var isCompleteMeasurementDay: Bool {
         let minutes = (urine + water).compactMap { item -> Int? in
             let parts = item.0.split(separator: ":").compactMap { Int($0) }

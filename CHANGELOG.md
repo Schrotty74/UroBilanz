@@ -6,6 +6,24 @@ Alle wichtigen Änderungen an UroBilanz werden hier dokumentiert.
 
 - Noch keine Änderungen.
 
+## 1.6.0-beta.2 - 2026-06-05
+
+- Web-App und SwiftUI-App: eingebaute Themes koennen jetzt als bearbeitbare
+  JSON-Kopie exportiert werden.
+- Web-App und SwiftUI-App: importierte Themes koennen wieder geloescht werden;
+  eingebaute Themes bleiben geschuetzt.
+- Web-App und SwiftUI-App: Hinweis-Texte aus der Urinote-CSV bleiben in der
+  Tagesansicht wieder an der passenden Urin-Uhrzeit ausgerichtet.
+- Web-App: Messtage werden konsequent lokal statt per UTC-Schluessel
+  zugeordnet, damit fruehe 05:xx-Eintraege korrekt beim Vortag bleiben.
+- SwiftUI-App: Tagesansicht performanter gemacht; das Scrollen mit dem
+  Scrollbalken ruckelt nicht mehr durch wiederholte Hinweis-Berechnungen.
+- SwiftUI-App: Testmodus startet Import- und Workflow-Pruefungen ohne
+  SwiftUI/AppKit-Fenster, damit die automatischen Tests keine macOS-
+  Absturzmeldungen mehr ausloesen.
+- Web-App: Workflow-Test fuer die Uhrzeit-genaue Hinweis-Zuordnung erweitert.
+- SwiftUI-App: Smoke-Test fuer die Uhrzeit-genaue Hinweis-Zuordnung erweitert.
+
 ## 1.6.0-beta.1 - 2026-06-04
 
 - Web-App und SwiftUI-App: benutzerdefinierte Themes als JSON-Datei importieren.

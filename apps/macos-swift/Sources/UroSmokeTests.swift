@@ -1,34 +1,32 @@
-import SwiftUI
+import Foundation
 
-struct ImportTestView: View {
-    @EnvironmentObject private var model: UrinModel
-
-    var body: some View {
-        Text("Importtest")
-            .task {
-                let args = Array(ProcessInfo.processInfo.arguments)
-                let runWorkflow = args.contains("--test-workflow")
-                let paths = importPaths(from: args)
-                for path in paths {
-                    do {
-                        let csv = try String(contentsOfFile: path, encoding: .utf8)
-                        try model.load(csv: csv)
-                        print("\(path): \(model.days.count) Messtage")
-                    } catch {
-                        print("\(path): Fehler: \(error.localizedDescription)")
-                        exit(1)
-                    }
-                }
-                if runWorkflow {
-                    runWorkflowTest()
-                    runEvaluationEdgeTests()
-                    runThemeImportTest()
-                }
-                exit(0)
+@MainActor
+enum ImportSmokeTestRunner {
+    static func run() -> Never {
+        let model = UrinModel()
+        let args = Array(ProcessInfo.processInfo.arguments)
+        let runWorkflow = args.contains("--test-workflow")
+        let paths = importPaths(from: args)
+        for path in paths {
+            do {
+                let csv = try String(contentsOfFile: path, encoding: .utf8)
+                try model.load(csv: csv)
+                print("\(path): \(model.days.count) Messtage")
+            } catch {
+                print("\(path): Fehler: \(error.localizedDescription)")
+                exit(1)
             }
+        }
+        if runWorkflow {
+            runWorkflowTest(model: model)
+            runEvaluationEdgeTests(model: model)
+            runNoteAlignmentTest(model: model)
+            runThemeImportTest()
+        }
+        exit(0)
     }
 
-    private func importPaths(from args: [String]) -> [String] {
+    private static func importPaths(from args: [String]) -> [String] {
         guard let start = args.firstIndex(of: "--test-import") else { return [] }
         var paths: [String] = []
         for value in args[(start + 1)...] {
@@ -38,7 +36,7 @@ struct ImportTestView: View {
         return paths
     }
 
-    private func runWorkflowTest() {
+    private static func runWorkflowTest(model: UrinModel) {
         let beforeDays = model.days.count
         let day = date(2030, 1, 2, 12, 0)
         let urineTime = date(2030, 1, 2, 6, 10)
@@ -70,7 +68,7 @@ struct ImportTestView: View {
         print("Swift workflow smoke test passed")
     }
 
-    private func runEvaluationEdgeTests() {
+    private static func runEvaluationEdgeTests(model: UrinModel) {
         model.clearData()
         let incompleteDay = date(2031, 1, 1, 12, 0)
         model.addManualEntries(
@@ -104,7 +102,49 @@ struct ImportTestView: View {
         print("Swift evaluation edge test passed")
     }
 
-    private func runThemeImportTest() {
+    private static func runNoteAlignmentTest(model: UrinModel) {
+        model.clearData()
+        let csv = """
+        Datum,Typ,ml,Hinweis
+        21.5.2026 09:16,Urin,100,wenig Stuhl
+        21.5.2026 11:26,Urin,250,wenig Stuhl
+        21.5.2026 14:26,Urin,200,
+        21.5.2026 16:29,Urin,80,Katastrophe heute
+        21.5.2026 18:20,Urin,150,
+        22.5.2026 05:27,Urin,120,
+        23.5.2026 07:43,Urin,50,Stuhlgang
+        23.5.2026 11:33,Urin,130,massiv weniger seit Tadalafil.
+        23.5.2026 14:36,Urin,390,besser jetzt aber noch immer unterbrochen
+        23.5.2026 16:32,Urin,260,
+        23.5.2026 18:24,Urin,170,
+        23.5.2026 22:11,Urin,120,
+        24.5.2026 05:24,Urin,100,sehr wenig für einen Morgenurin
+        """
+        do {
+            try model.load(csv: csv)
+            guard let day = model.days.first(where: { model.formattedDate($0.messtag) == "21.05.2026" }) else {
+                assertWorkflow(false, "note alignment day missing")
+                return
+            }
+            assertWorkflow(day.noteRows.contains { $0.0 == "09:16" && $0.1 == "wenig Stuhl" }, "21.5 note must stay attached to 09:16")
+            assertWorkflow(day.noteRows.contains { $0.0 == "11:26" && $0.1 == "wenig Stuhl" }, "21.5 note must stay attached to 11:26")
+            assertWorkflow(day.noteRows.contains { $0.0 == "16:29" && $0.1 == "Katastrophe heute" }, "21.5 note must stay attached to 16:29")
+            guard let nextDay = model.days.first(where: { model.formattedDate($0.messtag) == "23.05.2026" }) else {
+                assertWorkflow(false, "23.5 note alignment day missing")
+                return
+            }
+            assertWorkflow(nextDay.noteRows.contains { $0.0 == "07:43" && $0.1 == "Stuhlgang" }, "23.5 note must stay attached to 07:43")
+            assertWorkflow(nextDay.noteRows.contains { $0.0 == "11:33" && $0.1 == "massiv weniger seit Tadalafil." }, "23.5 note must stay attached to 11:33")
+            assertWorkflow(nextDay.noteRows.contains { $0.0 == "14:36" && $0.1 == "besser jetzt aber noch immer unterbrochen" }, "23.5 note must stay attached to 14:36")
+            assertWorkflow(nextDay.noteRows.contains { $0.0 == "05:24" && $0.1 == "sehr wenig für einen Morgenurin" }, "23.5 note must stay attached to 05:24")
+            print("Swift note alignment smoke test passed")
+        } catch {
+            print("Hinweis-Zuordnungstest Fehler: \(error.localizedDescription)")
+            exit(1)
+        }
+    }
+
+    private static func runThemeImportTest() {
         let path = FileManager.default.currentDirectoryPath + "/docs/themes/example-custom-theme.json"
         do {
             let data = try Data(contentsOf: URL(fileURLWithPath: path))
@@ -115,6 +155,10 @@ struct ImportTestView: View {
             let encoded = try JSONEncoder().encode(theme)
             let decoded = try JSONDecoder().decode(CustomThemeDefinition.self, from: encoded).validated()
             assertWorkflow(decoded.id == theme.id, "custom theme export roundtrip failed")
+            let builtInCopy = try AppTheme.classicDark.exportCopy(existingIds: [theme.id, "classic-dark-custom"])
+            assertWorkflow(builtInCopy.id == "classic-dark-custom-2", "built-in theme export copy id should avoid collisions")
+            assertWorkflow(builtInCopy.title(.de) == "Classic Dunkel Kopie", "built-in theme export copy title mismatch")
+            assertWorkflow(builtInCopy.mode == "dark", "built-in theme export copy mode mismatch")
 
             var duplicate = theme
             duplicate.id = AppTheme.classicLight.rawValue
@@ -131,11 +175,11 @@ struct ImportTestView: View {
         }
     }
 
-    private func date(_ year: Int, _ month: Int, _ day: Int, _ hour: Int, _ minute: Int) -> Date {
+    private static func date(_ year: Int, _ month: Int, _ day: Int, _ hour: Int, _ minute: Int) -> Date {
         Calendar(identifier: .gregorian).date(from: DateComponents(year: year, month: month, day: day, hour: hour, minute: minute)) ?? Date()
     }
 
-    private func assertWorkflow(_ condition: Bool, _ message: String) {
+    private static func assertWorkflow(_ condition: Bool, _ message: String) {
         if !condition {
             print("Workflowtest Fehler: \(message)")
             exit(1)

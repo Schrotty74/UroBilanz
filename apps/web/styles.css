@@ -867,6 +867,23 @@ td.note-col {
   border-left: 1px solid color-mix(in srgb, var(--line) 70%, transparent);
 }
 
+.note-lines {
+  display: grid;
+  gap: 0;
+  font-family: Menlo, Consolas, monospace;
+  line-height: 1.45;
+}
+
+.note-line {
+  min-height: 1.45em;
+  line-height: 1.45;
+}
+
+.note-text {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
 td.low {
   background: var(--low);
 }
