@@ -174,10 +174,13 @@ Geprueft:
 
 - `./verify_apps.sh` erfolgreich.
 - Web-App und SwiftUI-App im Alltag kurz geprueft; erster Blick sieht gut aus.
-
-Naechster Schritt:
-
-- `v1.6.0-beta.2` in Web-App und SwiftUI-App im Alltag testen.
+- Alltagstest fuer `v1.6.0-beta.2` erledigt:
+  - Web-App und SwiftUI-App normal benutzt.
+  - Theme-Export geprueft.
+  - eingebaute Themes als bearbeitbare Kopie exportiert.
+  - importierte Themes geloescht.
+  - Tagesansicht mit Hinweisen in Web-App und SwiftUI-App beobachtet.
+  - SwiftUI-Tag-Ansicht scrollt wieder fluessig.
 
 ## Spaetere Idee - Optionaler Feinschliff
 
