@@ -11,6 +11,7 @@ Alle wichtigen Änderungen an UroBilanz werden hier dokumentiert.
   `unvollstaendig`, Wasserwerte und Hinweise.
 - Web-App und SwiftUI-App: neues Liquid-Balance-Day/Night-App-Symbol
   eingebunden.
+- App-Symbol: weissen Aussenrand entfernt und transparente Ecken verwendet.
 
 ## 1.6.0-beta.2 - 2026-06-05
 
