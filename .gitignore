@@ -12,15 +12,29 @@ release/
 
 # Personal health/protocol data
 *.csv
+*.CSV
 *.tsv
+*.TSV
 *.xlsx
+*.XLSX
 *.xls
+*.XLS
 *.numbers
+*.NUMBERS
 *.ods
+*.ODS
 *backup*
 *Backup*
+*BACKUP*
 *tagesdaten*
 *Tagesdaten*
+*TAGESDATEN*
+*gesundheit*
+*Gesundheit*
+*GESUNDHEIT*
+*health*
+*Health*
+*HEALTH*
 !docs/demo/urobilanz-demo.csv
 !docs/demo/urobilanz-demo-daily.csv
 

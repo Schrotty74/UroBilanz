@@ -155,6 +155,9 @@ keine Gesundheitsdaten an externe Server uebertragen.
 
 Echte CSV-, Excel- und Backup-Dateien mit persoenlichen Messdaten gehoeren nicht in dieses Repository. Die `.gitignore` ist so vorbereitet, dass solche Dateien nicht versehentlich aufgenommen werden.
 
+Der lokale technische Datenschutz-Check ist unter
+[docs/PRIVACY_CHECK.md](docs/PRIVACY_CHECK.md) dokumentiert.
+
 ## Kontakt / Contact
 
 Fragen, Feedback und Fehlerberichte koennen per E-Mail gesendet oder direkt in
