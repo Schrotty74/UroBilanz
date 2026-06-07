@@ -4,6 +4,10 @@ Alle wichtigen Änderungen an UroBilanz werden hier dokumentiert.
 
 ## Unveröffentlicht
 
+- Noch keine Änderungen.
+
+## 1.6.0-rc.2 - 2026-06-07
+
 - SwiftUI-App: klassischen macOS-Menüeintrag `Über UroBilanz` mit einem
   zweisprachigen, zum aktiven Theme passenden Infofenster ergänzt. Version und
   Build werden dynamisch aus dem App-Bundle gelesen; Entwickler, GPLv3,
@@ -15,6 +19,11 @@ Alle wichtigen Änderungen an UroBilanz werden hier dokumentiert.
   verwenden standardmäßig künstliche CSV-Fixtures aus dem Repository statt
   persönlicher absoluter Pfade. Optional angegebene fehlende Dateien führen zu
   einer verständlichen Fehlermeldung.
+- Web-App-Starter beschleunigt und gegen einen bereits belegten lokalen Port
+  abgesichert. Der Python-Webserver bindet direkt an `127.0.0.1`, wodurch die
+  Oberfläche ohne die zuvor beobachtete Startverzögerung erscheint.
+- README um zweisprachige Hinweise zur macOS-Gatekeeper-Warnung, Kontakt und
+  GPLv3-Lizenz ergänzt.
 
 ## 1.6.0-rc.1 - 2026-06-07
 

@@ -292,7 +292,7 @@ assert.match(webAppSource, /urobilanz@mailbox\.org/, "Support-E-Mail fehlt");
 assert.match(webAppSource, /github\.com\/Schrotty74\/UroBilanz/, "GitHub-Link fehlt");
 assert.match(webAppSource, /Keine CSV-Werte, Hinweise oder Gesundheitsdaten/, "Datenschutz-Hinweis im Fehlerbericht fehlt");
 assert.doesNotMatch(webAppSource.match(/function buildBugReport\(\)[\s\S]*?function refreshBugReport/)?.[0] || "", /state\.rows|state\.days|rawCsv/, "Fehlerbericht darf keine Messdaten lesen");
-assert.match(webCoreSource, /const APP_VERSION = "1\.6\.0-rc\.1"/, "Zentrale Web-App-Version fehlt");
+assert.match(webCoreSource, /const APP_VERSION = "1\.6\.0-rc\.2"/, "Zentrale Web-App-Version fehlt");
 assert.match(webAppSource, /const appVersion = APP_VERSION/, "Web-App verwendet nicht die zentrale Version");
 assert.match(webIndexSource, /id="openAbout"/, "Klickbarer Logo-Ausloeser fuer das Ueber-Modal fehlt");
 assert.match(webIndexSource, /id="aboutDialog"/, "Ueber-Modal fehlt");

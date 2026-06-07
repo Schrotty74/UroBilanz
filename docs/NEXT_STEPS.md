@@ -2,9 +2,9 @@
 
 Stand: 07.06.2026
 
-Aktueller Hauptstand: `v1.6.0-rc.1`
+Aktueller Hauptstand: `v1.6.0-rc.2`
 
-Release-Einordnung: `v1.6.0-rc.1` ist der erste Abschlusskandidat der
+Release-Einordnung: `v1.6.0-rc.2` ist der zweite Abschlusskandidat der
 1.6-Reihe mit benutzerdefinierten Themes. Version 1.5 bleibt abgeschlossen.
 
 Projektordner:
@@ -246,6 +246,32 @@ Geprueft:
 - Vollstaendiges Projektbackup in iCloud erstellt.
 - GitHub-Pre-Release `v1.6.0-rc.1` veroeffentlicht.
 
+## Erledigt - v1.6.0-rc.2 Ueber-Fenster Und Portable Pruefung
+
+`v1.6.0-rc.2` wurde am 07.06.2026 als zweiter Abschlusskandidat der
+1.6-Reihe vorbereitet.
+
+- SwiftUI-App: klassischen Menueintrag `Ueber UroBilanz` mit dynamischer
+  Bundle-Version, Entwickler, GPLv3, GitHub und Kontakt ergaenzt.
+- Web-App: UroBilanz-Logo oeffnet ein zweisprachiges, Theme-abhaengiges
+  Ueber-Modal mit denselben Projektinformationen.
+- Entwicklername in beiden Apps: Schrotty74.
+- README um Gatekeeper-Hinweis, Kontakt und GPLv3-Lizenz ergaenzt.
+- Web-App-Starter beschleunigt und fuer einen bereits laufenden lokalen Server
+  abgesichert.
+- `verify_apps.sh` und Swift-Smoke-Test von persoenlichen absoluten Pfaden
+  befreit.
+- Kuenstliche Urinote- und Tagesdaten-Fixtures unter `docs/demo` ergaenzt.
+- Portabler Pruefablauf sowohl im Projekt als auch aus einer frischen
+  Checkout-Kopie erfolgreich ausgefuehrt.
+- Vollstaendiger Release-Test fuer Web-App und SwiftUI-App erfolgreich.
+- Lokale Release-Dateien unter `release/v1.6.0-rc.2` erstellt.
+- Lokale Projektsicherung unter
+  `lokale Projektsicherung`
+  erstellt.
+- Vollstaendiges Projektbackup in iCloud erstellt.
+- GitHub-Pre-Release `v1.6.0-rc.2` veroeffentlicht.
+
 ## Spaetere Idee - Optionaler Feinschliff
 
 ### Bedienung
@@ -282,7 +308,7 @@ Geprueft:
 ## Geplanter Neuer Schwerpunkt - v1.7.0-beta.1 PDF-Bericht
 
 Sinnvoll als eigener Entwicklungszweig nach der 1.6-Reihe, nicht als
-Feinschliff fuer `v1.6.0-rc.1`.
+Feinschliff fuer `v1.6.0-rc.2`.
 
 Zielidee:
 
