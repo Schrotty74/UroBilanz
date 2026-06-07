@@ -17,8 +17,6 @@ kann das Symbol jederzeit ersetzt werden.
 
 UroBilanz ist ein Protokoll- und Auswertungstool. Es ist keine medizinische Diagnose-App und gibt keine medizinischen Empfehlungen.
 
-Die Verarbeitung findet lokal statt. CSV-Dateien werden nicht hochgeladen.
-
 ## Vorschau
 
 Die folgenden Bilder zeigen Demo-Daten. Es sind keine echten Gesundheitsdaten.
@@ -151,6 +149,9 @@ UroBilanz/
 ```
 
 ## Datenschutz
+
+UroBilanz verarbeitet Messdaten ausschliesslich lokal auf dem Geraet. Es werden
+keine Gesundheitsdaten an externe Server uebertragen.
 
 Echte CSV-, Excel- und Backup-Dateien mit persoenlichen Messdaten gehoeren nicht in dieses Repository. Die `.gitignore` ist so vorbereitet, dass solche Dateien nicht versehentlich aufgenommen werden.
 
