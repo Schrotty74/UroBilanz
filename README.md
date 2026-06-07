@@ -140,3 +140,8 @@ UroBilanz/
 ## Datenschutz
 
 Echte CSV-, Excel- und Backup-Dateien mit persoenlichen Messdaten gehoeren nicht in dieses Repository. Die `.gitignore` ist so vorbereitet, dass solche Dateien nicht versehentlich aufgenommen werden.
+
+## Kontakt / Contact
+
+Fragen, Feedback und Fehlerberichte koennen an [urobilanz@mailbox.org](mailto:urobilanz@mailbox.org) gesendet oder direkt in der App erstellt werden.
+Questions, feedback, and bug reports can be sent to [urobilanz@mailbox.org](mailto:urobilanz@mailbox.org) or created directly in the app.
