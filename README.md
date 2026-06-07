@@ -43,6 +43,14 @@ Die folgenden Bilder zeigen Demo-Daten. Es sind keine echten Gesundheitsdaten.
 
 UroBilanz wurde als persoenliches Auswertungs- und Protokollwerkzeug gemeinsam mit OpenAI Codex entwickelt. Auch die im Projekt enthaltenen Grafiken, Symbole und App-Icons wurden fuer dieses Projekt mit Unterstuetzung von OpenAI Codex erstellt. Die medizinischen Inhalte, Grenzwerte und Darstellungen dienen nur der persoenlichen Uebersicht und ersetzen keine medizinische Beratung.
 
+## Fehler Melden
+
+Fehler und nachvollziehbare Problemberichte koennen an
+[urobilanz@mailbox.org](mailto:urobilanz@mailbox.org) gesendet werden.
+Web-App und SwiftUI-App koennen dafuer einen technischen Fehlerbericht
+vorbereiten. CSV-Werte, Hinweise und Gesundheitsdaten werden nicht automatisch
+aufgenommen.
+
 ## Web-App starten
 
 Im Ordner `apps/web` kann die Datei `Start_Urinprotokoll.command` gestartet werden. Alternativ kann `index.html` direkt im Browser geoeffnet werden.

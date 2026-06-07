@@ -30,6 +30,9 @@ const builtInThemeIds = ["classic-light", "classic-dark", "violet-night", "liqui
 const builtInThemeSet = new Set(builtInThemeIds);
 const darkThemeSet = new Set(["classic-dark", "violet-night", "liquid-dark", "high-contrast"]);
 const tableWidthStorageKey = "uroTableColumnWidths";
+const appVersion = "1.6.0-rc.1";
+const supportEmail = "urobilanz@mailbox.org";
+const repositoryUrl = "https://github.com/Schrotty74/UroBilanz";
 let customThemes = loadCustomThemes();
 let language = supportedLanguages.has(localStorage.getItem("uroLanguage"))
   ? localStorage.getItem("uroLanguage")
@@ -72,6 +75,7 @@ const els = {
   themeSelect: document.querySelector("#themeSelect"),
   languageSelect: document.querySelector("#languageSelect"),
   appMark: document.querySelector("#appMark"),
+  githubMark: document.querySelector("#githubMark"),
   addEntry: document.querySelector("#addEntry"),
   entryDialog: document.querySelector("#entryDialog"),
   entryForm: document.querySelector("#entryForm"),
@@ -93,6 +97,15 @@ const els = {
   forgetData: document.querySelector("#forgetData"),
   backupCsv: document.querySelector("#backupCsv"),
   exportDays: document.querySelector("#exportDays"),
+  reportBug: document.querySelector("#reportBug"),
+  bugReportDialog: document.querySelector("#bugReportDialog"),
+  bugDescription: document.querySelector("#bugDescription"),
+  bugSteps: document.querySelector("#bugSteps"),
+  bugExpected: document.querySelector("#bugExpected"),
+  bugReportText: document.querySelector("#bugReportText"),
+  closeBugReport: document.querySelector("#closeBugReport"),
+  saveBugReport: document.querySelector("#saveBugReport"),
+  emailBugReport: document.querySelector("#emailBugReport"),
   emptyState: document.querySelector("#emptyState"),
   metrics: document.querySelector("#metrics"),
   alertTable: document.querySelector("#alertTable"),
@@ -631,6 +644,7 @@ function applyTheme(theme) {
   els.exportTheme.disabled = false;
   els.deleteTheme.disabled = !customTheme;
   els.appMark.src = "./assets/urobilanz-app-icon.png";
+  els.githubMark.src = isDark ? "./assets/github-invertocat-white.svg" : "./assets/github-invertocat-black.svg";
   localStorage.setItem("urinTheme", selectedTheme);
   if (state.days.length) render();
 }
@@ -1337,6 +1351,66 @@ function dateStamp() {
   const now = new Date();
   return `${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, "0")}${String(now.getDate()).padStart(2, "0")}`;
 }
+
+function currentViewName() {
+  const active = document.querySelector(".tab.active");
+  return active?.textContent?.trim() || "Dashboard";
+}
+
+function buildBugReport() {
+  const description = els.bugDescription.value.trim() || "-";
+  const steps = els.bugSteps.value.trim() || "-";
+  const expected = els.bugExpected.value.trim() || "-";
+  return [
+    "UroBilanz Fehlerbericht",
+    "",
+    `Version: ${appVersion}`,
+    "App: Web",
+    `Ansicht: ${currentViewName()}`,
+    `Sprache: ${language.toUpperCase()}`,
+    `Theme: ${els.selectedThemeLabel.textContent.trim()}`,
+    `Browser/OS: ${navigator.userAgent}`,
+    `Fenster: ${window.innerWidth} x ${window.innerHeight}`,
+    `GitHub: ${repositoryUrl}`,
+    "",
+    "Was ist passiert?",
+    description,
+    "",
+    "Schritte zum Nachstellen",
+    steps,
+    "",
+    "Erwartetes Verhalten",
+    expected,
+    "",
+    "Datenschutz: Keine CSV-Werte, Hinweise oder Gesundheitsdaten wurden automatisch hinzugefügt.",
+  ].join("\n");
+}
+
+function refreshBugReport() {
+  els.bugReportText.value = buildBugReport();
+}
+
+function openBugReport() {
+  els.bugDescription.value = "";
+  els.bugSteps.value = "";
+  els.bugExpected.value = "";
+  refreshBugReport();
+  els.bugReportDialog.showModal();
+}
+
+els.reportBug.addEventListener("click", openBugReport);
+els.closeBugReport.addEventListener("click", () => els.bugReportDialog.close());
+[els.bugDescription, els.bugSteps, els.bugExpected].forEach((input) => {
+  input.addEventListener("input", refreshBugReport);
+});
+els.saveBugReport.addEventListener("click", () => {
+  downloadText(`urobilanz-fehlerbericht-${dateStamp()}.txt`, `${els.bugReportText.value.trim()}\n`, "text/plain;charset=utf-8");
+});
+els.emailBugReport.addEventListener("click", () => {
+  const subject = `UroBilanz Fehlerbericht ${appVersion}`;
+  const url = `mailto:${supportEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(els.bugReportText.value)}`;
+  window.location.href = url;
+});
 
 function rememberCurrentData() {
   state.rawCsv = entriesToRawCsv(state.rows);

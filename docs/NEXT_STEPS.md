@@ -2,10 +2,10 @@
 
 Stand: 07.06.2026
 
-Aktueller Hauptstand: `v1.6.0-beta.3`
+Aktueller Hauptstand: `v1.6.0-rc.1`
 
-Release-Einordnung: `v1.6.0-beta.3` baut auf der 1.6-Reihe mit
-benutzerdefinierten Themes auf. Version 1.5 bleibt abgeschlossen.
+Release-Einordnung: `v1.6.0-rc.1` ist der erste Abschlusskandidat der
+1.6-Reihe mit benutzerdefinierten Themes. Version 1.5 bleibt abgeschlossen.
 
 Projektordner:
 
@@ -217,6 +217,35 @@ Geprueft:
 - Vollstaendiges Projektbackup in iCloud erstellt.
 - GitHub-Pre-Release `v1.6.0-beta.3` veroeffentlicht.
 
+## Erledigt - v1.6.0-rc.1 Fehlerberichte Und Kontakt
+
+`v1.6.0-rc.1` wurde am 07.06.2026 als erster Abschlusskandidat der
+1.6-Reihe vorbereitet.
+
+- Web-App und SwiftUI-App: Funktion `Fehler melden` ergaenzt.
+- Empfaenger: `urobilanz@mailbox.org`.
+- Nutzer koennen Fehlerbeschreibung, Schritte zum Nachstellen und erwartetes
+  Verhalten erfassen.
+- Der automatisch vorbereitete Bericht bleibt vor dem Senden sichtbar und
+  bearbeitbar.
+- Bericht kann als Textdatei gespeichert oder als E-Mail-Entwurf vorbereitet
+  werden.
+- Automatisch enthalten sind nur App-Version, App-Variante, Ansicht, Sprache,
+  Theme und Systemumgebung.
+- CSV-Werte, Hinweise und Gesundheitsdaten werden nicht automatisch in den
+  Bericht aufgenommen.
+- Offizielles GitHub-Invertocat neben dem App-Symbol verlinkt das
+  UroBilanz-Repository; der Repository-Link steht auch im Fehlerbericht.
+- Test-E-Mail an `urobilanz@mailbox.org` erfolgreich empfangen.
+- Beide Apps vollstaendig geprueft; Swift-App ohne Fehler oder Absturzmeldung
+  gestartet.
+- Lokale Release-Dateien unter `release/v1.6.0-rc.1` erstellt.
+- Lokale Projektsicherung unter
+  `lokale Projektsicherung`
+  erstellt.
+- Vollstaendiges Projektbackup in iCloud erstellt.
+- GitHub-Pre-Release `v1.6.0-rc.1` veroeffentlicht.
+
 ## Spaetere Idee - Optionaler Feinschliff
 
 ### Bedienung
@@ -234,12 +263,6 @@ Geprueft:
 
 ### Web-App
 
-- `app.js` bei Bedarf weiter aufteilen:
-  - UI-Rendering
-  - Speicherlogik
-  - Import/Export
-  - Sprache
-  - Themes
 - Automatische Tests optional erweitern fuer:
   - Sprachumschaltung
   - Theme-Wechsel
@@ -249,8 +272,6 @@ Geprueft:
 
 ### SwiftUI-App
 
-- Export- und Merge-Logik bei Bedarf weiter auslagern.
-- Theme- und Sprachlogik bei kuenftigen Aenderungen weiter ordnen.
 - Automatische Tests optional erweitern fuer:
   - Sprachumschaltung
   - Theme-Wechsel
@@ -261,7 +282,7 @@ Geprueft:
 ## Geplanter Neuer Schwerpunkt - v1.7.0-beta.1 PDF-Bericht
 
 Sinnvoll als eigener Entwicklungszweig nach der 1.6-Reihe, nicht als
-Feinschliff fuer `v1.6.0-beta.3`.
+Feinschliff fuer `v1.6.0-rc.1`.
 
 Zielidee:
 
@@ -281,6 +302,15 @@ Umsetzung zuerst planen:
 
 - Wahrscheinlich zuerst in der Web-App starten, weil Browser-Druck/PDF dafuer
   einfacher ist.
+- Web-App im Zuge der PDF-Umsetzung weiter aufteilen:
+  - UI-Rendering
+  - Speicherlogik
+  - Import/Export und PDF-Bericht
+  - Sprache
+  - Themes
+- SwiftUI-App im Zuge der spaeteren PDF-Umsetzung weiter ordnen:
+  - Export- und Merge-Logik auslagern
+  - Theme- und Sprachlogik klarer trennen
 - Vor Umsetzung Layout und Umfang festlegen, damit der Bericht fuer Arzttermine
   gut lesbar bleibt und lange Tabellen/Hinweise sauber umbrechen.
 - SwiftUI-PDF erst danach bewerten, damit die Funktion nicht unnoetig gross

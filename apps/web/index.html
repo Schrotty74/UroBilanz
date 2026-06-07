@@ -5,14 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>UroBilanz</title>
     <link rel="icon" href="./assets/urobilanz-app-icon.png" />
-    <link rel="stylesheet" href="./styles.css?v=rules-info-1" />
+    <link rel="stylesheet" href="./styles.css?v=bug-report-1" />
     <script src="./assets/js/charts.js?v=v1-6-0-beta-2"></script>
   </head>
   <body>
     <header class="app-header">
       <div>
         <p class="eyebrow" data-i18n="measurement_day">06:00 bis 05:59 Messtag</p>
-        <h1><span class="app-mark-shell"><img class="app-mark" id="appMark" src="./assets/urobilanz-app-icon.png" alt="" /></span> UroBilanz</h1>
+        <h1>
+          <span class="app-mark-shell"><img class="app-mark" id="appMark" src="./assets/urobilanz-app-icon.png" alt="" /></span>
+          <a class="github-mark-shell" href="https://github.com/Schrotty74/UroBilanz" target="_blank" rel="noopener noreferrer" aria-label="UroBilanz auf GitHub" title="UroBilanz auf GitHub">
+            <img class="github-mark" id="githubMark" src="./assets/github-invertocat-white.svg" alt="" />
+          </a>
+          UroBilanz
+        </h1>
       </div>
       <div class="header-actions">
         <div class="theme-menu" id="themeMenu">
@@ -82,6 +88,7 @@
             <select id="monthFilter" aria-label="Monat"></select>
             <button class="utility-button" id="backupCsv" type="button" data-i18n="backup">Backup</button>
             <button class="utility-button" id="exportDays" type="button" data-i18n="daily_data">Tagesdaten</button>
+            <button class="utility-button" id="reportBug" type="button" data-i18n="report_bug">Fehler melden</button>
           </div>
           <section class="data-options">
             <label class="remember-toggle">
@@ -208,9 +215,37 @@
       </form>
     </dialog>
 
-    <script src="./assets/i18n/de.js?v=rules-info-1"></script>
-    <script src="./assets/i18n/en.js?v=rules-info-1"></script>
+    <dialog id="bugReportDialog" class="entry-dialog bug-report-dialog">
+      <form id="bugReportForm" method="dialog">
+        <h2 data-i18n="bug_report_title">Fehlerbericht</h2>
+        <p class="bug-report-privacy" data-i18n="bug_report_privacy">CSV-Werte, Hinweise und Gesundheitsdaten werden nicht automatisch in den Bericht aufgenommen.</p>
+        <label>
+          <span data-i18n="bug_description">Was ist passiert?</span>
+          <textarea id="bugDescription" rows="4"></textarea>
+        </label>
+        <label>
+          <span data-i18n="bug_steps">Schritte zum Nachstellen</span>
+          <textarea id="bugSteps" rows="4"></textarea>
+        </label>
+        <label>
+          <span data-i18n="bug_expected">Was sollte stattdessen passieren?</span>
+          <textarea id="bugExpected" rows="3"></textarea>
+        </label>
+        <label>
+          <span data-i18n="bug_report_preview">Bericht vor dem Senden prüfen und bei Bedarf bearbeiten</span>
+          <textarea id="bugReportText" class="bug-report-text" rows="15"></textarea>
+        </label>
+        <div class="dialog-actions">
+          <button class="utility-button quiet" id="closeBugReport" type="button" data-i18n="close">Schließen</button>
+          <button class="utility-button" id="saveBugReport" type="button" data-i18n="save_report">Bericht speichern</button>
+          <button class="utility-button" id="emailBugReport" type="button" data-i18n="prepare_email">E-Mail vorbereiten</button>
+        </div>
+      </form>
+    </dialog>
+
+    <script src="./assets/i18n/de.js?v=bug-report-1"></script>
+    <script src="./assets/i18n/en.js?v=bug-report-1"></script>
     <script src="./assets/js/core.js?v=v1-6-0-beta-2"></script>
-    <script src="./app.js?v=v1-6-0-beta-2"></script>
+    <script src="./app.js?v=bug-report-1"></script>
   </body>
 </html>

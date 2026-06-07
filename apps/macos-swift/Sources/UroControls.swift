@@ -12,11 +12,13 @@ struct ToolbarStrip: View {
     let importTheme: () -> Void
     let exportTheme: () -> Void
     let deleteTheme: () -> Void
+    let reportBug: () -> Void
     @Environment(\.appLanguage) private var language
 
     var body: some View {
         HStack(spacing: 12) {
             AppMark(size: 54)
+            GitHubMark(size: 54)
             VStack(alignment: .leading, spacing: 2) {
                 Text(selection.title(language))
                     .font(.title2.weight(.bold))
@@ -45,10 +47,50 @@ struct ToolbarStrip: View {
                 .disabled(!model.hasData)
             Button(tr("daily_data", language), systemImage: "tablecells") { model.exportDays() }
                 .disabled(!model.hasData)
+            Button(action: reportBug) {
+                Image(systemName: "exclamationmark.bubble")
+            }
+            .accessibilityLabel(tr("report_bug", language))
+            .help(tr("report_bug", language))
         }
         .padding(.horizontal, 22)
         .padding(.vertical, 14)
         .background(.bar)
+    }
+}
+
+struct GitHubMark: View {
+    @Environment(\.appTheme) private var theme
+    let size: CGFloat
+
+    var body: some View {
+        Button {
+            if let url = URL(string: "https://github.com/Schrotty74/UroBilanz") {
+                NSWorkspace.shared.open(url)
+            }
+        } label: {
+            ZStack {
+                RoundedRectangle(cornerRadius: size * 0.24, style: .continuous)
+                    .fill(.ultraThinMaterial)
+                    .overlay {
+                        RoundedRectangle(cornerRadius: size * 0.24, style: .continuous)
+                            .stroke(theme.controlBorder.opacity(0.7), lineWidth: 1)
+                    }
+                Image(nsImage: githubImage)
+                    .resizable()
+                    .scaledToFit()
+                    .padding(size * 0.13)
+            }
+            .frame(width: size, height: size)
+        }
+        .buttonStyle(.plain)
+        .help("UroBilanz auf GitHub")
+        .accessibilityLabel("UroBilanz auf GitHub")
+    }
+
+    private var githubImage: NSImage {
+        let fileName = theme.isDark ? "github-invertocat-white.svg" : "github-invertocat-black.svg"
+        return NSImage(contentsOfFile: "\(Bundle.main.resourcePath ?? "")/\(fileName)") ?? NSImage()
     }
 }
 

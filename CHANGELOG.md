@@ -6,6 +6,18 @@ Alle wichtigen Änderungen an UroBilanz werden hier dokumentiert.
 
 - Noch keine Änderungen.
 
+## 1.6.0-rc.1 - 2026-06-07
+
+- Web-App und SwiftUI-App: datenschutzfreundlichen Fehlerbericht ergaenzt.
+  Nutzer koennen Problem, Schritte und erwartetes Verhalten beschreiben, den
+  technischen Bericht vor dem Senden bearbeiten, als Textdatei speichern oder
+  als E-Mail-Entwurf an `urobilanz@mailbox.org` vorbereiten.
+- Fehlerberichte enthalten App-Version, App-Variante, Ansicht, Sprache, Theme
+  und Systemumgebung, aber keine CSV-Werte, Hinweise oder Gesundheitsdaten.
+- Web-App und SwiftUI-App: offizielles GitHub-Invertocat als Link zum
+  UroBilanz-Repository neben dem App-Symbol ergaenzt; Repository-Link ebenfalls
+  in Fehlerberichte aufgenommen.
+
 ## 1.6.0-beta.3 - 2026-06-07
 
 - README-Startseite um direkte Links zur Theme-Vorlage, zum Beispieltheme und

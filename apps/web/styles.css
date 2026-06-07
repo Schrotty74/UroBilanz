@@ -293,10 +293,43 @@ h1 {
   -webkit-backdrop-filter: blur(18px) saturate(150%);
 }
 
+.github-mark-shell {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 58px;
+  height: 58px;
+  flex: 0 0 58px;
+  border: 1px solid var(--glass-line);
+  border-radius: 16px;
+  background: var(--glass-bg);
+  box-shadow: 0 10px 26px var(--glass-shadow);
+  text-decoration: none;
+}
+
+.github-mark {
+  width: 42px;
+  height: 42px;
+}
+
+.github-mark-shell:hover {
+  transform: translateY(-1px);
+  border-color: var(--accent);
+}
+
 body[data-theme="classic-dark"] .app-mark-shell,
 body[data-theme="violet-night"] .app-mark-shell,
 body[data-theme="liquid-dark"] .app-mark-shell,
 body[data-theme="high-contrast"] .app-mark-shell {
+  border-color: rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.10);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.36);
+}
+
+body[data-theme="classic-dark"] .github-mark-shell,
+body[data-theme="violet-night"] .github-mark-shell,
+body[data-theme="liquid-dark"] .github-mark-shell,
+body[data-theme="high-contrast"] .github-mark-shell {
   border-color: rgba(255, 255, 255, 0.18);
   background: rgba(255, 255, 255, 0.10);
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.36);
@@ -1011,6 +1044,31 @@ td.high {
 .entry-dialog textarea {
   height: 72px;
   resize: none;
+}
+
+.bug-report-dialog {
+  width: min(920px, calc(100vw - 32px));
+}
+
+.bug-report-dialog form {
+  grid-template-columns: 1fr;
+}
+
+.bug-report-privacy {
+  margin: 0;
+  color: var(--muted);
+}
+
+.bug-report-dialog textarea {
+  height: auto;
+  resize: vertical;
+}
+
+.bug-report-dialog .bug-report-text {
+  min-height: 260px;
+  font-family: Menlo, Consolas, monospace;
+  font-size: 13px;
+  line-height: 1.45;
 }
 
 .entry-list-wrap {

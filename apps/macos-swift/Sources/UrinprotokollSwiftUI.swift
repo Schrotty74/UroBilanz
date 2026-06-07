@@ -45,7 +45,13 @@ private let translations: [AppLanguage: [String: String]] = [
         "invalid_daily_data": "Tagesdaten-Format erkannt, aber keine Messtage gefunden.", "already_present": "Eintrag war bereits vorhanden",
         "entry_added": "Eintrag hinzugefügt", "entry_deleted": "Eintrag gelöscht", "day_deleted": "Messtag gelöscht",
         "no_entry_created": "Kein Eintrag erstellt", "to": "bis", "new_entries": "neue Einträge ergänzt", "existing_entries": "bereits vorhanden",
-        "added": "hinzugefügt", "updated": "aktualisiert"
+        "added": "hinzugefügt", "updated": "aktualisiert",
+        "report_bug": "Fehler melden", "bug_report_title": "Fehlerbericht",
+        "bug_report_privacy": "CSV-Werte, Hinweise und Gesundheitsdaten werden nicht automatisch in den Bericht aufgenommen.",
+        "bug_description": "Was ist passiert?", "bug_steps": "Schritte zum Nachstellen",
+        "bug_expected": "Was sollte stattdessen passieren?",
+        "bug_report_preview": "Bericht vor dem Senden prüfen und bei Bedarf bearbeiten",
+        "save_report": "Bericht speichern", "prepare_email": "E-Mail vorbereiten"
     ],
     .en: [
         "dashboard": "Dashboard", "year": "Year", "month": "Month", "week": "Week", "day": "Day", "notes": "Rules",
@@ -77,7 +83,13 @@ private let translations: [AppLanguage: [String: String]] = [
         "invalid_daily_data": "Daily data format detected, but no measurement days were found.", "already_present": "Entry was already present",
         "entry_added": "Entry added", "entry_deleted": "Entry deleted", "day_deleted": "Day deleted",
         "no_entry_created": "No entry created", "to": "to", "new_entries": "new entries merged", "existing_entries": "already present",
-        "added": "added", "updated": "updated"
+        "added": "added", "updated": "updated",
+        "report_bug": "Report bug", "bug_report_title": "Bug report",
+        "bug_report_privacy": "CSV values, notes and health data are not added to the report automatically.",
+        "bug_description": "What happened?", "bug_steps": "Steps to reproduce",
+        "bug_expected": "What should have happened instead?",
+        "bug_report_preview": "Review and edit the report before sending",
+        "save_report": "Save report", "prepare_email": "Prepare email"
     ]
 ]
 
@@ -1253,6 +1265,7 @@ struct ContentView: View {
     @State private var selection: AppSection = .dashboard
     @State private var showsEntrySheet = false
     @State private var showsThemeImporter = false
+    @State private var showsBugReport = false
     @State private var themeErrorMessage: String?
     @State private var pendingDeleteTheme: CustomThemeDefinition?
 
@@ -1279,7 +1292,8 @@ struct ContentView: View {
                     customThemes: customThemes,
                     importTheme: { showsThemeImporter = true },
                     exportTheme: exportSelectedTheme,
-                    deleteTheme: prepareDeleteSelectedTheme
+                    deleteTheme: prepareDeleteSelectedTheme,
+                    reportBug: { showsBugReport = true }
                 )
                 Divider()
                 detailView
@@ -1301,6 +1315,14 @@ struct ContentView: View {
                 .environmentObject(model)
                 .environment(\.appLanguage, language)
                 .environment(\.appTheme, theme)
+        }
+        .sheet(isPresented: $showsBugReport) {
+            BugReportSheet(
+                selection: selection,
+                themeName: themeRaw,
+                language: language
+            )
+            .environment(\.appTheme, theme)
         }
         .fileImporter(isPresented: $showsThemeImporter, allowedContentTypes: [.json]) { result in
             importCustomTheme(result)
@@ -1408,6 +1430,118 @@ struct ContentView: View {
         case .week: SummaryTableView(section: .week)
         case .day: DayTableView()
         case .notes: NotesView()
+        }
+    }
+}
+
+struct BugReportSheet: View {
+    let selection: AppSection
+    let themeName: String
+    let language: AppLanguage
+    @Environment(\.dismiss) private var dismiss
+    @State private var description = ""
+    @State private var steps = ""
+    @State private var expected = ""
+    @State private var reportText = ""
+
+    private let supportEmail = "urobilanz@mailbox.org"
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 14) {
+            Text(tr("bug_report_title", language))
+                .font(.title2.weight(.bold))
+            Text(tr("bug_report_privacy", language))
+                .foregroundStyle(.secondary)
+            reportField(tr("bug_description", language), text: $description, height: 72)
+            reportField(tr("bug_steps", language), text: $steps, height: 72)
+            reportField(tr("bug_expected", language), text: $expected, height: 58)
+            VStack(alignment: .leading, spacing: 6) {
+                Text(tr("bug_report_preview", language))
+                    .font(.headline)
+                TextEditor(text: $reportText)
+                    .font(.system(.body, design: .monospaced))
+                    .frame(minHeight: 220)
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 8)
+                            .stroke(.secondary.opacity(0.35), lineWidth: 1)
+                    }
+            }
+            HStack {
+                Spacer()
+                Button(tr("close", language)) { dismiss() }
+                Button(tr("save_report", language), action: saveReport)
+                Button(tr("prepare_email", language), action: prepareEmail)
+                    .buttonStyle(.borderedProminent)
+            }
+        }
+        .padding(22)
+        .frame(width: 720)
+        .frame(minHeight: 680)
+        .onAppear(perform: refreshReport)
+        .onChange(of: description) { _, _ in refreshReport() }
+        .onChange(of: steps) { _, _ in refreshReport() }
+        .onChange(of: expected) { _, _ in refreshReport() }
+    }
+
+    private func reportField(_ title: String, text: Binding<String>, height: CGFloat) -> some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text(title)
+                .font(.headline)
+            TextEditor(text: text)
+                .frame(height: height)
+                .overlay {
+                    RoundedRectangle(cornerRadius: 8)
+                        .stroke(.secondary.opacity(0.35), lineWidth: 1)
+                }
+        }
+    }
+
+    private func refreshReport() {
+        let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "unbekannt"
+        reportText = """
+        UroBilanz Fehlerbericht
+
+        Version: \(version)
+        App: SwiftUI macOS
+        Ansicht: \(selection.title(language))
+        Sprache: \(language.label)
+        Theme: \(themeName)
+        Betriebssystem: \(ProcessInfo.processInfo.operatingSystemVersionString)
+        GitHub: https://github.com/Schrotty74/UroBilanz
+
+        Was ist passiert?
+        \(description.isEmpty ? "-" : description)
+
+        Schritte zum Nachstellen
+        \(steps.isEmpty ? "-" : steps)
+
+        Erwartetes Verhalten
+        \(expected.isEmpty ? "-" : expected)
+
+        Datenschutz: Keine CSV-Werte, Hinweise oder Gesundheitsdaten wurden automatisch hinzugefügt.
+        """
+    }
+
+    private func saveReport() {
+        let panel = NSSavePanel()
+        panel.nameFieldStringValue = "urobilanz-fehlerbericht.txt"
+        panel.allowedContentTypes = [.plainText]
+        panel.begin { response in
+            guard response == .OK, let url = panel.url else { return }
+            try? (reportText + "\n").write(to: url, atomically: true, encoding: .utf8)
+        }
+    }
+
+    private func prepareEmail() {
+        var components = URLComponents()
+        components.scheme = "mailto"
+        components.path = supportEmail
+        components.queryItems = [
+            URLQueryItem(name: "subject", value: "UroBilanz Fehlerbericht"),
+            URLQueryItem(name: "body", value: reportText),
+        ]
+        if let url = components.url {
+            NSWorkspace.shared.open(url)
         }
     }
 }

@@ -1,4 +1,6 @@
 const assert = require("node:assert/strict");
+const fs = require("node:fs");
+const path = require("node:path");
 const {
   isoWeek,
   parseCsv,
@@ -282,5 +284,11 @@ assert.equal(edgeSummary.days, 1, "Unvollstaendige Tage duerfen nicht als bewert
 assert.equal(edgeSummary.incompleteDays, 1);
 assert.equal(edgeSummary.urineTotal, 600, "Unvollstaendige Tagesmenge darf Summen nicht verfaelschen");
 assert.equal(edgeSummary.alert, "niedrig · 1 unvollständig");
+
+const webAppSource = fs.readFileSync(path.join(__dirname, "..", "app.js"), "utf8");
+assert.match(webAppSource, /urobilanz@mailbox\.org/, "Support-E-Mail fehlt");
+assert.match(webAppSource, /github\.com\/Schrotty74\/UroBilanz/, "GitHub-Link fehlt");
+assert.match(webAppSource, /Keine CSV-Werte, Hinweise oder Gesundheitsdaten/, "Datenschutz-Hinweis im Fehlerbericht fehlt");
+assert.doesNotMatch(webAppSource.match(/function buildBugReport\(\)[\s\S]*?function refreshBugReport/)?.[0] || "", /state\.rows|state\.days|rawCsv/, "Fehlerbericht darf keine Messdaten lesen");
 
 console.log("Web workflow smoke test passed");

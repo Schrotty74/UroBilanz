@@ -52,9 +52,9 @@ cat > build/UroBilanz.app/Contents/Info.plist <<'PLIST'
   <key>CFBundlePackageType</key>
   <string>APPL</string>
   <key>CFBundleShortVersionString</key>
-  <string>1.6.0-beta.3</string>
+  <string>1.6.0-rc.1</string>
   <key>CFBundleVersion</key>
-  <string>23</string>
+  <string>24</string>
   <key>LSMinimumSystemVersion</key>
   <string>26.0</string>
   <key>NSHighResolutionCapable</key>
@@ -78,7 +78,10 @@ CLANG_MODULE_CACHE_PATH=/private/tmp/urobilanz-clang-cache \
 cp build/UroBilanz.icns build/UroBilanz.app/Contents/Resources/UroBilanz.icns
 rm -f build/UroBilanz.app/Contents/Resources/urobilanz-icon-light.svg \
   build/UroBilanz.app/Contents/Resources/urobilanz-icon-dark.svg
-cp Assets/urobilanz-app-icon.png build/UroBilanz.app/Contents/Resources/
+cp Assets/urobilanz-app-icon.png \
+  Assets/github-invertocat-black.svg \
+  Assets/github-invertocat-white.svg \
+  build/UroBilanz.app/Contents/Resources/
 
 codesign --force --deep --sign - build/UroBilanz.app
 codesign --verify --deep --strict build/UroBilanz.app
