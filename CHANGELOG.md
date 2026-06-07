@@ -4,7 +4,9 @@ Alle wichtigen Änderungen an UroBilanz werden hier dokumentiert.
 
 ## Unveröffentlicht
 
-- Noch keine Änderungen.
+- Abgeschlossene Projekt- und Versionshistorie aus `docs/NEXT_STEPS.md` in das
+  dauerhafte Archiv `docs/HISTORY.md` verschoben. `NEXT_STEPS.md` konzentriert
+  sich jetzt auf aktuellen Stand, offene Aufgaben und geplante Versionen.
 
 ## 1.6.0-rc.2 - 2026-06-07
 

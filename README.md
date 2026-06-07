@@ -145,6 +145,8 @@ UroBilanz/
   assets/
     icon/
   docs/
+    HISTORY.md
+    NEXT_STEPS.md
   verify_apps.sh
 ```
 
