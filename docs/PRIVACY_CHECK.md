@@ -134,6 +134,17 @@ Hinweis: Die App ist nicht sandboxed. Das Fehlen eines Netzwerk-Entitlements
 ist daher allein kein technisches Netzwerkverbot. Die Aussage stuetzt sich
 zusaetzlich auf Quellcode-, Bundle- und Laufzeitpruefung.
 
+## Verwendete Werkzeuge
+
+Die Pruefung erfolgte unter anderem mit:
+
+- `grep`
+- `lsof`
+- `nettop`
+- `codesign`
+- `otool`
+- `git check-ignore`
+
 ## Fazit
 
 Im geprueften Stand verarbeitet UroBilanz Messdaten lokal. Es gibt keine
@@ -147,4 +158,3 @@ Externe Kommunikation entsteht nur nach einer sichtbaren Benutzeraktion:
 
 Der Check ist eine technische Bestandsaufnahme des genannten Projektstands und
 keine rechtliche Datenschutzbewertung.
-
