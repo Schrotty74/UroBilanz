@@ -153,5 +153,8 @@ in the app.
 
 ## Lizenz / License
 
-UroBilanz steht unter der [GNU General Public License Version 3 (GPLv3)](LICENSE).
-UroBilanz is licensed under the [GNU General Public License Version 3 (GPLv3)](LICENSE).
+UroBilanz steht unter der GNU General Public License Version 3 (GPLv3).
+
+UroBilanz is licensed under the GNU General Public License Version 3 (GPLv3).
+
+**Lizenz / License:** [GNU GPLv3](LICENSE)
