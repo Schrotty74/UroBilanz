@@ -181,11 +181,38 @@ struct ThemedDataTable<Row: Identifiable>: View {
     @Environment(\.appTheme) private var theme
     let rows: [Row]
     let columns: [ThemedTableColumn<Row>]
+    let tableID: String
     var minHeight: CGFloat?
     var maxHeight: CGFloat?
+    @State private var savedWidths: [CGFloat] = []
+    @State private var dragStartWidths: [Int: CGFloat] = [:]
 
     private var totalWidth: CGFloat {
-        columns.reduce(0) { $0 + $1.width }
+        columns.indices.reduce(0) { total, index in
+            total + width(for: index) + 24
+        }
+    }
+
+    private func width(for index: Int) -> CGFloat {
+        guard savedWidths.indices.contains(index) else { return columns[index].width }
+        return savedWidths[index]
+    }
+
+    private var storageKey: String {
+        "uroBilanzTableWidths.\(tableID)"
+    }
+
+    private func loadWidths() {
+        guard let values = UserDefaults.standard.array(forKey: storageKey) as? [NSNumber],
+              values.count == columns.count else {
+            savedWidths = columns.map(\.width)
+            return
+        }
+        savedWidths = values.map { max(60, CGFloat(truncating: $0)) }
+    }
+
+    private func saveWidths() {
+        UserDefaults.standard.set(savedWidths.map(Double.init), forKey: storageKey)
     }
 
     var body: some View {
@@ -194,10 +221,10 @@ struct ThemedDataTable<Row: Identifiable>: View {
                 Section {
                     ForEach(Array(rows.enumerated()), id: \.element.id) { index, row in
                         HStack(alignment: .top, spacing: 0) {
-                            ForEach(columns) { column in
+                            ForEach(Array(columns.enumerated()), id: \.offset) { index, column in
                                 column.content(row)
                                     .multilineTextAlignment(column.textAlignment)
-                                    .frame(width: column.width, alignment: column.alignment)
+                                    .frame(width: width(for: index), alignment: column.alignment)
                                     .padding(.horizontal, 12)
                                     .padding(.vertical, 8)
                             }
@@ -207,21 +234,53 @@ struct ThemedDataTable<Row: Identifiable>: View {
                     }
                 } header: {
                     HStack(spacing: 0) {
-                        ForEach(columns) { column in
-                            Text(column.title)
-                                .font(.caption.weight(.bold))
-                                .foregroundStyle(theme.controlForeground.opacity(0.80))
-                                .multilineTextAlignment(column.textAlignment)
-                                .frame(width: column.width, alignment: column.alignment)
-                                .padding(.horizontal, 12)
-                                .padding(.vertical, 9)
+                        ForEach(Array(columns.enumerated()), id: \.offset) { index, column in
+                            ZStack(alignment: .trailing) {
+                                Text(column.title)
+                                    .font(.caption.weight(.bold))
+                                    .foregroundStyle(theme.controlForeground.opacity(0.80))
+                                    .multilineTextAlignment(column.textAlignment)
+                                    .frame(width: width(for: index), alignment: column.alignment)
+                                    .padding(.horizontal, 12)
+                                    .padding(.vertical, 9)
+                                ZStack {
+                                    Rectangle()
+                                        .fill(theme.controlForeground.opacity(0.32))
+                                        .frame(width: 1)
+                                        .padding(.vertical, 6)
+                                }
+                                    .frame(width: 9)
+                                    .contentShape(Rectangle())
+                                    .onHover { hovering in
+                                        if hovering {
+                                            NSCursor.resizeLeftRight.push()
+                                        } else {
+                                            NSCursor.pop()
+                                        }
+                                    }
+                                    .gesture(
+                                        DragGesture(minimumDistance: 1)
+                                            .onChanged { value in
+                                                if savedWidths.count != columns.count {
+                                                    savedWidths = columns.map(\.width)
+                                                }
+                                                let start = dragStartWidths[index] ?? width(for: index)
+                                                dragStartWidths[index] = start
+                                                savedWidths[index] = max(60, start + value.translation.width)
+                                            }
+                                            .onEnded { _ in
+                                                dragStartWidths[index] = nil
+                                                saveWidths()
+                                            }
+                                    )
+                            }
                         }
                     }
                     .background(theme.tableBackground)
                     Divider().opacity(0.45)
                 }
             }
-            .frame(minWidth: totalWidth, alignment: .leading)
+            .frame(width: totalWidth, alignment: .leading)
         }
         .defaultScrollAnchor(.topLeading)
         .frame(minHeight: minHeight ?? 0)
@@ -232,6 +291,7 @@ struct ThemedDataTable<Row: Identifiable>: View {
             RoundedRectangle(cornerRadius: 10, style: .continuous)
                 .stroke(theme.controlBorder.opacity(0.55), lineWidth: 1)
         }
+        .onAppear(perform: loadWidths)
     }
 }
 
@@ -258,6 +318,7 @@ struct AlertTable: View {
                         Text(tr(day.isCompleteMeasurementDay ? "low" : "incomplete", language))
                     }
                 ],
+                tableID: "alerts",
                 minHeight: 210
             )
         }
@@ -277,6 +338,7 @@ struct SummaryTableView: View {
             ThemedDataTable(
                 rows: rows,
                 columns: columns,
+                tableID: "summary.\(section.rawValue)",
                 maxHeight: section == .year ? CGFloat(48 + rows.count * 38) : nil
             )
         }
@@ -348,7 +410,7 @@ struct DayTableView: View {
                         pendingDeleteDay = day
                     }
                 }
-            ])
+            ], tableID: "day")
         }
         .padding(22)
         .alert(tr("delete_measurement_day", language), isPresented: deleteAlertBinding) {
@@ -468,7 +530,7 @@ struct NotesView: View {
                 .fixedSize(horizontal: false, vertical: true)
         }
         .padding(16)
-        .frame(maxWidth: .infinity, alignment: .leading)
+        .frame(maxWidth: .infinity, minHeight: 132, alignment: .topLeading)
         .liquidCard(cornerRadius: 12)
     }
 }

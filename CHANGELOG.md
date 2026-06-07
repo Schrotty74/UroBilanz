@@ -4,6 +4,10 @@ Alle wichtigen Änderungen an UroBilanz werden hier dokumentiert.
 
 ## Unveröffentlicht
 
+- Noch keine Änderungen.
+
+## 1.6.0-beta.3 - 2026-06-07
+
 - README-Startseite um direkte Links zur Theme-Vorlage, zum Beispieltheme und
   zur Theme-Dokumentation ergaenzt.
 - Web-App und SwiftUI-App: Infoseite zu Bewertungsregeln ergaenzt. Die Seite
@@ -15,6 +19,13 @@ Alle wichtigen Änderungen an UroBilanz werden hier dokumentiert.
   eingebunden.
 - SwiftUI-App: App-Bundle wird beim Bauen frisch erstellt, damit Finder und
   Dock keine alten Icon-/Versionsreste aus vorherigen Builds behalten.
+- Web-App und SwiftUI-App: Tabellenbreiten lassen sich direkt am rechten Rand
+  der Spaltenkoepfe anpassen und werden pro Tabelle automatisch gespeichert.
+- Beim Anpassen einer Spalte behalten alle Nachbarspalten ihre Breite und
+  verschieben sich wie in einer Tabellenkalkulation gemeinsam nach links oder
+  rechts.
+- SwiftUI-App: Infoboxen der Bewertungsregeln auf eine einheitliche Hoehe
+  gebracht.
 
 ## 1.6.0-beta.2 - 2026-06-05
 

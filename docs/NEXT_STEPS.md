@@ -1,10 +1,10 @@
 # UroBilanz - Naechste Schritte
 
-Stand: 05.06.2026
+Stand: 07.06.2026
 
-Aktueller Hauptstand: `v1.6.0-beta.2`
+Aktueller Hauptstand: `v1.6.0-beta.3`
 
-Release-Einordnung: `v1.6.0-beta.2` baut auf der 1.6-Reihe mit
+Release-Einordnung: `v1.6.0-beta.3` baut auf der 1.6-Reihe mit
 benutzerdefinierten Themes auf. Version 1.5 bleibt abgeschlossen.
 
 Projektordner:
@@ -184,6 +184,38 @@ Geprueft:
 - Web-App und SwiftUI-App: Infoseite `Regeln` zu Bewertungsregeln ergaenzt.
 - Web-App und SwiftUI-App: neues Liquid-Balance-Day/Night-App-Symbol
   eingebunden.
+- Web-App und SwiftUI-App: Spaltenbreiten koennen direkt in den Tabellen
+  angepasst werden; die persoenlichen Breiten bleiben automatisch gespeichert.
+- Web-App und SwiftUI-App: Nachbarspalten behalten beim Anpassen ihre Breite
+  und werden nur gemeinsam verschoben.
+- SwiftUI-App: Infoboxen der Bewertungsregeln einheitlich hoch dargestellt.
+
+## Erledigt - v1.6.0-beta.3 Regeln, App-Symbol Und Tabellenbreiten
+
+`v1.6.0-beta.3` wurde am 07.06.2026 vorbereitet und als Beta veroeffentlicht.
+
+Umgesetzt:
+
+- Bewertungsregeln als eigene Infoseite in Web-App und SwiftUI-App.
+- Theme-Vorlage und Beispieldateien auf der Projektstartseite direkt verlinkt.
+- Neues Day/Night-App-Symbol in Web-App, SwiftUI-App, Dock, Finder und README.
+- Swift-App-Bundle wird bei jedem Build frisch erstellt.
+- Tabellenbreiten koennen in Web-App und SwiftUI-App direkt gezogen werden.
+- Persoenliche Spaltenbreiten werden pro Tabelle automatisch gespeichert.
+- Nur die gezogene Spalte aendert ihre Breite; Nachbarspalten behalten ihre
+  Breite.
+- SwiftUI-Regelboxen auf eine einheitliche Hoehe gebracht.
+
+Geprueft:
+
+- `./verify_apps.sh` erfolgreich.
+- Web-App: Ziehgriff und gespeicherte Spaltenbreite praktisch geprueft.
+- Lokale Release-Dateien unter `release/v1.6.0-beta.3` erstellt.
+- Lokale Projektsicherung unter
+  `lokale Projektsicherung`
+  erstellt.
+- Vollstaendiges Projektbackup in iCloud erstellt.
+- GitHub-Pre-Release `v1.6.0-beta.3` veroeffentlicht.
 
 ## Spaetere Idee - Optionaler Feinschliff
 
@@ -195,9 +227,7 @@ Geprueft:
 
 ### Tabellen
 
-- Spaltenbreiten weiter nur nach konkretem Screenshot anpassen.
-- Bei der Tag-Ansicht besonders auf `Hinweise`, `Auffaelligkeit` und `Aktion`
-  achten.
+- Gespeicherte Spaltenbreiten im Alltag beobachten.
 - Bei der SwiftUI-App Tabellen in sehr kleinen Fenstern beobachten.
 
 ## Prioritaet 3 - Technische Verbesserungen Spaeter
@@ -231,7 +261,7 @@ Geprueft:
 ## Geplanter Neuer Schwerpunkt - v1.7.0-beta.1 PDF-Bericht
 
 Sinnvoll als eigener Entwicklungszweig nach der 1.6-Reihe, nicht als
-Feinschliff fuer `v1.6.0-beta.2`.
+Feinschliff fuer `v1.6.0-beta.3`.
 
 Zielidee:
 

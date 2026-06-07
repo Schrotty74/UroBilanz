@@ -29,6 +29,7 @@ const supportedLanguages = new Set(["de", "en"]);
 const builtInThemeIds = ["classic-light", "classic-dark", "violet-night", "liquid-dark", "medical-light", "high-contrast", "summer", "cream-sage"];
 const builtInThemeSet = new Set(builtInThemeIds);
 const darkThemeSet = new Set(["classic-dark", "violet-night", "liquid-dark", "high-contrast"]);
+const tableWidthStorageKey = "uroTableColumnWidths";
 let customThemes = loadCustomThemes();
 let language = supportedLanguages.has(localStorage.getItem("uroLanguage"))
   ? localStorage.getItem("uroLanguage")
@@ -810,9 +811,10 @@ function alignedNoteRows(rows, urineTimes) {
 }
 
 function renderTable(table, headers, rows, separateDays = false) {
+  const widths = tableColumnWidths(table.id, headers, separateDays);
   table.innerHTML = `
-    ${separateDays ? `<colgroup>${headers.map((header) => `<col class="${headerClass(header)}">`).join("")}</colgroup>` : ""}
-    <thead><tr>${headers.map((header) => `<th class="${headerClass(header)}">${displayHeader(header)}</th>`).join("")}</tr></thead>
+    <colgroup>${headers.map((header, index) => `<col class="${headerClass(header)}" style="width:${widths[index]}px">`).join("")}</colgroup>
+    <thead><tr>${headers.map((header, index) => `<th class="${headerClass(header)}">${displayHeader(header)}<span class="column-resizer" data-column-index="${index}" aria-hidden="true"></span></th>`).join("")}</tr></thead>
     <tbody>
       ${rows
         .map((row, index) => {
@@ -831,6 +833,80 @@ function renderTable(table, headers, rows, separateDays = false) {
     </tbody>
   `;
   table.classList.toggle("day-detail-table", separateDays);
+  table.classList.add("resizable-data-table");
+  applyTableWidth(table, widths);
+  installColumnResizers(table, widths);
+}
+
+function loadTableColumnWidths() {
+  try {
+    return JSON.parse(localStorage.getItem(tableWidthStorageKey) || "{}");
+  } catch {
+    localStorage.removeItem(tableWidthStorageKey);
+    return {};
+  }
+}
+
+function defaultColumnWidth(header, separateDays) {
+  if (separateDays) {
+    const dayWidths = [70, 80, 50, 115, 100, 140, 110, 135, 150, 150, 115, 170, 140, 560, 150];
+    const index = ["Jahr", "Monat", "KW", "Messtag", "Tag", "● Urin Uhrzeit", "● Urin ml", "● Urin Anzahl", "● Urin gesamt ml", "💧 Wasser Uhrzeit", "💧 Wasser ml", "💧 Wasser gesamt ml", "Auffälligkeit", "Hinweise", "Aktion"].indexOf(header);
+    if (index >= 0) return dayWidths[index];
+  }
+  if (header === "Hinweise") return 360;
+  if (header === "Auffälligkeit") return 150;
+  if (header === "Aktion") return 150;
+  if (header.includes("Unvollständige")) return 170;
+  if (header.includes("Urin") || header.includes("Wasser")) return 160;
+  if (header.includes("Monat Name")) return 150;
+  return 120;
+}
+
+function tableColumnWidths(tableId, headers, separateDays) {
+  const saved = loadTableColumnWidths()[tableId] || {};
+  return headers.map((header, index) => {
+    const width = Number(saved[index]);
+    return Number.isFinite(width) ? Math.max(60, width) : defaultColumnWidth(header, separateDays);
+  });
+}
+
+function saveTableColumnWidths(tableId, widths) {
+  const saved = loadTableColumnWidths();
+  saved[tableId] = Object.fromEntries(widths.map((width, index) => [index, Math.round(width)]));
+  localStorage.setItem(tableWidthStorageKey, JSON.stringify(saved));
+}
+
+function applyTableWidth(table, widths) {
+  const total = widths.reduce((sum, width) => sum + width, 0);
+  table.style.width = `${total}px`;
+  table.style.minWidth = `${total}px`;
+}
+
+function installColumnResizers(table, widths) {
+  table.querySelectorAll(".column-resizer").forEach((handle) => {
+    handle.addEventListener("pointerdown", (event) => {
+      event.preventDefault();
+      const index = Number(handle.dataset.columnIndex);
+      const startX = event.clientX;
+      const startWidth = widths[index];
+      document.body.classList.add("resizing-column");
+
+      const move = (moveEvent) => {
+        widths[index] = Math.max(60, startWidth + moveEvent.clientX - startX);
+        const column = table.querySelectorAll("col")[index];
+        if (column) column.style.width = `${widths[index]}px`;
+        applyTableWidth(table, widths);
+      };
+      const end = () => {
+        document.removeEventListener("pointermove", move);
+        document.removeEventListener("pointerup", end);
+        document.body.classList.remove("resizing-column");
+        saveTableColumnWidths(table.id, widths);
+      };
+      document.addEventListener("pointermove", move);
+      document.addEventListener("pointerup", end, { once: true });
+    });
+  });
 }
 
 function displayHeader(header) {
