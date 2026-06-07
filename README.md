@@ -143,8 +143,13 @@ Echte CSV-, Excel- und Backup-Dateien mit persoenlichen Messdaten gehoeren nicht
 
 ## Kontakt / Contact
 
-Fragen, Feedback und Fehlerberichte koennen an [urobilanz@mailbox.org](mailto:urobilanz@mailbox.org) gesendet oder direkt in der App erstellt werden.
-Questions, feedback, and bug reports can be sent to [urobilanz@mailbox.org](mailto:urobilanz@mailbox.org) or created directly in the app.
+Fragen, Feedback und Fehlerberichte koennen per E-Mail gesendet oder direkt in
+der App erstellt werden.
+
+Questions, feedback, and bug reports can be sent by email or created directly
+in the app.
+
+**E-Mail / Email:** [urobilanz@mailbox.org](mailto:urobilanz@mailbox.org)
 
 ## Lizenz / License
 
