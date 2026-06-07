@@ -4,7 +4,17 @@ Alle wichtigen Änderungen an UroBilanz werden hier dokumentiert.
 
 ## Unveröffentlicht
 
-- Noch keine Änderungen.
+- SwiftUI-App: klassischen macOS-Menüeintrag `Über UroBilanz` mit einem
+  zweisprachigen, zum aktiven Theme passenden Infofenster ergänzt. Version und
+  Build werden dynamisch aus dem App-Bundle gelesen; Entwickler, GPLv3,
+  GitHub und Kontakt sind direkt aufgeführt.
+- Web-App: Klick auf das unveränderte UroBilanz-Logo öffnet ein
+  zweisprachiges, zum aktiven Theme passendes Über-Modal mit zentral gepflegter
+  Versionsnummer, Entwickler, GPLv3, GitHub und Kontakt.
+- Prüfablauf portabel gemacht: `verify_apps.sh` und der Swift-Smoke-Test
+  verwenden standardmäßig künstliche CSV-Fixtures aus dem Repository statt
+  persönlicher absoluter Pfade. Optional angegebene fehlende Dateien führen zu
+  einer verständlichen Fehlermeldung.
 
 ## 1.6.0-rc.1 - 2026-06-07
 

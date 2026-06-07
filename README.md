@@ -111,12 +111,23 @@ exportiert werden. Importierte Themes koennen wieder geloescht werden.
 
 ## Entwicklung pruefen
 
-Der interne Pruefablauf baut die SwiftUI-App neu und kontrolliert beide
-unterstuetzten CSV-Importwege:
+Der portable Pruefablauf baut die SwiftUI-App neu und kontrolliert beide
+unterstuetzten CSV-Importwege. Ohne Parameter verwendet er ausschliesslich die
+kuenstlichen Testdaten aus `docs/demo`:
 
-```text
+```bash
 ./verify_apps.sh
 ```
+
+Optional koennen zwei eigene Testdateien angegeben werden:
+
+```bash
+./verify_apps.sh /pfad/urinote.csv /pfad/tagesdaten.csv
+```
+
+Fehlt eine angegebene Datei, bricht die Pruefung mit einer verstaendlichen
+Fehlermeldung ab. Persoenliche Messdaten werden nicht fuer die Standardpruefung
+benoetigt und gehoeren weiterhin nicht ins Repository.
 
 ## Projektstruktur
 

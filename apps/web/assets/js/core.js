@@ -1,4 +1,6 @@
 (function (root) {
+  const APP_VERSION = "1.6.0-rc.1";
+
   function detectDelimiter(text) {
     const firstLine = String(text || "").split(/\r?\n/)[0] || "";
     const commaCount = (firstLine.match(/,/g) || []).length;
@@ -173,6 +175,7 @@
   }
 
   const api = {
+    APP_VERSION,
     detectDelimiter,
     normalizeHeader,
     parseCsv,

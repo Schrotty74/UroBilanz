@@ -21,6 +21,8 @@ release/
 *Backup*
 *tagesdaten*
 *Tagesdaten*
+!docs/demo/urobilanz-demo.csv
+!docs/demo/urobilanz-demo-daily.csv
 
 # Logs and temporary files
 *.log

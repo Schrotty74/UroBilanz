@@ -51,7 +51,10 @@ private let translations: [AppLanguage: [String: String]] = [
         "bug_description": "Was ist passiert?", "bug_steps": "Schritte zum Nachstellen",
         "bug_expected": "Was sollte stattdessen passieren?",
         "bug_report_preview": "Bericht vor dem Senden prüfen und bei Bedarf bearbeiten",
-        "save_report": "Bericht speichern", "prepare_email": "E-Mail vorbereiten"
+        "save_report": "Bericht speichern", "prepare_email": "E-Mail vorbereiten",
+        "about_menu": "Über UroBilanz", "about_description": "Lokales Protokoll- und Auswertungstool für Urin- und Flüssigkeitsprotokolle.",
+        "about_developer": "Entwickler", "about_developer_value": "Schrotty74, mit Unterstützung von OpenAI Codex",
+        "about_license": "Lizenz", "about_github": "GitHub", "about_contact": "Kontakt"
     ],
     .en: [
         "dashboard": "Dashboard", "year": "Year", "month": "Month", "week": "Week", "day": "Day", "notes": "Rules",
@@ -89,7 +92,10 @@ private let translations: [AppLanguage: [String: String]] = [
         "bug_description": "What happened?", "bug_steps": "Steps to reproduce",
         "bug_expected": "What should have happened instead?",
         "bug_report_preview": "Review and edit the report before sending",
-        "save_report": "Save report", "prepare_email": "Prepare email"
+        "save_report": "Save report", "prepare_email": "Prepare email",
+        "about_menu": "About UroBilanz", "about_description": "Local logging and analysis tool for urine and fluid records.",
+        "about_developer": "Developer", "about_developer_value": "Schrotty74, with support from OpenAI Codex",
+        "about_license": "License", "about_github": "GitHub", "about_contact": "Contact"
     ]
 ]
 
@@ -1239,10 +1245,112 @@ struct UrinprotokollSwiftUIApp: App {
                 .frame(minWidth: 1120, minHeight: 760)
         }
         .commands {
+            AboutCommands()
             CommandGroup(replacing: .newItem) {
                 Button("\(tr("load_csv", model.language))...") { model.openCSV() }
                     .keyboardShortcut("o")
             }
+        }
+        Window("UroBilanz", id: "about") {
+            AboutWindowRoot()
+        }
+        .defaultSize(width: 520, height: 450)
+        .windowResizability(.contentSize)
+        .commands {
+            AboutCommands()
+        }
+    }
+}
+
+private struct AboutCommands: Commands {
+    @Environment(\.openWindow) private var openWindow
+
+    var body: some Commands {
+        CommandGroup(replacing: .appInfo) {
+            Button(tr("about_menu", .systemDefault)) {
+                openWindow(id: "about")
+            }
+        }
+    }
+}
+
+private struct AboutWindowRoot: View {
+    @AppStorage("uroBilanzTheme") private var themeRaw = AppTheme.classicDark.rawValue
+    @AppStorage("uroBilanzCustomThemes") private var customThemesRaw = "[]"
+
+    var body: some View {
+        let theme = ThemeStyle.resolve(
+            id: themeRaw,
+            customThemes: CustomThemeDefinition.decodeList(customThemesRaw)
+        )
+        AboutUroBilanzView(language: .systemDefault)
+            .environment(\.appTheme, theme)
+            .preferredColorScheme(theme.preferredScheme)
+            .tint(theme.accent)
+    }
+}
+
+private struct AboutUroBilanzView: View {
+    @Environment(\.appTheme) private var theme
+    let language: AppLanguage
+
+    private var version: String {
+        Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "-"
+    }
+
+    private var build: String {
+        Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "-"
+    }
+
+    private var versionText: String { "Version \(version) (\(build))" }
+
+    var body: some View {
+        VStack(spacing: 18) {
+            AppMark(size: 104)
+
+            VStack(spacing: 5) {
+                Text("UroBilanz")
+                    .font(.title.bold())
+                Text(versionText)
+                    .font(.callout)
+                    .foregroundStyle(.secondary)
+            }
+
+            Text(tr("about_description", language))
+                .multilineTextAlignment(.center)
+                .foregroundStyle(theme.controlForeground)
+                .frame(maxWidth: 410)
+
+            Grid(alignment: .leading, horizontalSpacing: 18, verticalSpacing: 10) {
+                aboutRow(tr("about_developer", language)) {
+                    Text(tr("about_developer_value", language))
+                }
+                aboutRow(tr("about_license", language)) {
+                    Link("GNU General Public License v3", destination: URL(string: "https://github.com/Schrotty74/UroBilanz/blob/main/LICENSE")!)
+                }
+                aboutRow(tr("about_github", language)) {
+                    Link("github.com/Schrotty74/UroBilanz", destination: URL(string: "https://github.com/Schrotty74/UroBilanz")!)
+                }
+                aboutRow(tr("about_contact", language)) {
+                    Link("urobilanz@mailbox.org", destination: URL(string: "mailto:urobilanz@mailbox.org")!)
+                }
+            }
+            .font(.callout)
+        }
+        .padding(30)
+        .frame(width: 520)
+        .background(AppBackground(theme: theme))
+    }
+
+    @ViewBuilder
+    private func aboutRow<Content: View>(_ title: String, @ViewBuilder content: () -> Content) -> some View {
+        GridRow {
+            Text(title)
+                .fontWeight(.semibold)
+                .foregroundStyle(.secondary)
+            content()
+                .foregroundStyle(theme.controlForeground)
+                .textSelection(.enabled)
         }
     }
 }

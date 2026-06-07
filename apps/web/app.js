@@ -14,6 +14,7 @@ const csvMonthNames = [
 ];
 const dayNames = ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"];
 const {
+  APP_VERSION,
   escapeHtml,
   inputDateValue,
   inputTimeValue,
@@ -30,7 +31,7 @@ const builtInThemeIds = ["classic-light", "classic-dark", "violet-night", "liqui
 const builtInThemeSet = new Set(builtInThemeIds);
 const darkThemeSet = new Set(["classic-dark", "violet-night", "liquid-dark", "high-contrast"]);
 const tableWidthStorageKey = "uroTableColumnWidths";
-const appVersion = "1.6.0-rc.1";
+const appVersion = APP_VERSION;
 const supportEmail = "urobilanz@mailbox.org";
 const repositoryUrl = "https://github.com/Schrotty74/UroBilanz";
 let customThemes = loadCustomThemes();
@@ -75,6 +76,10 @@ const els = {
   themeSelect: document.querySelector("#themeSelect"),
   languageSelect: document.querySelector("#languageSelect"),
   appMark: document.querySelector("#appMark"),
+  openAbout: document.querySelector("#openAbout"),
+  aboutDialog: document.querySelector("#aboutDialog"),
+  aboutVersion: document.querySelector("#aboutVersion"),
+  closeAbout: document.querySelector("#closeAbout"),
   githubMark: document.querySelector("#githubMark"),
   addEntry: document.querySelector("#addEntry"),
   entryDialog: document.querySelector("#entryDialog"),
@@ -657,6 +662,13 @@ function applyLanguage(nextLanguage) {
   document.querySelectorAll("[data-i18n]").forEach((element) => {
     element.textContent = t(element.dataset.i18n);
   });
+  document.querySelectorAll("[data-i18n-aria-label]").forEach((element) => {
+    element.setAttribute("aria-label", t(element.dataset.i18nAriaLabel));
+  });
+  document.querySelectorAll("[data-i18n-title]").forEach((element) => {
+    element.setAttribute("title", t(element.dataset.i18nTitle));
+  });
+  els.aboutVersion.textContent = `${t("version")} ${appVersion}`;
   const activeTheme = els.themeSelect.value;
   rebuildThemeOptions(activeTheme);
   els.themeSelect.value = activeTheme;
@@ -1410,6 +1422,15 @@ els.emailBugReport.addEventListener("click", () => {
   const subject = `UroBilanz Fehlerbericht ${appVersion}`;
   const url = `mailto:${supportEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(els.bugReportText.value)}`;
   window.location.href = url;
+});
+
+els.openAbout.addEventListener("click", () => {
+  els.aboutVersion.textContent = `${t("version")} ${appVersion}`;
+  els.aboutDialog.showModal();
+});
+els.closeAbout.addEventListener("click", () => els.aboutDialog.close());
+els.aboutDialog.addEventListener("click", (event) => {
+  if (event.target === els.aboutDialog) els.aboutDialog.close();
 });
 
 function rememberCurrentData() {

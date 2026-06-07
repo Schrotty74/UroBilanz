@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>UroBilanz</title>
     <link rel="icon" href="./assets/urobilanz-app-icon.png" />
-    <link rel="stylesheet" href="./styles.css?v=bug-report-1" />
+    <link rel="stylesheet" href="./styles.css?v=about-1" />
     <script src="./assets/js/charts.js?v=v1-6-0-beta-2"></script>
   </head>
   <body>
@@ -13,7 +13,7 @@
       <div>
         <p class="eyebrow" data-i18n="measurement_day">06:00 bis 05:59 Messtag</p>
         <h1>
-          <span class="app-mark-shell"><img class="app-mark" id="appMark" src="./assets/urobilanz-app-icon.png" alt="" /></span>
+          <button class="app-mark-shell" id="openAbout" type="button" data-i18n-aria-label="about_open" data-i18n-title="about_open" aria-label="Über UroBilanz" title="Über UroBilanz"><img class="app-mark" id="appMark" src="./assets/urobilanz-app-icon.png" alt="" /></button>
           <a class="github-mark-shell" href="https://github.com/Schrotty74/UroBilanz" target="_blank" rel="noopener noreferrer" aria-label="UroBilanz auf GitHub" title="UroBilanz auf GitHub">
             <img class="github-mark" id="githubMark" src="./assets/github-invertocat-white.svg" alt="" />
           </a>
@@ -243,9 +243,33 @@
       </form>
     </dialog>
 
-    <script src="./assets/i18n/de.js?v=bug-report-1"></script>
-    <script src="./assets/i18n/en.js?v=bug-report-1"></script>
-    <script src="./assets/js/core.js?v=v1-6-0-beta-2"></script>
-    <script src="./app.js?v=bug-report-1"></script>
+    <dialog id="aboutDialog" class="about-dialog">
+      <div class="about-content">
+        <img class="about-app-mark" src="./assets/urobilanz-app-icon.png" alt="" />
+        <div class="about-heading">
+          <h2>UroBilanz</h2>
+          <p id="aboutVersion">Version</p>
+        </div>
+        <p class="about-description" data-i18n="about_description">Lokales Protokoll- und Auswertungstool für Urin- und Flüssigkeitsprotokolle.</p>
+        <dl class="about-details">
+          <dt data-i18n="about_developer">Entwickler</dt>
+          <dd data-i18n="about_developer_value">Schrotty74, mit Unterstützung von OpenAI Codex</dd>
+          <dt data-i18n="about_license">Lizenz</dt>
+          <dd><a href="https://github.com/Schrotty74/UroBilanz/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">GNU General Public License v3</a></dd>
+          <dt>GitHub</dt>
+          <dd><a href="https://github.com/Schrotty74/UroBilanz" target="_blank" rel="noopener noreferrer">github.com/Schrotty74/UroBilanz</a></dd>
+          <dt data-i18n="about_contact">Kontakt</dt>
+          <dd><a href="mailto:urobilanz@mailbox.org">urobilanz@mailbox.org</a></dd>
+        </dl>
+        <div class="dialog-actions">
+          <button class="utility-button" id="closeAbout" type="button" data-i18n="close">Schließen</button>
+        </div>
+      </div>
+    </dialog>
+
+    <script src="./assets/i18n/de.js?v=about-1"></script>
+    <script src="./assets/i18n/en.js?v=about-1"></script>
+    <script src="./assets/js/core.js?v=about-1"></script>
+    <script src="./app.js?v=about-1"></script>
   </body>
 </html>
