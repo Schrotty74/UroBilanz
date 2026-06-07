@@ -63,6 +63,40 @@ Die gebaute App liegt hier:
 
 Die Swift-App ist aktuell fuer Apple Silicon (`arm64`) und macOS 26 gebaut.
 
+### ⚠️ Hinweis zur macOS-Sicherheitswarnung
+
+> Beim ersten Oeffnen zeigt macOS moeglicherweise eine Warnung, da die App
+> nicht mit einem kostenpflichtigen Apple Developer Account notarisiert ist.
+>
+> So oeffnest du die App trotzdem:
+>
+> 1. Rechtsklick auf die App-Datei.
+> 2. **Oeffnen** waehlen.
+> 3. Im erscheinenden Dialog **Trotzdem oeffnen** anklicken.
+>
+> Alternativ unter **Systemeinstellungen → Datenschutz & Sicherheit** ganz
+> unten **Trotzdem oeffnen** bestaetigen.
+>
+> Diese Einschraenkung betrifft nur die macOS-App. Die Web-App laeuft im
+> Browser ohne jede Signierung.
+
+### ⚠️ macOS Security Warning
+
+> When opening the app for the first time, macOS may display a warning because
+> the app is not notarized with a paid Apple Developer account.
+>
+> To open the app anyway:
+>
+> 1. Right-click the app file.
+> 2. Select **Open**.
+> 3. Click **Open Anyway** in the dialog that appears.
+>
+> Alternatively, open **System Settings → Privacy & Security** and confirm
+> **Open Anyway** at the bottom of the page.
+>
+> This limitation affects only the macOS app. The web app runs in the browser
+> without any signing requirements.
+
 ## Eigene Themes
 
 Ab Version `1.6.0-beta.1` koennen Web-App und SwiftUI-App eigene Themes im

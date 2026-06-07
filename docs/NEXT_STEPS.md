@@ -298,6 +298,31 @@ Zielidee:
 - Bericht mit klarer Struktur planen, zum Beispiel Deckbereich, kurze
   Zusammenfassung, Diagramme, Tagesdetails und Hinweise.
 
+Gestaltung - strukturiert mit dezentem UroBilanz-Branding:
+
+- Der Bericht soll professionell und medizinisch serioes wirken, aber klar als
+  UroBilanz-Dokument erkennbar sein.
+- Deckbereich:
+  - UroBilanz-Logo und App-Name oben links oder zentriert.
+  - Darunter Berichtstitel, gewaehlter Zeitraum und Erstellungsdatum.
+  - Im restlichen Bericht kein weiteres Branding.
+- Farben:
+  - Grundsaetzlich schwarzweiss fuer maximale Druckkompatibilitaet.
+  - Tabellen-Header nur in hellem Grau oder sehr dezentem Blau.
+  - Niedrige Messtage dezent gelb/orange hinterlegen oder mit einer ruhigen
+    farbigen Markierung kennzeichnen.
+  - Unvollstaendige Messtage klar, aber unaufdringlich kennzeichnen.
+  - Keine Theme-Farben verwenden. Das PDF sieht unabhaengig vom aktiven
+    App-Theme immer gleich aus.
+- Typografie:
+  - Klare serifenlose Schrift, zum Beispiel `system-ui` oder Helvetica.
+  - Gute Lesbarkeit sowohl beim A4-Ausdruck als auch in der PDF-Ansicht.
+- Ziel:
+  - Ein Arzt soll den Bericht ohne zusaetzliche Erklaerung lesen und verstehen
+    koennen.
+  - Das UroBilanz-Branding zeigt die Herkunft, ohne vom medizinischen Inhalt
+    abzulenken.
+
 Umsetzung zuerst planen:
 
 - Wahrscheinlich zuerst in der Web-App starten, weil Browser-Druck/PDF dafuer
