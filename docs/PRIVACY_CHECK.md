@@ -2,7 +2,7 @@
 
 Stand: 07.06.2026
 
-Gepruefter Stand: `v1.6.0-rc.2` mit nachfolgenden Dokumentationsaenderungen.
+Gepruefter Stand: `v1.6.0 Final`.
 
 ## Ergebnis
 
@@ -119,7 +119,7 @@ Namensvarianten ueber `git check-ignore` praktisch geprueft.
 
 Geprueft wurden das lokal gebaute Bundle und sein ausfuehrbares Programm:
 
-- Version `1.6.0-rc.2`, Build `25`.
+- Version `1.6.0`, Build `26`.
 - Ad-hoc-Signatur gueltig.
 - Keine App-Entitlements vorhanden.
 - Keine Network-Client- oder Network-Server-Entitlements.

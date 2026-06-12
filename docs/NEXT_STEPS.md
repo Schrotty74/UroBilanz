@@ -1,11 +1,12 @@
 # UroBilanz - Naechste Schritte
 
-Stand: 07.06.2026
+Stand: 12.06.2026
 
-Aktueller Hauptstand: `v1.6.0-rc.2`
+Aktueller Hauptstand: `v1.6.0 Final`
 
-Release-Einordnung: `v1.6.0-rc.2` ist der zweite Abschlusskandidat der
-1.6-Reihe mit benutzerdefinierten Themes. Version 1.5 bleibt abgeschlossen.
+Release-Einordnung: `v1.6.0` ist die abgeschlossene Final-Version der
+1.6-Reihe mit benutzerdefinierten Themes. Neue groessere Funktionen beginnen
+erst mit Version 1.7.
 
 Projektordner:
 
@@ -42,7 +43,7 @@ Beide Apps koennen:
 - Deutsch und Englisch anzeigen
 - mehrere Themes nutzen
 
-Die letzte Vollpruefung fuer `v1.6.0-rc.2` war erfolgreich:
+Die letzte Vollpruefung fuer `v1.6.0 Final` war erfolgreich:
 
 - Web Smoke Tests
 - Web Workflow Tests
@@ -90,8 +91,7 @@ Die letzte Vollpruefung fuer `v1.6.0-rc.2` war erfolgreich:
 
 ## Geplanter Neuer Schwerpunkt - v1.7.0-beta.1 PDF-Bericht
 
-Sinnvoll als eigener Entwicklungszweig nach der 1.6-Reihe, nicht als
-Feinschliff fuer `v1.6.0-rc.2`.
+Sinnvoll als eigener Entwicklungszweig nach der abgeschlossenen 1.6-Reihe.
 
 Zielidee:
 

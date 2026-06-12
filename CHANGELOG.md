@@ -4,12 +4,79 @@ Alle wichtigen Änderungen an UroBilanz werden hier dokumentiert.
 
 ## Unveröffentlicht
 
-- Abgeschlossene Projekt- und Versionshistorie aus `docs/NEXT_STEPS.md` in das
-  dauerhafte Archiv `docs/HISTORY.md` verschoben. `NEXT_STEPS.md` konzentriert
-  sich jetzt auf aktuellen Stand, offene Aufgaben und geplante Versionen.
-- Lokalen technischen Datenschutz-Check unter `docs/PRIVACY_CHECK.md`
-  dokumentiert und `.gitignore` fuer weitere Gross-/Kleinschreibungsvarianten
-  sowie typische Gesundheitsdateinamen gehaertet.
+- Noch keine Änderungen.
+
+## 1.6.0 Final - 2026-06-12
+
+Finale Version der 1.6-Reihe. Sie fasst die Aenderungen aus
+`1.6.0-beta.1` bis `1.6.0-rc.2` zusammen und baut auf `1.5.0` auf.
+
+### Themes
+
+- Benutzerdefinierte Themes koennen in Web-App und SwiftUI-App als JSON
+  importiert, lokal gespeichert und angewendet werden.
+- Gemeinsames Format `urobilanz-theme` Version `1` eingefuehrt.
+- Theme-Vorlage, Dokumentation und Beispielthemes bereitgestellt.
+- Eingebaute Themes koennen als bearbeitbare JSON-Kopie exportiert werden.
+- Importierte Themes koennen exportiert und wieder geloescht werden.
+- Theme-Menues, Scrollverhalten und Aktionsdarstellung in beiden Apps
+  vereinheitlicht und stabilisiert.
+
+### Darstellung und Bedienung
+
+- Bewertungsregeln als eigene zweisprachige Infoseite ergaenzt.
+- Neues Liquid-Balance-Day/Night-App-Symbol in Web-App, SwiftUI-App, Dock,
+  Finder und README eingebunden.
+- Tabellenbreiten koennen direkt angepasst und pro Tabelle lokal gespeichert
+  werden; Nachbarspalten behalten dabei ihre Breite.
+- SwiftUI-Regelboxen vereinheitlicht.
+- Web-App-Starter beschleunigt und lokal an `127.0.0.1` gebunden.
+
+### Daten und Auswertung
+
+- Hinweise aus Urinote-CSV werden in Web-App und SwiftUI-App an der passenden
+  Urin-Uhrzeit dargestellt.
+- Fruehe 05:xx-Eintraege bleiben durch lokale Messtag-Schluessel korrekt dem
+  Vortag zugeordnet.
+- SwiftUI-Tagesansicht fuer fluessiges Scrollen optimiert.
+- Bestehende Urin-, Wasser-, Hinweis-, Bewertungs- und Exportlogik aus Version
+  1.5 unveraendert kompatibel gehalten.
+
+### Projektinformationen und Kontakt
+
+- Datenschutzfreundliche Fehlerberichte in beiden Apps ergaenzt.
+- Berichte enthalten technische Angaben, aber keine automatisch uebernommenen
+  CSV-Werte, Hinweise oder Gesundheitsdaten.
+- Fehlerberichte koennen lokal gespeichert oder als bearbeitbarer
+  E-Mail-Entwurf an `urobilanz@mailbox.org` vorbereitet werden.
+- GitHub-Link und offizielles Invertocat neben dem App-Symbol ergaenzt.
+- `Ueber UroBilanz` in der SwiftUI-App und als Web-Modal ergaenzt.
+- Entwickler, Version, GPLv3, GitHub und Kontakt werden zweisprachig
+  dargestellt.
+- README um Gatekeeper-Hinweis, Kontakt, GPLv3 und den lokalen
+  Datenschutzgrundsatz ergaenzt.
+
+### Technik, Tests und Dokumentation
+
+- Portablen Pruefablauf ohne persoenliche Standardpfade eingefuehrt.
+- Kuenstliche Urinote- und Tagesdaten-Fixtures im Repository ergaenzt.
+- Web- und Swift-Tests fuer Theme-Import, Hinweiszuordnung, Bewertung und
+  manuelle Kernablaeufe erweitert.
+- Projektgeschichte nach `docs/HISTORY.md` ausgelagert und
+  `docs/NEXT_STEPS.md` auf aktuellen Stand und Zukunft reduziert.
+- Technischen Datenschutz-Check unter `docs/PRIVACY_CHECK.md` dokumentiert.
+- `.gitignore` fuer CSV-, Tabellen-, Backup-, Tagesdaten- und typische
+  Gesundheitsdateien gehaertet.
+
+### Geprueft
+
+- Vollstaendiger Lauf von `./verify_apps.sh`.
+- Web Smoke Tests und Workflow Tests.
+- Swift Build, Signierung und Workflow Tests.
+- Original-Urinote-CSV und Tagesdaten-CSV.
+- Bewertungs-, Hinweis- und Theme-Randfaelle.
+- Portabler Lauf aus einer frischen Checkout-Kopie.
+- Lokaler Netzwerk-, Bundle-, Entitlement- und Abhaengigkeitscheck.
 
 ## 1.6.0-rc.2 - 2026-06-07
 

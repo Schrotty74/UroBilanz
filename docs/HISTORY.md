@@ -1,6 +1,6 @@
 # UroBilanz - Projekthistorie
 
-Stand: 07.06.2026
+Stand: 12.06.2026
 
 Diese Datei archiviert abgeschlossene Versionen, Betas, Release Candidates,
 Final-Releases und wichtige technische Meilensteine. Der detaillierte
@@ -347,6 +347,32 @@ Zweiter Abschlusskandidat der 1.6-Reihe.
 - Vollstaendiges Projektbackup in iCloud erstellt.
 - GitHub-Pre-Release `v1.6.0-rc.2` veroeffentlicht.
 
+## 1.6.0 Final - 2026-06-12
+
+`v1.6.0-rc.2` wurde nach erfolgreicher Funktions-, Portabilitaets- und
+Datenschutzpruefung als Abschlusskandidat fuer `v1.6.0 Final` uebernommen.
+
+- Gesamte 1.6-Reihe mit benutzerdefinierten Themes abgeschlossen.
+- Theme-Import, -Export und Loeschen in Web-App und SwiftUI-App enthalten.
+- Bewertungsregeln, neues App-Symbol und frei speicherbare Tabellenbreiten
+  enthalten.
+- Hinweiszuordnung und SwiftUI-Performance korrigiert.
+- Datenschutzfreundliche Fehlerberichte, GitHub-Link und Kontakt enthalten.
+- Zweisprachige Ueber-Fenster mit Version, Entwickler und GPLv3 enthalten.
+- Portablen Gesamtprueflauf mit kuenstlichen Repository-Fixtures etabliert.
+- Projekthistorie, Zukunftsplanung und technischer Datenschutz-Check dauerhaft
+  dokumentiert.
+- Web-App Version `1.6.0`.
+- macOS-App Version `1.6.0`, Build `26`.
+- Vollstaendiger Prueflauf im Projekt und in einer frischen Checkout-Kopie
+  erfolgreich.
+- Release-Dateien unter `release/v1.6.0` erstellt und geprueft.
+- Lokale Projektsicherung unter
+  `lokale Projektsicherung`
+  erstellt.
+- Vollstaendiges Projektbackup in iCloud erstellt.
+- GitHub-Final-Release `v1.6.0` veroeffentlicht.
+
 ## Groessere Technische Meilensteine
 
 - Einheitliche Projektstruktur fuer Web-App und native SwiftUI-App.
@@ -365,4 +391,3 @@ Zweiter Abschlusskandidat der 1.6-Reihe.
 - Frisch gebautes, signiertes macOS-App-Bundle.
 - Datenschutzfreundlicher Fehlerbericht und Projektkontakt.
 - GPLv3-Lizenzierung und transparente Codex-Unterstuetzung.
-
