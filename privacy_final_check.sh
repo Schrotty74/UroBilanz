@@ -45,6 +45,14 @@ private_commit_emails="$(
 )"
 check_empty "Die Git-Historie enthaelt nicht freigegebene Commit-E-Mail-Adressen." "$private_commit_emails"
 
+private_tag_emails="$(
+  git for-each-ref refs/tags --format='%(taggeremail)' |
+    tr -d '<>' |
+    sort -u |
+    grep -Ev '^$|@users\.noreply\.github\.com$' || true
+)"
+check_empty "Die Git-Tags enthalten nicht freigegebene E-Mail-Adressen." "$private_tag_emails"
+
 secrets="$(git grep -nEI 'BEGIN (RSA|OPENSSH|EC|DSA|PGP) PRIVATE KEY|github_pat_[A-Za-z0-9_]+|gh[pousr]_[A-Za-z0-9]{20,}|AKIA[A-Z0-9]{16}|sk-[A-Za-z0-9]{20,}' HEAD -- . ':(exclude)privacy_final_check.sh' || true)"
 check_empty "Der aktuelle Git-Stand enthaelt moegliche Zugangsdaten oder private Schluessel." "$secrets"
 
