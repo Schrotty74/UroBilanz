@@ -7,6 +7,8 @@ Alle wichtigen Änderungen an UroBilanz werden hier dokumentiert.
 ### 1.7.0-beta.1 - lokal begonnen
 
 - Web-App: erste gute Variante des Arztberichts umgesetzt.
+- SwiftUI-App: nativen Arztbericht mit Zeitraumwahl und lokalem PDF-Export
+  umgesetzt.
 - Zeitraum fuer den Bericht frei waehlbar.
 - Tagesdetails und Hinweise koennen fuer den Bericht ein- oder ausgeschaltet
   werden.
@@ -15,6 +17,7 @@ Alle wichtigen Änderungen an UroBilanz werden hier dokumentiert.
   Bewertungsregeln ergaenzt.
 - Bericht verwendet feste neutrale Druckfarben und ist unabhaengig vom
   aktiven App-Theme.
+- Beide Apps bieten Tagesdetails und Hinweise als optionale Berichtsinhalte.
 - Arztbericht als eigenes Web-Modul ausgelagert und mit einem Smoke-Test
   abgesichert.
 - Backup und Tagesdaten in beiden Apps zu einem gemeinsamen Backup-Menue mit

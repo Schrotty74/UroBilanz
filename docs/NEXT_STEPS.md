@@ -90,6 +90,7 @@ Sinnvoll als eigener Entwicklungszweig nach der abgeschlossenen 1.6-Reihe.
 Lokal begonnen:
 
 - Erste gute Web-Variante des Arztberichts mit Zeitraumwahl.
+- Native SwiftUI-Variante mit Zeitraumwahl und lokalem PDF-Export.
 - Festes neutrales A4-Berichtslayout unabhaengig vom aktiven Theme.
 - Zusammenfassung, Tagesverlauf, Tagesuebersicht, optionale Tagesdetails,
   Hinweise und Bewertungsregeln.
@@ -136,8 +137,8 @@ Gestaltung - strukturiert mit dezentem UroBilanz-Branding:
 
 Umsetzung zuerst planen:
 
-- Wahrscheinlich zuerst in der Web-App starten, weil Browser-Druck/PDF dafuer
-  einfacher ist.
+- Web-App und SwiftUI-App gemeinsam testen und ihre Berichtsinhalte
+  inhaltlich konsistent halten.
 - Web-App im Zuge der PDF-Umsetzung weiter aufteilen:
   - UI-Rendering
   - Speicherlogik
@@ -149,8 +150,8 @@ Umsetzung zuerst planen:
   - Theme- und Sprachlogik klarer trennen
 - Vor Umsetzung Layout und Umfang festlegen, damit der Bericht fuer Arzttermine
   gut lesbar bleibt und lange Tabellen/Hinweise sauber umbrechen.
-- SwiftUI-PDF erst danach bewerten, damit die Funktion nicht unnoetig gross
-  wird.
+- SwiftUI-PDF ist lokal umgesetzt und wird vor einer Veröffentlichung
+  gemeinsam mit der Web-Variante praktisch geprüft.
 
 ## Geplanter Neuer Schwerpunkt - v1.8.0-beta.1 Koerperdaten Und Gemeinsame Analyse
 

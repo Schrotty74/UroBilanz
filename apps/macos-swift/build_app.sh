@@ -68,6 +68,7 @@ CLANG_MODULE_CACHE_PATH=/private/tmp/urobilanz-clang-cache \
   Sources/UroCSVSupport.swift \
   Sources/UroModels.swift \
   Sources/UroControls.swift \
+  Sources/UroMedicalReport.swift \
   Sources/UroTablesAndCharts.swift \
   Sources/UroSmokeTests.swift \
   Sources/UrinprotokollSwiftUI.swift \

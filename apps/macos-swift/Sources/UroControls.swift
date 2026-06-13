@@ -12,6 +12,7 @@ struct ToolbarStrip: View {
     let importTheme: () -> Void
     let exportTheme: () -> Void
     let deleteTheme: () -> Void
+    let medicalReport: () -> Void
     let reportBug: () -> Void
     @Environment(\.appLanguage) private var language
 
@@ -54,6 +55,10 @@ struct ToolbarStrip: View {
                 Label(tr("backup", language), systemImage: "externaldrive")
             }
                 .disabled(!model.hasData)
+            Button(tr("medical_report", language), systemImage: "doc.richtext") {
+                medicalReport()
+            }
+            .disabled(!model.hasData)
             Button(action: reportBug) {
                 Image(systemName: "exclamationmark.bubble")
             }

@@ -47,6 +47,18 @@ private let translations: [AppLanguage: [String: String]] = [
         "no_entry_created": "Kein Eintrag erstellt", "to": "bis", "new_entries": "neue Einträge ergänzt", "existing_entries": "bereits vorhanden",
         "added": "hinzugefügt", "updated": "aktualisiert",
         "report_bug": "Fehler melden", "bug_report_title": "Fehlerbericht",
+        "medical_report": "Arztbericht", "medical_report_intro": "Erstellt einen strukturierten PDF-Bericht für Arzttermine.",
+        "period_from": "Zeitraum von", "period_to": "Zeitraum bis", "include_daily_details": "Tagesdetails aufnehmen",
+        "include_notes": "Hinweise aufnehmen", "medical_report_note": "Der Bericht verwendet immer ein neutrales, druckfreundliches Layout und keine Theme-Farben.",
+        "create_pdf": "PDF erstellen", "report_no_days": "Im gewählten Zeitraum sind keine Messtage vorhanden.",
+        "report_save_error": "Der PDF-Bericht konnte nicht gespeichert werden.", "selected_period": "Gewählter Zeitraum",
+        "created": "Erstellt", "report_summary": "Zusammenfassung", "evaluated_days": "Ausgewertete Tage",
+        "urine_total_report": "Urin gesamt", "urine_average_report": "Urin-Durchschnitt je ausgewertetem Tag",
+        "water_total_report": "Wasser gesamt", "daily_overview": "Tagesübersicht", "evaluation": "Bewertung",
+        "daily_details": "Tagesdetails", "time": "Uhrzeit", "type": "Typ", "amount": "Menge",
+        "general_notes": "Allgemeine Hinweise", "evaluation_rules": "Bewertungsregeln",
+        "report_rule_text": "Ein Messtag läuft von 06:00 bis 05:59. Nur vollständige Tage mit mindestens acht Stunden zwischen erstem und letztem Urin- oder Wasserwert werden in Summen, Durchschnitt und niedrig/normal-Bewertung einbezogen. Vollständige Tage unter 700 ml Urin gelten als niedrig, alle anderen vollständigen Tage als normal. Diese organisatorische Bewertung ist keine medizinische Diagnose.",
+        "report_privacy": "Lokal mit UroBilanz erstellt. Dieser Bericht enthält keine medizinische Empfehlung.",
         "bug_report_privacy": "CSV-Werte, Hinweise und Gesundheitsdaten werden nicht automatisch in den Bericht aufgenommen.",
         "bug_description": "Was ist passiert?", "bug_steps": "Schritte zum Nachstellen",
         "bug_expected": "Was sollte stattdessen passieren?",
@@ -88,6 +100,18 @@ private let translations: [AppLanguage: [String: String]] = [
         "no_entry_created": "No entry created", "to": "to", "new_entries": "new entries merged", "existing_entries": "already present",
         "added": "added", "updated": "updated",
         "report_bug": "Report bug", "bug_report_title": "Bug report",
+        "medical_report": "Medical report", "medical_report_intro": "Creates a structured PDF report for medical appointments.",
+        "period_from": "Period from", "period_to": "Period to", "include_daily_details": "Include daily details",
+        "include_notes": "Include notes", "medical_report_note": "The report always uses a neutral print layout and no theme colors.",
+        "create_pdf": "Create PDF", "report_no_days": "There are no measurement days in the selected period.",
+        "report_save_error": "The PDF report could not be saved.", "selected_period": "Selected period",
+        "created": "Created", "report_summary": "Summary", "evaluated_days": "Evaluated days",
+        "urine_total_report": "Urine total", "urine_average_report": "Urine average per evaluated day",
+        "water_total_report": "Water total", "daily_overview": "Daily overview", "evaluation": "Evaluation",
+        "daily_details": "Daily details", "time": "Time", "type": "Type", "amount": "Amount",
+        "general_notes": "General notes", "evaluation_rules": "Evaluation rules",
+        "report_rule_text": "A measurement day runs from 06:00 to 05:59. Only complete days with at least eight hours between the first and last urine or water entry are included in totals, averages and low/normal evaluation. Complete days below 700 ml urine are marked low; all other complete days are marked normal. This organizational evaluation is not a medical diagnosis.",
+        "report_privacy": "Created locally with UroBilanz. This report does not provide medical advice.",
         "bug_report_privacy": "CSV values, notes and health data are not added to the report automatically.",
         "bug_description": "What happened?", "bug_steps": "Steps to reproduce",
         "bug_expected": "What should have happened instead?",
@@ -1374,6 +1398,7 @@ struct ContentView: View {
     @State private var showsEntrySheet = false
     @State private var showsThemeImporter = false
     @State private var showsBugReport = false
+    @State private var showsMedicalReport = false
     @State private var themeErrorMessage: String?
     @State private var pendingDeleteTheme: CustomThemeDefinition?
 
@@ -1401,6 +1426,7 @@ struct ContentView: View {
                     importTheme: { showsThemeImporter = true },
                     exportTheme: exportSelectedTheme,
                     deleteTheme: prepareDeleteSelectedTheme,
+                    medicalReport: { showsMedicalReport = true },
                     reportBug: { showsBugReport = true }
                 )
                 Divider()
@@ -1431,6 +1457,12 @@ struct ContentView: View {
                 language: language
             )
             .environment(\.appTheme, theme)
+        }
+        .sheet(isPresented: $showsMedicalReport) {
+            MedicalReportSheet()
+                .environmentObject(model)
+                .environment(\.appLanguage, language)
+                .environment(\.appTheme, theme)
         }
         .fileImporter(isPresented: $showsThemeImporter, allowedContentTypes: [.json]) { result in
             importCustomTheme(result)

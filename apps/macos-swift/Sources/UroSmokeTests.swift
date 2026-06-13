@@ -21,6 +21,7 @@ enum ImportSmokeTestRunner {
             runWorkflowTest(model: model)
             runEvaluationEdgeTests(model: model)
             runNoteAlignmentTest(model: model)
+            runMedicalReportTest(model: model)
             runThemeImportTest()
         }
         exit(0)
@@ -171,6 +172,45 @@ enum ImportSmokeTestRunner {
             print("Swift theme import smoke test passed")
         } catch {
             print("Theme-Importtest Fehler: \(error.localizedDescription)")
+            exit(1)
+        }
+    }
+
+    private static func runMedicalReportTest(model: UrinModel) {
+        guard !model.days.isEmpty else {
+            assertWorkflow(false, "medical report needs measurement days")
+            return
+        }
+        let report = MedicalReportPDF.attributedReport(
+            days: model.days,
+            language: .de,
+            includeDetails: true,
+            includeNotes: true
+        )
+        assertWorkflow(report.string.contains("Arztbericht"), "medical report title missing")
+        assertWorkflow(report.string.contains("Tagesübersicht"), "medical report overview missing")
+        assertWorkflow(report.string.contains("Stuhlgang"), "medical report note missing")
+
+        let url = FileManager.default.temporaryDirectory
+            .appendingPathComponent("urobilanz-medical-report-smoke.pdf")
+        try? FileManager.default.removeItem(at: url)
+        do {
+            try MedicalReportPDF.write(
+                days: model.days,
+                language: .de,
+                includeDetails: true,
+                includeNotes: true,
+                to: url
+            )
+            let data = try Data(contentsOf: url)
+            assertWorkflow(data.starts(with: Data("%PDF".utf8)), "medical report is not a PDF")
+            assertWorkflow(data.count > 5_000, "medical report PDF is unexpectedly small")
+            if !ProcessInfo.processInfo.arguments.contains("--keep-test-report") {
+                try? FileManager.default.removeItem(at: url)
+            }
+            print("Swift medical report smoke test passed")
+        } catch {
+            print("Arztbericht-Test Fehler: \(error.localizedDescription)")
             exit(1)
         }
     }

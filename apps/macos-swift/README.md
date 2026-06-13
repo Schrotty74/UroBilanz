@@ -23,6 +23,7 @@ Neu bauen und prüfen:
 - Daten löschen
 - Backup-CSV exportieren
 - Tagesdaten-CSV exportieren
+- Arztbericht fuer einen waehlbaren Zeitraum als lokale PDF-Datei exportieren
 - Dashboard, Jahr, Monat, Woche, Tag und Notizen
 - Jahr- und Monatsfilter
 
