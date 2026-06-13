@@ -188,6 +188,7 @@ enum ImportSmokeTestRunner {
             includeNotes: true
         )
         assertWorkflow(report.string.contains("Arztbericht"), "medical report title missing")
+        assertWorkflow(report.string.contains("Tagesverlauf"), "medical report daily progress missing")
         assertWorkflow(report.string.contains("Tagesübersicht"), "medical report overview missing")
         assertWorkflow(report.string.contains("Stuhlgang"), "medical report note missing")
 

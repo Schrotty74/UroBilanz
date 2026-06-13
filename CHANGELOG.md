@@ -17,11 +17,15 @@ Alle wichtigen Änderungen an UroBilanz werden hier dokumentiert.
 - Druckfertiges A4-Layout mit dezentem UroBilanz-Branding, Zusammenfassung,
   Tagesverlauf, Tagesuebersicht, optionalen Tagesdetails und
   Bewertungsregeln ergaenzt.
+- SwiftUI-Arztbericht zeigt den Tagesverlauf wie der Web-Bericht mit gemeinsam
+  skalierten Urin- und Wasserbalken.
 - Bericht verwendet feste neutrale Druckfarben und ist unabhaengig vom
   aktiven App-Theme.
 - Beide Apps bieten Tagesdetails und Hinweise als optionale Berichtsinhalte.
 - Arztbericht als eigenes Web-Modul ausgelagert und mit einem Smoke-Test
   abgesichert.
+- Swift-Smoke-Test prueft ausdruecklich, dass der Tagesverlauf im
+  Arztbericht enthalten ist.
 - Backup und Tagesdaten in beiden Apps zu einem gemeinsamen Backup-Menue mit
   `Komplett-Backup` und `Tagesbackup` zusammengefasst.
 - Web-App erhaelt wie die SwiftUI-App einen eigenen lokalen Build-Ordner.

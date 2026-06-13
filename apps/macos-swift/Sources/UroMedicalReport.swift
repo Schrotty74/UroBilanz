@@ -95,6 +95,8 @@ enum MedicalReportPDF {
     private static let headerFill = NSColor(calibratedRed: 0.91, green: 0.94, blue: 0.95, alpha: 1)
     private static let lowFill = NSColor(calibratedRed: 1, green: 0.95, blue: 0.84, alpha: 1)
     private static let incompleteFill = NSColor(calibratedWhite: 0.93, alpha: 1)
+    private static let urineBar = NSColor(calibratedRed: 0.84, green: 0.60, blue: 0.13, alpha: 1)
+    private static let waterBar = NSColor(calibratedRed: 0.33, green: 0.55, blue: 0.66, alpha: 1)
 
     static func export(
         days: [DaySummary],
@@ -232,6 +234,9 @@ enum MedicalReportPDF {
         append("\(tr("water_total_report", language)): ", to: report, size: 10, weight: .semibold, color: muted)
         append("\(formatted(waterTotal, locale: locale)) ml\n\n", to: report, size: 10, weight: .bold, color: ink)
 
+        section(tr("daily_progress", language), in: report)
+        appendDailyProgress(days: days, language: language, locale: locale, to: report)
+
         section(tr("evaluation_rules", language), in: report)
         append(
             tr("report_rule_text", language) + "\n\n",
@@ -292,6 +297,96 @@ enum MedicalReportPDF {
 
         append(tr("report_privacy", language), to: report, size: 8.5, color: muted)
         return report
+    }
+
+    private static func appendDailyProgress(
+        days: [DaySummary],
+        language: AppLanguage,
+        locale: Locale,
+        to report: NSMutableAttributedString
+    ) {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = locale
+        dateFormatter.dateStyle = .medium
+        let maximum = max(1, days.flatMap { [$0.urineTotal, $0.waterTotal] }.max() ?? 1)
+
+        for day in days {
+            append(
+                "\(dateFormatter.string(from: day.messtag))\n",
+                to: report,
+                size: 9,
+                weight: .bold,
+                color: ink,
+                keepWithNext: true
+            )
+            appendProgressLine(
+                label: tr("urine", language),
+                value: day.urineTotal,
+                maximum: maximum,
+                color: urineBar,
+                locale: locale,
+                to: report
+            )
+            appendProgressLine(
+                label: tr("water", language),
+                value: day.waterTotal,
+                maximum: maximum,
+                color: waterBar,
+                locale: locale,
+                to: report
+            )
+            report.append(NSAttributedString(string: "\n"))
+        }
+    }
+
+    private static func appendProgressLine(
+        label: String,
+        value: Int,
+        maximum: Int,
+        color: NSColor,
+        locale: Locale,
+        to report: NSMutableAttributedString
+    ) {
+        let paragraph = NSMutableParagraphStyle()
+        paragraph.paragraphSpacing = 1
+        paragraph.tabStops = [
+            NSTextTab(textAlignment: .left, location: 54),
+            NSTextTab(textAlignment: .right, location: 425),
+        ]
+
+        report.append(NSAttributedString(
+            string: "\(label)\t",
+            attributes: [
+                .font: NSFont.systemFont(ofSize: 8),
+                .foregroundColor: muted,
+                .paragraphStyle: paragraph,
+            ]
+        ))
+
+        let attachment = NSTextAttachment()
+        attachment.image = progressBarImage(
+            width: max(1, CGFloat(value) / CGFloat(maximum) * 285),
+            color: color
+        )
+        report.append(NSAttributedString(attachment: attachment))
+        report.append(NSAttributedString(
+            string: "\t\(formatted(value, locale: locale)) ml\n",
+            attributes: [
+                .font: NSFont.systemFont(ofSize: 8, weight: .semibold),
+                .foregroundColor: ink,
+                .paragraphStyle: paragraph,
+            ]
+        ))
+    }
+
+    private static func progressBarImage(width: CGFloat, color: NSColor) -> NSImage {
+        let size = NSSize(width: width, height: 5)
+        let image = NSImage(size: size)
+        image.lockFocus()
+        color.setFill()
+        NSBezierPath(rect: NSRect(origin: .zero, size: size)).fill()
+        image.unlockFocus()
+        return image
     }
 
     private static func detailEntries(day: DaySummary, language: AppLanguage) -> [(time: String, type: String, amount: String, note: String)] {
