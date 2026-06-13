@@ -25,6 +25,7 @@ node --check apps/web/assets/js/core.js
 node --check apps/web/assets/js/charts.js
 node --check apps/web/assets/js/medical-report.js
 node --check apps/web/app.js
+apps/web/build_web.sh
 
 apps/macos-swift/build_app.sh
 apps/macos-swift/build/UroBilanz.app/Contents/MacOS/UrinprotokollSwiftUI --test-import "$original_csv"
