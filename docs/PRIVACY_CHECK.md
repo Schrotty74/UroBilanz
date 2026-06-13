@@ -174,6 +174,9 @@ veroeffentlichte Git-Historie einschliesslich Commit-Metadaten.
   erzeugte `.fritz.box`-Absenderadresse.
 - Der aktuelle Dokumentstand, alle frueheren Commits und alle Tags wurden
   bereinigt. Die Commit-Metadaten verwenden nun eine GitHub-Noreply-Adresse.
+- Oeffentliche Commit-, Tag- und Entwicklerangaben verwenden ausschliesslich
+  das Pseudonym `Schrotty74`; der reale Entwicklername wird nicht
+  veroeffentlicht.
 - Vor der Historienbereinigung wurde eine vollstaendige lokale
   Sicherheitskopie des bisherigen Repository-Zustands erstellt.
 

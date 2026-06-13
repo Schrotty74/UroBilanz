@@ -8,8 +8,9 @@
   `docs/PRIVACY_CHECK.md` ergänzt. Für Betas ist dieser vollständige Check
   nicht erforderlich.
 - Öffentliche Dokumentation enthält keine absoluten lokalen Benutzerpfade.
-- Git-Commits verwenden den öffentlichen Entwicklernamen und eine
-  GitHub-Noreply-Adresse.
+- Git-Commits und öffentliche Entwicklerangaben verwenden ausschließlich das
+  Pseudonym `Schrotty74` und eine GitHub-Noreply-Adresse. Der reale Name darf
+  nicht veröffentlicht werden.
 - Der lokale Pre-Push-Hook und die GitHub-Actions-Prüfung müssen aktiv bleiben.
   Sie verhindern Pushes mit lokalen Pfaden, privaten Commit-Adressen,
   sensiblen Datendateien oder möglichen Zugangsdaten.
