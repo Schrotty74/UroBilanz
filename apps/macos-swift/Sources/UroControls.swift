@@ -43,9 +43,16 @@ struct ToolbarStrip: View {
             Button(tr("load_csv", language), systemImage: "square.and.arrow.down") { model.openCSV() }
             Button(tr("delete", language), systemImage: "trash", role: .destructive) { model.clearData() }
                 .disabled(!model.hasData)
-            Button(tr("backup", language), systemImage: "externaldrive") { model.exportBackup() }
-                .disabled(!model.hasData)
-            Button(tr("daily_data", language), systemImage: "tablecells") { model.exportDays() }
+            Menu {
+                Button(tr("complete_backup", language), systemImage: "externaldrive") {
+                    model.exportBackup()
+                }
+                Button(tr("daily_backup", language), systemImage: "tablecells") {
+                    model.exportDays()
+                }
+            } label: {
+                Label(tr("backup", language), systemImage: "externaldrive")
+            }
                 .disabled(!model.hasData)
             Button(action: reportBug) {
                 Image(systemName: "exclamationmark.bubble")

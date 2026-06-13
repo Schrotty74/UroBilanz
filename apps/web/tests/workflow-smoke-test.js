@@ -303,5 +303,8 @@ assert.match(webIndexSource, /id="medicalReport"/, "Arztbericht-Ausloeser fehlt"
 assert.match(webIndexSource, /id="medicalReportDialog"/, "Arztbericht-Zeitraumdialog fehlt");
 assert.match(webAppSource, /buildMedicalReportHTML/, "Arztbericht-Modul wird nicht verwendet");
 assert.match(webAppSource, /medicalReportDays/, "Arztbericht-Zeitraumfilter fehlt");
+assert.match(webIndexSource, /id="backupMenu"/, "Gemeinsames Backup-Menue fehlt");
+assert.match(webIndexSource, /data-i18n="complete_backup"/, "Komplett-Backup fehlt");
+assert.match(webIndexSource, /data-i18n="daily_backup"/, "Tagesbackup fehlt");
 
 console.log("Web workflow smoke test passed");

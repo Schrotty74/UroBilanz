@@ -643,6 +643,63 @@ select {
   font-weight: 750;
 }
 
+.backup-menu {
+  position: relative;
+}
+
+.backup-menu summary {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  user-select: none;
+}
+
+.backup-menu summary::-webkit-details-marker {
+  display: none;
+}
+
+.backup-menu summary::after {
+  content: "⌄";
+  margin-left: 8px;
+}
+
+.backup-menu[data-disabled="true"] summary {
+  cursor: default;
+  opacity: 0.5;
+}
+
+.backup-menu-panel {
+  position: absolute;
+  z-index: 40;
+  top: calc(100% + 6px);
+  right: 0;
+  min-width: 190px;
+  padding: 6px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: var(--paper);
+  box-shadow: var(--shadow);
+}
+
+.backup-menu-panel button {
+  display: block;
+  width: 100%;
+  min-height: 36px;
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-weight: 750;
+  text-align: left;
+  padding: 0 10px;
+  cursor: pointer;
+}
+
+.backup-menu-panel button:hover {
+  background: var(--panel-soft);
+}
+
 .data-options {
   display: flex;
   justify-content: flex-end;

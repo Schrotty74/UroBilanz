@@ -87,8 +87,13 @@
           <div class="filters">
             <select id="yearFilter" aria-label="Jahr"></select>
             <select id="monthFilter" aria-label="Monat"></select>
-            <button class="utility-button" id="backupCsv" type="button" data-i18n="backup">Backup</button>
-            <button class="utility-button" id="exportDays" type="button" data-i18n="daily_data">Tagesdaten</button>
+            <details class="backup-menu" id="backupMenu">
+              <summary class="utility-button" data-i18n="backup">Backup</summary>
+              <div class="backup-menu-panel">
+                <button id="backupCsv" type="button" data-i18n="complete_backup">Komplett-Backup</button>
+                <button id="exportDays" type="button" data-i18n="daily_backup">Tagesbackup</button>
+              </div>
+            </details>
             <button class="utility-button" id="medicalReport" type="button" data-i18n="medical_report">Arztbericht</button>
             <button class="utility-button" id="reportBug" type="button" data-i18n="report_bug">Fehler melden</button>
           </div>

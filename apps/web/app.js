@@ -101,6 +101,7 @@ const els = {
   monthFilter: document.querySelector("#monthFilter"),
   rememberData: document.querySelector("#rememberData"),
   forgetData: document.querySelector("#forgetData"),
+  backupMenu: document.querySelector("#backupMenu"),
   backupCsv: document.querySelector("#backupCsv"),
   exportDays: document.querySelector("#exportDays"),
   medicalReport: document.querySelector("#medicalReport"),
@@ -617,6 +618,8 @@ function render() {
   els.monthFilter.disabled = !hasData;
   els.backupCsv.disabled = !hasData;
   els.exportDays.disabled = !hasData;
+  els.backupMenu.dataset.disabled = hasData ? "false" : "true";
+  if (!hasData) els.backupMenu.removeAttribute("open");
   els.medicalReport.disabled = !hasData;
 
   if (!hasData) {
@@ -1367,6 +1370,23 @@ els.exportDays.addEventListener("click", () => {
     "Allgemeine Hinweise": (day.generalNotes || []).join(" | "),
   }));
   downloadText(`urobilanz-tagesdaten-${dateStamp()}.csv`, toCsv(rows), "text/csv;charset=utf-8");
+  els.backupMenu.removeAttribute("open");
+});
+
+els.backupCsv.addEventListener("click", () => {
+  els.backupMenu.removeAttribute("open");
+});
+
+els.backupMenu.addEventListener("click", (event) => {
+  if (els.backupMenu.dataset.disabled === "true") {
+    event.preventDefault();
+  }
+});
+
+document.addEventListener("pointerdown", (event) => {
+  if (!els.backupMenu.contains(event.target)) {
+    els.backupMenu.removeAttribute("open");
+  }
 });
 
 function reportEntriesForDay(day) {

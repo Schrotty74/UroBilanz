@@ -22,6 +22,8 @@ window.URO_I18N.de = {
   notes: "Regeln",
   loading: "Lade Daten...",
   backup: "Backup",
+  complete_backup: "Komplett-Backup",
+  daily_backup: "Tagesbackup",
   daily_data: "Tagesdaten",
   medical_report: "Arztbericht",
   medical_report_intro: "Erstellt einen strukturierten, druckfertigen Bericht im festen UroBilanz-Berichtslayout.",

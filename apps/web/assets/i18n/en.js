@@ -22,6 +22,8 @@ window.URO_I18N.en = {
   notes: "Rules",
   loading: "Loading data...",
   backup: "Backup",
+  complete_backup: "Complete backup",
+  daily_backup: "Daily backup",
   daily_data: "Daily data",
   medical_report: "Medical report",
   medical_report_intro: "Creates a structured, print-ready report using the fixed UroBilanz report layout.",

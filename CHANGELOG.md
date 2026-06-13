@@ -17,6 +17,8 @@ Alle wichtigen Änderungen an UroBilanz werden hier dokumentiert.
   aktiven App-Theme.
 - Arztbericht als eigenes Web-Modul ausgelagert und mit einem Smoke-Test
   abgesichert.
+- Backup und Tagesdaten in beiden Apps zu einem gemeinsamen Backup-Menue mit
+  `Komplett-Backup` und `Tagesbackup` zusammengefasst.
 - Projektversion lokal auf `1.7.0-beta.1` gesetzt; noch nicht auf GitHub
   veroeffentlicht.
 
