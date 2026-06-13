@@ -19,6 +19,8 @@ Alle wichtigen Änderungen an UroBilanz werden hier dokumentiert.
   Bewertungsregeln ergaenzt.
 - SwiftUI-Arztbericht zeigt den Tagesverlauf wie der Web-Bericht mit gemeinsam
   skalierten Urin- und Wasserbalken.
+- SwiftUI-PDF verwendet einen festen weissen Seitenhintergrund und bleibt
+  dadurch auch in macOS-Vorschau im Dunkelmodus gut lesbar.
 - Bericht verwendet feste neutrale Druckfarben und ist unabhaengig vom
   aktiven App-Theme.
 - Beide Apps bieten Tagesdetails und Hinweise als optionale Berichtsinhalte.

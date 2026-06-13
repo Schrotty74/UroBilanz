@@ -2,6 +2,16 @@ import SwiftUI
 import AppKit
 import UniformTypeIdentifiers
 
+private final class MedicalReportTextView: NSTextView {
+    override var isOpaque: Bool { true }
+
+    override func draw(_ dirtyRect: NSRect) {
+        NSColor.white.setFill()
+        dirtyRect.fill()
+        super.draw(dirtyRect)
+    }
+}
+
 struct MedicalReportSheet: View {
     @EnvironmentObject private var model: UrinModel
     @Environment(\.dismiss) private var dismiss
@@ -139,10 +149,11 @@ enum MedicalReportPDF {
             includeNotes: includeNotes
         )
         let printableWidth = pageSize.width - margin * 2
-        let textView = NSTextView(frame: NSRect(x: 0, y: 0, width: printableWidth, height: 100))
+        let textView = MedicalReportTextView(frame: NSRect(x: 0, y: 0, width: printableWidth, height: 100))
         textView.isEditable = false
         textView.isSelectable = false
-        textView.drawsBackground = false
+        textView.drawsBackground = true
+        textView.backgroundColor = .white
         textView.textContainerInset = .zero
         textView.textContainer?.containerSize = NSSize(width: printableWidth, height: .greatestFiniteMagnitude)
         textView.textContainer?.widthTracksTextView = true
@@ -162,7 +173,9 @@ enum MedicalReportPDF {
         printInfo.verticalPagination = .automatic
         printInfo.isVerticallyCentered = false
         printInfo.jobDisposition = .save
-        printInfo.dictionary()[NSPrintInfo.AttributeKey.jobSavingURL] = url
+        let temporaryURL = FileManager.default.temporaryDirectory
+            .appendingPathComponent("urobilanz-medical-report-\(UUID().uuidString).pdf")
+        printInfo.dictionary()[NSPrintInfo.AttributeKey.jobSavingURL] = temporaryURL
 
         let operation = NSPrintOperation(view: textView, printInfo: printInfo)
         operation.showsPrintPanel = false
@@ -170,6 +183,8 @@ enum MedicalReportPDF {
         guard operation.run() else {
             throw reportError(tr("report_save_error", language))
         }
+        defer { try? FileManager.default.removeItem(at: temporaryURL) }
+        try addWhitePageBackground(from: temporaryURL, to: url, language: language)
     }
 
     static func attributedReport(
@@ -387,6 +402,26 @@ enum MedicalReportPDF {
         NSBezierPath(rect: NSRect(origin: .zero, size: size)).fill()
         image.unlockFocus()
         return image
+    }
+
+    private static func addWhitePageBackground(from sourceURL: URL, to destinationURL: URL, language: AppLanguage) throws {
+        guard let source = CGPDFDocument(sourceURL as CFURL) else {
+            throw reportError(tr("report_save_error", language))
+        }
+        var mediaBox = CGRect(origin: .zero, size: pageSize)
+        guard let context = CGContext(destinationURL as CFURL, mediaBox: &mediaBox, nil) else {
+            throw reportError(tr("report_save_error", language))
+        }
+
+        for pageNumber in 1...source.numberOfPages {
+            guard let page = source.page(at: pageNumber) else { continue }
+            context.beginPDFPage(nil)
+            context.setFillColor(NSColor.white.cgColor)
+            context.fill(mediaBox)
+            context.drawPDFPage(page)
+            context.endPDFPage()
+        }
+        context.closePDF()
     }
 
     private static func detailEntries(day: DaySummary, language: AppLanguage) -> [(time: String, type: String, amount: String, note: String)] {
