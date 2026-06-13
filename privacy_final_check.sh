@@ -31,7 +31,9 @@ check_empty "Unerlaubte sensible Datendateien stehen in der Git-Historie." "$his
 current_paths="$(git grep -nI -E '/Users/|/home/|C:\\Users\\|lokaler Mac' HEAD -- . ':(exclude)privacy_final_check.sh' || true)"
 check_empty "Der aktuelle Git-Stand enthaelt lokale Benutzerpfade oder Hostnamen." "$current_paths"
 
-real_name_current="$(git grep -nIi -E 'Schrotty74|Schrotty74' HEAD -- . ':(exclude)privacy_final_check.sh' || true)"
+protected_name_pattern="$(printf '%s' 'QnJ1bm8gTWFydGluIEt1cnRofE1hcnRpbiBLdXJ0aA==' | openssl base64 -d -A)"
+
+real_name_current="$(git grep -nIi -E "$protected_name_pattern" HEAD -- . ':(exclude)privacy_final_check.sh' || true)"
 check_empty "Der aktuelle Git-Stand enthaelt den realen Entwicklernamen." "$real_name_current"
 
 history_paths="$(
@@ -43,14 +45,14 @@ check_empty "Die Git-Historie enthaelt lokale Benutzerpfade oder Hostnamen." "$h
 
 real_name_history="$(
   for commit in $(git rev-list --all); do
-    git grep -nIi -E 'Schrotty74|Schrotty74' "$commit" -- . ':(exclude)privacy_final_check.sh' 2>/dev/null || true
+    git grep -nIi -E "$protected_name_pattern" "$commit" -- . ':(exclude)privacy_final_check.sh' 2>/dev/null || true
   done | sort -u
 )"
 check_empty "Die Git-Historie enthaelt den realen Entwicklernamen." "$real_name_history"
 
 real_name_metadata="$(
   git log --all --format='%an%n%cn' |
-    grep -Ei 'Schrotty74|Schrotty74' || true
+    grep -Ei "$protected_name_pattern" || true
 )"
 check_empty "Commit-Metadaten enthalten den realen Entwicklernamen." "$real_name_metadata"
 
