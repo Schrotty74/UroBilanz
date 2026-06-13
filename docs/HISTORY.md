@@ -285,9 +285,7 @@ umgesetzt.
 - SwiftUI-Regelboxen auf eine einheitliche Hoehe gebracht.
 - `./verify_apps.sh`, Ziehgriffe und gespeicherte Web-Spaltenbreiten geprueft.
 - Lokale Release-Dateien unter `release/v1.6.0-beta.3` erstellt.
-- Lokale Projektsicherung unter
-  `lokale Projektsicherung`
-  erstellt.
+- Lokale Projektsicherung fuer `v1.6.0-beta.3` erstellt.
 - Vollstaendiges Projektbackup in iCloud erstellt.
 - GitHub-Pre-Release `v1.6.0-beta.3` veroeffentlicht.
 
@@ -311,9 +309,7 @@ Erster Abschlusskandidat der 1.6-Reihe.
 - Test-E-Mail erfolgreich empfangen.
 - Beide Apps vollstaendig geprueft; Swift-App ohne Absturzmeldung gestartet.
 - Lokale Release-Dateien unter `release/v1.6.0-rc.1` erstellt.
-- Lokale Projektsicherung unter
-  `lokale Projektsicherung`
-  erstellt.
+- Lokale Projektsicherung fuer `v1.6.0-rc.1` erstellt.
 - Vollstaendiges Projektbackup in iCloud erstellt.
 - GitHub-Pre-Release `v1.6.0-rc.1` veroeffentlicht.
 
@@ -341,9 +337,7 @@ Zweiter Abschlusskandidat der 1.6-Reihe.
 - Web-Paketversion `1.6.0-rc.2`.
 - macOS-App Version `1.6.0-rc.2`, Build `25`, Signatur geprueft.
 - Lokale Release-Dateien unter `release/v1.6.0-rc.2` erstellt.
-- Lokale Projektsicherung unter
-  `lokale Projektsicherung`
-  erstellt.
+- Lokale Projektsicherung fuer `v1.6.0-rc.2` erstellt.
 - Vollstaendiges Projektbackup in iCloud erstellt.
 - GitHub-Pre-Release `v1.6.0-rc.2` veroeffentlicht.
 
@@ -367,9 +361,7 @@ Datenschutzpruefung als Abschlusskandidat fuer `v1.6.0 Final` uebernommen.
 - Vollstaendiger Prueflauf im Projekt und in einer frischen Checkout-Kopie
   erfolgreich.
 - Release-Dateien unter `release/v1.6.0` erstellt und geprueft.
-- Lokale Projektsicherung unter
-  `lokale Projektsicherung`
-  erstellt.
+- Lokale Projektsicherung fuer `v1.6.0 Final` erstellt.
 - Vollstaendiges Projektbackup in iCloud erstellt.
 - GitHub-Final-Release `v1.6.0` veroeffentlicht.
 

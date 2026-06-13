@@ -1,6 +1,6 @@
 # Technischer Datenschutz-Check
 
-Stand: 07.06.2026
+Stand: 13.06.2026
 
 Gepruefter Stand: `v1.6.0 Final`.
 
@@ -158,3 +158,71 @@ Externe Kommunikation entsteht nur nach einer sichtbaren Benutzeraktion:
 
 Der Check ist eine technische Bestandsaufnahme des genannten Projektstands und
 keine rechtliche Datenschutzbewertung.
+
+## Ergaenzende Vollpruefung - 13.06.2026
+
+Die ergaenzende Pruefung umfasste erstmals nicht nur den aktuellen Quellstand,
+die App-Bundles und das Laufzeitverhalten, sondern auch die vollstaendige
+veroeffentlichte Git-Historie einschliesslich Commit-Metadaten.
+
+### Gefundene und bereinigte Altlasten
+
+- In aelteren Commits standen absolute lokale Benutzerpfade und Namen lokal
+  verwendeter CSV-Dateien. CSV-Inhalte oder persoenliche Messwerte waren nicht
+  Bestandteil der Git-Historie.
+- Fruehere Commits verwendeten eine automatisch aus dem lokalen Rechnernamen
+  erzeugte `.fritz.box`-Absenderadresse.
+- Der aktuelle Dokumentstand, alle frueheren Commits und alle Tags wurden
+  bereinigt. Die Commit-Metadaten verwenden nun eine GitHub-Noreply-Adresse.
+- Vor der Historienbereinigung wurde eine vollstaendige lokale
+  Sicherheitskopie des bisherigen Repository-Zustands erstellt.
+
+### Zusaetzlich geprueft
+
+- Vollstaendige Git-Historie und alle veroeffentlichten Tags.
+- Alle von Git verfolgten Dateinamen und historischen Objektnamen.
+- Aktueller Quellstand auf moegliche Zugangsdaten, private Schluessel,
+  Lizenzschluessel und lokale Benutzerpfade.
+- Finale Web- und macOS-Downloadpakete auf sensible Dateien, Git-Metadaten und
+  lokale Datendateien.
+- Kuenstliche Demo-CSV-Dateien auf ausschliesslich erfundene Testwerte.
+- `.gitignore` praktisch mit CSV-, Excel-, Numbers-, Backup-, Gesundheits-,
+  Build-, Release- und Log-Dateien.
+- SwiftUI-App waehrend eines normalen Starts mit `lsof` und `nettop`.
+- Lokaler Webserver waehrend eines Abrufs mit `lsof`.
+
+### Ergebnis der ergaenzenden Pruefung
+
+- Keine persoenlichen CSV-, Mess-, Hinweis- oder Gesundheitsdaten in der
+  bereinigten Git-Historie oder den finalen Downloadpaketen.
+- Keine Zugangsdaten, privaten Schluessel oder Lizenzschluessel gefunden.
+- Keine absoluten lokalen Benutzerpfade oder privaten Commit-Adressen in der
+  bereinigten Git-Historie.
+- Die SwiftUI-App oeffnete beim geprueften Start keine TCP- oder
+  UDP-Verbindung.
+- Der Webserver lauschte ausschliesslich lokal auf `127.0.0.1`.
+- Externe Kommunikation bleibt auf sichtbare, vom Nutzer ausgeloeste Aktionen
+  wie GitHub-/Lizenzlinks und das Vorbereiten eines E-Mail-Entwurfs begrenzt.
+
+Eine absolute Garantie fuer jedes zukuenftige Verhalten ist technisch nicht
+serioes moeglich. Fuer den vollstaendig geprueften und bereinigten Stand wurden
+jedoch keine unbeabsichtigt veroeffentlichten lokalen Daten und keine
+automatische Uebertragung von Gesundheitsdaten gefunden.
+
+## Verbindliche Final-Pruefung
+
+Ab jetzt gilt fuer jede Final-Version, nicht fuer Betas:
+
+1. `./privacy_final_check.sh` muss erfolgreich durchlaufen.
+2. Beide Apps werden auf unerwartete Netzwerkverbindungen geprueft.
+3. Finale Downloadpakete werden auf sensible oder lokale Dateien geprueft.
+4. Das Ergebnis wird in diesem Bericht ergaenzt.
+
+Zusaetzliche Schutzmechanismen:
+
+- Ein lokaler Pre-Push-Hook fuehrt die statische Datenschutzpruefung vor jedem
+  Push aus.
+- GitHub Actions fuehrt dieselbe Pruefung bei jedem Push und Pull Request mit
+  vollstaendiger Git-Historie aus.
+- Die Pruefung blockiert lokale Benutzerpfade, private Commit-Adressen,
+  unerlaubte Datendateien, moegliche Zugangsdaten und Netzwerk-APIs.

@@ -8,14 +8,6 @@ Release-Einordnung: `v1.6.0` ist die abgeschlossene Final-Version der
 1.6-Reihe mit benutzerdefinierten Themes. Neue groessere Funktionen beginnen
 erst mit Version 1.7.
 
-Projektordner:
-
-`.`
-
-Backup- und Kontextordner:
-
-`lokaler Backup-Ordner`
-
 ## Zweck dieser Datei
 
 Diese Datei ist die kurze Aufgabenliste fuer neue Chats. Sie soll nach groesseren
@@ -262,6 +254,9 @@ Umsetzungsregeln fuer 1.8:
 ## Arbeitsregeln
 
 - Keine persoenlichen CSV-, Excel- oder Gesundheitsdaten ins Repository.
+- Vor jeder Final-Version, nicht vor Betas, den technischen Datenschutz-Check
+  mit `./privacy_final_check.sh` und einer Laufzeitpruefung beider Apps
+  wiederholen und `PRIVACY_CHECK.md` ergaenzen.
 - Vor groesseren Aenderungen lokales Backup erstellen.
 - Keine UI- oder Code-Aenderungen ohne konkreten neuen Fehler oder ausdruecklich
   gewuenschte neue Funktion.

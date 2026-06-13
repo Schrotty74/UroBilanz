@@ -1,0 +1,17 @@
+name: Privacy check
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  privacy-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Vollstaendige Git-Historie laden
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Datenschutzpruefung ausfuehren
+        run: ./privacy_final_check.sh
