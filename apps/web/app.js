@@ -26,6 +26,7 @@ const {
   validateUroTheme,
 } = window.UroCore;
 const { drawLineChart, drawMonthChart } = window.UroCharts;
+const { buildMedicalReportHTML } = window.UroMedicalReport;
 const supportedLanguages = new Set(["de", "en"]);
 const builtInThemeIds = ["classic-light", "classic-dark", "violet-night", "liquid-dark", "medical-light", "high-contrast", "summer", "cream-sage"];
 const builtInThemeSet = new Set(builtInThemeIds);
@@ -102,6 +103,14 @@ const els = {
   forgetData: document.querySelector("#forgetData"),
   backupCsv: document.querySelector("#backupCsv"),
   exportDays: document.querySelector("#exportDays"),
+  medicalReport: document.querySelector("#medicalReport"),
+  medicalReportDialog: document.querySelector("#medicalReportDialog"),
+  medicalReportForm: document.querySelector("#medicalReportForm"),
+  medicalReportFrom: document.querySelector("#medicalReportFrom"),
+  medicalReportTo: document.querySelector("#medicalReportTo"),
+  medicalReportDetails: document.querySelector("#medicalReportDetails"),
+  medicalReportNotes: document.querySelector("#medicalReportNotes"),
+  closeMedicalReport: document.querySelector("#closeMedicalReport"),
   reportBug: document.querySelector("#reportBug"),
   bugReportDialog: document.querySelector("#bugReportDialog"),
   bugDescription: document.querySelector("#bugDescription"),
@@ -608,6 +617,7 @@ function render() {
   els.monthFilter.disabled = !hasData;
   els.backupCsv.disabled = !hasData;
   els.exportDays.disabled = !hasData;
+  els.medicalReport.disabled = !hasData;
 
   if (!hasData) {
     els.status.textContent = localStorage.getItem("urinSavedCsv")
@@ -1357,6 +1367,75 @@ els.exportDays.addEventListener("click", () => {
     "Allgemeine Hinweise": (day.generalNotes || []).join(" | "),
   }));
   downloadText(`urobilanz-tagesdaten-${dateStamp()}.csv`, toCsv(rows), "text/csv;charset=utf-8");
+});
+
+function reportEntriesForDay(day) {
+  return state.rows
+    .filter((entry) => entryDayKey(entry) === day.key)
+    .sort((left, right) => left.original - right.original)
+    .map((entry) => ({
+      time: fmtTime(entry.original),
+      type: t(entry.type === "Wasser" ? "water" : entry.type === "Hinweis" ? "note" : "urine"),
+      ml: entry.type === "Hinweis" ? 0 : entry.ml,
+      note: entry.note || "",
+    }));
+}
+
+function medicalReportDays(from, to) {
+  return state.days
+    .filter((day) => day.key >= from && day.key <= to)
+    .map((day) => ({
+      dateLabel: fmtDate(day.messtag),
+      complete: isCompleteMeasurementDay(day),
+      urineTotal: day.urineTotal,
+      waterTotal: day.waterTotal,
+      assessment: t(!isCompleteMeasurementDay(day) ? "incomplete" : day.urineTotal < 700 ? "low" : "normal"),
+      entries: reportEntriesForDay(day),
+      generalNotes: generalNotesForDay(day),
+    }));
+}
+
+function openMedicalReportDialog() {
+  const days = filteredDays().length ? filteredDays() : state.days;
+  els.medicalReportFrom.value = inputDateValue(days[0].messtag);
+  els.medicalReportTo.value = inputDateValue(days.at(-1).messtag);
+  els.medicalReportDialog.showModal();
+}
+
+els.medicalReport.addEventListener("click", openMedicalReportDialog);
+els.closeMedicalReport.addEventListener("click", () => els.medicalReportDialog.close());
+els.medicalReportDialog.addEventListener("click", (event) => {
+  if (event.target === els.medicalReportDialog) els.medicalReportDialog.close();
+});
+els.medicalReportForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const from = els.medicalReportFrom.value;
+  const to = els.medicalReportTo.value;
+  const days = medicalReportDays(from, to);
+  if (!days.length) {
+    window.alert(t("report_no_days"));
+    return;
+  }
+  const reportWindow = window.open("", "_blank");
+  if (!reportWindow) {
+    window.alert(t("report_popup_blocked"));
+    return;
+  }
+  const fromDate = state.days.find((day) => day.key === from)?.messtag || new Date(`${from}T12:00:00`);
+  const toDate = state.days.find((day) => day.key === to)?.messtag || new Date(`${to}T12:00:00`);
+  const html = buildMedicalReportHTML({
+    language,
+    days,
+    includeDetails: els.medicalReportDetails.checked,
+    includeNotes: els.medicalReportNotes.checked,
+    logoUrl: new URL("./assets/urobilanz-app-icon.png", window.location.href).href,
+    periodLabel: `${fmtDate(fromDate)} ${t("to")} ${fmtDate(toDate)}`,
+    createdLabel: fmtDate(new Date()),
+  });
+  reportWindow.document.open();
+  reportWindow.document.write(html);
+  reportWindow.document.close();
+  els.medicalReportDialog.close();
 });
 
 function dateStamp() {

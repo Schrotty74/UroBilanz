@@ -7,6 +7,7 @@
     <link rel="icon" href="./assets/urobilanz-app-icon.png" />
     <link rel="stylesheet" href="./styles.css?v=about-1" />
     <script src="./assets/js/charts.js?v=v1-6-0-beta-2"></script>
+    <script src="./assets/js/medical-report.js?v=v1-7-0-beta-1"></script>
   </head>
   <body>
     <header class="app-header">
@@ -88,6 +89,7 @@
             <select id="monthFilter" aria-label="Monat"></select>
             <button class="utility-button" id="backupCsv" type="button" data-i18n="backup">Backup</button>
             <button class="utility-button" id="exportDays" type="button" data-i18n="daily_data">Tagesdaten</button>
+            <button class="utility-button" id="medicalReport" type="button" data-i18n="medical_report">Arztbericht</button>
             <button class="utility-button" id="reportBug" type="button" data-i18n="report_bug">Fehler melden</button>
           </div>
           <section class="data-options">
@@ -239,6 +241,34 @@
           <button class="utility-button quiet" id="closeBugReport" type="button" data-i18n="close">Schließen</button>
           <button class="utility-button" id="saveBugReport" type="button" data-i18n="save_report">Bericht speichern</button>
           <button class="utility-button" id="emailBugReport" type="button" data-i18n="prepare_email">E-Mail vorbereiten</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="medicalReportDialog" class="entry-dialog medical-report-dialog">
+      <form id="medicalReportForm" method="dialog">
+        <h2 data-i18n="medical_report">Arztbericht</h2>
+        <p class="medical-report-intro" data-i18n="medical_report_intro">Erstellt einen strukturierten, druckfertigen Bericht im festen UroBilanz-Berichtslayout.</p>
+        <label>
+          <span data-i18n="period_from">Zeitraum von</span>
+          <input id="medicalReportFrom" type="date" required />
+        </label>
+        <label>
+          <span data-i18n="period_to">Zeitraum bis</span>
+          <input id="medicalReportTo" type="date" required />
+        </label>
+        <label class="report-option">
+          <input id="medicalReportDetails" type="checkbox" checked />
+          <span data-i18n="include_daily_details">Tagesdetails aufnehmen</span>
+        </label>
+        <label class="report-option">
+          <input id="medicalReportNotes" type="checkbox" checked />
+          <span data-i18n="include_notes">Hinweise aufnehmen</span>
+        </label>
+        <p class="medical-report-note" data-i18n="medical_report_note">Der Bericht verwendet immer ein neutrales, druckfreundliches Layout und übernimmt keine Theme-Farben.</p>
+        <div class="dialog-actions">
+          <button class="utility-button quiet" id="closeMedicalReport" type="button" data-i18n="close">Schließen</button>
+          <button class="utility-button" type="submit" data-i18n="create_report">Bericht erstellen</button>
         </div>
       </form>
     </dialog>

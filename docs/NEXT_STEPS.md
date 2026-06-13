@@ -1,8 +1,10 @@
 # UroBilanz - Naechste Schritte
 
-Stand: 12.06.2026
+Stand: 13.06.2026
 
 Aktueller Hauptstand: `v1.6.0 Final`
+
+Lokaler Entwicklungsstand: `v1.7.0-beta.1`, noch nicht veroeffentlicht.
 
 Release-Einordnung: `v1.6.0` ist die abgeschlossene Final-Version der
 1.6-Reihe mit benutzerdefinierten Themes. Neue groessere Funktionen beginnen
@@ -84,6 +86,14 @@ Die letzte Vollpruefung fuer `v1.6.0 Final` war erfolgreich:
 ## Geplanter Neuer Schwerpunkt - v1.7.0-beta.1 PDF-Bericht
 
 Sinnvoll als eigener Entwicklungszweig nach der abgeschlossenen 1.6-Reihe.
+
+Lokal begonnen:
+
+- Erste gute Web-Variante des Arztberichts mit Zeitraumwahl.
+- Festes neutrales A4-Berichtslayout unabhaengig vom aktiven Theme.
+- Zusammenfassung, Tagesverlauf, Tagesuebersicht, optionale Tagesdetails,
+  Hinweise und Bewertungsregeln.
+- Bericht als eigenes Web-Modul mit Smoke-Test.
 
 Zielidee:
 

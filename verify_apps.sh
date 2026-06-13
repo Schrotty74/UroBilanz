@@ -20,8 +20,10 @@ require_file "$daily_csv"
 
 node apps/web/tests/core-smoke-test.js
 node apps/web/tests/workflow-smoke-test.js
+node apps/web/tests/medical-report-smoke-test.js
 node --check apps/web/assets/js/core.js
 node --check apps/web/assets/js/charts.js
+node --check apps/web/assets/js/medical-report.js
 node --check apps/web/app.js
 
 apps/macos-swift/build_app.sh

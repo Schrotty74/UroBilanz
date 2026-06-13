@@ -4,7 +4,21 @@ Alle wichtigen Änderungen an UroBilanz werden hier dokumentiert.
 
 ## Unveröffentlicht
 
-- Noch keine Änderungen.
+### 1.7.0-beta.1 - lokal begonnen
+
+- Web-App: erste gute Variante des Arztberichts umgesetzt.
+- Zeitraum fuer den Bericht frei waehlbar.
+- Tagesdetails und Hinweise koennen fuer den Bericht ein- oder ausgeschaltet
+  werden.
+- Druckfertiges A4-Layout mit dezentem UroBilanz-Branding, Zusammenfassung,
+  Tagesverlauf, Tagesuebersicht, optionalen Tagesdetails und
+  Bewertungsregeln ergaenzt.
+- Bericht verwendet feste neutrale Druckfarben und ist unabhaengig vom
+  aktiven App-Theme.
+- Arztbericht als eigenes Web-Modul ausgelagert und mit einem Smoke-Test
+  abgesichert.
+- Projektversion lokal auf `1.7.0-beta.1` gesetzt; noch nicht auf GitHub
+  veroeffentlicht.
 
 ## 1.6.0 Final - 2026-06-12
 

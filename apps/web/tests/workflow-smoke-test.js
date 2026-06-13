@@ -292,12 +292,16 @@ assert.match(webAppSource, /urobilanz@mailbox\.org/, "Support-E-Mail fehlt");
 assert.match(webAppSource, /github\.com\/Schrotty74\/UroBilanz/, "GitHub-Link fehlt");
 assert.match(webAppSource, /Keine CSV-Werte, Hinweise oder Gesundheitsdaten/, "Datenschutz-Hinweis im Fehlerbericht fehlt");
 assert.doesNotMatch(webAppSource.match(/function buildBugReport\(\)[\s\S]*?function refreshBugReport/)?.[0] || "", /state\.rows|state\.days|rawCsv/, "Fehlerbericht darf keine Messdaten lesen");
-assert.match(webCoreSource, /const APP_VERSION = "1\.6\.0"/, "Zentrale Web-App-Version fehlt");
+assert.match(webCoreSource, /const APP_VERSION = "1\.7\.0-beta\.1"/, "Zentrale Web-App-Version fehlt");
 assert.match(webAppSource, /const appVersion = APP_VERSION/, "Web-App verwendet nicht die zentrale Version");
 assert.match(webIndexSource, /id="openAbout"/, "Klickbarer Logo-Ausloeser fuer das Ueber-Modal fehlt");
 assert.match(webIndexSource, /id="aboutDialog"/, "Ueber-Modal fehlt");
 assert.match(webIndexSource, /Schrotty74/, "Entwicklerangabe im Ueber-Modal fehlt");
 assert.match(webAppSource, /els\.closeAbout\.addEventListener\("click"/, "Schliessen-Button des Ueber-Modals fehlt");
 assert.match(webAppSource, /event\.target === els\.aboutDialog/, "Schliessen per Klick ausserhalb des Ueber-Modals fehlt");
+assert.match(webIndexSource, /id="medicalReport"/, "Arztbericht-Ausloeser fehlt");
+assert.match(webIndexSource, /id="medicalReportDialog"/, "Arztbericht-Zeitraumdialog fehlt");
+assert.match(webAppSource, /buildMedicalReportHTML/, "Arztbericht-Modul wird nicht verwendet");
+assert.match(webAppSource, /medicalReportDays/, "Arztbericht-Zeitraumfilter fehlt");
 
 console.log("Web workflow smoke test passed");
