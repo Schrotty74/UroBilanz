@@ -83,11 +83,11 @@ Die letzte Vollpruefung fuer `v1.6.0 Final` war erfolgreich:
   - geloeschte Messtage
   - geloeschte Eintraege
 
-## Geplanter Neuer Schwerpunkt - v1.7.0-beta.1 PDF-Bericht
+## Aktuelle Release-Serie - v1.7.0-beta.1 PDF-Bericht
 
-Sinnvoll als eigener Entwicklungszweig nach der abgeschlossenen 1.6-Reihe.
+Erste Beta der neuen Berichtsfunktion, veroeffentlicht am 13. Juni 2026.
 
-Lokal begonnen:
+Umgesetzt:
 
 - Erste gute Web-Variante des Arztberichts mit Zeitraumwahl.
 - Native SwiftUI-Variante mit Zeitraumwahl und lokalem PDF-Export.
@@ -150,8 +150,8 @@ Umsetzung zuerst planen:
   - Theme- und Sprachlogik klarer trennen
 - Vor Umsetzung Layout und Umfang festlegen, damit der Bericht fuer Arzttermine
   gut lesbar bleibt und lange Tabellen/Hinweise sauber umbrechen.
-- SwiftUI-PDF ist lokal umgesetzt und wird vor einer Veröffentlichung
-  gemeinsam mit der Web-Variante praktisch geprüft.
+- SwiftUI-PDF und Web-Bericht sind umgesetzt und werden in der Beta gemeinsam
+  praktisch geprüft.
 
 ## Geplanter Neuer Schwerpunkt - v1.8.0-beta.1 Koerperdaten Und Gemeinsame Analyse
 

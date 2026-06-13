@@ -4,7 +4,9 @@ Alle wichtigen Änderungen an UroBilanz werden hier dokumentiert.
 
 ## Unveröffentlicht
 
-### 1.7.0-beta.1 - lokal begonnen
+- Noch keine Änderungen.
+
+## 1.7.0-beta.1 - 2026-06-13
 
 - Web-App: erste gute Variante des Arztberichts umgesetzt.
 - SwiftUI-App: nativen Arztbericht mit Zeitraumwahl und lokalem PDF-Export
@@ -22,8 +24,9 @@ Alle wichtigen Änderungen an UroBilanz werden hier dokumentiert.
   abgesichert.
 - Backup und Tagesdaten in beiden Apps zu einem gemeinsamen Backup-Menue mit
   `Komplett-Backup` und `Tagesbackup` zusammengefasst.
-- Projektversion lokal auf `1.7.0-beta.1` gesetzt; noch nicht auf GitHub
-  veroeffentlicht.
+- Web-App erhaelt wie die SwiftUI-App einen eigenen lokalen Build-Ordner.
+- Arztbericht, Backups, Hinweiszuordnung, Themes und bestehende Kernablaeufe
+  mit dem vollstaendigen Pruefablauf getestet.
 
 ## 1.6.0 Final - 2026-06-12
 
