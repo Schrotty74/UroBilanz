@@ -14,4 +14,4 @@ jobs:
           fetch-depth: 0
 
       - name: Datenschutzpruefung ausfuehren
-        run: ./privacy_final_check.sh
+        run: bash ./privacy_final_check.sh
