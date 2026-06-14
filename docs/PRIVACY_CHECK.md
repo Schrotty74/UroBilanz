@@ -229,3 +229,26 @@ Zusaetzliche Schutzmechanismen:
   vollstaendiger Git-Historie aus.
 - Die Pruefung blockiert lokale Benutzerpfade, private Commit-Adressen,
   unerlaubte Datendateien, moegliche Zugangsdaten und Netzwerk-APIs.
+
+## Final-Pruefung 1.7.0 - 14.06.2026
+
+Vor der Veroeffentlichung von `v1.7.0` wurden erneut geprueft:
+
+- Aktueller Projektstand und vollstaendige Git-Historie mit
+  `privacy_final_check.sh`.
+- Web- und Swift-Build mit dem portablen Gesamtprueflauf.
+- Finale Versionsdaten und Signatur des macOS-App-Bundles.
+- SwiftUI-App waehrend eines normalen Starts mit `lsof`.
+- Lokaler Webserver waehrend des Browsertests mit `lsof`.
+- Finale Web- und Swift-ZIP-Dateien nach dem Entpacken auf lokale Pfade,
+  Rechnernamen, Zugangsdaten und persoenliche Datendateien.
+
+Ergebnis:
+
+- Keine persoenlichen Mess-, Hinweis- oder Gesundheitsdaten gefunden.
+- Keine lokalen Benutzerpfade, privaten Rechnernamen, Zugangsdaten oder
+  Lizenzschluessel gefunden.
+- Die gestartete SwiftUI-App oeffnete keine TCP- oder UDP-Verbindung.
+- Der Webserver lauschte ausschliesslich lokal auf `127.0.0.1`.
+- Die README-Aussage zur ausschliesslich lokalen Verarbeitung der Messdaten
+  bleibt fuer den geprueften Stand technisch bestaetigt.

@@ -6,6 +6,46 @@ Alle wichtigen Änderungen an UroBilanz werden hier dokumentiert.
 
 - Noch keine Änderungen.
 
+## 1.7.0 Final - 2026-06-14
+
+Finale Version der 1.7-Reihe. Sie fasst die Aenderungen aus
+`1.7.0-beta.1` und `1.7.0-beta.2` zusammen und baut auf `1.6.0` auf.
+
+### Arztbericht und PDF
+
+- Web-App und SwiftUI-App um einen professionellen Arztbericht erweitert.
+- Zeitraum fuer den Bericht frei waehlbar.
+- Festes neutrales A4-Layout mit dezentem UroBilanz-Branding, unabhaengig vom
+  aktiven App-Theme.
+- Zusammenfassung, Tagesverlauf, Tagesuebersicht und Bewertungsregeln
+  enthalten.
+- Tagesdetails und Hinweise koennen optional ein- oder ausgeblendet werden.
+- SwiftUI-App exportiert den Bericht direkt als lokale PDF-Datei.
+- Web-App bietet eine entsprechende Druck- und PDF-Ansicht.
+- Tagesverlaufsbalken in beiden Apps inhaltlich angeglichen und im Swift-PDF
+  ohne instabilen AppKit-Bildkontext umgesetzt.
+- Swift-PDF verwendet einen festen weissen Seitenhintergrund und bleibt damit
+  auch bei aktivem macOS-Dunkelmodus gut lesbar.
+
+### Bedienung und Backups
+
+- `Komplett-Backup` und `Tagesbackup` in Web-App und SwiftUI-App in einem
+  gemeinsamen Backup-Menue zusammengefasst.
+- Web-App erhaelt wie die SwiftUI-App einen eigenen lokalen Build-Ordner.
+
+### Technik und Tests
+
+- Arztbericht als eigenes Web-Modul ausgelagert und mit Smoke-Tests
+  abgesichert.
+- Web-Theme-System aus `app.js` in ein eigenes getestetes Modul ausgelagert.
+- SwiftUI-Lokalisierung, Themes, Navigation und Datenmodell in getrennte
+  Dateien aufgeteilt.
+- Swift-Build verwendet das gepruefte ICNS-App-Symbol direkt.
+- Portabler Pruefablauf findet eine systemweite oder die mit Codex gelieferte
+  Node.js-Laufzeit.
+- Arztbericht, Backups, Hinweiszuordnung, Themes, CSV-Importe und bestehende
+  Kernablaeufe gemeinsam in beiden Apps geprueft.
+
 ## 1.7.0-beta.2 - 2026-06-13
 
 - Web-Theme-System aus `app.js` in ein eigenes, separat getestetes Modul

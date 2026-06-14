@@ -17,6 +17,20 @@ kann das Symbol jederzeit ersetzt werden.
 
 UroBilanz ist ein Protokoll- und Auswertungstool. Es ist keine medizinische Diagnose-App und gibt keine medizinischen Empfehlungen.
 
+## Neu in Version 1.7
+
+- Professioneller Arztbericht in Web-App und SwiftUI-App mit frei waehlbarem
+  Zeitraum.
+- Druckfertiges, Theme-unabhaengiges A4-Layout mit Zusammenfassung,
+  Tagesverlauf, Tagesuebersicht und Bewertungsregeln.
+- Tagesdetails und Hinweise koennen optional in den Bericht aufgenommen werden.
+- Die SwiftUI-App exportiert den Bericht direkt als lokale PDF-Datei; die
+  Web-App bietet die entsprechende Druck-/PDF-Ansicht.
+- `Komplett-Backup` und `Tagesbackup` sind in einem gemeinsamen Backup-Menue
+  zusammengefasst.
+- Web-App und SwiftUI-App wurden technisch weiter aufgeteilt und gemeinsam
+  getestet.
+
 ## Vorschau
 
 Die folgenden Bilder zeigen Demo-Daten. Es sind keine echten Gesundheitsdaten.
@@ -134,8 +148,12 @@ UroBilanz/
   apps/
     web/
       assets/js/core.js
+      assets/js/medical-report.js
+      assets/js/themes.js
       tests/core-smoke-test.js
     macos-swift/
+      Sources/UroDataModel.swift
+      Sources/UroMedicalReport.swift
       Sources/UroModels.swift
       Sources/UroCSVSupport.swift
       build_app.sh

@@ -1,15 +1,14 @@
 # UroBilanz - Naechste Schritte
 
-Stand: 13.06.2026
+Stand: 14.06.2026
 
-Aktueller Hauptstand: `v1.7.0-beta.1`
+Aktueller Hauptstand: `v1.7.0 Final`
 
-Lokaler Entwicklungsstand: `v1.7.0-beta.2`, lokal erstellt und noch nicht
-veroeffentlicht.
+Lokaler Entwicklungsstand: `v1.7.0 Final`.
 
-Release-Einordnung: `v1.7.0-beta.1` ist die aktuelle veroeffentlichte Beta mit
-Arztbericht und gemeinsamem Backup-Menue. Version 1.8 bleibt fuer Koerperdaten
-und die gemeinsame Koerper-/Fluessigkeitsanalyse reserviert.
+Release-Einordnung: `v1.7.0` schliesst die Berichtsfunktion mit Arztbericht,
+lokalem PDF-Export und gemeinsamem Backup-Menue ab. Version 1.8 bleibt fuer
+Koerperdaten und die gemeinsame Koerper-/Fluessigkeitsanalyse reserviert.
 
 ## Zweck dieser Datei
 
@@ -38,7 +37,7 @@ Beide Apps koennen:
 - Deutsch und Englisch anzeigen
 - mehrere Themes nutzen
 
-Die letzte Vollpruefung des lokalen 1.7-Entwicklungsstands war erfolgreich:
+Die Vollpruefung von `v1.7.0 Final` war erfolgreich:
 
 - Web Smoke Tests
 - Web Workflow Tests
@@ -86,14 +85,10 @@ Die letzte Vollpruefung des lokalen 1.7-Entwicklungsstands war erfolgreich:
   - geloeschte Messtage
   - geloeschte Eintraege
 
-## Aktuelle Release-Serie - v1.7.0-beta.1 PDF-Bericht
+## Abgeschlossene Release-Serie - v1.7.0 PDF-Bericht
 
-Erste Beta der neuen Berichtsfunktion, veroeffentlicht am 13. Juni 2026.
-
-Lokale Beta 2:
-
-- Technische Aufteilung der Web- und SwiftUI-App.
-- Noch nicht auf GitHub veroeffentlicht.
+Version 1.7 schliesst die neue Berichtsfunktion und die begleitende technische
+Aufteilung ab.
 
 Umgesetzt:
 
@@ -146,14 +141,8 @@ Gestaltung - strukturiert mit dezentem UroBilanz-Branding:
   - Das UroBilanz-Branding zeigt die Herkunft, ohne vom medizinischen Inhalt
     abzulenken.
 
-Noch offen:
-
-- Web-App und SwiftUI-App gemeinsam testen und ihre Berichtsinhalte
-  inhaltlich konsistent halten.
-- Arztbericht mit langen Zeitraeumen, mehreren Seiten und langen Hinweisen
-  praktisch pruefen.
-- Konkrete Fehler aus dem Beta-Test beheben.
-- Danach ueber einen Release Candidate fuer 1.7 entscheiden.
+Fuer 1.7 sind keine kritischen Aufgaben mehr offen. Weitere Aenderungen erfolgen
+nur bei einem konkret gemeldeten Fehler.
 
 ## Geplanter Neuer Schwerpunkt - v1.8.0-beta.1 Koerperdaten Und Gemeinsame Analyse
 

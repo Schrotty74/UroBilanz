@@ -365,6 +365,27 @@ Datenschutzpruefung als Abschlusskandidat fuer `v1.6.0 Final` uebernommen.
 - Vollstaendiges Projektbackup in iCloud erstellt.
 - GitHub-Final-Release `v1.6.0` veroeffentlicht.
 
+## 1.7.0 Final - 2026-06-14
+
+Abschluss der 1.7-Reihe mit Arztbericht und PDF-Ausgabe.
+
+- Professionellen Arztbericht in Web-App und SwiftUI-App umgesetzt.
+- Frei waehlbaren Zeitraum, Zusammenfassung, Tagesverlauf,
+  Tagesuebersicht, optionale Tagesdetails, Hinweise und Bewertungsregeln
+  aufgenommen.
+- Festes neutrales A4-Layout unabhaengig vom aktiven App-Theme eingefuehrt.
+- Lokalen PDF-Export in der SwiftUI-App und Druck-/PDF-Ansicht in der Web-App
+  bereitgestellt.
+- `Komplett-Backup` und `Tagesbackup` in einem gemeinsamen Menue
+  zusammengefasst.
+- Arztbericht und Theme-System der Web-App in eigene Module ausgelagert.
+- SwiftUI-Code fuer Lokalisierung, Themes, Navigation und Datenmodell in
+  getrennte Dateien aufgeteilt.
+- Beide Apps mit dem portablen Gesamtprueflauf und der verbindlichen
+  Final-Datenschutzpruefung kontrolliert.
+- Web-App Version `1.7.0`.
+- macOS-App Version `1.7.0`, Build `29`.
+
 ## Groessere Technische Meilensteine
 
 - Einheitliche Projektstruktur fuer Web-App und native SwiftUI-App.
