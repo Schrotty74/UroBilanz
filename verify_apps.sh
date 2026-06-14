@@ -18,13 +18,23 @@ require_file() {
 require_file "$original_csv"
 require_file "$daily_csv"
 
-node apps/web/tests/core-smoke-test.js
-node apps/web/tests/workflow-smoke-test.js
-node apps/web/tests/medical-report-smoke-test.js
-node --check apps/web/assets/js/core.js
-node --check apps/web/assets/js/charts.js
-node --check apps/web/assets/js/medical-report.js
-node --check apps/web/app.js
+node_bin="${NODE_BIN:-$(command -v node || true)}"
+if [[ -z "$node_bin" && -x "/Applications/Codex.app/Contents/Resources/cua_node/bin/node" ]]; then
+  node_bin="/Applications/Codex.app/Contents/Resources/cua_node/bin/node"
+fi
+if [[ -z "$node_bin" ]]; then
+  echo "Node.js wurde nicht gefunden. Bitte Node.js installieren oder NODE_BIN setzen." >&2
+  exit 1
+fi
+
+"$node_bin" apps/web/tests/core-smoke-test.js
+"$node_bin" apps/web/tests/workflow-smoke-test.js
+"$node_bin" apps/web/tests/medical-report-smoke-test.js
+"$node_bin" --check apps/web/assets/js/core.js
+"$node_bin" --check apps/web/assets/js/charts.js
+"$node_bin" --check apps/web/assets/js/medical-report.js
+"$node_bin" --check apps/web/assets/js/themes.js
+"$node_bin" --check apps/web/app.js
 apps/web/build_web.sh
 
 apps/macos-swift/build_app.sh

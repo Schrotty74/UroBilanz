@@ -9,6 +9,14 @@ const {
   toMesstag,
   validateUroTheme,
 } = require("../assets/js/core.js");
+const {
+  applyCustomThemeVariables,
+  builtInThemeCopy,
+  builtInThemeIds,
+  customThemeTitle,
+  loadCustomThemes,
+  saveCustomThemes,
+} = require("../assets/js/themes.js");
 
 assert.equal(detectDelimiter("Datum;Typ;ml\n"), ";");
 assert.equal(detectDelimiter("Datum,Typ,ml\n"), ",");
@@ -52,5 +60,48 @@ assert.deepEqual(validateUroTheme(JSON.parse(JSON.stringify(validTheme))).colors
 assert.throws(() => validateUroTheme({ ...validTheme, id: "classic-light" }, ["classic-light"]), /ueberschrieben/);
 assert.throws(() => validateUroTheme({ ...validTheme, colors: { ...validTheme.colors, accent: "gold" } }), /accent/);
 assert.throws(() => validateUroTheme({ ...validTheme, version: 2 }), /Version/);
+
+const storedValues = new Map();
+const storage = {
+  getItem: (key) => storedValues.get(key) ?? null,
+  setItem: (key, value) => storedValues.set(key, value),
+  removeItem: (key) => storedValues.delete(key),
+};
+saveCustomThemes(storage, [validTheme]);
+assert.equal(loadCustomThemes(storage, validateUroTheme)[0].id, "harbor-night");
+assert.equal(customThemeTitle(validTheme, "de"), "Hafen Nacht");
+
+const properties = new Map();
+const styleTarget = {
+  style: {
+    setProperty: (name, value) => properties.set(name, value),
+    removeProperty: (name) => properties.delete(name),
+  },
+};
+applyCustomThemeVariables(styleTarget, validTheme);
+assert.equal(properties.get("--accent"), "#E9B949");
+assert.equal(properties.get("--body-bg"), "#0D1518");
+
+const cssValues = new Map([
+  ["--ink", "#FFFFFF"],
+  ["--body-bg", "#0E171A"],
+  ["--paper", "#142024"],
+  ["--accent", "#A8C957"],
+  ["--urine-strong", "#F6C84F"],
+  ["--water-strong", "#4AA3FF"],
+]);
+const copiedTheme = builtInThemeCopy({
+  id: "classic-dark",
+  existingIds: ["classic-dark-custom"],
+  styles: { getPropertyValue: (name) => cssValues.get(name) || "" },
+  translations: {
+    de: { themes: { "classic-dark": "Classic Dunkel" } },
+    en: { themes: { "classic-dark": "Classic Dark" } },
+  },
+  validateTheme: validateUroTheme,
+});
+assert.equal(copiedTheme.id, "classic-dark-custom-2");
+assert.equal(copiedTheme.mode, "dark");
+assert.ok(builtInThemeIds.includes("classic-dark"));
 
 console.log("Web core smoke test passed");

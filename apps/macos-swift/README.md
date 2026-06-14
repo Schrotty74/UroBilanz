@@ -15,6 +15,15 @@ Neu bauen und prüfen:
 ./smoke_test.sh
 ```
 
+## Technische Aufteilung
+
+- `UroLocalization.swift`: Sprache und Übersetzungen
+- `UroThemes.swift`: eingebaute und importierte Themes
+- `UroNavigation.swift`: Hauptbereiche der App
+- `UroDataModel.swift`: Import, Zusammenführung, Speicherung und Auswertung
+- `UroMedicalReport.swift`: Arztbericht und PDF-Erzeugung
+- `UrinprotokollSwiftUI.swift`: App-Einstieg und Hauptoberfläche
+
 ## Funktionen
 
 - CSV laden
@@ -31,8 +40,5 @@ Neu bauen und prüfen:
 
 Die App nutzt SwiftUI und auf macOS 26 die neue `glassEffect`-Darstellung. Auf älteren macOS-Versionen fällt sie auf systemnahes Material-Design zurück.
 
-Das App-Symbol basiert auf dem Entwurf `21B`: Liquid-Glass-Messbecher mit stärkerem Füllstand, Urin-/Wasserfarben und ruhigem Plus. Die vorbereiteten Light/Dark-Layer für Icon Composer liegen unter:
-
-`../../assets/icon/liquid-glass-21B`
-
-Solange Icon Composer/Xcode auf diesem Mac nicht installiert ist, nutzt die gebaute App die normale `.icns` als kompatiblen Fallback.
+Das App-Symbol wird als geprüftes PNG und als fertige ICNS-Ressource geführt.
+Der Build muss es daher nicht bei jedem Lauf erneut mit `iconutil` umwandeln.

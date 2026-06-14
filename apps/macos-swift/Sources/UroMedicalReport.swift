@@ -378,12 +378,15 @@ enum MedicalReportPDF {
             ]
         ))
 
-        let attachment = NSTextAttachment()
-        attachment.image = progressBarImage(
-            width: max(1, CGFloat(value) / CGFloat(maximum) * 285),
-            color: color
-        )
-        report.append(NSAttributedString(attachment: attachment))
+        let barLength = max(1, Int((Double(value) / Double(maximum) * 38).rounded()))
+        report.append(NSAttributedString(
+            string: String(repeating: "━", count: barLength),
+            attributes: [
+                .font: NSFont.monospacedSystemFont(ofSize: 8, weight: .bold),
+                .foregroundColor: color,
+                .paragraphStyle: paragraph,
+            ]
+        ))
         report.append(NSAttributedString(
             string: "\t\(formatted(value, locale: locale)) ml\n",
             attributes: [
@@ -392,16 +395,6 @@ enum MedicalReportPDF {
                 .paragraphStyle: paragraph,
             ]
         ))
-    }
-
-    private static func progressBarImage(width: CGFloat, color: NSColor) -> NSImage {
-        let size = NSSize(width: width, height: 5)
-        let image = NSImage(size: size)
-        image.lockFocus()
-        color.setFill()
-        NSBezierPath(rect: NSRect(origin: .zero, size: size)).fill()
-        image.unlockFocus()
-        return image
     }
 
     private static func addWhitePageBackground(from sourceURL: URL, to destinationURL: URL, language: AppLanguage) throws {

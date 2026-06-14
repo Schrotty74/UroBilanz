@@ -8,6 +8,7 @@ release/
 *.dSYM/
 *.xcarchive/
 *.icns
+!apps/macos-swift/Assets/UroBilanz.icns
 *.iconset/
 
 # Personal health/protocol data

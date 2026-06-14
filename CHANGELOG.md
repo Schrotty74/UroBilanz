@@ -6,6 +6,19 @@ Alle wichtigen Änderungen an UroBilanz werden hier dokumentiert.
 
 - Noch keine Änderungen.
 
+## 1.7.0-beta.2 - 2026-06-13
+
+- Web-Theme-System aus `app.js` in ein eigenes, separat getestetes Modul
+  ausgelagert.
+- SwiftUI-Code fuer Lokalisierung, Themes, Navigation und Datenmodell aus der
+  Hauptdatei in klar getrennte Dateien verschoben.
+- Swift-Build verwendet das gepruefte ICNS-App-Symbol direkt und ist dadurch
+  nicht mehr von einer erneuten `iconutil`-Konvertierung abhaengig.
+- Portabler Pruefablauf findet neben einer systemweiten Node.js-Installation
+  auch die mit Codex gelieferte Node-Laufzeit.
+- Tagesverlaufsbalken im Swift-PDF ohne AppKit-Bildkontext umgesetzt, damit
+  der Bericht auch in automatisierten Prueflaeufen stabil erzeugt wird.
+
 ## 1.7.0-beta.1 - 2026-06-13
 
 - Web-App: erste gute Variante des Arztberichts umgesetzt.

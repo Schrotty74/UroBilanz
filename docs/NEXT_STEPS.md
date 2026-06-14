@@ -2,13 +2,14 @@
 
 Stand: 13.06.2026
 
-Aktueller Hauptstand: `v1.6.0 Final`
+Aktueller Hauptstand: `v1.7.0-beta.1`
 
-Lokaler Entwicklungsstand: `v1.7.0-beta.1`, noch nicht veroeffentlicht.
+Lokaler Entwicklungsstand: `v1.7.0-beta.2`, lokal erstellt und noch nicht
+veroeffentlicht.
 
-Release-Einordnung: `v1.6.0` ist die abgeschlossene Final-Version der
-1.6-Reihe mit benutzerdefinierten Themes. Neue groessere Funktionen beginnen
-erst mit Version 1.7.
+Release-Einordnung: `v1.7.0-beta.1` ist die aktuelle veroeffentlichte Beta mit
+Arztbericht und gemeinsamem Backup-Menue. Version 1.8 bleibt fuer Koerperdaten
+und die gemeinsame Koerper-/Fluessigkeitsanalyse reserviert.
 
 ## Zweck dieser Datei
 
@@ -37,7 +38,7 @@ Beide Apps koennen:
 - Deutsch und Englisch anzeigen
 - mehrere Themes nutzen
 
-Die letzte Vollpruefung fuer `v1.6.0 Final` war erfolgreich:
+Die letzte Vollpruefung des lokalen 1.7-Entwicklungsstands war erfolgreich:
 
 - Web Smoke Tests
 - Web Workflow Tests
@@ -49,6 +50,8 @@ Die letzte Vollpruefung fuer `v1.6.0 Final` war erfolgreich:
 - Theme-Importtests
 - Uhrzeit-genaue Hinweiszuordnung
 - Portabler Lauf aus einer frischen Checkout-Kopie
+- Arztbericht und lokaler PDF-Export
+- Technische Modulaufteilung in Web und SwiftUI
 
 ## Spaetere Idee - Optionaler Feinschliff
 
@@ -87,6 +90,11 @@ Die letzte Vollpruefung fuer `v1.6.0 Final` war erfolgreich:
 
 Erste Beta der neuen Berichtsfunktion, veroeffentlicht am 13. Juni 2026.
 
+Lokale Beta 2:
+
+- Technische Aufteilung der Web- und SwiftUI-App.
+- Noch nicht auf GitHub veroeffentlicht.
+
 Umgesetzt:
 
 - Erste gute Web-Variante des Arztberichts mit Zeitraumwahl.
@@ -95,6 +103,9 @@ Umgesetzt:
 - Zusammenfassung, Tagesverlauf, Tagesuebersicht, optionale Tagesdetails,
   Hinweise und Bewertungsregeln.
 - Bericht als eigenes Web-Modul mit Smoke-Test.
+- Web-Theme-System als eigenes getestetes Modul.
+- SwiftUI-Lokalisierung, Themes, Navigation und Datenmodell in getrennte
+  Dateien ausgelagert.
 
 Zielidee:
 
@@ -135,23 +146,14 @@ Gestaltung - strukturiert mit dezentem UroBilanz-Branding:
   - Das UroBilanz-Branding zeigt die Herkunft, ohne vom medizinischen Inhalt
     abzulenken.
 
-Umsetzung zuerst planen:
+Noch offen:
 
 - Web-App und SwiftUI-App gemeinsam testen und ihre Berichtsinhalte
   inhaltlich konsistent halten.
-- Web-App im Zuge der PDF-Umsetzung weiter aufteilen:
-  - UI-Rendering
-  - Speicherlogik
-  - Import/Export und PDF-Bericht
-  - Sprache
-  - Themes
-- SwiftUI-App im Zuge der spaeteren PDF-Umsetzung weiter ordnen:
-  - Export- und Merge-Logik auslagern
-  - Theme- und Sprachlogik klarer trennen
-- Vor Umsetzung Layout und Umfang festlegen, damit der Bericht fuer Arzttermine
-  gut lesbar bleibt und lange Tabellen/Hinweise sauber umbrechen.
-- SwiftUI-PDF und Web-Bericht sind umgesetzt und werden in der Beta gemeinsam
-  praktisch geprüft.
+- Arztbericht mit langen Zeitraeumen, mehreren Seiten und langen Hinweisen
+  praktisch pruefen.
+- Konkrete Fehler aus dem Beta-Test beheben.
+- Danach ueber einen Release Candidate fuer 1.7 entscheiden.
 
 ## Geplanter Neuer Schwerpunkt - v1.8.0-beta.1 Koerperdaten Und Gemeinsame Analyse
 
