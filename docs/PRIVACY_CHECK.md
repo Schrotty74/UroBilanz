@@ -252,3 +252,12 @@ Ergebnis:
 - Der Webserver lauschte ausschliesslich lokal auf `127.0.0.1`.
 - Die README-Aussage zur ausschliesslich lokalen Verarbeitung der Messdaten
   bleibt fuer den geprueften Stand technisch bestaetigt.
+
+## Final-Pruefung 1.7.1 - 15.06.2026
+
+- `privacy_final_check.sh` erfolgreich ausgefuehrt.
+- Web- und Swift-App mit `verify_apps.sh` vollstaendig geprueft.
+- SwiftUI-App gestartet: keine TCP- oder UDP-Verbindung geoeffnet.
+- Webserver nur lokal auf `127.0.0.1` erreichbar.
+- ZIP- und DMG-Pakete auf lokale Pfade, persoenliche Datendateien,
+  Zugangsdaten und unerwartete Metadaten geprueft.

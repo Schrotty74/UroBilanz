@@ -100,13 +100,19 @@ private struct AboutUroBilanzView: View {
                     Text(tr("about_developer_value", language))
                 }
                 aboutRow(tr("about_license", language)) {
-                    Link("GNU General Public License v3", destination: URL(string: "https://github.com/Schrotty74/UroBilanz/blob/main/LICENSE")!)
+                    if let url = URL(string: "https://github.com/Schrotty74/UroBilanz/blob/main/LICENSE") {
+                        Link("GNU General Public License v3", destination: url)
+                    }
                 }
                 aboutRow(tr("about_github", language)) {
-                    Link("github.com/Schrotty74/UroBilanz", destination: URL(string: "https://github.com/Schrotty74/UroBilanz")!)
+                    if let url = URL(string: "https://github.com/Schrotty74/UroBilanz") {
+                        Link("github.com/Schrotty74/UroBilanz", destination: url)
+                    }
                 }
                 aboutRow(tr("about_contact", language)) {
-                    Link("urobilanz@mailbox.org", destination: URL(string: "mailto:urobilanz@mailbox.org")!)
+                    if let url = URL(string: "mailto:urobilanz@mailbox.org") {
+                        Link("urobilanz@mailbox.org", destination: url)
+                    }
                 }
             }
             .font(.callout)

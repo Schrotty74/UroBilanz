@@ -6,6 +6,17 @@ Alle wichtigen Änderungen an UroBilanz werden hier dokumentiert.
 
 - Noch keine Änderungen.
 
+## 1.7.1 - 2026-06-15
+
+Bugfix-Release fuer die SwiftUI-App:
+
+- Moeglichen Absturz bei der Berechnung frueher 05:xx-Messtage durch sicheren
+  Datums-Fallback verhindert.
+- Force-Unwraps beim Erzeugen des PDF-Arztberichts entfernt.
+- Wiederholt erzeugte Datumsformatierer als statische Caches umgesetzt.
+- Force-Unwraps der festen Links im Ueber-Fenster entfernt.
+- macOS-App erstmals zusaetzlich zur ZIP-Datei als DMG bereitgestellt.
+
 ## 1.7.0 Final - 2026-06-14
 
 Finale Version der 1.7-Reihe. Sie fasst die Aenderungen aus

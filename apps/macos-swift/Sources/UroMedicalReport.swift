@@ -158,9 +158,13 @@ enum MedicalReportPDF {
         textView.textContainer?.containerSize = NSSize(width: printableWidth, height: .greatestFiniteMagnitude)
         textView.textContainer?.widthTracksTextView = true
         textView.textStorage?.setAttributedString(report)
-        textView.layoutManager?.ensureLayout(for: textView.textContainer!)
+        if let textContainer = textView.textContainer {
+            textView.layoutManager?.ensureLayout(for: textContainer)
+        }
 
-        let usedHeight = textView.layoutManager?.usedRect(for: textView.textContainer!).height ?? 100
+        let usedHeight = textView.textContainer.flatMap {
+            textView.layoutManager?.usedRect(for: $0).height
+        } ?? 100
         textView.frame = NSRect(x: 0, y: 0, width: printableWidth, height: max(usedHeight, 100))
 
         let printInfo = NSPrintInfo()

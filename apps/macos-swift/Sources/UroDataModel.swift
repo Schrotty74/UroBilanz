@@ -16,25 +16,31 @@ final class UrinModel: ObservableObject {
 
     private let defaults = UserDefaults.standard
     private let calendar = Calendar(identifier: .gregorian)
-    private let dateFormatter: DateFormatter = {
+    private static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "de_AT")
         formatter.dateFormat = "d.M.yyyy HH:mm"
         return formatter
     }()
-    private let displayDate: DateFormatter = {
+    private static let displayDateDE: DateFormatter = {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "de_AT")
         formatter.dateFormat = "dd.MM.yyyy"
         return formatter
     }()
-    private let rawDayFormatter: DateFormatter = {
+    private static let displayDateEN: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "en_US")
+        formatter.dateFormat = "MM/dd/yyyy"
+        return formatter
+    }()
+    private static let rawDayFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "de_AT")
         formatter.dateFormat = "dd.MM.yyyy"
         return formatter
     }()
-    private let timeFormatter: DateFormatter = {
+    private static let timeFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "de_AT")
         formatter.dateFormat = "HH:mm"
@@ -66,8 +72,6 @@ final class UrinModel: ObservableObject {
 
     func setLanguage(_ nextLanguage: AppLanguage) {
         language = nextLanguage
-        displayDate.locale = Locale(identifier: nextLanguage == .de ? "de_AT" : "en_US")
-        displayDate.dateFormat = nextLanguage == .de ? "dd.MM.yyyy" : "MM/dd/yyyy"
         if !entries.isEmpty {
             days = makeDays(from: entries)
         }
@@ -125,7 +129,7 @@ final class UrinModel: ObservableObject {
 
         var nextEntries: [Entry] = []
         for row in parsed {
-            guard let rawDate = row["Datum"], let date = dateFormatter.date(from: rawDate) else { continue }
+            guard let rawDate = row["Datum"], let date = Self.dateFormatter.date(from: rawDate) else { continue }
             let rawType = row["Typ"] ?? ""
             let type = rawType == "Wasser" ? "Wasser" : rawType == "Hinweis" ? "Hinweis" : "Urin"
             let amount = Int(Double(row["ml"] ?? "0") ?? 0)
@@ -297,7 +301,7 @@ final class UrinModel: ObservableObject {
                 "\(day.year)",
                 stableMonthName(day.month),
                 "\(day.week)",
-                rawDayFormatter.string(from: day.messtag),
+                Self.rawDayFormatter.string(from: day.messtag),
                 stableDayName(day.messtag),
                 day.urine.map(\.0).joined(separator: " | "),
                 day.urine.map { "\($0.1)" }.joined(separator: " | "),
@@ -315,11 +319,11 @@ final class UrinModel: ObservableObject {
     }
 
     func formattedDate(_ date: Date) -> String {
-        displayDate.string(from: date)
+        (language == .de ? Self.displayDateDE : Self.displayDateEN).string(from: date)
     }
 
     func formattedTime(_ date: Date) -> String {
-        timeFormatter.string(from: date)
+        Self.timeFormatter.string(from: date)
     }
 
     func format(_ value: Int) -> String {
@@ -349,7 +353,7 @@ final class UrinModel: ObservableObject {
 
     private func loadDailyExport(_ rows: [[String: String]]) throws -> [DaySummary] {
         let imported = rows.compactMap { row -> DaySummary? in
-            guard let rawDay = row["Messtag"], let messtag = rawDayFormatter.date(from: rawDay) else { return nil }
+            guard let rawDay = row["Messtag"], let messtag = Self.rawDayFormatter.date(from: rawDay) else { return nil }
             let comps = calendar.dateComponents([.year, .month, .weekOfYear], from: messtag)
             let urine = zipLists(
                 times: splitList(row["Urin Uhrzeit"] ?? row["● Urin Uhrzeit"] ?? ""),
@@ -394,7 +398,7 @@ final class UrinModel: ObservableObject {
     }
 
     private func rawEntry(_ row: [String: String]) -> Entry? {
-        guard let rawDate = row["Datum"], let date = dateFormatter.date(from: rawDate) else { return nil }
+        guard let rawDate = row["Datum"], let date = Self.dateFormatter.date(from: rawDate) else { return nil }
         let rawType = row["Typ"] ?? ""
         let type = rawType == "Wasser" ? "Wasser" : rawType == "Hinweis" ? "Hinweis" : "Urin"
         return Entry(
@@ -461,7 +465,7 @@ final class UrinModel: ObservableObject {
             let comps = calendar.dateComponents([.year, .month, .weekOfYear], from: day)
             let noteRows = rows
                 .filter { $0.type == "Urin" && !$0.note.isEmpty }
-                .map { (timeFormatter.string(from: $0.original), $0.note) }
+                .map { (Self.timeFormatter.string(from: $0.original), $0.note) }
             let generalNotes = rows
                 .filter { $0.type == "Hinweis" && !$0.note.isEmpty }
                 .map(\.note)
@@ -472,8 +476,8 @@ final class UrinModel: ObservableObject {
                 monthName: monthName(comps.month ?? 1),
                 week: comps.weekOfYear ?? 0,
                 dayName: dayName(day),
-                urine: rows.filter { $0.type == "Urin" }.map { (timeFormatter.string(from: $0.original), $0.ml) },
-                water: rows.filter { $0.type == "Wasser" }.map { (timeFormatter.string(from: $0.original), $0.ml) },
+                urine: rows.filter { $0.type == "Urin" }.map { (Self.timeFormatter.string(from: $0.original), $0.ml) },
+                water: rows.filter { $0.type == "Wasser" }.map { (Self.timeFormatter.string(from: $0.original), $0.ml) },
                 notes: Array(NSOrderedSet(array: rows.map(\.note).filter { !$0.isEmpty })) as? [String] ?? [],
                 noteRows: noteRows,
                 generalNotes: generalNotes
@@ -518,7 +522,9 @@ final class UrinModel: ObservableObject {
 
     private func measurementDay(for date: Date) -> Date {
         let start = calendar.startOfDay(for: date)
-        return calendar.component(.hour, from: date) < 6 ? calendar.date(byAdding: .day, value: -1, to: start)! : start
+        return calendar.component(.hour, from: date) < 6
+            ? calendar.date(byAdding: .day, value: -1, to: start) ?? start
+            : start
     }
 
     private func readTextFile(_ url: URL) throws -> String {
@@ -546,7 +552,7 @@ final class UrinModel: ObservableObject {
         let header = ["Datum", "Typ", "ml", "Hinweis"]
         let rows = entries.sorted { $0.original < $1.original }.map { entry in
             [
-                "\(calendar.component(.day, from: entry.original)).\(calendar.component(.month, from: entry.original)).\(calendar.component(.year, from: entry.original)) \(timeFormatter.string(from: entry.original))",
+                "\(calendar.component(.day, from: entry.original)).\(calendar.component(.month, from: entry.original)).\(calendar.component(.year, from: entry.original)) \(Self.timeFormatter.string(from: entry.original))",
                 entry.type,
                 "\(entry.ml)",
                 entry.note

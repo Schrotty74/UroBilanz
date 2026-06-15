@@ -19,5 +19,8 @@
   einer Ausgangskopie müssen ZIP-Inhalt und Prüfsumme erfolgreich geprüft
   werden. Lose Projekt-, App-, Build-, `.venv`- oder `.git`-Ordner gelten nicht
   als fertiges Backup.
+- Ab dem nächsten Build wird die macOS-App für lokale Sicherungen und
+  GitHub-Releases zusätzlich zur ZIP-Datei auch als DMG bereitgestellt. Die
+  Web-App bleibt als ZIP verfügbar.
 - Vor größeren technischen Varianten wird zuerst kurz erklärt, welche Optionen es gibt.
 - Optische Änderungen und Funktionsänderungen werden getrennt beschrieben, damit später klar bleibt, was sich geändert hat.

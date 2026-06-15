@@ -386,6 +386,16 @@ Abschluss der 1.7-Reihe mit Arztbericht und PDF-Ausgabe.
 - Web-App Version `1.7.0`.
 - macOS-App Version `1.7.0`, Build `29`.
 
+## 1.7.1 - 2026-06-15
+
+Bugfix-Release fuer die SwiftUI-App.
+
+- Unsichere Force-Unwraps in Messtagberechnung, PDF-Bericht und festen URLs
+  entfernt.
+- Datumsformatierer im Datenmodell statisch gecacht.
+- macOS-App Version `1.7.1`, Build `30`.
+- macOS-App erstmals als ZIP und DMG bereitgestellt.
+
 ## Groessere Technische Meilensteine
 
 - Einheitliche Projektstruktur fuer Web-App und native SwiftUI-App.
