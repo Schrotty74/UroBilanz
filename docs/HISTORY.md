@@ -396,6 +396,15 @@ Bugfix-Release fuer die SwiftUI-App.
 - macOS-App Version `1.7.1`, Build `30`.
 - macOS-App erstmals als ZIP und DMG bereitgestellt.
 
+## 1.7.2 - 2026-06-16
+
+- Streak-Anzeige fuer aufeinanderfolgende Messtage in Web-App und SwiftUI-App
+  ergaenzt.
+- Wochen- und Monatsuebersicht mit Sparklines fuer Urin-Trends erweitert.
+- Lokalen JSON-Export der Eintraege in Web-App und SwiftUI-App ergaenzt.
+- Web-App Version `1.7.2`.
+- macOS-App Version `1.7.2`, Build `31`.
+
 ## Groessere Technische Meilensteine
 
 - Einheitliche Projektstruktur fuer Web-App und native SwiftUI-App.

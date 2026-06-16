@@ -261,3 +261,11 @@ Ergebnis:
 - Webserver nur lokal auf `127.0.0.1` erreichbar.
 - ZIP- und DMG-Pakete auf lokale Pfade, persoenliche Datendateien,
   Zugangsdaten und unerwartete Metadaten geprueft.
+
+## Final-Pruefung 1.7.2 - 16.06.2026
+
+- `privacy_final_check.sh` erfolgreich ausgefuehrt.
+- Web- und Swift-App mit `verify_apps.sh` vollstaendig geprueft.
+- SwiftUI-App gestartet: keine TCP- oder UDP-Verbindung geoeffnet.
+- ZIP- und DMG-Pakete auf lokale Pfade, persoenliche Datendateien und
+  Zugangsdaten geprueft.

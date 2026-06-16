@@ -1,13 +1,13 @@
 # UroBilanz - Naechste Schritte
 
-Stand: 15.06.2026
+Stand: 16.06.2026
 
-Aktueller Hauptstand: `v1.7.1`
+Aktueller Hauptstand: `v1.7.2`
 
-Lokaler Entwicklungsstand: `v1.7.1`.
+Lokaler Entwicklungsstand: `v1.7.2`.
 
-Release-Einordnung: `v1.7.1` ist ein Bugfix-Release fuer Swift-Sicherheit und
-DateFormatter-Performance. Version 1.8 bleibt fuer Koerperdaten und die
+Release-Einordnung: `v1.7.2` erweitert die 1.7-Reihe um Streak-Anzeige,
+Sparklines und JSON-Export. Version 1.8 bleibt fuer Koerperdaten und die
 gemeinsame Koerper-/Fluessigkeitsanalyse reserviert.
 
 ## Zweck dieser Datei
@@ -37,7 +37,7 @@ Beide Apps koennen:
 - Deutsch und Englisch anzeigen
 - mehrere Themes nutzen
 
-Die Vollpruefung von `v1.7.1` war erfolgreich:
+Die Vollpruefung von `v1.7.2` war erfolgreich:
 
 - Web Smoke Tests
 - Web Workflow Tests
@@ -267,6 +267,9 @@ Umsetzungsregeln fuer 1.8:
 - `CHANGELOG.md` bei GitHub-Releases aktualisieren.
 - Ab dem naechsten Build die macOS-App sowohl als ZIP als auch als DMG
   bereitstellen; die Web-App bleibt als ZIP.
+- Final-Backups kuenftig genau zweimal aufbewahren: eine lokale Kopie und eine
+  iCloud-Kopie. Bei mehreren Final-Backups nur die neueste Final-Version
+  behalten.
 - Releases nur nach erfolgreichem lokalen Test und ausdruecklicher Freigabe.
 - Bei UI-Aenderungen nach Moeglichkeit Web-App und SwiftUI-App konsistent halten.
 - Bei laengeren oder riskanten Aenderungen lieber in kleinen Schritten arbeiten.

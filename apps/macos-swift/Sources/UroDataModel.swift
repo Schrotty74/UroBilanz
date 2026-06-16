@@ -46,6 +46,7 @@ final class UrinModel: ObservableObject {
         formatter.dateFormat = "HH:mm"
         return formatter
     }()
+    private static let jsonDateFormatter = ISO8601DateFormatter()
 
     var hasData: Bool { !days.isEmpty }
     var years: [Int] { Array(Set(days.map(\.year))).sorted() }
@@ -57,6 +58,19 @@ final class UrinModel: ObservableObject {
     }
     var filteredEvaluationDays: [DaySummary] {
         filteredDays.filter(\.isCompleteMeasurementDay)
+    }
+    var currentStreak: Int {
+        let sortedDays = days.sorted { $0.messtag > $1.messtag }
+        guard let firstDay = sortedDays.first?.messtag else { return 0 }
+        var expectedDay = calendar.startOfDay(for: firstDay)
+        var streak = 0
+        for day in sortedDays {
+            let currentDay = calendar.startOfDay(for: day.messtag)
+            guard currentDay == expectedDay else { break }
+            streak += 1
+            expectedDay = calendar.date(byAdding: .day, value: -1, to: expectedDay) ?? expectedDay
+        }
+        return streak
     }
 
     init() {
@@ -288,6 +302,23 @@ final class UrinModel: ObservableObject {
         save(text: rawCSV, defaultName: "urinote-backup.csv")
     }
 
+    func exportJSON() {
+        guard let data = try? exportJSONData() else { return }
+        save(data: data, defaultName: "urobilanz-eintraege.json", contentType: .json)
+    }
+
+    func exportJSONData() throws -> Data {
+        let rows = entries.sorted { $0.original < $1.original }.map { entry in
+            [
+                "datum": Self.jsonDateFormatter.string(from: entry.original),
+                "typ": entry.type,
+                "ml": entry.ml,
+                "hinweis": entry.note
+            ] as [String: Any]
+        }
+        return try JSONSerialization.data(withJSONObject: rows, options: [.prettyPrinted, .sortedKeys])
+    }
+
     func exportDays() {
         let header = ["Jahr","Monat","KW","Messtag","Tag","Urin Uhrzeit","Urin ml","Urin Hinweis","Urin Anzahl","Urin gesamt ml","Wasser Uhrzeit","Wasser ml","Wasser gesamt ml","Hinweise","Allgemeine Hinweise"]
         let rows = days.map { day in
@@ -508,7 +539,11 @@ final class UrinModel: ObservableObject {
                     ? tr("incomplete", language)
                     : tr(hasLowDay ? "low_with_incomplete" : "normal_with_incomplete", language, replacements: ["count": "\(incompleteDays)"])
                 : tr(hasLowDay ? "low" : "normal", language)
-            return SummaryRow(id: key, values: values, urineAverage: average)
+            let trendValues = rows
+                .sorted { $0.messtag < $1.messtag }
+                .filter(\.isCompleteMeasurementDay)
+                .map { Double($0.urineTotal) }
+            return SummaryRow(id: key, values: values, urineAverage: average, trendValues: trendValues)
         }
     }
 
@@ -539,12 +574,17 @@ final class UrinModel: ObservableObject {
 
     private func save(text: String, defaultName: String) {
         guard !text.isEmpty else { return }
+        save(data: Data(text.utf8), defaultName: defaultName, contentType: .commaSeparatedText)
+    }
+
+    private func save(data: Data, defaultName: String, contentType: UTType) {
+        guard !data.isEmpty else { return }
         let panel = NSSavePanel()
         panel.nameFieldStringValue = defaultName
-        panel.allowedContentTypes = [.commaSeparatedText, .text]
+        panel.allowedContentTypes = [contentType, .text]
         panel.begin { response in
             guard response == .OK, let url = panel.url else { return }
-            try? text.write(to: url, atomically: true, encoding: .utf8)
+            try? data.write(to: url, options: .atomic)
         }
     }
 

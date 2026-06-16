@@ -28,6 +28,9 @@ UroBilanz ist ein Protokoll- und Auswertungstool. Es ist keine medizinische Diag
   Web-App bietet die entsprechende Druck-/PDF-Ansicht.
 - `Komplett-Backup` und `Tagesbackup` sind in einem gemeinsamen Backup-Menue
   zusammengefasst.
+- Streak-Anzeige zeigt, wie viele Messtage in Folge erfasst wurden.
+- Wochen- und Monatsuebersicht zeigen kleine Sparklines fuer den Urin-Trend.
+- Eintraege koennen zusaetzlich als lokale JSON-Datei exportiert werden.
 - Web-App und SwiftUI-App wurden technisch weiter aufgeteilt und gemeinsam
   getestet.
 

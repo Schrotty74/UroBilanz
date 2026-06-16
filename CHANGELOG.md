@@ -6,6 +6,14 @@ Alle wichtigen Änderungen an UroBilanz werden hier dokumentiert.
 
 - Noch keine Änderungen.
 
+## 1.7.2 - 2026-06-16
+
+- Streak-Anzeige fuer Erfassungs-Kontinuitaet in Web-App und SwiftUI-App
+  ergaenzt.
+- Sparklines fuer Wochen- und Monatstrends in Web-App und SwiftUI-App
+  ergaenzt.
+- JSON-Export fuer Eintraege in Web-App und SwiftUI-App ergaenzt.
+
 ## 1.7.1 - 2026-06-15
 
 Bugfix-Release fuer die SwiftUI-App:

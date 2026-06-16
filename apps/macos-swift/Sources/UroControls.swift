@@ -51,6 +51,9 @@ struct ToolbarStrip: View {
                 Button(tr("daily_backup", language), systemImage: "tablecells") {
                     model.exportDays()
                 }
+                Button(tr("json_export", language), systemImage: "curlybraces") {
+                    model.exportJSON()
+                }
             } label: {
                 Label(tr("backup", language), systemImage: "externaldrive")
             }

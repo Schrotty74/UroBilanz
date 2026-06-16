@@ -18,6 +18,7 @@ const {
   escapeHtml,
   inputDateValue,
   inputTimeValue,
+  computeStreak,
   isoWeek,
   parseCsv,
   parseDate,
@@ -115,6 +116,7 @@ const els = {
   backupMenu: document.querySelector("#backupMenu"),
   backupCsv: document.querySelector("#backupCsv"),
   exportDays: document.querySelector("#exportDays"),
+  exportJson: document.querySelector("#exportJson"),
   medicalReport: document.querySelector("#medicalReport"),
   medicalReportDialog: document.querySelector("#medicalReportDialog"),
   medicalReportForm: document.querySelector("#medicalReportForm"),
@@ -467,6 +469,7 @@ function aggregate(days, keys, buildLabel) {
         urineCount: 0,
         lowDays: 0,
         incompleteDays: 0,
+        trendValues: [],
       });
     }
     const row = grouped.get(key);
@@ -478,6 +481,7 @@ function aggregate(days, keys, buildLabel) {
     row.urineTotal += day.urineTotal;
     row.waterTotal += day.waterTotal;
     row.urineCount += day.urineCount;
+    row.trendValues.push(day.urineTotal);
     if (day.urineTotal < 700) row.lowDays += 1;
   }
   return Array.from(grouped.values()).map((row) => ({
@@ -513,6 +517,7 @@ function render() {
   els.monthFilter.disabled = !hasData;
   els.backupCsv.disabled = !hasData;
   els.exportDays.disabled = !hasData;
+  els.exportJson.disabled = !hasData;
   els.backupMenu.dataset.disabled = hasData ? "false" : "true";
   if (!hasData) els.backupMenu.removeAttribute("open");
   els.medicalReport.disabled = !hasData;
@@ -642,6 +647,7 @@ function renderMetrics(days) {
   const low = days.filter((day) => day.urineTotal < 700).length;
   const metrics = [
     [t("measurement_days"), days.length],
+    [t("streak_days"), `🔥 ${computeStreak(state.days)}`],
     [t("urine_total"), fmtNumber(urineTotal)],
     [t("urine_average"), fmtNumber(Math.round(urineTotal / Math.max(days.length, 1)))],
     [t("water_total"), fmtNumber(waterTotal)],
@@ -659,8 +665,8 @@ function renderTables(days, dashboardDays = evaluationDays(days)) {
   const weekRows = aggregate(days, ["year", "week"], (day) => ({ "ISO Jahr": day.year, "ISO Woche": day.week }));
 
   renderTable(els.yearTable, ["Jahr", "Tage", "Unvollständige Tage", "● Urin Gesamt ml", "● Urin Ø ml/Tag", "● Urin Anzahl", "💧 Wasser Gesamt ml"], yearRows.map(summaryRow));
-  renderTable(els.monthTable, ["Jahr", "Monat", "Monat Name", "Tage", "Unvollständige Tage", "● Urin Gesamt ml", "● Urin Ø ml/Tag", "● Urin Anzahl", "💧 Wasser Gesamt ml"], monthRows.map(summaryRow));
-  renderTable(els.weekTable, ["ISO Jahr", "ISO Woche", "Tage", "Unvollständige Tage", "● Urin Gesamt ml", "● Urin Ø ml/Tag", "● Urin Anzahl", "💧 Wasser Gesamt ml", "Auffälligkeit"], weekRows.map(summaryRow));
+  renderTable(els.monthTable, ["Jahr", "Monat", "Monat Name", "Trend", "Tage", "Unvollständige Tage", "● Urin Gesamt ml", "● Urin Ø ml/Tag", "● Urin Anzahl", "💧 Wasser Gesamt ml"], monthRows.map(summaryRow));
+  renderTable(els.weekTable, ["ISO Jahr", "ISO Woche", "Trend", "Tage", "Unvollständige Tage", "● Urin Gesamt ml", "● Urin Ø ml/Tag", "● Urin Anzahl", "💧 Wasser Gesamt ml", "Auffälligkeit"], weekRows.map(summaryRow));
   renderTable(els.alertTable, ["Messtag", "Tag", "● Urin gesamt ml", "💧 Wasser gesamt ml", "Auffälligkeit"], days
     .filter((day) => !isCompleteMeasurementDay(day) || day.urineTotal < 700)
     .map((day) => ({
@@ -682,8 +688,26 @@ function summaryRow(row) {
     "● Urin Ø ml/Tag": row.urineAverage,
     "● Urin Anzahl": row.urineCount,
     "💧 Wasser Gesamt ml": row.waterTotal,
+    Trend: { html: sparklineSvg(row.trendValues || []) },
     Auffälligkeit: row.alert,
   };
+}
+
+function sparklineSvg(values) {
+  if (!values || values.length < 2) return "";
+  const width = 60;
+  const height = 20;
+  const min = Math.min(...values);
+  const max = Math.max(...values);
+  const span = Math.max(max - min, 1);
+  const points = values
+    .map((value, index) => {
+      const x = (index / Math.max(values.length - 1, 1)) * width;
+      const y = height - ((value - min) / span) * height;
+      return `${x.toFixed(1)},${y.toFixed(1)}`;
+    })
+    .join(" ");
+  return `<svg class="sparkline" viewBox="0 0 ${width} ${height}" width="${width}" height="${height}" aria-hidden="true"><polyline points="${points}" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 }
 
 function dayRow(day) {
@@ -791,6 +815,7 @@ function defaultColumnWidth(header, separateDays) {
   if (header === "Auffälligkeit") return 150;
   if (header === "Aktion") return 150;
   if (header.includes("Unvollständige")) return 170;
+  if (header === "Trend") return 100;
   if (header.includes("Urin") || header.includes("Wasser")) return 160;
   if (header.includes("Monat Name")) return 150;
   return 120;
@@ -854,6 +879,7 @@ function displayHeader(header) {
     Messtag: "date",
     "ISO Jahr": "year",
     "ISO Woche": "week",
+    Trend: "trend",
     KW: "week",
     "● Urin Gesamt ml": "urine_total",
     "● Urin gesamt ml": "urine_total",
@@ -887,6 +913,9 @@ function alertClass(header, value, row) {
 }
 
 function formatCell(header, value) {
+  if (value && typeof value === "object" && typeof value.html === "string") {
+    return value.html;
+  }
   if (header === "Aktion") {
     return `<button class="utility-button quiet delete-day" type="button" data-delete-day="${escapeHtml(value)}">${escapeHtml(t("delete_day"))}</button>`;
   }
@@ -1265,6 +1294,25 @@ els.exportDays.addEventListener("click", () => {
     "Allgemeine Hinweise": (day.generalNotes || []).join(" | "),
   }));
   downloadText(`urobilanz-tagesdaten-${dateStamp()}.csv`, toCsv(rows), "text/csv;charset=utf-8");
+  els.backupMenu.removeAttribute("open");
+});
+
+function exportJSON(stateObject = state) {
+  const rows = stateObject.entries || stateObject.rows || [];
+  const jsonRows = rows
+    .slice()
+    .sort((a, b) => a.original - b.original)
+    .map((entry) => ({
+      datum: entry.original.toISOString(),
+      typ: entry.type,
+      ml: entry.ml,
+      hinweis: entry.note || "",
+    }));
+  downloadText(`urobilanz-eintraege-${dateStamp()}.json`, `${JSON.stringify(jsonRows, null, 2)}\n`, "application/json;charset=utf-8");
+}
+
+els.exportJson.addEventListener("click", () => {
+  exportJSON(state);
   els.backupMenu.removeAttribute("open");
 });
 

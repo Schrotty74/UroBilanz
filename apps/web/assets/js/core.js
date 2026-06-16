@@ -1,5 +1,5 @@
 (function (root) {
-  const APP_VERSION = "1.7.1";
+  const APP_VERSION = "1.7.2";
 
   function detectDelimiter(text) {
     const firstLine = String(text || "").split(/\r?\n/)[0] || "";
@@ -88,6 +88,23 @@
 
   function inputTimeValue(date) {
     return `${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}`;
+  }
+
+  function computeStreak(days) {
+    const sorted = (days || [])
+      .map((day) => day?.messtag)
+      .filter((date) => date instanceof Date && !Number.isNaN(date.valueOf()))
+      .sort((a, b) => b - a);
+    if (!sorted.length) return 0;
+    let expected = new Date(sorted[0].getFullYear(), sorted[0].getMonth(), sorted[0].getDate());
+    let streak = 0;
+    for (const date of sorted) {
+      const current = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+      if (current.getTime() !== expected.getTime()) break;
+      streak += 1;
+      expected.setDate(expected.getDate() - 1);
+    }
+    return streak;
   }
 
   function escapeHtml(value) {
@@ -185,6 +202,7 @@
     isoWeek,
     inputDateValue,
     inputTimeValue,
+    computeStreak,
     escapeHtml,
     validateUroTheme,
   };

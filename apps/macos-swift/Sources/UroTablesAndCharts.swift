@@ -41,13 +41,14 @@ struct MetricGrid: View {
         let waterTotal = days.reduce(0) { $0 + $1.waterTotal }
         let metrics = [
             (tr("measurement_days", language), "\(days.count)", "calendar"),
+            (tr("streak_days", language), "🔥 \(model.currentStreak)", "flame.fill"),
             (tr("urine_total", language), model.format(urineTotal), "circle.fill"),
             (tr("urine_average", language), model.format(days.isEmpty ? 0 : urineTotal / days.count), "chart.line.uptrend.xyaxis"),
             (tr("water_total", language), model.format(waterTotal), "drop.fill"),
             (tr("low_days", language), "\(days.filter { $0.urineTotal < 700 }.count)", "exclamationmark.triangle"),
             (tr("normal_days", language), "\(days.filter { $0.urineTotal >= 700 }.count)", "checkmark.circle")
         ]
-        LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: 6), spacing: 12) {
+        LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: 7), spacing: 12) {
             ForEach(metrics, id: \.0) { metric in
                 VStack(alignment: .leading, spacing: 6) {
                     Label(metric.0, systemImage: metric.2)
@@ -354,12 +355,14 @@ struct SummaryTableView: View {
         case .month:
             return commonSummaryColumns(prefix: [
                 ThemedTableColumn(tr("year", language), width: 90) { Text($0.values["Jahr"] ?? "") },
-                ThemedTableColumn(tr("month", language), width: 125) { Text($0.values["Monat Name"] ?? "") }
+                ThemedTableColumn(tr("month", language), width: 125) { Text($0.values["Monat Name"] ?? "") },
+                ThemedTableColumn(tr("trend", language), width: 92) { SparklineView(values: $0.trendValues).frame(width: 60, height: 20) }
             ])
         case .week:
             var result = commonSummaryColumns(prefix: [
                 ThemedTableColumn(tr("year", language), width: 90) { Text($0.values["Jahr"] ?? "") },
-                ThemedTableColumn(tr("week_short", language), width: 70) { Text($0.values["KW"] ?? "") }
+                ThemedTableColumn(tr("week_short", language), width: 70) { Text($0.values["KW"] ?? "") },
+                ThemedTableColumn(tr("trend", language), width: 92) { SparklineView(values: $0.trendValues).frame(width: 60, height: 20) }
             ])
             result.append(ThemedTableColumn(tr("flag", language), width: 120, alignment: .leading, textAlignment: .leading) { Text($0.values["Auffälligkeit"] ?? "") })
             return result
@@ -377,6 +380,39 @@ struct SummaryTableView: View {
             ThemedTableColumn(tr("urine_count", language), width: 120) { Text($0.values["● Urin Anzahl"] ?? "").monospacedDigit() },
             ThemedTableColumn(tr("water_total", language), width: 155) { Text($0.values["💧 Wasser Gesamt ml"] ?? "").monospacedDigit() }
         ]
+    }
+}
+
+struct SparklineView: View {
+    @Environment(\.appTheme) private var theme
+    let values: [Double]
+
+    var body: some View {
+        GeometryReader { proxy in
+            let points = normalizedPoints(size: proxy.size)
+            Path { path in
+                guard let first = points.first else { return }
+                path.move(to: first)
+                for point in points.dropFirst() {
+                    path.addLine(to: point)
+                }
+            }
+            .stroke(theme.urineColor, style: StrokeStyle(lineWidth: 2, lineCap: .round, lineJoin: .round))
+        }
+        .accessibilityHidden(true)
+    }
+
+    private func normalizedPoints(size: CGSize) -> [CGPoint] {
+        guard values.count > 1 else { return [] }
+        let minValue = values.min() ?? 0
+        let maxValue = values.max() ?? 1
+        let span = max(maxValue - minValue, 1)
+        return values.enumerated().map { index, value in
+            CGPoint(
+                x: CGFloat(index) / CGFloat(values.count - 1) * size.width,
+                y: size.height - CGFloat((value - minValue) / span) * size.height
+            )
+        }
     }
 }
 

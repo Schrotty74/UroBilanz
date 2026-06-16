@@ -7,6 +7,7 @@ const {
   parseDate,
   parseDayDate,
   toMesstag,
+  computeStreak,
 } = require("../assets/js/core.js");
 
 const monthNames = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
@@ -212,6 +213,7 @@ let days = groupEntries(entries);
 assert.equal(days.length, 1, "00:00 bis 05:59 gehoert zum Vortag");
 assert.equal(days[0].urineTotal, 370);
 assert.equal(days[0].waterTotal, 300);
+assert.equal(computeStreak(days), 1, "Streak fuer vorhandenen Messtag fehlt");
 
 const duplicateMerge = parseCsv(rawCsv).map(entryFromRawRow).filter(Boolean);
 const existing = new Set(entries.map(entryKey));
@@ -292,7 +294,7 @@ assert.match(webAppSource, /urobilanz@mailbox\.org/, "Support-E-Mail fehlt");
 assert.match(webAppSource, /github\.com\/Schrotty74\/UroBilanz/, "GitHub-Link fehlt");
 assert.match(webAppSource, /Keine CSV-Werte, Hinweise oder Gesundheitsdaten/, "Datenschutz-Hinweis im Fehlerbericht fehlt");
 assert.doesNotMatch(webAppSource.match(/function buildBugReport\(\)[\s\S]*?function refreshBugReport/)?.[0] || "", /state\.rows|state\.days|rawCsv/, "Fehlerbericht darf keine Messdaten lesen");
-assert.match(webCoreSource, /const APP_VERSION = "1\.7\.1"/, "Zentrale Web-App-Version fehlt");
+assert.match(webCoreSource, /const APP_VERSION = "1\.7\.2"/, "Zentrale Web-App-Version fehlt");
 assert.match(webAppSource, /const appVersion = APP_VERSION/, "Web-App verwendet nicht die zentrale Version");
 assert.match(webIndexSource, /id="openAbout"/, "Klickbarer Logo-Ausloeser fuer das Ueber-Modal fehlt");
 assert.match(webIndexSource, /id="aboutDialog"/, "Ueber-Modal fehlt");
@@ -306,5 +308,9 @@ assert.match(webAppSource, /medicalReportDays/, "Arztbericht-Zeitraumfilter fehl
 assert.match(webIndexSource, /id="backupMenu"/, "Gemeinsames Backup-Menue fehlt");
 assert.match(webIndexSource, /data-i18n="complete_backup"/, "Komplett-Backup fehlt");
 assert.match(webIndexSource, /data-i18n="daily_backup"/, "Tagesbackup fehlt");
+assert.match(webIndexSource, /id="exportJson"/, "JSON-Export fehlt");
+assert.match(webAppSource, /function exportJSON/, "JSON-Export-Funktion fehlt");
+assert.match(webAppSource, /sparklineSvg/, "Sparkline-Funktion fehlt");
+assert.match(webAppSource, /computeStreak\(state\.days\)/, "Streak-Anzeige fehlt");
 
 console.log("Web workflow smoke test passed");

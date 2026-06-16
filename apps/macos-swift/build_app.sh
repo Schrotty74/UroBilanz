@@ -33,9 +33,9 @@ cat > build/UroBilanz.app/Contents/Info.plist <<'PLIST'
   <key>CFBundlePackageType</key>
   <string>APPL</string>
   <key>CFBundleShortVersionString</key>
-  <string>1.7.1</string>
+  <string>1.7.2</string>
   <key>CFBundleVersion</key>
-  <string>30</string>
+  <string>31</string>
   <key>LSMinimumSystemVersion</key>
   <string>26.0</string>
   <key>NSHighResolutionCapable</key>

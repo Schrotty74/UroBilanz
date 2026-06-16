@@ -52,4 +52,5 @@ struct SummaryRow: Identifiable {
     let id: String
     let values: [String: String]
     let urineAverage: Int
+    let trendValues: [Double]
 }

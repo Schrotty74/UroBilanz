@@ -22,5 +22,9 @@
 - Ab dem nächsten Build wird die macOS-App für lokale Sicherungen und
   GitHub-Releases zusätzlich zur ZIP-Datei auch als DMG bereitgestellt. Die
   Web-App bleibt als ZIP verfügbar.
+- Final-Backups werden kuenftig genau zweimal aufbewahrt: eine lokale Kopie und
+  eine iCloud-Kopie. Beta-, RC- und Zwischenstands-Backups werden nicht
+  dauerhaft aufbewahrt. Wenn mehrere Final-Backups vorhanden sind, bleibt nur
+  die neueste Final-Version erhalten.
 - Vor größeren technischen Varianten wird zuerst kurz erklärt, welche Optionen es gibt.
 - Optische Änderungen und Funktionsänderungen werden getrennt beschrieben, damit später klar bleibt, was sich geändert hat.
