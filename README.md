@@ -17,22 +17,21 @@ kann das Symbol jederzeit ersetzt werden.
 
 UroBilanz ist ein Protokoll- und Auswertungstool. Es ist keine medizinische Diagnose-App und gibt keine medizinischen Empfehlungen.
 
-## Neu in Version 1.7
+## Funktionen
 
-- Professioneller Arztbericht in Web-App und SwiftUI-App mit frei waehlbarem
-  Zeitraum.
-- Druckfertiges, Theme-unabhaengiges A4-Layout mit Zusammenfassung,
-  Tagesverlauf, Tagesuebersicht und Bewertungsregeln.
-- Tagesdetails und Hinweise koennen optional in den Bericht aufgenommen werden.
-- Die SwiftUI-App exportiert den Bericht direkt als lokale PDF-Datei; die
-  Web-App bietet die entsprechende Druck-/PDF-Ansicht.
-- `Komplett-Backup` und `Tagesbackup` sind in einem gemeinsamen Backup-Menue
-  zusammengefasst.
-- Streak-Anzeige zeigt, wie viele Messtage in Folge erfasst wurden.
-- Wochen- und Monatsuebersicht zeigen kleine Sparklines fuer den Urin-Trend.
-- Eintraege koennen zusaetzlich als lokale JSON-Datei exportiert werden.
-- Web-App und SwiftUI-App wurden technisch weiter aufgeteilt und gemeinsam
-  getestet.
+- Urin-, Wasser- und Hinweis-Eintraege aus Urinote-CSV importieren,
+  zusammenfuehren und manuell ergaenzen.
+- Dashboard, Tages-, Wochen-, Monats- und Jahresansichten mit Summen,
+  Durchschnitt, Auffaelligkeiten und Streak-Anzeige.
+- Hinweise bleiben der passenden Uhrzeit zugeordnet; allgemeine Hinweise
+  bleiben separat sichtbar.
+- Tabellenbreiten koennen direkt angepasst und lokal gespeichert werden.
+- Themes koennen importiert, exportiert und geloescht werden.
+- Arztbericht mit frei waehlbarem Zeitraum, Zusammenfassung, Tagesverlauf,
+  Tagesdetails, Hinweisen und Bewertungsregeln.
+- Export als Komplett-Backup, Tagesdaten-CSV, JSON und macOS-PDF-Bericht.
+- Web-App und native SwiftUI-App arbeiten lokal ohne automatische
+  Datenuebertragung an externe Server.
 
 ## Vorschau
 
