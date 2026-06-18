@@ -15,6 +15,16 @@ Neu bauen und prüfen:
 ./smoke_test.sh
 ```
 
+Development-Build mit getrennten lokalen Einstellungen bauen:
+
+```text
+UROBILANZ_BUILD_CHANNEL=dev ./build_app.sh
+```
+
+Dadurch entsteht `build/UroBilanz Dev.app` mit eigener Bundle-ID und eigenen
+UserDefaults. Testdaten, Themes und Tabellenbreiten beeinflussen die normale App
+nicht.
+
 ## Technische Aufteilung
 
 - `UroLocalization.swift`: Sprache und Übersetzungen

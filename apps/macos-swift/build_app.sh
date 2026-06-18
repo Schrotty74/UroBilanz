@@ -7,11 +7,32 @@ cd "$script_dir"
 mkdir -p /private/tmp/urobilanz-clang-cache \
   build
 
-rm -rf build/UroBilanz.app
-mkdir -p build/UroBilanz.app/Contents/MacOS \
-  build/UroBilanz.app/Contents/Resources
+build_channel="${UROBILANZ_BUILD_CHANNEL:-final}"
+case "$build_channel" in
+  final)
+    app_name="UroBilanz"
+    display_name="UroBilanz"
+    bundle_id="local.martin.urobilanz"
+    ;;
+  dev)
+    app_name="UroBilanz Dev"
+    display_name="UroBilanz Dev"
+    bundle_id="local.martin.urobilanz.dev"
+    ;;
+  *)
+    echo "Unknown UROBILANZ_BUILD_CHANNEL: $build_channel"
+    echo "Use 'final' or 'dev'."
+    exit 1
+    ;;
+esac
 
-cat > build/UroBilanz.app/Contents/Info.plist <<'PLIST'
+app_path="build/${app_name}.app"
+
+rm -rf "$app_path"
+mkdir -p "$app_path/Contents/MacOS" \
+  "$app_path/Contents/Resources"
+
+cat > "$app_path/Contents/Info.plist" <<PLIST
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -19,17 +40,17 @@ cat > build/UroBilanz.app/Contents/Info.plist <<'PLIST'
   <key>CFBundleDevelopmentRegion</key>
   <string>de</string>
   <key>CFBundleDisplayName</key>
-  <string>UroBilanz</string>
+  <string>${display_name}</string>
   <key>CFBundleExecutable</key>
   <string>UrinprotokollSwiftUI</string>
   <key>CFBundleIconFile</key>
   <string>UroBilanz</string>
   <key>CFBundleIdentifier</key>
-  <string>local.martin.urobilanz</string>
+  <string>${bundle_id}</string>
   <key>CFBundleInfoDictionaryVersion</key>
   <string>6.0</string>
   <key>CFBundleName</key>
-  <string>UroBilanz</string>
+  <string>${display_name}</string>
   <key>CFBundlePackageType</key>
   <string>APPL</string>
   <key>CFBundleShortVersionString</key>
@@ -57,19 +78,19 @@ CLANG_MODULE_CACHE_PATH=/private/tmp/urobilanz-clang-cache \
   Sources/UroTablesAndCharts.swift \
   Sources/UroSmokeTests.swift \
   Sources/UrinprotokollSwiftUI.swift \
-  -o build/UroBilanz.app/Contents/MacOS/UrinprotokollSwiftUI \
+  -o "$app_path/Contents/MacOS/UrinprotokollSwiftUI" \
   -framework SwiftUI \
   -framework AppKit
 
-cp Assets/UroBilanz.icns build/UroBilanz.app/Contents/Resources/UroBilanz.icns
-rm -f build/UroBilanz.app/Contents/Resources/urobilanz-icon-light.svg \
-  build/UroBilanz.app/Contents/Resources/urobilanz-icon-dark.svg
+cp Assets/UroBilanz.icns "$app_path/Contents/Resources/UroBilanz.icns"
+rm -f "$app_path/Contents/Resources/urobilanz-icon-light.svg" \
+  "$app_path/Contents/Resources/urobilanz-icon-dark.svg"
 cp Assets/urobilanz-app-icon.png \
   Assets/github-invertocat-black.svg \
   Assets/github-invertocat-white.svg \
-  build/UroBilanz.app/Contents/Resources/
+  "$app_path/Contents/Resources/"
 
-codesign --force --deep --sign - build/UroBilanz.app
-codesign --verify --deep --strict build/UroBilanz.app
+codesign --force --deep --sign - "$app_path"
+codesign --verify --deep --strict "$app_path"
 
-echo "UroBilanz.app built and verified"
+echo "${app_name}.app built and verified (${bundle_id})"

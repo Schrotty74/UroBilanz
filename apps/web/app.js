@@ -47,9 +47,16 @@ const tableWidthStorageKey = "uroTableColumnWidths";
 const appVersion = APP_VERSION;
 const supportEmail = "urobilanz@mailbox.org";
 const repositoryUrl = "https://github.com/Schrotty74/UroBilanz";
-let customThemes = loadStoredCustomThemes(localStorage, validateUroTheme);
-let language = supportedLanguages.has(localStorage.getItem("uroLanguage"))
-  ? localStorage.getItem("uroLanguage")
+const storageChannel = new URLSearchParams(window.location.search).get("channel") === "dev" ? "dev" : "final";
+const storagePrefix = storageChannel === "dev" ? "urobilanz.dev." : "";
+const appStorage = {
+  getItem: (key) => localStorage.getItem(`${storagePrefix}${key}`),
+  setItem: (key, value) => localStorage.setItem(`${storagePrefix}${key}`, value),
+  removeItem: (key) => localStorage.removeItem(`${storagePrefix}${key}`),
+};
+let customThemes = loadStoredCustomThemes(appStorage, validateUroTheme);
+let language = supportedLanguages.has(appStorage.getItem("uroLanguage"))
+  ? appStorage.getItem("uroLanguage")
   : ((navigator.language || "de").toLowerCase().startsWith("de") ? "de" : "en");
 
 function t(key, replacements = {}) {
@@ -158,7 +165,7 @@ function fmtTime(date) {
 }
 
 function saveCustomThemes() {
-  saveStoredCustomThemes(localStorage, customThemes);
+  saveStoredCustomThemes(appStorage, customThemes);
 }
 
 function customThemeTitle(theme) {
@@ -175,7 +182,7 @@ function builtInThemeCopy(id) {
   });
 }
 
-function rebuildThemeOptions(activeTheme = els.themeSelect.value || localStorage.getItem("urinTheme") || "classic-light") {
+function rebuildThemeOptions(activeTheme = els.themeSelect.value || appStorage.getItem("urinTheme") || "classic-light") {
   els.themeSelect.innerHTML = "";
   els.themeMenuOptions.innerHTML = "";
   const addThemeOption = (id, title) => {
@@ -523,7 +530,7 @@ function render() {
   els.medicalReport.disabled = !hasData;
 
   if (!hasData) {
-    els.status.textContent = localStorage.getItem("urinSavedCsv")
+    els.status.textContent = appStorage.getItem("urinSavedCsv")
       ? t("saved_data_available")
       : t("no_data");
     return;
@@ -563,13 +570,13 @@ function applyTheme(theme) {
   els.deleteTheme.disabled = !customTheme;
   els.appMark.src = "./assets/urobilanz-app-icon.png";
   els.githubMark.src = isDark ? "./assets/github-invertocat-white.svg" : "./assets/github-invertocat-black.svg";
-  localStorage.setItem("urinTheme", selectedTheme);
+  appStorage.setItem("urinTheme", selectedTheme);
   if (state.days.length) render();
 }
 
 function applyLanguage(nextLanguage) {
   language = supportedLanguages.has(nextLanguage) ? nextLanguage : "de";
-  localStorage.setItem("uroLanguage", language);
+  appStorage.setItem("uroLanguage", language);
   document.documentElement.lang = language;
   els.languageSelect.value = language;
   document.querySelectorAll("[data-i18n]").forEach((element) => {
@@ -798,9 +805,9 @@ function renderTable(table, headers, rows, separateDays = false) {
 
 function loadTableColumnWidths() {
   try {
-    return JSON.parse(localStorage.getItem(tableWidthStorageKey) || "{}");
+    return JSON.parse(appStorage.getItem(tableWidthStorageKey) || "{}");
   } catch {
-    localStorage.removeItem(tableWidthStorageKey);
+    appStorage.removeItem(tableWidthStorageKey);
     return {};
   }
 }
@@ -832,7 +839,7 @@ function tableColumnWidths(tableId, headers, separateDays) {
 function saveTableColumnWidths(tableId, widths) {
   const saved = loadTableColumnWidths();
   saved[tableId] = Object.fromEntries(widths.map((width, index) => [index, Math.round(width)]));
-  localStorage.setItem(tableWidthStorageKey, JSON.stringify(saved));
+  appStorage.setItem(tableWidthStorageKey, JSON.stringify(saved));
 }
 
 function applyTableWidth(table, widths) {
@@ -954,7 +961,7 @@ async function loadCsvFile(file) {
     const text = await file.text();
     processRows(parseCsv(text), text);
     if (els.rememberData.checked) {
-      localStorage.setItem("urinSavedCsv", text);
+      appStorage.setItem("urinSavedCsv", text);
     }
   } catch (error) {
     state.rows = [];
@@ -1244,25 +1251,25 @@ els.languageSelect.addEventListener("change", (event) => {
 
 window.addEventListener("resize", () => render());
 
-const savedTheme = localStorage.getItem("urinTheme");
+const savedTheme = appStorage.getItem("urinTheme");
 const systemTheme = window.matchMedia?.("(prefers-color-scheme: dark)").matches ? "classic-dark" : "classic-light";
 applyTheme(savedTheme || systemTheme);
 applyLanguage(language);
 
 els.rememberData.addEventListener("change", () => {
-  localStorage.setItem("urinRememberData", els.rememberData.checked ? "yes" : "no");
+  appStorage.setItem("urinRememberData", els.rememberData.checked ? "yes" : "no");
   if (els.rememberData.checked && state.rawCsv) {
-    localStorage.setItem("urinSavedCsv", state.rawCsv);
+    appStorage.setItem("urinSavedCsv", state.rawCsv);
   }
   if (!els.rememberData.checked) {
-    localStorage.removeItem("urinSavedCsv");
+    appStorage.removeItem("urinSavedCsv");
   }
   render();
 });
 
 els.forgetData.addEventListener("click", () => {
-  localStorage.removeItem("urinSavedCsv");
-  localStorage.setItem("urinRememberData", "no");
+  appStorage.removeItem("urinSavedCsv");
+  appStorage.setItem("urinRememberData", "no");
   els.rememberData.checked = false;
   state.rows = [];
   state.days = [];
@@ -1478,7 +1485,7 @@ els.aboutDialog.addEventListener("click", (event) => {
 function rememberCurrentData() {
   state.rawCsv = entriesToRawCsv(state.rows);
   if (els.rememberData.checked) {
-    localStorage.setItem("urinSavedCsv", state.rawCsv);
+    appStorage.setItem("urinSavedCsv", state.rawCsv);
   }
 }
 
@@ -1505,9 +1512,9 @@ function toCsv(rows) {
 }
 
 async function loadInitialData() {
-  const remember = localStorage.getItem("urinRememberData") === "yes";
+  const remember = appStorage.getItem("urinRememberData") === "yes";
   els.rememberData.checked = remember;
-  const saved = remember ? localStorage.getItem("urinSavedCsv") : "";
+  const saved = remember ? appStorage.getItem("urinSavedCsv") : "";
   if (saved) {
     processRows(parseCsv(saved), saved);
     return;

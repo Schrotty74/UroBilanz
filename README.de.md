@@ -77,6 +77,16 @@ Die macOS-App kann neu gebaut werden mit:
 apps/macos-swift/build_app.sh
 ```
 
+Development-Builds koennen mit eigener Bundle-ID gebaut werden, damit
+Test-Einstellungen, Tabellenbreiten, importierte Themes und gemerkte Daten die
+normale App nicht beeinflussen:
+
+```bash
+UROBILANZ_BUILD_CHANNEL=dev apps/macos-swift/build_app.sh
+```
+
+Das erzeugt `apps/macos-swift/build/UroBilanz Dev.app`.
+
 ### macOS-Sicherheitswarnung
 
 > Beim ersten Oeffnen zeigt macOS moeglicherweise eine Warnung, da die App

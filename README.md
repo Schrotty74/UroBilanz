@@ -77,6 +77,16 @@ The macOS app can be rebuilt with:
 apps/macos-swift/build_app.sh
 ```
 
+Development builds can be built with a separate bundle identifier, so test
+settings, table widths, imported themes and remembered data do not affect the
+normal app:
+
+```bash
+UROBILANZ_BUILD_CHANNEL=dev apps/macos-swift/build_app.sh
+```
+
+This creates `apps/macos-swift/build/UroBilanz Dev.app`.
+
 ### macOS Security Warning
 
 > When opening the app for the first time, macOS may display a warning because

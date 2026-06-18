@@ -273,3 +273,9 @@ Umsetzungsregeln fuer 1.8:
 - Releases nur nach erfolgreichem lokalen Test und ausdruecklicher Freigabe.
 - Bei UI-Aenderungen nach Moeglichkeit Web-App und SwiftUI-App konsistent halten.
 - Bei laengeren oder riskanten Aenderungen lieber in kleinen Schritten arbeiten.
+- Dev-/Beta-Tests getrennt von Final-Daten halten:
+  - SwiftUI bei Bedarf mit `UROBILANZ_BUILD_CHANNEL=dev` bauen.
+  - Web-App bei Bedarf mit `UROBILANZ_WEB_CHANNEL=dev` starten oder
+    `index.html?channel=dev` oeffnen.
+  - Final-Builds duerfen keine experimentellen Defaults, Themes oder
+    Tabellenbreiten aus Dev-Tests uebernehmen.
