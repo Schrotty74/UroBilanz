@@ -194,3 +194,5 @@ OpenAI Codex. The graphics, symbols and app icons included in the project were
 also created for this project with support from OpenAI Codex. The medical
 content, thresholds and visualizations are intended only for personal overview
 and do not replace medical advice.
+
+<a href="https://www.buymeacoffee.com/ShelbyGT74"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=ShelbyGT74&button_colour=FF5F5F&font_colour=ffffff&font_family=Cookie&outline_colour=000000&coffee_colour=FFDD00" /></a>
