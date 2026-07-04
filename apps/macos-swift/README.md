@@ -15,6 +15,15 @@ Neu bauen und prüfen:
 ./smoke_test.sh
 ```
 
+DMG fuer Weitergabe erstellen:
+
+```text
+./build_dmg.sh
+```
+
+Die DMG enthaelt die App und einen `Applications`-Alias zum direkten
+Hinueberziehen.
+
 Development-Build mit getrennten lokalen Einstellungen bauen:
 
 ```text
