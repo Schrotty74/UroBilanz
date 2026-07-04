@@ -4,6 +4,7 @@ import UniformTypeIdentifiers
 
 struct UrinprotokollSwiftUIApp: App {
     @StateObject private var model = UrinModel()
+    @StateObject private var updateChecker = UpdateChecker()
 
     init() {
         if let url = Bundle.main.url(forResource: "urobilanz-app-icon", withExtension: "png"),
@@ -16,7 +17,11 @@ struct UrinprotokollSwiftUIApp: App {
         WindowGroup("UroBilanz") {
             ContentView()
                 .environmentObject(model)
+                .environmentObject(updateChecker)
                 .frame(minWidth: 1120, minHeight: 760)
+                .task {
+                    updateChecker.scheduleAutomaticCheck()
+                }
         }
         .commands {
             AboutCommands()
@@ -32,6 +37,10 @@ struct UrinprotokollSwiftUIApp: App {
         .windowResizability(.contentSize)
         .commands {
             AboutCommands()
+        }
+        Settings {
+            SettingsRoot()
+                .environmentObject(updateChecker)
         }
     }
 }
@@ -61,6 +70,68 @@ private struct AboutWindowRoot: View {
             .environment(\.appTheme, theme)
             .preferredColorScheme(theme.preferredScheme)
             .tint(theme.accent)
+    }
+}
+
+private struct SettingsRoot: View {
+    @EnvironmentObject private var updateChecker: UpdateChecker
+    @AppStorage("uroBilanzTheme") private var themeRaw = AppTheme.classicDark.rawValue
+    @AppStorage("uroBilanzCustomThemes") private var customThemesRaw = "[]"
+    @AppStorage("uroBilanzLanguage") private var languageRaw = AppLanguage.systemDefault.rawValue
+
+    var body: some View {
+        let language = AppLanguage(rawValue: languageRaw) ?? .systemDefault
+        let theme = ThemeStyle.resolve(
+            id: themeRaw,
+            customThemes: CustomThemeDefinition.decodeList(customThemesRaw)
+        )
+
+        VStack(alignment: .leading, spacing: 18) {
+            Text(tr("settings", language))
+                .font(.title2.bold())
+
+            VStack(alignment: .leading, spacing: 10) {
+                Text(tr("updates", language))
+                    .font(.headline)
+                Text(updateStatusText(language))
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+
+                HStack {
+                    Button(tr("check_for_updates", language)) {
+                        Task { await updateChecker.checkForUpdates(manual: true) }
+                    }
+                    .disabled(updateChecker.isChecking)
+
+                    if case .available = updateChecker.state {
+                        Button(tr("open_release", language)) {
+                            updateChecker.openReleasePage()
+                        }
+                    }
+                }
+            }
+        }
+        .padding(24)
+        .frame(width: 430, alignment: .leading)
+        .background(AppBackground(theme: theme))
+        .environment(\.appTheme, theme)
+        .preferredColorScheme(theme.preferredScheme)
+        .tint(theme.accent)
+    }
+
+    private func updateStatusText(_ language: AppLanguage) -> String {
+        switch updateChecker.state {
+        case .idle:
+            return tr("update_idle", language)
+        case .checking:
+            return tr("update_checking", language)
+        case .upToDate:
+            return tr("update_up_to_date", language)
+        case let .available(tag, _):
+            return tr("update_available", language, replacements: ["version": tag])
+        case .failed:
+            return tr("update_failed", language)
+        }
     }
 }
 
@@ -147,6 +218,7 @@ enum UroBilanzMain {
 
 struct ContentView: View {
     @EnvironmentObject private var model: UrinModel
+    @EnvironmentObject private var updateChecker: UpdateChecker
     @AppStorage("uroBilanzTheme") private var themeRaw = AppTheme.classicDark.rawValue
     @AppStorage("uroBilanzCustomThemes") private var customThemesRaw = "[]"
     @AppStorage("uroBilanzLanguage") private var languageRaw = AppLanguage.systemDefault.rawValue
@@ -185,6 +257,7 @@ struct ContentView: View {
                     medicalReport: { showsMedicalReport = true },
                     reportBug: { showsBugReport = true }
                 )
+                updateBanner(language: language)
                 Divider()
                 detailView
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
@@ -249,6 +322,31 @@ struct ContentView: View {
             }
         } message: {
             Text(tr("delete_theme_confirm", language))
+        }
+    }
+
+    @ViewBuilder
+    private func updateBanner(language: AppLanguage) -> some View {
+        if case let .available(tag, _) = updateChecker.state, !updateChecker.isBannerDismissed {
+            HStack(spacing: 12) {
+                Image(systemName: "arrow.down.circle")
+                Text(tr("update_banner", language, replacements: ["version": tag]))
+                    .font(.callout.weight(.semibold))
+                Spacer()
+                Button(tr("open_release", language)) {
+                    updateChecker.openReleasePage()
+                }
+                Button {
+                    updateChecker.isBannerDismissed = true
+                } label: {
+                    Image(systemName: "xmark")
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel(tr("close", language))
+            }
+            .padding(.horizontal, 22)
+            .padding(.vertical, 10)
+            .background(.bar)
         }
     }
 

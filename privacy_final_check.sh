@@ -59,7 +59,7 @@ check_empty "Commit-Metadaten enthalten den realen Entwicklernamen." "$real_name
 private_commit_emails="$(
   git log --all --format='%ae%n%ce' |
     sort -u |
-    grep -Ev '^$|@users\.noreply\.github\.com$' || true
+    grep -Ev '^$|@users\.noreply\.github\.com$|^noreply@github\.com$' || true
 )"
 check_empty "Die Git-Historie enthaelt nicht freigegebene Commit-E-Mail-Adressen." "$private_commit_emails"
 
@@ -74,7 +74,10 @@ check_empty "Die Git-Tags enthalten nicht freigegebene E-Mail-Adressen." "$priva
 secrets="$(git grep -nEI 'BEGIN (RSA|OPENSSH|EC|DSA|PGP) PRIVATE KEY|github_pat_[A-Za-z0-9_]+|gh[pousr]_[A-Za-z0-9]{20,}|AKIA[A-Z0-9]{16}|sk-[A-Za-z0-9]{20,}' HEAD -- . ':(exclude)privacy_final_check.sh' || true)"
 check_empty "Der aktuelle Git-Stand enthaelt moegliche Zugangsdaten oder private Schluessel." "$secrets"
 
-network_apis="$(git grep -nEI 'fetch\(|XMLHttpRequest|sendBeacon|WebSocket|URLSession|NSURLConnection|import Network' HEAD -- apps || true)"
+network_apis="$(
+  git grep -nEI 'fetch\(|XMLHttpRequest|sendBeacon|WebSocket|URLSession|NSURLConnection|import Network' HEAD -- apps |
+    grep -Ev '^HEAD:apps/macos-swift/Sources/UroUpdateChecker\.swift:.*(URLSession|URLSession\.shared\.data)' || true
+)"
 check_empty "Die Apps enthalten Netzwerk-APIs, die manuell geprueft werden muessen." "$network_apis"
 
 external_web_resources="$(git grep -nEI '<(script|img)[^>]+src=\"https?://|<link[^>]+href=\"https?://' HEAD -- apps/web || true)"

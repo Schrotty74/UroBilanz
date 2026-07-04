@@ -218,6 +218,35 @@ Ab jetzt gilt fuer jede Final-Version, nicht fuer Betas:
 
 1. `./privacy_final_check.sh` muss erfolgreich durchlaufen.
 2. Beide Apps werden auf unerwartete Netzwerkverbindungen geprueft.
+3. Der erlaubte GitHub-Updatecheck in der SwiftUI-App wird dabei gesondert
+   bewertet.
+
+## Ergaenzung - 04.07.2026: GitHub-Updatecheck
+
+Die SwiftUI-App enthaelt ab diesem Stand einen leichten Updatecheck mit
+Apple-Systemmitteln. Beim automatischen Check wird hoechstens einmal pro Tag
+die GitHub-Release-API fuer dieses Repository abgefragt:
+
+`https://api.github.com/repos/Schrotty74/UroBilanz/releases/latest`
+
+Technische Einordnung:
+
+- Der Request verwendet `URLSession` und einen klaren User-Agent mit App-Name
+  und Version.
+- Es werden keine CSV-Werte, Hinweise, Messdaten oder Gesundheitsdaten
+  uebertragen.
+- Die Antwort wird nur genutzt, um die neueste Release-Version mit der lokalen
+  App-Version zu vergleichen.
+- Automatische Fehler bleiben still. Manuelle Pruefungen zeigen nur
+  `aktuell`, `Update verfuegbar` oder `fehlgeschlagen`.
+- Die App enthaelt das Entitlement
+  `com.apple.security.network.client`, damit der Netzwerkzugriff in
+  sandboxed Builds technisch erlaubt ist.
+
+Diese gezielte Netzwerkverbindung aendert die Datenschutzbewertung nicht fuer
+Messdaten: UroBilanz uebertraegt weiterhin keine Gesundheitsdaten an externe
+Server. Externe Kommunikation durch die App beschraenkt sich auf diesen
+Updatecheck sowie auf sichtbar vom Nutzer ausgeloeste Links oder E-Mail-Aktionen.
 3. Finale Downloadpakete werden auf sensible oder lokale Dateien geprueft.
 4. Das Ergebnis wird in diesem Bericht ergaenzt.
 

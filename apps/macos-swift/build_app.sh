@@ -75,6 +75,7 @@ CLANG_MODULE_CACHE_PATH=/private/tmp/urobilanz-clang-cache \
   Sources/UroDataModel.swift \
   Sources/UroControls.swift \
   Sources/UroMedicalReport.swift \
+  Sources/UroUpdateChecker.swift \
   Sources/UroTablesAndCharts.swift \
   Sources/UroSmokeTests.swift \
   Sources/UrinprotokollSwiftUI.swift \
@@ -90,7 +91,7 @@ cp Assets/urobilanz-app-icon.png \
   Assets/github-invertocat-white.svg \
   "$app_path/Contents/Resources/"
 
-codesign --force --deep --sign - "$app_path"
+codesign --force --deep --sign - --entitlements UroBilanz.entitlements "$app_path"
 codesign --verify --deep --strict "$app_path"
 
 echo "${app_name}.app built and verified (${bundle_id})"

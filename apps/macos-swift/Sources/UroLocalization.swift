@@ -65,7 +65,12 @@ private let translations: [AppLanguage: [String: String]] = [
         "save_report": "Bericht speichern", "prepare_email": "E-Mail vorbereiten",
         "about_menu": "Über UroBilanz", "about_description": "Lokales Protokoll- und Auswertungstool für Urin- und Flüssigkeitsprotokolle.",
         "about_developer": "Entwickler", "about_developer_value": "Schrotty74, mit Unterstützung von OpenAI Codex",
-        "about_license": "Lizenz", "about_github": "GitHub", "about_contact": "Kontakt"
+        "about_license": "Lizenz", "about_github": "GitHub", "about_contact": "Kontakt",
+        "settings": "Einstellungen", "updates": "Updates", "check_for_updates": "Nach Updates suchen",
+        "update_idle": "Noch nicht geprüft.", "update_checking": "Update wird geprüft ...",
+        "update_up_to_date": "UroBilanz ist aktuell.", "update_available": "Neue Version verfügbar: {version}",
+        "update_failed": "Update-Prüfung fehlgeschlagen.", "update_banner": "Neue Version verfügbar: {version}",
+        "open_release": "Release öffnen"
     ],
     .en: [
         "dashboard": "Dashboard", "year": "Year", "month": "Month", "week": "Week", "day": "Day", "notes": "Rules",
@@ -118,7 +123,12 @@ private let translations: [AppLanguage: [String: String]] = [
         "save_report": "Save report", "prepare_email": "Prepare email",
         "about_menu": "About UroBilanz", "about_description": "Local logging and analysis tool for urine and fluid records.",
         "about_developer": "Developer", "about_developer_value": "Schrotty74, with support from OpenAI Codex",
-        "about_license": "License", "about_github": "GitHub", "about_contact": "Contact"
+        "about_license": "License", "about_github": "GitHub", "about_contact": "Contact",
+        "settings": "Settings", "updates": "Updates", "check_for_updates": "Check for updates",
+        "update_idle": "Not checked yet.", "update_checking": "Checking for updates ...",
+        "update_up_to_date": "UroBilanz is up to date.", "update_available": "New version available: {version}",
+        "update_failed": "Update check failed.", "update_banner": "New version available: {version}",
+        "open_release": "Open release"
     ]
 ]
 
