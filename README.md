@@ -89,6 +89,31 @@ UROBILANZ_BUILD_CHANNEL=dev apps/macos-swift/build_app.sh
 
 This creates `apps/macos-swift/build/UroBilanz Dev.app`.
 
+The native app can also be opened directly in Xcode:
+
+```bash
+open UroBilanz.xcodeproj
+```
+
+Use the shared `UroBilanz Dev` scheme for daily local development. Dev, Beta
+and Final use separate bundle identifiers:
+
+- Dev: `local.martin.urobilanz.dev`
+- Beta: `local.martin.urobilanz.beta`
+- Final: `local.martin.urobilanz`
+
+Beta and Final packages are created by scripts, not by separate visible Xcode
+schemes:
+
+```bash
+Scripts/create-beta-from-dev.sh 1.8.0-beta.1
+Scripts/publish-beta-as-final.sh 1.8.0
+```
+
+The scripts create ZIP, DMG and SHA256 files under `Backup/releases/...` and
+copy the unpacked app to `dist/releases/...`. GitHub push and release upload
+only happen when `UROBILANZ_ALLOW_PUSH=YES` is set.
+
 ### macOS Security Warning
 
 > When opening the app for the first time, macOS may display a warning because

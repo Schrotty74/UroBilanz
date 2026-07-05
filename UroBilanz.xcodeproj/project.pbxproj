@@ -1,0 +1,445 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		UB0000000000000000000101 /* UrinprotokollSwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = UB0000000000000000000201 /* UrinprotokollSwiftUI.swift */; };
+		UB0000000000000000000102 /* UroCSVSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = UB0000000000000000000202 /* UroCSVSupport.swift */; };
+		UB0000000000000000000103 /* UroControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = UB0000000000000000000203 /* UroControls.swift */; };
+		UB0000000000000000000104 /* UroDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = UB0000000000000000000204 /* UroDataModel.swift */; };
+		UB0000000000000000000105 /* UroLocalization.swift in Sources */ = {isa = PBXBuildFile; fileRef = UB0000000000000000000205 /* UroLocalization.swift */; };
+		UB0000000000000000000106 /* UroMedicalReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = UB0000000000000000000206 /* UroMedicalReport.swift */; };
+		UB0000000000000000000107 /* UroModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = UB0000000000000000000207 /* UroModels.swift */; };
+		UB0000000000000000000108 /* UroNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = UB0000000000000000000208 /* UroNavigation.swift */; };
+		UB0000000000000000000109 /* UroSmokeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = UB0000000000000000000209 /* UroSmokeTests.swift */; };
+		UB0000000000000000000110 /* UroTablesAndCharts.swift in Sources */ = {isa = PBXBuildFile; fileRef = UB0000000000000000000210 /* UroTablesAndCharts.swift */; };
+		UB0000000000000000000111 /* UroThemes.swift in Sources */ = {isa = PBXBuildFile; fileRef = UB0000000000000000000211 /* UroThemes.swift */; };
+		UB0000000000000000000112 /* UroUpdateChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = UB0000000000000000000212 /* UroUpdateChecker.swift */; };
+		UB0000000000000000000121 /* UroBilanz.icns in Resources */ = {isa = PBXBuildFile; fileRef = UB0000000000000000000221 /* UroBilanz.icns */; };
+		UB0000000000000000000122 /* urobilanz-app-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = UB0000000000000000000222 /* urobilanz-app-icon.png */; };
+		UB0000000000000000000123 /* github-invertocat-black.svg in Resources */ = {isa = PBXBuildFile; fileRef = UB0000000000000000000223 /* github-invertocat-black.svg */; };
+		UB0000000000000000000124 /* github-invertocat-white.svg in Resources */ = {isa = PBXBuildFile; fileRef = UB0000000000000000000224 /* github-invertocat-white.svg */; };
+		UB0000000000000000000125 /* urobilanz-icon-dark.svg in Resources */ = {isa = PBXBuildFile; fileRef = UB0000000000000000000225 /* urobilanz-icon-dark.svg */; };
+		UB0000000000000000000126 /* urobilanz-icon-light.svg in Resources */ = {isa = PBXBuildFile; fileRef = UB0000000000000000000226 /* urobilanz-icon-light.svg */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		UB0000000000000000000201 /* UrinprotokollSwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrinprotokollSwiftUI.swift; sourceTree = "<group>"; };
+		UB0000000000000000000202 /* UroCSVSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UroCSVSupport.swift; sourceTree = "<group>"; };
+		UB0000000000000000000203 /* UroControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UroControls.swift; sourceTree = "<group>"; };
+		UB0000000000000000000204 /* UroDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UroDataModel.swift; sourceTree = "<group>"; };
+		UB0000000000000000000205 /* UroLocalization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UroLocalization.swift; sourceTree = "<group>"; };
+		UB0000000000000000000206 /* UroMedicalReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UroMedicalReport.swift; sourceTree = "<group>"; };
+		UB0000000000000000000207 /* UroModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UroModels.swift; sourceTree = "<group>"; };
+		UB0000000000000000000208 /* UroNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UroNavigation.swift; sourceTree = "<group>"; };
+		UB0000000000000000000209 /* UroSmokeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UroSmokeTests.swift; sourceTree = "<group>"; };
+		UB0000000000000000000210 /* UroTablesAndCharts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UroTablesAndCharts.swift; sourceTree = "<group>"; };
+		UB0000000000000000000211 /* UroThemes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UroThemes.swift; sourceTree = "<group>"; };
+		UB0000000000000000000212 /* UroUpdateChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UroUpdateChecker.swift; sourceTree = "<group>"; };
+		UB0000000000000000000213 /* MakeAppIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MakeAppIcon.swift; sourceTree = "<group>"; };
+		UB0000000000000000000221 /* UroBilanz.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = UroBilanz.icns; sourceTree = "<group>"; };
+		UB0000000000000000000222 /* urobilanz-app-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "urobilanz-app-icon.png"; sourceTree = "<group>"; };
+		UB0000000000000000000223 /* github-invertocat-black.svg */ = {isa = PBXFileReference; lastKnownFileType = text; path = "github-invertocat-black.svg"; sourceTree = "<group>"; };
+		UB0000000000000000000224 /* github-invertocat-white.svg */ = {isa = PBXFileReference; lastKnownFileType = text; path = "github-invertocat-white.svg"; sourceTree = "<group>"; };
+		UB0000000000000000000225 /* urobilanz-icon-dark.svg */ = {isa = PBXFileReference; lastKnownFileType = text; path = "urobilanz-icon-dark.svg"; sourceTree = "<group>"; };
+		UB0000000000000000000226 /* urobilanz-icon-light.svg */ = {isa = PBXFileReference; lastKnownFileType = text; path = "urobilanz-icon-light.svg"; sourceTree = "<group>"; };
+		UB0000000000000000000231 /* UroBilanz.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = UroBilanz.entitlements; sourceTree = "<group>"; };
+		UB0000000000000000000241 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		UB0000000000000000000301 /* UroBilanz.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UroBilanz.app; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		UB0000000000000000000401 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		UB0000000000000000000501 = {
+			isa = PBXGroup;
+			children = (
+				UB0000000000000000000502 /* apps */,
+				UB0000000000000000000505 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		UB0000000000000000000502 /* apps */ = {
+			isa = PBXGroup;
+			children = (
+				UB0000000000000000000503 /* macos-swift */,
+			);
+			path = apps;
+			sourceTree = "<group>";
+		};
+		UB0000000000000000000503 /* macos-swift */ = {
+			isa = PBXGroup;
+			children = (
+				UB0000000000000000000504 /* Sources */,
+				UB0000000000000000000506 /* Assets */,
+				UB0000000000000000000231 /* UroBilanz.entitlements */,
+				UB0000000000000000000241 /* README.md */,
+			);
+			path = "macos-swift";
+			sourceTree = "<group>";
+		};
+		UB0000000000000000000504 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				UB0000000000000000000201 /* UrinprotokollSwiftUI.swift */,
+				UB0000000000000000000202 /* UroCSVSupport.swift */,
+				UB0000000000000000000203 /* UroControls.swift */,
+				UB0000000000000000000204 /* UroDataModel.swift */,
+				UB0000000000000000000205 /* UroLocalization.swift */,
+				UB0000000000000000000206 /* UroMedicalReport.swift */,
+				UB0000000000000000000207 /* UroModels.swift */,
+				UB0000000000000000000208 /* UroNavigation.swift */,
+				UB0000000000000000000209 /* UroSmokeTests.swift */,
+				UB0000000000000000000210 /* UroTablesAndCharts.swift */,
+				UB0000000000000000000211 /* UroThemes.swift */,
+				UB0000000000000000000212 /* UroUpdateChecker.swift */,
+				UB0000000000000000000213 /* MakeAppIcon.swift */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		UB0000000000000000000505 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				UB0000000000000000000301 /* UroBilanz.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		UB0000000000000000000506 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				UB0000000000000000000221 /* UroBilanz.icns */,
+				UB0000000000000000000222 /* urobilanz-app-icon.png */,
+				UB0000000000000000000223 /* github-invertocat-black.svg */,
+				UB0000000000000000000224 /* github-invertocat-white.svg */,
+				UB0000000000000000000225 /* urobilanz-icon-dark.svg */,
+				UB0000000000000000000226 /* urobilanz-icon-light.svg */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		UB0000000000000000000601 /* UroBilanz */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = UB0000000000000000000902 /* Build configuration list for PBXNativeTarget "UroBilanz" */;
+			buildPhases = (
+				UB0000000000000000000701 /* Sources */,
+				UB0000000000000000000401 /* Frameworks */,
+				UB0000000000000000000702 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = UroBilanz;
+			productName = UroBilanz;
+			productReference = UB0000000000000000000301 /* UroBilanz.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		UB0000000000000000000801 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2660;
+				LastUpgradeCheck = 2660;
+				TargetAttributes = {
+					UB0000000000000000000601 = {
+						CreatedOnToolsVersion = 26.0;
+					};
+				};
+			};
+			buildConfigurationList = UB0000000000000000000901 /* Build configuration list for PBXProject "UroBilanz" */;
+			developmentRegion = de;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				de,
+				en,
+				Base,
+			);
+			mainGroup = UB0000000000000000000501;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = UB0000000000000000000505 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				UB0000000000000000000601 /* UroBilanz */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		UB0000000000000000000702 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				UB0000000000000000000121 /* UroBilanz.icns in Resources */,
+				UB0000000000000000000122 /* urobilanz-app-icon.png in Resources */,
+				UB0000000000000000000123 /* github-invertocat-black.svg in Resources */,
+				UB0000000000000000000124 /* github-invertocat-white.svg in Resources */,
+				UB0000000000000000000125 /* urobilanz-icon-dark.svg in Resources */,
+				UB0000000000000000000126 /* urobilanz-icon-light.svg in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		UB0000000000000000000701 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				UB0000000000000000000105 /* UroLocalization.swift in Sources */,
+				UB0000000000000000000111 /* UroThemes.swift in Sources */,
+				UB0000000000000000000108 /* UroNavigation.swift in Sources */,
+				UB0000000000000000000102 /* UroCSVSupport.swift in Sources */,
+				UB0000000000000000000107 /* UroModels.swift in Sources */,
+				UB0000000000000000000104 /* UroDataModel.swift in Sources */,
+				UB0000000000000000000103 /* UroControls.swift in Sources */,
+				UB0000000000000000000106 /* UroMedicalReport.swift in Sources */,
+				UB0000000000000000000112 /* UroUpdateChecker.swift in Sources */,
+				UB0000000000000000000110 /* UroTablesAndCharts.swift in Sources */,
+				UB0000000000000000000109 /* UroSmokeTests.swift in Sources */,
+				UB0000000000000000000101 /* UrinprotokollSwiftUI.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		UB0000000000000000001001 /* Dev */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Dev;
+		};
+		UB0000000000000000001002 /* Beta */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Beta;
+		};
+		UB0000000000000000001003 /* Final */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Final;
+		};
+		UB0000000000000000001101 /* Dev */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CODE_SIGN_ENTITLEMENTS = apps/macos-swift/UroBilanz.entitlements;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 31;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "UroBilanz Dev";
+				INFOPLIST_KEY_CFBundleExecutable = UrinprotokollSwiftUI;
+				INFOPLIST_KEY_CFBundleIconFile = UroBilanz;
+				INFOPLIST_KEY_CFBundleName = "UroBilanz Dev";
+				INFOPLIST_KEY_LSMinimumSystemVersion = 26.0;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MARKETING_VERSION = 1.7.2;
+				PRODUCT_BUNDLE_IDENTIFIER = local.martin.urobilanz.dev;
+				PRODUCT_NAME = "UroBilanz Dev";
+				SKIP_INSTALL = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Dev;
+		};
+		UB0000000000000000001102 /* Beta */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CODE_SIGN_ENTITLEMENTS = apps/macos-swift/UroBilanz.entitlements;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 31;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "UroBilanz Beta";
+				INFOPLIST_KEY_CFBundleExecutable = UrinprotokollSwiftUI;
+				INFOPLIST_KEY_CFBundleIconFile = UroBilanz;
+				INFOPLIST_KEY_CFBundleName = "UroBilanz Beta";
+				INFOPLIST_KEY_LSMinimumSystemVersion = 26.0;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MARKETING_VERSION = 1.7.2-beta.local;
+				PRODUCT_BUNDLE_IDENTIFIER = local.martin.urobilanz.beta;
+				PRODUCT_NAME = "UroBilanz Beta";
+				SKIP_INSTALL = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Beta;
+		};
+		UB0000000000000000001103 /* Final */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CODE_SIGN_ENTITLEMENTS = apps/macos-swift/UroBilanz.entitlements;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 31;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = UroBilanz;
+				INFOPLIST_KEY_CFBundleExecutable = UrinprotokollSwiftUI;
+				INFOPLIST_KEY_CFBundleIconFile = UroBilanz;
+				INFOPLIST_KEY_CFBundleName = UroBilanz;
+				INFOPLIST_KEY_LSMinimumSystemVersion = 26.0;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MARKETING_VERSION = 1.7.2;
+				PRODUCT_BUNDLE_IDENTIFIER = local.martin.urobilanz;
+				PRODUCT_NAME = UroBilanz;
+				SKIP_INSTALL = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Final;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		UB0000000000000000000901 /* Build configuration list for PBXProject "UroBilanz" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				UB0000000000000000001001 /* Dev */,
+				UB0000000000000000001002 /* Beta */,
+				UB0000000000000000001003 /* Final */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Dev;
+		};
+		UB0000000000000000000902 /* Build configuration list for PBXNativeTarget "UroBilanz" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				UB0000000000000000001101 /* Dev */,
+				UB0000000000000000001102 /* Beta */,
+				UB0000000000000000001103 /* Final */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Dev;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = UB0000000000000000000801 /* Project object */;
+}

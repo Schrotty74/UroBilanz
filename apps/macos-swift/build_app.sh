@@ -8,11 +8,18 @@ mkdir -p /private/tmp/urobilanz-clang-cache \
   build
 
 build_channel="${UROBILANZ_BUILD_CHANNEL:-final}"
+marketing_version="${UROBILANZ_VERSION:-1.7.2}"
+build_number="${UROBILANZ_BUILD_NUMBER:-31}"
 case "$build_channel" in
   final)
     app_name="UroBilanz"
     display_name="UroBilanz"
     bundle_id="local.martin.urobilanz"
+    ;;
+  beta)
+    app_name="UroBilanz Beta"
+    display_name="UroBilanz Beta"
+    bundle_id="local.martin.urobilanz.beta"
     ;;
   dev)
     app_name="UroBilanz Dev"
@@ -21,7 +28,7 @@ case "$build_channel" in
     ;;
   *)
     echo "Unknown UROBILANZ_BUILD_CHANNEL: $build_channel"
-    echo "Use 'final' or 'dev'."
+    echo "Use 'final', 'beta' or 'dev'."
     exit 1
     ;;
 esac
@@ -54,9 +61,9 @@ cat > "$app_path/Contents/Info.plist" <<PLIST
   <key>CFBundlePackageType</key>
   <string>APPL</string>
   <key>CFBundleShortVersionString</key>
-  <string>1.7.2</string>
+  <string>${marketing_version}</string>
   <key>CFBundleVersion</key>
-  <string>31</string>
+  <string>${build_number}</string>
   <key>LSMinimumSystemVersion</key>
   <string>26.0</string>
   <key>NSHighResolutionCapable</key>

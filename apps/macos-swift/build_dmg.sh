@@ -10,13 +10,17 @@ case "$build_channel" in
     app_name="UroBilanz"
     dmg_name="UroBilanz-macOS-Swift"
     ;;
+  beta)
+    app_name="UroBilanz Beta"
+    dmg_name="UroBilanz-macOS-Swift-Beta"
+    ;;
   dev)
     app_name="UroBilanz Dev"
     dmg_name="UroBilanz-macOS-Swift-Dev"
     ;;
   *)
     echo "Unknown UROBILANZ_BUILD_CHANNEL: $build_channel"
-    echo "Use 'final' or 'dev'."
+    echo "Use 'final', 'beta' or 'dev'."
     exit 1
     ;;
 esac

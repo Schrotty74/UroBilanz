@@ -34,6 +34,20 @@ Dadurch entsteht `build/UroBilanz Dev.app` mit eigener Bundle-ID und eigenen
 UserDefaults. Testdaten, Themes und Tabellenbreiten beeinflussen die normale App
 nicht.
 
+Beta-Build mit eigener Bundle-ID bauen:
+
+```text
+UROBILANZ_BUILD_CHANNEL=beta ./build_app.sh
+```
+
+Fuer Xcode gibt es das geteilte Scheme `UroBilanz Dev`. Beta und Final werden
+ueber die Skripte im Projektordner erzeugt:
+
+```text
+Scripts/create-beta-from-dev.sh 1.8.0-beta.1
+Scripts/publish-beta-as-final.sh 1.8.0
+```
+
 ## Technische Aufteilung
 
 - `UroLocalization.swift`: Sprache und Übersetzungen

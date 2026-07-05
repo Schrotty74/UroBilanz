@@ -4,9 +4,16 @@
 # Build outputs
 build/
 release/
+dist/
+Backup/
+.build/
+.build-cache/
+DerivedData/
 *.app/
 *.dSYM/
 *.xcarchive/
+*.xcodeproj/xcuserdata/
+*.xcworkspace/xcuserdata/
 *.icns
 !apps/macos-swift/Assets/UroBilanz.icns
 *.iconset/
