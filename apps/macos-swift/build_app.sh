@@ -14,17 +14,17 @@ case "$build_channel" in
   final)
     app_name="UroBilanz"
     display_name="UroBilanz"
-    bundle_id="local.martin.urobilanz"
+    bundle_id="local.schrotty74.urobilanz"
     ;;
   beta)
     app_name="UroBilanz Beta"
     display_name="UroBilanz Beta"
-    bundle_id="local.martin.urobilanz.beta"
+    bundle_id="local.schrotty74.urobilanz.beta"
     ;;
   dev)
     app_name="UroBilanz Dev"
     display_name="UroBilanz Dev"
-    bundle_id="local.martin.urobilanz.dev"
+    bundle_id="local.schrotty74.urobilanz.dev"
     ;;
   *)
     echo "Unknown UROBILANZ_BUILD_CHANNEL: $build_channel"

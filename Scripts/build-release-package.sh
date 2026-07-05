@@ -20,11 +20,11 @@ cd "$root_directory"
 
 configuration="Final"
 app_name="UroBilanz"
-bundle_identifier="local.martin.urobilanz"
+bundle_identifier="local.schrotty74.urobilanz"
 if [[ "$channel" == "beta" ]]; then
     configuration="Beta"
     app_name="UroBilanz Beta"
-    bundle_identifier="local.martin.urobilanz.beta"
+    bundle_identifier="local.schrotty74.urobilanz.beta"
 fi
 
 build_setting() {

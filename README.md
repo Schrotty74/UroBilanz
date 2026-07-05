@@ -98,9 +98,9 @@ open UroBilanz.xcodeproj
 Use the shared `UroBilanz Dev` scheme for daily local development. Dev, Beta
 and Final use separate bundle identifiers:
 
-- Dev: `local.martin.urobilanz.dev`
-- Beta: `local.martin.urobilanz.beta`
-- Final: `local.martin.urobilanz`
+- Dev: `local.schrotty74.urobilanz.dev`
+- Beta: `local.schrotty74.urobilanz.beta`
+- Final: `local.schrotty74.urobilanz`
 
 Beta and Final packages are created by scripts, not by separate visible Xcode
 schemes:

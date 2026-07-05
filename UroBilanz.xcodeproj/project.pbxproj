@@ -352,7 +352,7 @@
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MARKETING_VERSION = 1.7.2;
-				PRODUCT_BUNDLE_IDENTIFIER = local.martin.urobilanz.dev;
+				PRODUCT_BUNDLE_IDENTIFIER = local.schrotty74.urobilanz.dev;
 				PRODUCT_NAME = "UroBilanz Dev";
 				SKIP_INSTALL = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -380,7 +380,7 @@
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MARKETING_VERSION = 1.7.2-beta.local;
-				PRODUCT_BUNDLE_IDENTIFIER = local.martin.urobilanz.beta;
+				PRODUCT_BUNDLE_IDENTIFIER = local.schrotty74.urobilanz.beta;
 				PRODUCT_NAME = "UroBilanz Beta";
 				SKIP_INSTALL = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -408,7 +408,7 @@
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MARKETING_VERSION = 1.7.2;
-				PRODUCT_BUNDLE_IDENTIFIER = local.martin.urobilanz;
+				PRODUCT_BUNDLE_IDENTIFIER = local.schrotty74.urobilanz;
 				PRODUCT_NAME = UroBilanz;
 				SKIP_INSTALL = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
