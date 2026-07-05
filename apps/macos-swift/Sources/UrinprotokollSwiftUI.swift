@@ -337,7 +337,7 @@ struct ContentView: View {
                     updateChecker.openReleasePage()
                 }
                 Button {
-                    updateChecker.isBannerDismissed = true
+                    updateChecker.dismissBanner()
                 } label: {
                     Image(systemName: "xmark")
                 }

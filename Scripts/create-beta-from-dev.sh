@@ -110,7 +110,7 @@ write_release_notes() {
     if [[ -n "$previous_tag" ]]; then
         range="$previous_tag..$target_commit"
     else
-        range="$target_commit"
+        range="$target_commit^..$target_commit"
     fi
 
     {

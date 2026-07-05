@@ -31,11 +31,12 @@ require_clean_worktree() {
     fi
 }
 
-ensure_branch_exists() {
+fetch_remote_branch() {
     local branch="$1"
-    local start_point="$2"
-    if ! git show-ref --verify --quiet "refs/heads/$branch"; then
-        git branch "$branch" "$start_point"
+    git fetch origin "$branch"
+    if ! git show-ref --verify --quiet "refs/remotes/origin/$branch"; then
+        echo "Abbruch: origin/$branch wurde nicht gefunden." >&2
+        exit 1
     fi
 }
 
@@ -85,8 +86,6 @@ create_github_release() {
 }
 
 require_clean_worktree
-ensure_branch_exists beta main
-ensure_branch_exists main beta
 
 version="$(release_version)"
 if [[ -z "$version" ]]; then
@@ -95,7 +94,12 @@ if [[ -z "$version" ]]; then
     exit 1
 fi
 
+fetch_remote_branch main
+fetch_remote_branch beta
+
 git switch main
+git merge --ff-only origin/main
+git branch -f beta origin/beta
 git merge --ff-only beta
 final_commit="$(git rev-parse HEAD)"
 

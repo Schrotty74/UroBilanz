@@ -60,7 +60,11 @@ final class UrinModel: ObservableObject {
         filteredDays.filter(\.isCompleteMeasurementDay)
     }
     var currentStreak: Int {
-        let sortedDays = days.sorted { $0.messtag > $1.messtag }
+        currentStreak(in: days)
+    }
+
+    func currentStreak(in sourceDays: [DaySummary]) -> Int {
+        let sortedDays = sourceDays.sorted { $0.messtag > $1.messtag }
         guard let firstDay = sortedDays.first?.messtag else { return 0 }
         var expectedDay = calendar.startOfDay(for: firstDay)
         var streak = 0
@@ -312,7 +316,7 @@ final class UrinModel: ObservableObject {
             [
                 "datum": Self.jsonDateFormatter.string(from: entry.original),
                 "typ": entry.type,
-                "ml": entry.ml,
+                "ml": (entry.ml as Int?) ?? 0,
                 "hinweis": entry.note
             ] as [String: Any]
         }

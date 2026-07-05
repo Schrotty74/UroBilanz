@@ -68,18 +68,25 @@ mac_zip="$backup_directory/UroBilanz-macOS-Swift-$artifact_version.zip"
 mac_dmg="$backup_directory/UroBilanz-macOS-Swift-$artifact_version.dmg"
 web_zip="$backup_directory/UroBilanz-Web-$artifact_version.zip"
 app_bundle="$release_directory/$app_name.app"
+derived_data_path="$root_directory/.build/xcode-$channel-derived-data"
+product_app="$derived_data_path/Build/Products/$configuration/$app_name.app"
 
 "$root_directory/privacy_final_check.sh"
 
 rm -rf "$release_directory"
 mkdir -p "$backup_directory" "$release_directory"
 
-UROBILANZ_BUILD_CHANNEL="$channel" \
-UROBILANZ_VERSION="$version" \
-UROBILANZ_BUILD_NUMBER="$build_number" \
-    "$root_directory/apps/macos-swift/build_app.sh"
+xcodebuild \
+    -project UroBilanz.xcodeproj \
+    -scheme "UroBilanz Dev" \
+    -configuration "$configuration" \
+    -destination 'platform=macOS' \
+    -derivedDataPath "$derived_data_path" \
+    MARKETING_VERSION="$version" \
+    CURRENT_PROJECT_VERSION="$build_number" \
+    build
 
-ditto "$root_directory/apps/macos-swift/build/$app_name.app" "$app_bundle"
+ditto "$product_app" "$app_bundle"
 
 rm -f "$mac_zip" "$mac_dmg" "$web_zip" \
     "$mac_zip.sha256" "$mac_dmg.sha256" "$web_zip.sha256"

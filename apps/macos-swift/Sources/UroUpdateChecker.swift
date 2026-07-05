@@ -12,7 +12,7 @@ final class UpdateChecker: ObservableObject {
     }
 
     @Published private(set) var state: State = .idle
-    @Published var isBannerDismissed = false
+    @Published private(set) var isBannerDismissed = false
 
     private let defaults = UserDefaults.standard
     private let latestReleaseURL = URL(string: "https://api.github.com/repos/Schrotty74/UroBilanz/releases/latest")
@@ -20,6 +20,12 @@ final class UpdateChecker: ObservableObject {
     private let lastCheckKey = "uroBilanzUpdateLastCheck"
     private let cachedTagKey = "uroBilanzUpdateLatestTag"
     private let cachedURLKey = "uroBilanzUpdateLatestURL"
+    private let bannerDismissedTagKey = "uroBilanzUpdateBannerDismissedTag"
+    private var automaticCheckTask: Task<Void, Never>?
+
+    deinit {
+        automaticCheckTask?.cancel()
+    }
 
     var currentVersion: String {
         Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "0"
@@ -31,9 +37,11 @@ final class UpdateChecker: ObservableObject {
     }
 
     func scheduleAutomaticCheck() {
-        Task {
+        automaticCheckTask?.cancel()
+        automaticCheckTask = Task { [weak self] in
             try? await Task.sleep(nanoseconds: 2_000_000_000)
-            await checkForUpdates(manual: false)
+            guard !Task.isCancelled, let self else { return }
+            await self.checkForUpdates(manual: false)
         }
     }
 
@@ -63,7 +71,7 @@ final class UpdateChecker: ObservableObject {
 
             if Self.isVersion(release.tagName, newerThan: currentVersion) {
                 state = .available(tag: release.tagName, url: release.htmlURL)
-                isBannerDismissed = false
+                isBannerDismissed = defaults.string(forKey: bannerDismissedTagKey) == release.tagName
             } else {
                 state = .upToDate
             }
@@ -81,6 +89,12 @@ final class UpdateChecker: ObservableObject {
         NSWorkspace.shared.open(url)
     }
 
+    func dismissBanner() {
+        guard case let .available(tag, _) = state else { return }
+        defaults.set(tag, forKey: bannerDismissedTagKey)
+        isBannerDismissed = true
+    }
+
     private func shouldRunAutomaticCheck() -> Bool {
         let lastCheck = defaults.double(forKey: lastCheckKey)
         guard lastCheck > 0 else { return true }
@@ -95,31 +109,37 @@ final class UpdateChecker: ObservableObject {
             return
         }
         state = .available(tag: tag, url: url)
+        isBannerDismissed = defaults.string(forKey: bannerDismissedTagKey) == tag
     }
 
     private static func isVersion(_ candidate: String, newerThan current: String) -> Bool {
-        let left = versionParts(candidate)
-        let right = versionParts(current)
-        let count = max(left.count, right.count)
+        let left = versionInfo(candidate)
+        let right = versionInfo(current)
+        let count = max(left.parts.count, right.parts.count)
         for index in 0..<count {
-            let leftValue = index < left.count ? left[index] : 0
-            let rightValue = index < right.count ? right[index] : 0
+            let leftValue = index < left.parts.count ? left.parts[index] : 0
+            let rightValue = index < right.parts.count ? right.parts[index] : 0
             if leftValue != rightValue {
                 return leftValue > rightValue
             }
         }
+        if left.isPrerelease != right.isPrerelease {
+            return !left.isPrerelease && right.isPrerelease
+        }
         return false
     }
 
-    private static func versionParts(_ value: String) -> [Int] {
+    private static func versionInfo(_ value: String) -> (parts: [Int], isPrerelease: Bool) {
         let normalized = value
             .trimmingCharacters(in: .whitespacesAndNewlines)
             .replacingOccurrences(of: #"^[vV]"#, with: "", options: .regularExpression)
-            .split(separator: "-", maxSplits: 1)
-            .first ?? ""
-        return normalized
+        let pieces = normalized.split(separator: "-", maxSplits: 1, omittingEmptySubsequences: false)
+        let numericPart = pieces.first ?? ""
+        let isPrerelease = pieces.count > 1
+        let parts = numericPart
             .split(separator: ".")
             .map { Int($0.filter(\.isNumber)) ?? 0 }
+        return (parts, isPrerelease)
     }
 }
 

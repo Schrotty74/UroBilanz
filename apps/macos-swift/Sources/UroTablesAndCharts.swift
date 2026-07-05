@@ -41,7 +41,7 @@ struct MetricGrid: View {
         let waterTotal = days.reduce(0) { $0 + $1.waterTotal }
         let metrics = [
             (tr("measurement_days", language), "\(days.count)", "calendar"),
-            (tr("streak_days", language), "🔥 \(model.currentStreak)", "flame.fill"),
+            (tr("streak_days", language), "🔥 \(model.currentStreak(in: days))", "flame.fill"),
             (tr("urine_total", language), model.format(urineTotal), "circle.fill"),
             (tr("urine_average", language), model.format(days.isEmpty ? 0 : urineTotal / days.count), "chart.line.uptrend.xyaxis"),
             (tr("water_total", language), model.format(waterTotal), "drop.fill"),
