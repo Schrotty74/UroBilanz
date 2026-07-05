@@ -112,7 +112,9 @@ Scripts/publish-beta-as-final.sh 1.8.0
 
 The scripts create ZIP, DMG and SHA256 files under `Backup/releases/...` and
 copy the unpacked app to `dist/releases/...`. GitHub push and release upload
-only happen when `UROBILANZ_ALLOW_PUSH=YES` is set.
+only happen when `UROBILANZ_ALLOW_PUSH=YES` is set. Release packages should be
+created through `Scripts/build-release-package.sh`; `apps/web/build_web.sh` is
+only an internal helper for the web bundle.
 
 ### macOS Security Warning
 

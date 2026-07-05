@@ -267,6 +267,8 @@ Umsetzungsregeln fuer 1.8:
 - `CHANGELOG.md` bei GitHub-Releases aktualisieren.
 - Ab dem naechsten Build die macOS-App sowohl als ZIP als auch als DMG
   bereitstellen; die Web-App bleibt als ZIP.
+- Release-Pakete nur noch ueber `Scripts/build-release-package.sh` erstellen;
+  `apps/web/build_web.sh` ist nur ein internes Hilfsskript.
 - Final-Backups kuenftig genau zweimal aufbewahren: eine lokale Kopie und eine
   iCloud-Kopie. Bei mehreren Final-Backups nur die neueste Final-Version
   behalten.

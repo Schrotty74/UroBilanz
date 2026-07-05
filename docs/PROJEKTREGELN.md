@@ -22,6 +22,10 @@
 - Ab dem nächsten Build wird die macOS-App für lokale Sicherungen und
   GitHub-Releases zusätzlich zur ZIP-Datei auch als DMG bereitgestellt. Die
   Web-App bleibt als ZIP verfügbar.
+- Release-Pakete werden nur noch ueber `Scripts/build-release-package.sh`
+  erstellt. `apps/web/build_web.sh` bleibt ein internes Hilfsskript, damit
+  Web-ZIP, macOS-ZIP, macOS-DMG und SHA256-Dateien immer gemeinsam im selben
+  Zielordner landen.
 - Final-Backups werden kuenftig genau zweimal aufbewahrt: eine lokale Kopie und
   eine iCloud-Kopie. Beta-, RC- und Zwischenstands-Backups werden nicht
   dauerhaft aufbewahrt. Wenn mehrere Final-Backups vorhanden sind, bleibt nur
