@@ -70,6 +70,7 @@ const storage = {
 saveCustomThemes(storage, [validTheme]);
 assert.equal(loadCustomThemes(storage, validateUroTheme)[0].id, "harbor-night");
 assert.equal(customThemeTitle(validTheme, "de"), "Hafen Nacht");
+assert.equal(customThemeTitle({ ...validTheme, name: { en: "Only English" } }, "de"), "Only English");
 
 const properties = new Map();
 const styleTarget = {
@@ -103,5 +104,9 @@ const copiedTheme = builtInThemeCopy({
 assert.equal(copiedTheme.id, "classic-dark-custom-2");
 assert.equal(copiedTheme.mode, "dark");
 assert.ok(builtInThemeIds.includes("classic-dark"));
+
+storage.setItem("uroCustomThemes", JSON.stringify([{ ...validTheme, colors: { ...validTheme.colors, water: "blue" } }]));
+assert.deepEqual(loadCustomThemes(storage, validateUroTheme), []);
+assert.equal(storage.getItem("uroCustomThemes"), null);
 
 console.log("Web core smoke test passed");

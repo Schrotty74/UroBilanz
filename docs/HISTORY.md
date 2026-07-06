@@ -405,6 +405,19 @@ Bugfix-Release fuer die SwiftUI-App.
 - Web-App Version `1.7.2`.
 - macOS-App Version `1.7.2`, Build `31`.
 
+## 1.7.3-beta.1 - 2026-07-06
+
+- Sicherheitsabfragen fuer geloeschte Eintraege, geloeschte Messtage und
+  importierte Themes in Web-App und SwiftUI-App praezisiert.
+- Web-Smoke-Tests fuer Sprachumschaltung, Theme-Wechsel, geloeschte Eintraege,
+  geloeschte Messtage und Exportbereinigung erweitert.
+- Swift-Smoke-Tests fuer Lokalisierung, Theme-Auswahl, geloeschte Eintraege,
+  geloeschte Messtage und Neuberechnung nach dem Loeschen erweitert.
+- Beta-Release-Skript beim Erstellen des Beta-Commits korrigiert.
+- Web-App Version `1.7.3-beta.1`.
+- macOS-App Version `1.7.3-beta.1`, Build `32`.
+- Vollstaendiger Prueflauf `./verify_apps.sh` erfolgreich.
+
 ## Groessere Technische Meilensteine
 
 - Einheitliche Projektstruktur fuer Web-App und native SwiftUI-App.
@@ -422,6 +435,8 @@ Bugfix-Release fuer die SwiftUI-App.
 - Uhrzeit-genaue Zuordnung von Hinweisen.
 - Persistente, frei einstellbare Tabellenbreiten.
 - Automatische Web- und Swift-Smoke- sowie Workflow-Tests.
+- Erweiterte automatische Tests fuer Sprache, Themes, Loeschfaelle und
+  Exportbereinigung.
 - Portabler Gesamtprueflauf mit Repository-Fixtures.
 - Frisch gebautes, signiertes macOS-App-Bundle.
 - Xcode-Projekt `UroBilanz.xcodeproj` mit sichtbarem Scheme `UroBilanz Dev`

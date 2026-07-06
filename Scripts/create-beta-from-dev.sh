@@ -63,8 +63,8 @@ worktree_tree() {
     GIT_INDEX_FILE="$temporary_index" git read-tree HEAD
 
     changed_paths=()
-    while IFS= read -r path; do
-        changed_paths+=("$path")
+    while IFS= read -r changed_path; do
+        changed_paths+=("$changed_path")
     done < <(
         {
             git diff --name-only HEAD --

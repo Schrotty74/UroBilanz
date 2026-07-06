@@ -20,9 +20,11 @@ enum ImportSmokeTestRunner {
         if runWorkflow {
             runWorkflowTest(model: model)
             runEvaluationEdgeTests(model: model)
+            runDeletionRecalculationTest(model: model)
             runNoteAlignmentTest(model: model)
             runMedicalReportTest(model: model)
             runThemeImportTest()
+            runLocalizationTest()
         }
         exit(0)
     }
@@ -103,6 +105,44 @@ enum ImportSmokeTestRunner {
         print("Swift evaluation edge test passed")
     }
 
+    private static func runDeletionRecalculationTest(model: UrinModel) {
+        model.clearData()
+        let firstDay = date(2032, 2, 1, 12, 0)
+        model.addManualEntries(
+            date: firstDay,
+            urineTime: date(2032, 2, 1, 6, 0),
+            urineMl: 500,
+            waterTime: date(2032, 2, 1, 18, 0),
+            waterMl: 1500,
+            note: "bleibt"
+        )
+        let secondDay = date(2032, 2, 2, 12, 0)
+        model.addManualEntries(
+            date: secondDay,
+            urineTime: date(2032, 2, 2, 6, 10),
+            urineMl: 900,
+            waterTime: date(2032, 2, 2, 18, 10),
+            waterMl: 1600,
+            note: "loeschen"
+        )
+        assertWorkflow(model.days.count == 2, "delete recalculation setup needs two days")
+
+        guard let waterIndex = model.entriesForMesstag(firstDay).first(where: { $0.entry.type == "Wasser" })?.index else {
+            assertWorkflow(false, "delete recalculation water entry missing")
+            return
+        }
+        model.deleteEntry(index: waterIndex)
+        let firstAfterEntryDelete = model.days.first { Calendar(identifier: .gregorian).isDate($0.messtag, inSameDayAs: firstDay) }
+        assertWorkflow(firstAfterEntryDelete?.waterTotal == 0, "deleted water entry still affects day total")
+        assertWorkflow(!model.rawCSV.contains("Wasser,1500"), "deleted entry still appears in backup CSV")
+
+        model.deleteMeasurementDay(secondDay)
+        assertWorkflow(model.days.count == 1, "deleted measurement day still appears in day list")
+        assertWorkflow(!model.rawCSV.contains("loeschen"), "deleted measurement day still appears in backup CSV")
+        assertWorkflow(model.summaryRows(kind: .week).count == 1, "summary should be recalculated after measurement day delete")
+        print("Swift deletion recalculation smoke test passed")
+    }
+
     private static func runNoteAlignmentTest(model: UrinModel) {
         model.clearData()
         let csv = """
@@ -159,7 +199,10 @@ enum ImportSmokeTestRunner {
             let builtInCopy = try AppTheme.classicDark.exportCopy(existingIds: [theme.id, "classic-dark-custom"])
             assertWorkflow(builtInCopy.id == "classic-dark-custom-2", "built-in theme export copy id should avoid collisions")
             assertWorkflow(builtInCopy.title(.de) == "Classic Dunkel Kopie", "built-in theme export copy title mismatch")
+            assertWorkflow(AppTheme.classicDark.title(.en) == "Classic Dark", "built-in theme english title mismatch")
             assertWorkflow(builtInCopy.mode == "dark", "built-in theme export copy mode mismatch")
+            assertWorkflow(ThemeStyle.resolve(id: theme.id, customThemes: [theme]).id == theme.id, "custom theme selection did not resolve")
+            assertWorkflow(ThemeStyle.resolve(id: "missing-theme", customThemes: [theme]).id == AppTheme.classicDark.rawValue, "missing theme should fall back to classic dark")
 
             var duplicate = theme
             duplicate.id = AppTheme.classicLight.rawValue
@@ -174,6 +217,33 @@ enum ImportSmokeTestRunner {
             print("Theme-Importtest Fehler: \(error.localizedDescription)")
             exit(1)
         }
+    }
+
+    private static func runLocalizationTest() {
+        assertWorkflow(tr("language", .de) == "Sprache", "german language label mismatch")
+        assertWorkflow(tr("language", .en) == "Language", "english language label mismatch")
+        assertWorkflow(tr("delete_day_confirm", .de, replacements: ["date": "01.02.2032"]).contains("Auswertung und Export"), "german delete day warning is not explicit")
+        assertWorkflow(tr("delete_day_confirm", .en, replacements: ["date": "02/01/2032"]).contains("analysis and exports"), "english delete day warning is not explicit")
+        assertWorkflow(tr("entry_delete_confirm", .de).contains("Auswertung und Export"), "german delete entry warning is not explicit")
+        assertWorkflow(tr("entry_delete_confirm", .en).contains("analysis and exports"), "english delete entry warning is not explicit")
+        assertWorkflow(tr("update_available", .de, replacements: ["version": "v9"]).contains("v9"), "translation replacement failed")
+
+        let model = UrinModel()
+        model.addManualEntries(
+            date: date(2032, 3, 1, 12, 0),
+            urineTime: date(2032, 3, 1, 6, 0),
+            urineMl: 800,
+            waterTime: date(2032, 3, 1, 18, 0),
+            waterMl: 1400,
+            note: ""
+        )
+        model.setLanguage(.en)
+        assertWorkflow(model.status.contains("Days"), "english model status missing")
+        assertWorkflow(model.days.first?.monthName == "March", "english month name missing")
+        model.setLanguage(.de)
+        assertWorkflow(model.status.contains("Messtage"), "german model status missing")
+        assertWorkflow(model.days.first?.monthName == "März", "german month name missing")
+        print("Swift localization smoke test passed")
     }
 
     private static func runMedicalReportTest(model: UrinModel) {

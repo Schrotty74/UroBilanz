@@ -230,6 +230,11 @@ assert.equal(days[0].waterTotal, 0, "Einzelloeschen entfernt den Wasserwert");
 const exported = entriesToRawCsv(entries);
 assert.match(exported, /^Datum,Typ,ml,Hinweis/);
 assert.match(exported, /1\.6\.2026 08:00,Urin,400,/);
+assert.doesNotMatch(exported, /Wasser,300/, "Geloeschter Eintrag darf nicht exportiert werden");
+
+const afterWholeDayDelete = entries.filter((entry) => localDayKey(toMesstag(entry.original)) !== "2026-06-01");
+assert.equal(groupEntries(afterWholeDayDelete).length, 0, "Messtag-Loeschen muss die Tagesauswertung leeren");
+assert.equal(afterWholeDayDelete.length, 0, "Geloeschter Messtag darf keine Export-Eintraege behalten");
 
 const dailyCsv = [
   "Jahr,Monat,KW,Messtag,Tag,Urin Uhrzeit,Urin ml,Urin Hinweis,Urin Anzahl,Urin gesamt ml,Wasser Uhrzeit,Wasser ml,Wasser gesamt ml,Hinweise,Allgemeine Hinweise",
@@ -290,11 +295,13 @@ assert.equal(edgeSummary.alert, "niedrig · 1 unvollständig");
 const webAppSource = fs.readFileSync(path.join(__dirname, "..", "app.js"), "utf8");
 const webCoreSource = fs.readFileSync(path.join(__dirname, "..", "assets", "js", "core.js"), "utf8");
 const webIndexSource = fs.readFileSync(path.join(__dirname, "..", "index.html"), "utf8");
+const webI18nDeSource = fs.readFileSync(path.join(__dirname, "..", "assets", "i18n", "de.js"), "utf8");
+const webI18nEnSource = fs.readFileSync(path.join(__dirname, "..", "assets", "i18n", "en.js"), "utf8");
 assert.match(webAppSource, /urobilanz@mailbox\.org/, "Support-E-Mail fehlt");
 assert.match(webAppSource, /github\.com\/Schrotty74\/UroBilanz/, "GitHub-Link fehlt");
 assert.match(webAppSource, /Keine CSV-Werte, Hinweise oder Gesundheitsdaten/, "Datenschutz-Hinweis im Fehlerbericht fehlt");
 assert.doesNotMatch(webAppSource.match(/function buildBugReport\(\)[\s\S]*?function refreshBugReport/)?.[0] || "", /state\.rows|state\.days|rawCsv/, "Fehlerbericht darf keine Messdaten lesen");
-assert.match(webCoreSource, /const APP_VERSION = "1\.7\.2"/, "Zentrale Web-App-Version fehlt");
+assert.match(webCoreSource, /const APP_VERSION = "1\.7\.3-beta\.1"/, "Zentrale Web-App-Version fehlt");
 assert.match(webAppSource, /const appVersion = APP_VERSION/, "Web-App verwendet nicht die zentrale Version");
 assert.match(webIndexSource, /id="openAbout"/, "Klickbarer Logo-Ausloeser fuer das Ueber-Modal fehlt");
 assert.match(webIndexSource, /id="aboutDialog"/, "Ueber-Modal fehlt");
@@ -312,5 +319,18 @@ assert.match(webIndexSource, /id="exportJson"/, "JSON-Export fehlt");
 assert.match(webAppSource, /function exportJSON/, "JSON-Export-Funktion fehlt");
 assert.match(webAppSource, /sparklineSvg/, "Sparkline-Funktion fehlt");
 assert.match(webAppSource, /computeStreak\(state\.days\)/, "Streak-Anzeige fehlt");
+assert.match(webAppSource, /function applyLanguage\(nextLanguage\)/, "Sprachumschaltung fehlt");
+assert.match(webAppSource, /appStorage\.setItem\("uroLanguage", language\)/, "Sprachauswahl wird nicht gespeichert");
+assert.match(webAppSource, /document\.querySelectorAll\("\[data-i18n\]"\)/, "Sprachumschaltung aktualisiert sichtbare Texte nicht");
+assert.match(webAppSource, /function applyTheme\(theme\)/, "Theme-Wechsel fehlt");
+assert.match(webAppSource, /appStorage\.setItem\("urinTheme", selectedTheme\)/, "Theme-Auswahl wird nicht gespeichert");
+assert.match(webAppSource, /els\.deleteTheme\.disabled = !customTheme/, "Eingebaute Themes duerfen nicht loeschbar sein");
+assert.match(webAppSource, /applyTheme\("classic-light"\)/, "Nach Theme-Loeschung fehlt Rueckfall auf eingebautes Theme");
+assert.match(webI18nDeSource, /day_delete_confirm: "Messtag \{date\} wirklich löschen\?\\n\\nAlle Urin-, Wasser- und Hinweis-Einträge dieses Messtags werden aus Auswertung und Export entfernt\."/);
+assert.match(webI18nEnSource, /day_delete_confirm: "Delete measurement day \{date\}\?\\n\\nAll urine, water and note entries for this day will be removed from analysis and exports\."/);
+assert.match(webI18nDeSource, /entry_delete_confirm: "\{date\} \{time\} · \{label\}\\n\\nDiesen Eintrag wirklich löschen\? Er wird aus Auswertung und Export entfernt\."/);
+assert.match(webI18nEnSource, /entry_delete_confirm: "\{date\} \{time\} · \{label\}\\n\\nDelete this entry\? It will be removed from analysis and exports\."/);
+assert.match(webI18nDeSource, /theme_delete_confirm: "Importiertes Theme \{name\} wirklich löschen\?\\n\\nEingebaute Themes bleiben erhalten\."/);
+assert.match(webI18nEnSource, /theme_delete_confirm: "Delete imported theme \{name\}\?\\n\\nBuilt-in themes will remain available\."/);
 
 console.log("Web workflow smoke test passed");
