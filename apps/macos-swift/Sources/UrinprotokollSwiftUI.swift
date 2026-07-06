@@ -323,6 +323,9 @@ struct ContentView: View {
         } message: {
             Text(tr("delete_theme_confirm", language))
         }
+        .onDisappear {
+            updateChecker.cancelAutomaticCheck()
+        }
     }
 
     @ViewBuilder

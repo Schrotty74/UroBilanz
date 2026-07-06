@@ -4,7 +4,8 @@ Alle wichtigen Änderungen an UroBilanz werden hier dokumentiert.
 
 ## Unveröffentlicht
 
-- Noch keine Änderungen.
+- Automatische Update-Prüfung bricht beim Schließen des Fensters korrekt ab
+  (kein weiterlaufender Hintergrund-Task mehr).
 
 ## 1.7.3-beta.1 - 2026-07-06
 

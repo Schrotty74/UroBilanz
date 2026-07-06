@@ -45,6 +45,11 @@ final class UpdateChecker: ObservableObject {
         }
     }
 
+    func cancelAutomaticCheck() {
+        automaticCheckTask?.cancel()
+        automaticCheckTask = nil
+    }
+
     func checkForUpdates(manual: Bool) async {
         if !manual, !shouldRunAutomaticCheck() {
             loadCachedResult()
