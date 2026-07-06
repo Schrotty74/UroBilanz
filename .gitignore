@@ -13,6 +13,7 @@ DerivedData/
 *.dSYM/
 *.xcarchive/
 *.xcodeproj/xcuserdata/
+*.xcodeproj/project.xcworkspace/xcuserdata/
 *.xcworkspace/xcuserdata/
 *.icns
 !apps/macos-swift/Assets/UroBilanz.icns
