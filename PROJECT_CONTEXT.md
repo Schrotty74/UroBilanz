@@ -62,6 +62,9 @@ Daten-Backend-Dienst.
 - Streak-Anzeige, Wochen-/Monats-Sparklines und JSON-Export.
 - Datenschutzfreundlicher Fehlerbericht mit Kontaktadresse.
 - Update-Check gegen GitHub-Releases in der SwiftUI-App.
+- Automatische Web- und Swift-Smoke-Tests fuer Sprache, Themes,
+  Loeschfaelle und Exportbereinigung.
+- Aktueller Wartungs-Beta-Stand `v1.7.3-beta.1`.
 
 ## Wichtige Designentscheidungen
 

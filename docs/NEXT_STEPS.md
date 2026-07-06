@@ -2,13 +2,14 @@
 
 Stand: 06.07.2026
 
-Aktueller Hauptstand: `v1.7.2`
+Aktueller Hauptstand: `v1.7.3-beta.1`
 
-Lokaler Entwicklungsstand: `v1.7.2`.
+Lokaler Entwicklungsstand: `v1.7.3-beta.1`.
 
-Release-Einordnung: `v1.7.2` erweitert die 1.7-Reihe um Streak-Anzeige,
-Sparklines und JSON-Export. Version 1.8 bleibt fuer Koerperdaten und die
-gemeinsame Koerper-/Fluessigkeitsanalyse reserviert.
+Release-Einordnung: `v1.7.3-beta.1` ist ein kleines Wartungs-Beta der
+1.7-Reihe mit klareren Sicherheitsabfragen und erweiterten Tests. Version 1.8
+bleibt fuer Koerperdaten und die gemeinsame Koerper-/Fluessigkeitsanalyse
+reserviert.
 
 ## Zweck Dieser Datei
 
@@ -39,7 +40,7 @@ Beide Apps koennen:
 - Deutsch und Englisch anzeigen
 - mehrere Themes nutzen
 
-Die Vollpruefung von `v1.7.2` war erfolgreich:
+Die Vollpruefung von `v1.7.3-beta.1` war erfolgreich:
 
 - Web Smoke Tests
 - Web Workflow Tests
@@ -53,6 +54,8 @@ Die Vollpruefung von `v1.7.2` war erfolgreich:
 - Portabler Lauf aus einer frischen Checkout-Kopie
 - Arztbericht und lokaler PDF-Export
 - Technische Modulaufteilung in Web und SwiftUI
+- Erweiterte Tests fuer Sprachumschaltung, Theme-Wechsel, geloeschte
+  Messtage, geloeschte Eintraege und Exportbereinigung
 - Xcode-Projekt mit getrennten Dev/Beta/Final-Bundle-IDs
 - Einheitlicher Release-Paketbau ueber `Scripts/build-release-package.sh`
 
@@ -68,26 +71,6 @@ Die Vollpruefung von `v1.7.2` war erfolgreich:
 
 - Gespeicherte Spaltenbreiten im Alltag beobachten.
 - Bei der SwiftUI-App Tabellen in sehr kleinen Fenstern beobachten.
-
-## Prioritaet 3 - Technische Verbesserungen Spaeter
-
-### Web-App
-
-- Automatische Tests optional erweitern fuer:
-  - Sprachumschaltung
-  - Theme-Wechsel
-  - Import-/Export-Randfaelle
-  - geloeschte Messtage
-  - geloeschte Eintraege
-
-### SwiftUI-App
-
-- Automatische Tests optional erweitern fuer:
-  - Sprachumschaltung
-  - Theme-Wechsel
-  - Export-Randfaelle
-  - geloeschte Messtage
-  - geloeschte Eintraege
 
 ## Geplanter Neuer Schwerpunkt - v1.8.0-beta.1 Koerperdaten Und Gemeinsame Analyse
 

@@ -6,6 +6,15 @@ Alle wichtigen Änderungen an UroBilanz werden hier dokumentiert.
 
 - Noch keine Änderungen.
 
+## 1.7.3-beta.1 - 2026-07-06
+
+- Sicherheitsabfragen fuer geloeschte Eintraege, geloeschte Messtage und
+  importierte Themes sprachlich praezisiert.
+- Web- und Swift-Smoke-Tests fuer Sprachumschaltung, Theme-Wechsel,
+  geloeschte Eintraege, geloeschte Messtage und Exportbereinigung erweitert.
+- Beta-Release-Skript gegen einen geleerten Shell-Suchpfad beim Erstellen des
+  Beta-Commits korrigiert.
+
 ## 1.7.2 - 2026-06-16
 
 - Streak-Anzeige fuer Erfassungs-Kontinuitaet in Web-App und SwiftUI-App

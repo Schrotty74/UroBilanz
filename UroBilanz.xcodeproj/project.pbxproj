@@ -340,7 +340,7 @@
 				CODE_SIGN_ENTITLEMENTS = apps/macos-swift/UroBilanz.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 31;
+				CURRENT_PROJECT_VERSION = 32;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = NO;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -351,7 +351,7 @@
 				INFOPLIST_KEY_LSMinimumSystemVersion = 26.0;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				MARKETING_VERSION = 1.7.2;
+				MARKETING_VERSION = 1.7.3-beta.1;
 				PRODUCT_BUNDLE_IDENTIFIER = local.schrotty74.urobilanz.dev;
 				PRODUCT_NAME = "UroBilanz Dev";
 				SKIP_INSTALL = NO;
@@ -368,7 +368,7 @@
 				CODE_SIGN_ENTITLEMENTS = apps/macos-swift/UroBilanz.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 31;
+				CURRENT_PROJECT_VERSION = 32;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = NO;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -379,7 +379,7 @@
 				INFOPLIST_KEY_LSMinimumSystemVersion = 26.0;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				MARKETING_VERSION = 1.7.2-beta.local;
+				MARKETING_VERSION = 1.7.3-beta.1;
 				PRODUCT_BUNDLE_IDENTIFIER = local.schrotty74.urobilanz.beta;
 				PRODUCT_NAME = "UroBilanz Beta";
 				SKIP_INSTALL = NO;
