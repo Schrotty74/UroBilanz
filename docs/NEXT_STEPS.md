@@ -1,6 +1,6 @@
 # UroBilanz - Naechste Schritte
 
-Stand: 16.06.2026
+Stand: 06.07.2026
 
 Aktueller Hauptstand: `v1.7.2`
 
@@ -10,14 +10,16 @@ Release-Einordnung: `v1.7.2` erweitert die 1.7-Reihe um Streak-Anzeige,
 Sparklines und JSON-Export. Version 1.8 bleibt fuer Koerperdaten und die
 gemeinsame Koerper-/Fluessigkeitsanalyse reserviert.
 
-## Zweck dieser Datei
+## Zweck Dieser Datei
 
-Diese Datei ist die kurze Aufgabenliste fuer neue Chats. Sie soll nach groesseren
-Aenderungen aktualisiert werden, damit ohne Informationsverlust weitergearbeitet
-werden kann. Abgeschlossene Versionen und Meilensteine stehen dauerhaft in
-[`HISTORY.md`](HISTORY.md).
+Diese Datei enthaelt nur Zukunft und offene Punkte: offene Aufgaben, Bugs,
+geplante Verbesserungen, Prioritaeten und Ideen fuer spaetere Entwicklungen.
+Der aktuelle Projektstand steht in [`../PROJECT_CONTEXT.md`](../PROJECT_CONTEXT.md).
+Abgeschlossene Versionen und Meilensteine stehen dauerhaft in
+[`HISTORY.md`](HISTORY.md). Dauerhafte Arbeitsregeln stehen in
+[`PROJEKTREGELN.md`](PROJEKTREGELN.md).
 
-## Aktueller Stand
+## Aktueller Stand Kurz
 
 UroBilanz besteht aktuell aus zwei gepflegten Apps:
 
@@ -51,6 +53,8 @@ Die Vollpruefung von `v1.7.2` war erfolgreich:
 - Portabler Lauf aus einer frischen Checkout-Kopie
 - Arztbericht und lokaler PDF-Export
 - Technische Modulaufteilung in Web und SwiftUI
+- Xcode-Projekt mit getrennten Dev/Beta/Final-Bundle-IDs
+- Einheitlicher Release-Paketbau ueber `Scripts/build-release-package.sh`
 
 ## Spaetere Idee - Optionaler Feinschliff
 
@@ -84,65 +88,6 @@ Die Vollpruefung von `v1.7.2` war erfolgreich:
   - Export-Randfaelle
   - geloeschte Messtage
   - geloeschte Eintraege
-
-## Abgeschlossene Release-Serie - v1.7.0 PDF-Bericht
-
-Version 1.7 schliesst die neue Berichtsfunktion und die begleitende technische
-Aufteilung ab.
-
-Umgesetzt:
-
-- Erste gute Web-Variante des Arztberichts mit Zeitraumwahl.
-- Native SwiftUI-Variante mit Zeitraumwahl und lokalem PDF-Export.
-- Festes neutrales A4-Berichtslayout unabhaengig vom aktiven Theme.
-- Zusammenfassung, Tagesverlauf, Tagesuebersicht, optionale Tagesdetails,
-  Hinweise und Bewertungsregeln.
-- Bericht als eigenes Web-Modul mit Smoke-Test.
-- Web-Theme-System als eigenes getestetes Modul.
-- SwiftUI-Lokalisierung, Themes, Navigation und Datenmodell in getrennte
-  Dateien ausgelagert.
-
-Zielidee:
-
-- Gute Variante eines PDF- oder Druckberichts fuer Arzttermine vorbereiten,
-  nicht nur einen einfachen Tabellenexport.
-- Zeitraum auswaehlbar machen.
-- Zusammenfassung mit Summen, Durchschnitt, Auffaelligkeiten und
-  unvollstaendigen Messtagen darstellen.
-- Tagesdetails mit Urin, Wasser und Hinweisen aufnehmen.
-- Bewertungsregeln kurz erklaeren, damit `unvollstaendig`, `niedrig` und
-  `normal` nachvollziehbar sind.
-- Diagramme einbinden, wenn das Layout stabil und drucktauglich bleibt.
-- Bericht mit klarer Struktur planen, zum Beispiel Deckbereich, kurze
-  Zusammenfassung, Diagramme, Tagesdetails und Hinweise.
-
-Gestaltung - strukturiert mit dezentem UroBilanz-Branding:
-
-- Der Bericht soll professionell und medizinisch serioes wirken, aber klar als
-  UroBilanz-Dokument erkennbar sein.
-- Deckbereich:
-  - UroBilanz-Logo und App-Name oben links oder zentriert.
-  - Darunter Berichtstitel, gewaehlter Zeitraum und Erstellungsdatum.
-  - Im restlichen Bericht kein weiteres Branding.
-- Farben:
-  - Grundsaetzlich schwarzweiss fuer maximale Druckkompatibilitaet.
-  - Tabellen-Header nur in hellem Grau oder sehr dezentem Blau.
-  - Niedrige Messtage dezent gelb/orange hinterlegen oder mit einer ruhigen
-    farbigen Markierung kennzeichnen.
-  - Unvollstaendige Messtage klar, aber unaufdringlich kennzeichnen.
-  - Keine Theme-Farben verwenden. Das PDF sieht unabhaengig vom aktiven
-    App-Theme immer gleich aus.
-- Typografie:
-  - Klare serifenlose Schrift, zum Beispiel `system-ui` oder Helvetica.
-  - Gute Lesbarkeit sowohl beim A4-Ausdruck als auch in der PDF-Ansicht.
-- Ziel:
-  - Ein Arzt soll den Bericht ohne zusaetzliche Erklaerung lesen und verstehen
-    koennen.
-  - Das UroBilanz-Branding zeigt die Herkunft, ohne vom medizinischen Inhalt
-    abzulenken.
-
-Fuer 1.7 sind keine kritischen Aufgaben mehr offen. Weitere Aenderungen erfolgen
-nur bei einem konkret gemeldeten Fehler.
 
 ## Geplanter Neuer Schwerpunkt - v1.8.0-beta.1 Koerperdaten Und Gemeinsame Analyse
 

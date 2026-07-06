@@ -1,5 +1,17 @@
 # Projektregeln
 
+- Projektgedaechtnis-Dateien muessen gepflegt werden:
+  - `PROJECT_CONTEXT.md` enthaelt den aktuellen Projektstand, Architektur,
+    Dateistruktur, Funktionen, Designentscheidungen und bekannte Grenzen.
+  - `docs/NEXT_STEPS.md` enthaelt nur offene Aufgaben, Bugs, Prioritaeten,
+    geplante Verbesserungen und Zukunftsideen.
+  - `docs/PROJEKTREGELN.md` enthaelt dauerhafte Datenschutz-, Build-/Release-,
+    Backup-, Git-/Push- und Dev/Beta/Final-Regeln.
+  - `docs/HISTORY.md` enthaelt abgeschlossene Versionen, Betas, RCs, Finals,
+    technische Meilensteine und groessere abgeschlossene Aenderungen.
+- Bei groesseren Aenderungen, neuen Funktionen, Refactorings oder wichtigen
+  Entscheidungen diese Projektgedaechtnis-Dateien aktualisieren, bevor die
+  Aufgabe als abgeschlossen gilt.
 - Änderungen an UroBilanz werden nach Möglichkeit direkt in Git festgehalten.
 - Zu relevanten Änderungen wird der `CHANGELOG.md` aktualisiert.
 - Persönliche CSV-, Excel-, Backup- oder Gesundheitsdaten gehören nicht ins Repository.

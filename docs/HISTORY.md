@@ -1,6 +1,6 @@
 # UroBilanz - Projekthistorie
 
-Stand: 12.06.2026
+Stand: 06.07.2026
 
 Diese Datei archiviert abgeschlossene Versionen, Betas, Release Candidates,
 Final-Releases und wichtige technische Meilensteine. Der detaillierte
@@ -408,6 +408,9 @@ Bugfix-Release fuer die SwiftUI-App.
 ## Groessere Technische Meilensteine
 
 - Einheitliche Projektstruktur fuer Web-App und native SwiftUI-App.
+- Projektgedaechtnis auf vier Dateien festgelegt:
+  `PROJECT_CONTEXT.md`, `docs/NEXT_STEPS.md`, `docs/PROJEKTREGELN.md` und
+  `docs/HISTORY.md`.
 - Lokale Verarbeitung ohne Upload persoenlicher Gesundheitsdaten.
 - Kompatible Original-Urinote-CSV und Tagesdaten-CSV.
 - Messtag von 06:00 bis 05:59 mit korrekter Zuordnung frueher Eintraege.
@@ -421,5 +424,13 @@ Bugfix-Release fuer die SwiftUI-App.
 - Automatische Web- und Swift-Smoke- sowie Workflow-Tests.
 - Portabler Gesamtprueflauf mit Repository-Fixtures.
 - Frisch gebautes, signiertes macOS-App-Bundle.
+- Xcode-Projekt `UroBilanz.xcodeproj` mit sichtbarem Scheme `UroBilanz Dev`
+  eingefuehrt.
+- Dev, Beta und Final ueber getrennte Bundle-IDs separiert:
+  `local.schrotty74.urobilanz.dev`, `local.schrotty74.urobilanz.beta` und
+  `local.schrotty74.urobilanz`.
+- Einheitlicher Release-Paketbau ueber `Scripts/build-release-package.sh`
+  eingefuehrt; Web-ZIP, macOS-ZIP, macOS-DMG und SHA256-Dateien landen
+  gemeinsam in `Backup/...` und `dist/...`.
 - Datenschutzfreundlicher Fehlerbericht und Projektkontakt.
 - GPLv3-Lizenzierung und transparente Codex-Unterstuetzung.
