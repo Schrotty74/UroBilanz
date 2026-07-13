@@ -94,6 +94,7 @@ cp Assets/UroBilanz.icns "$app_path/Contents/Resources/UroBilanz.icns"
 rm -f "$app_path/Contents/Resources/urobilanz-icon-light.svg" \
   "$app_path/Contents/Resources/urobilanz-icon-dark.svg"
 cp Assets/urobilanz-app-icon.png \
+  Assets/discord-mark-white.svg \
   Assets/github-invertocat-black.svg \
   Assets/github-invertocat-white.svg \
   "$app_path/Contents/Resources/"

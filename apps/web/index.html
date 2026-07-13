@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>UroBilanz</title>
     <link rel="icon" href="./assets/urobilanz-app-icon.png" />
-    <link rel="stylesheet" href="./styles.css?v=v1-7-2" />
+    <link rel="stylesheet" href="./styles.css?v=v1-7-3-beta-1" />
     <script src="./assets/js/charts.js?v=v1-7-2"></script>
     <script src="./assets/js/medical-report.js?v=v1-7-2"></script>
   </head>
@@ -14,7 +14,9 @@
       <div>
         <p class="eyebrow" data-i18n="measurement_day">06:00 bis 05:59 Messtag</p>
         <h1>
-          <button class="app-mark-shell" id="openAbout" type="button" data-i18n-aria-label="about_open" data-i18n-title="about_open" aria-label="Über UroBilanz" title="Über UroBilanz"><img class="app-mark" id="appMark" src="./assets/urobilanz-app-icon.png" alt="" /></button>
+          <a class="discord-mark-shell" href="https://discord.gg/RbsvqRCPQ" target="_blank" rel="noopener noreferrer" aria-label="UroBilanz-Community auf Discord" title="UroBilanz-Community auf Discord">
+            <img class="discord-mark" src="./assets/discord-mark-white.svg" alt="" />
+          </a>
           <a class="github-mark-shell" href="https://github.com/Schrotty74/UroBilanz" target="_blank" rel="noopener noreferrer" aria-label="UroBilanz auf GitHub" title="UroBilanz auf GitHub">
             <img class="github-mark" id="githubMark" src="./assets/github-invertocat-white.svg" alt="" />
           </a>
@@ -57,6 +59,7 @@
             <option value="en">EN</option>
           </select>
         </label>
+        <button class="utility-button quiet" id="openAbout" type="button" data-i18n="about_open">Über UroBilanz</button>
         <button class="file-button" id="addEntry" type="button" data-i18n="add_entry">Eintrag</button>
         <label class="file-button">
           <span data-i18n="merge_csv">CSV ergänzen</span>
@@ -307,6 +310,6 @@
     <script src="./assets/i18n/en.js?v=v1-7-2"></script>
     <script src="./assets/js/core.js?v=v1-7-2"></script>
     <script src="./assets/js/themes.js?v=v1-7-2"></script>
-    <script src="./app.js?v=v1-7-2"></script>
+    <script src="./app.js?v=v1-7-3-beta-1"></script>
   </body>
 </html>

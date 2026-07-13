@@ -1,12 +1,12 @@
 # UroBilanz - Naechste Schritte
 
-Stand: 06.07.2026
+Stand: 13.07.2026
 
-Aktueller Hauptstand: `v1.7.3-beta.1`
+Aktueller Hauptstand: `v1.7.3-beta.2`
 
-Lokaler Entwicklungsstand: `v1.7.3-beta.1`.
+Lokaler Entwicklungsstand: `v1.7.3-beta.2`.
 
-Release-Einordnung: `v1.7.3-beta.1` ist ein kleines Wartungs-Beta der
+Release-Einordnung: `v1.7.3-beta.2` ist ein kleines Wartungs-Beta der
 1.7-Reihe mit klareren Sicherheitsabfragen und erweiterten Tests. Version 1.8
 bleibt fuer Koerperdaten und die gemeinsame Koerper-/Fluessigkeitsanalyse
 reserviert.

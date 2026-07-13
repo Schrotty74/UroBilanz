@@ -18,7 +18,7 @@ struct ToolbarStrip: View {
 
     var body: some View {
         HStack(spacing: 12) {
-            AppMark(size: 54)
+            DiscordMark(size: 54)
             GitHubMark(size: 54)
             VStack(alignment: .leading, spacing: 2) {
                 Text(selection.title(language))
@@ -71,6 +71,35 @@ struct ToolbarStrip: View {
         .padding(.horizontal, 22)
         .padding(.vertical, 14)
         .background(.bar)
+    }
+}
+
+struct DiscordMark: View {
+    let size: CGFloat
+
+    var body: some View {
+        Button {
+            if let url = URL(string: "https://discord.gg/RbsvqRCPQ") {
+                NSWorkspace.shared.open(url)
+            }
+        } label: {
+            ZStack {
+                RoundedRectangle(cornerRadius: size * 0.22, style: .continuous)
+                    .fill(Color(red: 0.35, green: 0.40, blue: 0.95))
+                Image(nsImage: discordImage)
+                    .resizable()
+                    .scaledToFit()
+                    .padding(size * 0.14)
+            }
+            .frame(width: size, height: size)
+        }
+        .buttonStyle(.plain)
+        .help("UroBilanz-Community auf Discord")
+        .accessibilityLabel("UroBilanz-Community auf Discord")
+    }
+
+    private var discordImage: NSImage {
+        NSImage(contentsOfFile: "\(Bundle.main.resourcePath ?? "")/discord-mark-white.svg") ?? NSImage()
     }
 }
 

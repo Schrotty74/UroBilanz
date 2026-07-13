@@ -1,6 +1,6 @@
 # UroBilanz - Projektkontext
 
-Stand: 06.07.2026
+Stand: 13.07.2026
 
 Diese Datei ist die primaere Wissensquelle fuer neue Chats. Sie beschreibt den
 aktuellen Projektstand. Zukunft und offene Punkte stehen in
@@ -64,7 +64,9 @@ Daten-Backend-Dienst.
 - Update-Check gegen GitHub-Releases in der SwiftUI-App.
 - Automatische Web- und Swift-Smoke-Tests fuer Sprache, Themes,
   Loeschfaelle und Exportbereinigung.
-- Aktueller Wartungs-Beta-Stand `v1.7.3-beta.1`.
+- Aktueller Wartungs-Beta-Stand `v1.7.3-beta.2`.
+- Discord- und GitHub-Links in den Kopfzeilen beider Apps; in der Web-App ist
+  das Ueber-Fenster ueber einen eigenen Knopf erreichbar.
 
 ## Wichtige Designentscheidungen
 
