@@ -298,3 +298,12 @@ Ergebnis:
 - SwiftUI-App gestartet: keine TCP- oder UDP-Verbindung geoeffnet.
 - ZIP- und DMG-Pakete auf lokale Pfade, persoenliche Datendateien und
   Zugangsdaten geprueft.
+
+## Final-Pruefung 1.7.3 - 18.07.2026
+
+- `privacy_final_check.sh` erfolgreich ausgefuehrt.
+- Web- und Swift-App mit `verify_apps.sh` vollstaendig geprueft.
+- SwiftUI-App gestartet: keine TCP- oder UDP-Verbindung geoeffnet.
+- Webserver ausschliesslich an `127.0.0.1` gebunden.
+- Portfolio-Pruefung durchgefuehrt; fuer diese kleine Wartungs-Finalversion
+  war keine Aktualisierung der bestehenden Projektkarte erforderlich.
