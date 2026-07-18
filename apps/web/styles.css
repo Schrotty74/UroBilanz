@@ -279,36 +279,7 @@ h1 {
   letter-spacing: 0;
 }
 
-.app-mark-shell {
-  appearance: none;
-  -webkit-appearance: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 58px;
-  height: 58px;
-  border: 1px solid var(--glass-line);
-  border-radius: 16px;
-  background: var(--glass-bg);
-  box-shadow: 0 10px 26px var(--glass-shadow);
-  backdrop-filter: blur(18px) saturate(150%);
-  -webkit-backdrop-filter: blur(18px) saturate(150%);
-  padding: 0;
-  color: inherit;
-  cursor: pointer;
-  font: inherit;
-}
-
-.app-mark-shell:hover {
-  transform: translateY(-1px);
-  border-color: var(--accent);
-}
-
-.app-mark-shell:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 3px;
-}
-
+.discord-mark-shell,
 .github-mark-shell {
   display: inline-flex;
   align-items: center;
@@ -323,23 +294,27 @@ h1 {
   text-decoration: none;
 }
 
-.github-mark {
-  width: 42px;
-  height: 42px;
-}
-
+.discord-mark-shell:hover,
 .github-mark-shell:hover {
   transform: translateY(-1px);
   border-color: var(--accent);
 }
 
-body[data-theme="classic-dark"] .app-mark-shell,
-body[data-theme="violet-night"] .app-mark-shell,
-body[data-theme="liquid-dark"] .app-mark-shell,
-body[data-theme="high-contrast"] .app-mark-shell {
-  border-color: rgba(255, 255, 255, 0.18);
-  background: rgba(255, 255, 255, 0.10);
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.36);
+.discord-mark-shell:focus-visible,
+.github-mark-shell:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.discord-mark,
+.github-mark {
+  width: 42px;
+  height: 42px;
+}
+
+.discord-mark-shell {
+  border-color: rgba(88, 101, 242, 0.82);
+  background: #5865f2;
 }
 
 body[data-theme="classic-dark"] .github-mark-shell,
@@ -349,12 +324,6 @@ body[data-theme="high-contrast"] .github-mark-shell {
   border-color: rgba(255, 255, 255, 0.18);
   background: rgba(255, 255, 255, 0.10);
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.36);
-}
-
-.app-mark {
-  width: 50px;
-  height: 50px;
-  border-radius: 13px;
 }
 
 main {

@@ -95,7 +95,6 @@ const els = {
   selectedThemeLabel: document.querySelector("#selectedThemeLabel"),
   themeSelect: document.querySelector("#themeSelect"),
   languageSelect: document.querySelector("#languageSelect"),
-  appMark: document.querySelector("#appMark"),
   openAbout: document.querySelector("#openAbout"),
   aboutDialog: document.querySelector("#aboutDialog"),
   aboutVersion: document.querySelector("#aboutVersion"),
@@ -568,7 +567,6 @@ function applyTheme(theme) {
   els.selectedThemeLabel.textContent = els.themeSelect.selectedOptions[0]?.textContent || selectedTheme;
   els.exportTheme.disabled = false;
   els.deleteTheme.disabled = !customTheme;
-  els.appMark.src = "./assets/urobilanz-app-icon.png";
   els.githubMark.src = isDark ? "./assets/github-invertocat-white.svg" : "./assets/github-invertocat-black.svg";
   appStorage.setItem("urinTheme", selectedTheme);
   if (state.days.length) render();

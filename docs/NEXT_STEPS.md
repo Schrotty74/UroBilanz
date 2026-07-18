@@ -1,15 +1,14 @@
 # UroBilanz - Naechste Schritte
 
-Stand: 06.07.2026
+Stand: 18.07.2026
 
-Aktueller Hauptstand: `v1.7.3-beta.1`
+Aktueller Hauptstand: `v1.7.3`
 
-Lokaler Entwicklungsstand: `v1.7.3-beta.1`.
+Lokaler Entwicklungsstand: `v1.7.3`.
 
-Release-Einordnung: `v1.7.3-beta.1` ist ein kleines Wartungs-Beta der
-1.7-Reihe mit klareren Sicherheitsabfragen und erweiterten Tests. Version 1.8
-bleibt fuer Koerperdaten und die gemeinsame Koerper-/Fluessigkeitsanalyse
-reserviert.
+Release-Einordnung: `v1.7.3` ist ein kleines Wartungs-Final der 1.7-Reihe mit
+klareren Sicherheitsabfragen, erweiterten Tests sowie Discord-Links in beiden
+Apps.
 
 ## Zweck Dieser Datei
 
@@ -40,7 +39,7 @@ Beide Apps koennen:
 - Deutsch und Englisch anzeigen
 - mehrere Themes nutzen
 
-Die Vollpruefung von `v1.7.3-beta.1` war erfolgreich:
+Die Vollpruefung von `v1.7.3` war erfolgreich:
 
 - Web Smoke Tests
 - Web Workflow Tests
@@ -71,106 +70,6 @@ Die Vollpruefung von `v1.7.3-beta.1` war erfolgreich:
 
 - Gespeicherte Spaltenbreiten im Alltag beobachten.
 - Bei der SwiftUI-App Tabellen in sehr kleinen Fenstern beobachten.
-
-## Geplanter Neuer Schwerpunkt - v1.8.0-beta.1 Koerperdaten Und Gemeinsame Analyse
-
-Version 1.8 ist als groesserer Schritt nach der PDF-/Berichtsfunktion in
-Version 1.7 gedacht. Ziel ist eine klare Erweiterung von UroBilanz von einer
-Fluessigkeitsanalyse zu einer kombinierten Koerper- und Fluessigkeitsanalyse,
-ohne daraus eine allgemeine Gesundheits-App zu machen.
-
-Leitprinzip:
-
-- Getrennte Datenerfassung, gemeinsame Analyse.
-
-Grundidee:
-
-- Koerperdaten werden als eigener Hauptbereich innerhalb von UroBilanz
-  umgesetzt, nicht als separate App.
-- Erfassung und Verwaltung bleiben getrennt:
-  - Fluessigkeit, Urin und Wasser.
-  - Koerperdaten.
-- Die Auswertung darf Daten gemeinsam darstellen, weil genau dort der Mehrwert
-  entsteht.
-- Bestehende Urin-/Wasserlogik darf nicht beschaedigt oder vermischt werden.
-
-Geplanter Bereich Koerperdaten:
-
-- Gewicht.
-- BMI.
-- Koerperfett.
-- Koerperwasser beziehungsweise Wasseranteil.
-- Muskelmasse oder magere Koerpermasse, falls sinnvoll verfuegbar.
-- Messdatum und Uhrzeit.
-- Optionale Notiz.
-
-Datenquelle:
-
-- Langfristig idealerweise Apple Health, weil Waagen-Apps wie Beurer ihre Daten
-  bereits an Apple Health uebertragen koennen.
-- Nicht direkt gegen die Beurer-App entwickeln.
-- Apple Health als zentrale Datenquelle betrachten, damit UroBilanz unabhaengig
-  vom Waagenhersteller bleibt.
-
-Technischer Ansatz:
-
-- Fuer die Web-App zunaechst keinen direkten Apple-Health-Zugriff einplanen.
-- Fuer die SwiftUI-/macOS-App vor Umsetzung pruefen:
-  - HealthKit beziehungsweise Apple Health als Datenquelle.
-  - Ob HealthKit-Zugriff in der vorhandenen macOS-App moeglich und praktikabel
-    ist.
-  - Berechtigungen klar und verstaendlich erklaeren.
-  - Nur lokal lesen.
-  - Keine Cloud-Uebertragung.
-  - Keine medizinischen Empfehlungen.
-  - Datenschutz-Hinweise beibehalten.
-- Falls HealthKit auf macOS nicht sinnvoll oder nicht verfuegbar nutzbar ist,
-  zuerst einen CSV-Import fuer Koerperdaten vorbereiten.
-
-Gemeinsame Analyse:
-
-- Koerperdaten nicht in die bestehende Urin-/Wasser-Eingabe mischen.
-- Eigener Bereich fuer Koerperdaten.
-- Gemeinsame Auswertung in Diagrammen und Tabellen.
-- Beispiel fuer kombinierte Tagesauswertung:
-
-```text
-Tag         Gewicht   Urin gesamt   Wasser getrunken
-01.05.2026  82,4 kg      1.850 ml          2.200 ml
-02.05.2026  83,1 kg      1.200 ml          2.100 ml
-```
-
-Muster, die neutral sichtbar gemacht werden koennen:
-
-- Gewicht steigt, waehrend Urinmenge sinkt.
-- Gewicht faellt, waehrend Urinmenge steigt.
-- Trinkmenge bleibt gleich, aber Ausscheidung veraendert sich deutlich.
-
-Keine Diagnose und keine medizinische Warnlogik:
-
-- Nur neutrale Darstellung und Auswertung.
-- Keine medizinische Bewertung oder Empfehlung.
-
-Vor Umsetzung pruefen:
-
-- Welche Koerperdaten Apple Health tatsaechlich liefert.
-- Welche davon UroBilanz sinnvoll darstellen soll.
-- Ob HealthKit-Zugriff in der vorhandenen SwiftUI-/macOS-App moeglich und
-  praktikabel ist.
-- Welche CSV-Struktur als Fallback fuer Web-App und manuelle Importe sinnvoll
-  waere.
-- Wie die neue Datenstruktur gespeichert wird, ohne bestehende Urin-/
-  Wasserdaten zu veraendern.
-- Welche Tests und Demo-Fixtures fuer Koerperdaten noetig sind.
-
-Umsetzungsregeln fuer 1.8:
-
-- Datenmodell vorab pruefen.
-- Import-/Export-Kompatibilitaet sichern.
-- Demo-Fixtures erstellen.
-- Tests erweitern.
-- README und Changelog aktualisieren.
-- `verify_apps.sh` portabel halten.
 
 ## Ideen Fuer Spaeter
 

@@ -1,11 +1,22 @@
 # UroBilanz - Projekthistorie
 
-Stand: 06.07.2026
+Stand: 18.07.2026
 
 Diese Datei archiviert abgeschlossene Versionen, Betas, Release Candidates,
 Final-Releases und wichtige technische Meilensteine. Der detaillierte
 Release-Changelog bleibt zusaetzlich in [`CHANGELOG.md`](../CHANGELOG.md)
 erhalten.
+
+## 1.7.3 - 2026-07-18
+
+- Final-Version auf Basis von `1.7.3-beta.2` veroeffentlicht.
+- Discord-Links in beiden Kopfzeilen und der separate Web-Ueber-Knopf sind
+  Teil des Final-Stands.
+
+## 1.7.3-beta.2 - 2026-07-13
+
+- Discord-Link in die Kopfzeilen von macOS- und Web-App integriert.
+- Das Web-Ueber-Fenster ist ueber einen eigenen Knopf erreichbar.
 
 ## 2026-05-26 - Projektstart
 

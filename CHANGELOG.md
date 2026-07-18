@@ -6,6 +6,18 @@ Alle wichtigen Änderungen an UroBilanz werden hier dokumentiert.
 
 - Noch keine Änderungen.
 
+## 1.7.3 - 2026-07-18
+
+- Final-Version der Wartungsreihe 1.7.3 auf Basis von `1.7.3-beta.2`.
+- Die nicht weiterverfolgte Planung fuer Koerperdaten aus dem Projektgedaechtnis
+  entfernt.
+
+## 1.7.3-beta.2 - 2026-07-13
+
+- Das funktionslose App-Symbol in den Kopfzeilen von macOS- und Web-App durch
+  einen direkten Link zur UroBilanz-Community auf Discord ersetzt. Das
+  Ueber-Fenster der Web-App ist nun ueber einen eigenen Knopf erreichbar.
+
 ## 1.7.3-beta.1 - 2026-07-06
 
 - Sicherheitsabfragen fuer geloeschte Eintraege, geloeschte Messtage und

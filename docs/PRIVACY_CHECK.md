@@ -58,7 +58,7 @@ Nicht gefunden:
 - Der lokale Starter bindet den Python-Webserver ausschliesslich an
   `127.0.0.1`.
 - Beim lokalen Start wurden nur Ressourcen von `localhost:4174` angefordert.
-- Externe GitHub- und Lizenzadressen sind normale sichtbare Links und werden
+- Externe Discord-, GitHub- und Lizenzadressen sind normale sichtbare Links und werden
   erst durch einen Klick geoeffnet.
 - Messdaten koennen optional im lokalen Browser-Speicher gespeichert werden.
 - CSV- und Theme-Exporte werden lokal als Blob/Datei erzeugt.
@@ -69,7 +69,7 @@ Nicht gefunden:
 - Messdaten werden aus lokalen Dateien gelesen.
 - Optional gespeicherte Messdaten liegen lokal in `UserDefaults`.
 - Exporte verwenden lokale macOS-Speicherdialoge.
-- GitHub-, Lizenz- und Kontaktlinks werden nur nach Benutzeraktion ueber
+- Discord-, GitHub-, Lizenz- und Kontaktlinks werden nur nach Benutzeraktion ueber
   `NSWorkspace` beziehungsweise einen `mailto:`-Link geoeffnet.
 - Bei zehn Laufzeitmessungen nach dem App-Start wurden mit `lsof` keine offenen
   IPv4- oder IPv6-Verbindungen der App gefunden.
@@ -153,7 +153,7 @@ externe Server.
 
 Externe Kommunikation entsteht nur nach einer sichtbaren Benutzeraktion:
 
-- GitHub- oder Lizenzlink im Browser oeffnen.
+- Discord-, GitHub- oder Lizenzlink im Browser oeffnen.
 - E-Mail-Entwurf im lokalen Mailprogramm vorbereiten und dort selbst senden.
 
 Der Check ist eine technische Bestandsaufnahme des genannten Projektstands und

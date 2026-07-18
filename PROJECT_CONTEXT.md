@@ -1,6 +1,6 @@
 # UroBilanz - Projektkontext
 
-Stand: 06.07.2026
+Stand: 18.07.2026
 
 Diese Datei ist die primaere Wissensquelle fuer neue Chats. Sie beschreibt den
 aktuellen Projektstand. Zukunft und offene Punkte stehen in
@@ -64,7 +64,9 @@ Daten-Backend-Dienst.
 - Update-Check gegen GitHub-Releases in der SwiftUI-App.
 - Automatische Web- und Swift-Smoke-Tests fuer Sprache, Themes,
   Loeschfaelle und Exportbereinigung.
-- Aktueller Wartungs-Beta-Stand `v1.7.3-beta.1`.
+- Aktueller Final-Stand `v1.7.3`.
+- Discord- und GitHub-Links in den Kopfzeilen beider Apps; in der Web-App ist
+  das Ueber-Fenster ueber einen eigenen Knopf erreichbar.
 
 ## Wichtige Designentscheidungen
 
@@ -79,8 +81,6 @@ Daten-Backend-Dienst.
 ## Bekannte Einschraenkungen Oder Probleme
 
 - Apple-Silicon-Mac ist aktuell der primaere native macOS-Zieltyp.
-- Web-App hat keinen direkten Apple-Health-Zugriff.
-- 1.8-Koerperdaten sind nur geplant, noch nicht umgesetzt.
 - Xcode-Warnungen zu Simulator/CoreSimulator in der Codex-Sandbox sind
   Umgebungsmeldungen und keine bekannten UroBilanz-Codefehler.
 
