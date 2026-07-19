@@ -166,52 +166,70 @@ def manual_data(language):
             "filename": "UroBilanz-Handbuch-DE.pdf",
             "title": "UroBilanz Handbuch",
             "subtitle": "Der klare Leitfaden fuer dein lokales Urin- und Fluessigkeitsprotokoll",
-            "cover": "UroBilanz hilft dir, lokale Protokolldaten zu ordnen und auszuwerten. Dieses Handbuch erklaert jeden sichtbaren Bereich, die wichtigsten Schalter und einen sinnvollen ersten Ablauf.",
+            "cover": "UroBilanz hilft dir, lokale Protokolldaten zu ordnen und auszuwerten. Dieses vollstaendige Handbuch beschreibt den ersten Start, jede Ansicht, Eingabefelder, Schalter, Exporte und Datenschutzgrenzen.",
             "edition": "Deutsch | Stand: Juli 2026",
             "footer": "UroBilanz Handbuch",
             "toc": [
-                "1. UroBilanz auf einen Blick", "2. Wo finde ich was?", "3. Erster sinnvoller Start",
-                "4. Eintraege erfassen und verwalten", "5. Ansichten und Auswertungsregeln",
-                "6. Bericht, Backups und Exporte", "7. Themes, Sprache und Einstellungen",
-                "8. Datenschutz, KI-Hilfe und Fehlerberichte",
+                "1. Zweck, Grenzen und Plattformen", "2. Bildschirmkarte und Bedienelemente",
+                "3. Erster Start, CSV laden und CSV ergaenzen", "4. Lokale Speicherung und Daten entfernen",
+                "5. Eintraege erfassen, bearbeiten und loeschen", "6. Dashboard und Zeitansichten",
+                "7. Messtage, Vollstaendigkeit und Regeln", "8. Backups und Exportformate",
+                "9. Arztbericht erstellen", "10. Themes, Sprache und Darstellung",
+                "11. Einstellungen, Updates und Ueber", "12. KI-Hilfe, Fehlerbericht und Support",
+                "13. Datenschutz und sichere Weitergabe", "14. Problemloesung und Begriffe",
             ],
             "start": "Erster sinnvoller Start",
             "manual": "Handbuch oeffnen",
             "sections": {
-                "overview": "1. UroBilanz auf einen Blick",
-                "where": "2. Wo finde ich was?",
-                "first": "3. Erster sinnvoller Start",
-                "entries": "4. Eintraege erfassen und verwalten",
-                "views": "5. Ansichten und Auswertungsregeln",
-                "exports": "6. Bericht, Backups und Exporte",
-                "settings": "7. Themes, Sprache und Einstellungen",
-                "privacy": "8. Datenschutz, KI-Hilfe und Fehlerberichte",
+                "overview": "1. Zweck, Grenzen und Plattformen",
+                "where": "2. Bildschirmkarte und Bedienelemente",
+                "first": "3. Erster Start, CSV laden und CSV ergaenzen",
+                "storage": "4. Lokale Speicherung und Daten entfernen",
+                "entries": "5. Eintraege erfassen, bearbeiten und loeschen",
+                "views": "6. Dashboard und Zeitansichten",
+                "rules": "7. Messtage, Vollstaendigkeit und Regeln",
+                "exports": "8. Backups und Exportformate",
+                "report": "9. Arztbericht erstellen",
+                "settings": "10. Themes, Sprache und Darstellung",
+                "updates": "11. Einstellungen, Updates und Ueber",
+                "support": "12. KI-Hilfe, Fehlerbericht und Support",
+                "privacy": "13. Datenschutz und sichere Weitergabe",
+                "troubleshooting": "14. Problemloesung und Begriffe",
             },
         }
     return {
         "filename": "UroBilanz-User-Manual-EN.pdf",
         "title": "UroBilanz User Manual",
         "subtitle": "A clear guide to your local urine and fluid record",
-        "cover": "UroBilanz helps you organize and review local record data. This manual explains every visible area, the important controls, and a useful first workflow.",
+        "cover": "UroBilanz helps you organize and review local record data. This complete manual covers first use, every view, input field, control, export, and privacy boundary.",
         "edition": "English | July 2026 edition",
         "footer": "UroBilanz User Manual",
         "toc": [
-            "1. UroBilanz at a glance", "2. Where to find each function", "3. First useful start",
-            "4. Add and manage entries", "5. Views and evaluation rules",
-            "6. Report, backups and exports", "7. Themes, language and settings",
-            "8. Privacy, AI help and bug reports",
+            "1. Purpose, limits, and platforms", "2. Screen map and controls",
+            "3. First start, load CSV, and merge CSV", "4. Local storage and removing data",
+            "5. Add, edit, and delete entries", "6. Dashboard and time views",
+            "7. Measurement days, completeness, and rules", "8. Backups and export formats",
+            "9. Create a medical report", "10. Themes, language, and appearance",
+            "11. Settings, updates, and About", "12. AI help, bug reports, and support",
+            "13. Privacy and safe sharing", "14. Troubleshooting and terms",
         ],
         "start": "First useful start",
         "manual": "Open manual",
         "sections": {
-            "overview": "1. UroBilanz at a glance",
-            "where": "2. Where to find each function",
-            "first": "3. First useful start",
-            "entries": "4. Add and manage entries",
-            "views": "5. Views and evaluation rules",
-            "exports": "6. Report, backups and exports",
-            "settings": "7. Themes, language and settings",
-            "privacy": "8. Privacy, AI help and bug reports",
+            "overview": "1. Purpose, limits, and platforms",
+            "where": "2. Screen map and controls",
+            "first": "3. First start, load CSV, and merge CSV",
+            "storage": "4. Local storage and removing data",
+            "entries": "5. Add, edit, and delete entries",
+            "views": "6. Dashboard and time views",
+            "rules": "7. Measurement days, completeness, and rules",
+            "exports": "8. Backups and export formats",
+            "report": "9. Create a medical report",
+            "settings": "10. Themes, language, and appearance",
+            "updates": "11. Settings, updates, and About",
+            "support": "12. AI help, bug reports, and support",
+            "privacy": "13. Privacy and safe sharing",
+            "troubleshooting": "14. Troubleshooting and terms",
         },
     }
 
@@ -256,7 +274,7 @@ def build_manual(language):
         "Eintrag: Urin, Wasser oder einen Hinweis manuell erfassen." if language == "de" else "Entry: record urine, water, or a note manually.",
         "Ansichten: Dashboard sowie Jahr, Monat, Woche, Tag und Regeln vergleichen." if language == "de" else "Views: compare Dashboard, Year, Month, Week, Day, and Rules.",
         "Sichern: Daten als Backup, Tagesdaten oder JSON lokal exportieren." if language == "de" else "Keep copies: export data locally as a backup, daily data, or JSON.",
-    ]], s, SCREENSHOTS / "swift" / "swift-dashboard-creme-salbei.png", "SwiftUI-App mit Demo-Daten" if language == "de" else "SwiftUI app with demo data"))
+    ]], s))
     story.append(PageBreak())
 
     # Where to find what.
@@ -306,6 +324,23 @@ def build_manual(language):
     ], s, SCREENSHOTS / "web" / "web-entry-violet-night.png", "Manuelle Eingabe in der Web-App" if language == "de" else "Manual entry in the web app"))
     story.append(PageBreak())
 
+    storage_rows = ([
+        ("Aktion", "Was lokal geschieht"),
+        ("Ohne Daten merken", "Geladene und manuell erfasste Daten sind nur fuer die laufende Sitzung vorhanden. Beim erneuten Oeffnen laedt die App keine fruehere CSV automatisch."),
+        ("Daten merken", "Die aktuell geladene CSV wird in der lokalen Speicherung des jeweiligen Browsers oder der macOS-App hinterlegt. Sie wird beim naechsten Start wieder verwendet."),
+        ("Gespeicherte Daten loeschen", "Entfernt nur die von UroBilanz gemerkte lokale Kopie und deaktiviert Daten merken. Die urspruengliche Datei im Finder und externe Backups bleiben unveraendert."),
+        ("Tag oder Eintrag loeschen", "Entfernt diese Inhalte aus der aktuellen lokalen Auswertung und damit aus kuenftigen Exporten. Erstelle vorher ein Backup, wenn du sie behalten willst."),
+        ("App-Varianten", "Dev, Beta und Final verwenden getrennte App-Container. Daten aus einer Variante erscheinen nicht automatisch in einer anderen."),
+    ] if language == "de" else [
+        ("Action", "What happens locally"),
+        ("Without Remember data", "Loaded and manually added data exists only for the current session. On reopening, the app does not automatically load an earlier CSV."),
+        ("Remember data", "The currently loaded CSV is stored in the local storage of the browser or macOS app. It is used again at the next start."),
+        ("Delete saved data", "Removes only the local copy remembered by UroBilanz and turns off Remember data. The original file in Finder and external backups remain unchanged."),
+        ("Delete day or entry", "Removes this content from current local analysis and therefore future exports. Create a backup first if you need to keep it."),
+        ("App variants", "Dev, Beta, and Final use separate app containers. Data from one variant does not automatically appear in another."),
+    ])
+    story.extend([p(data["sections"]["storage"], s["h1"]), p("UroBilanz speichert keine Messdaten in einem Cloud-Konto. Entscheidend ist, ob du die lokale Erinnerungsfunktion einschaltest. Die folgende Tabelle trennt die gleich klingenden Loesch- und Speicheraktionen." if language == "de" else "UroBilanz does not store measurement data in a cloud account. The important choice is whether you enable local remembering. The following table distinguishes the similarly named storage and deletion actions.", s["body"]), info_table(storage_rows, s), Spacer(1, 10), callout("Ein Backup ist eine eigenstaendige Datei. Daten merken ist kein Backup und schuetzt nicht vor dem Loeschen eines Tages oder dem Verlust des Geraets." if language == "de" else "A backup is a separate file. Remember data is not a backup and does not protect against deleting a day or losing the device.", s["callout"], TEAL), PageBreak()])
+
     entry_text = (
         "Mit Eintrag oeffnest du die manuelle Eingabe. Datum und Uhrzeit bestimmen, welchem Messtag eine Angabe zugeordnet wird. Trage mindestens einen Urinwert, einen Wasserwert oder einen Hinweis ein. Mit Hinzufuegen bleibt der Dialog offen; mit Hinzufuegen & schliessen wird er danach geschlossen. Zuruecksetzen leert den Dialog. In der Tagesansicht kannst du einzelne Eintraege bearbeiten oder loeschen; Tag loeschen entfernt alle Eintraege dieses Messtags aus der lokalen Auswertung und aus kuenftigen Exporten."
         if language == "de" else
@@ -316,9 +351,57 @@ def build_manual(language):
         "Hinweis: sichtbarer Kontext, aber keine automatische medizinische Bewertung." if language == "de" else "Note: visible context, but no automatic medical assessment.",
         "Urin Hinweis: Ein Hinweis bei einem Urinwert bleibt an dessen Uhrzeit ausgerichtet." if language == "de" else "Urine note: a note for a urine value stays aligned with that time.",
     ]], s, SCREENSHOTS / "swift" / "swift-entry-creme-salbei.png", "Manuelle Eingabe in der macOS-App" if language == "de" else "Manual entry in the macOS app"))
-    story.append(PageBreak())
+    entry_rows = ([
+        ("Feld oder Schalter", "Zweck und Wirkung"),
+        ("Datum", "Legt den Kalendertag fest. Die Zuordnung zum Messtag folgt zusaetzlich der 06:00-Grenze aus Kapitel 7."),
+        ("Uhrzeit Urin", "Zeitpunkt des Urinwerts. Sie erscheint in der Tagesansicht und bestimmt die zeitliche Reihenfolge."),
+        ("Urin ml", "Menge eines Urinereignisses in Millilitern. Nur diese Menge wird fuer Urinsummen und die niedrig/normal-Kennzeichnung verwendet."),
+        ("Uhrzeit Wasser", "Zeitpunkt einer Trinkmenge. Wasser bleibt eine getrennte Kategorie und wird nicht zur Urinmenge gerechnet."),
+        ("Wasser ml", "Menge eines Trinkereignisses in Millilitern; sie dient als sichtbarer Kontext in den Ansichten und Exporten."),
+        ("Hinweis", "Freier lokaler Text zu einem Zeitpunkt oder Tag. Er ist nur Kontext und aendert keine automatische Bewertung."),
+        ("Hinzufuegen / Hinzufuegen & schliessen", "Speichert die eingegebenen Werte lokal. Die erste Variante laesst den Dialog fuer weitere Eingaben offen; die zweite beendet den Dialog danach."),
+        ("Zuruecksetzen", "Leert die noch nicht gespeicherten Werte des Dialogs. Bereits gespeicherte Eintraege bleiben erhalten."),
+    ] if language == "de" else [
+        ("Field or control", "Purpose and effect"),
+        ("Date", "Sets the calendar date. Assignment to a measurement day also follows the 06:00 boundary in chapter 7."),
+        ("Urine time", "Time of the urine value. It appears in the Day view and determines chronological order."),
+        ("Urine ml", "Amount of a urine event in millilitres. Only this amount is used for urine totals and the low/normal label."),
+        ("Water time", "Time of a drinking amount. Water stays a separate category and is not counted as urine."),
+        ("Water ml", "Amount of a drinking event in millilitres; it provides visible context in views and exports."),
+        ("Note", "Free local text for a time or day. It is context only and does not change automatic evaluation."),
+        ("Add / Add & close", "Stores the entered values locally. The first option keeps the dialog open for further entries; the second closes it afterwards."),
+        ("Reset", "Clears the dialog values that have not been saved. Existing entries remain."),
+    ])
+    story.extend([
+        PageBreak(),
+        p("Eingabefelder und Aktionen" if language == "de" else "Input fields and actions", s["h2"]),
+        p("Beim Bearbeiten eines vorhandenen Eintrags gilt dieselbe Bedeutung der Felder. Aendere nur die Werte, die korrigiert werden sollen; pruefe danach die Tagesansicht, weil sich Reihenfolge, Summen und Vollstaendigkeit dadurch aendern koennen." if language == "de" else "When editing an existing entry, the fields have the same meaning. Change only the values that need correction; then review the Day view because order, totals, and completeness can change.", s["body"]),
+        info_table(entry_rows, s),
+        Spacer(1, 9),
+        callout("Loeschen ist eine lokale Aenderung und wird nicht rueckgaengig gemacht. Ein vorher erstelltes Komplett-Backup ist die einfachste Moeglichkeit, einen frueheren Stand zu behalten." if language == "de" else "Deletion is a local change and is not undone automatically. A complete backup created beforehand is the simplest way to retain an earlier state.", s["callout"], TEAL),
+        PageBreak(),
+    ])
 
     # Views and rules.
+    view_rows = ([
+        ("Ansicht", "Was sie zeigt und wann sie sinnvoll ist"),
+        ("Dashboard", "Schneller Gesamtueberblick ueber den geladenen oder gefilterten Zeitraum: Summen, Durchschnittswerte, Verlauf und Kennzeichnungen. Nutze es nach dem Laden fuer den ersten Plausibilitaetscheck."),
+        ("Jahr", "Zusammenfassung nach Monaten im gewaehlten Jahr. Sinnvoll fuer laengere Verlaeufe und den Vergleich von Monaten."),
+        ("Monat", "Zusammenfassung der Messtage im gewaehlten Monat. Sinnvoll, um Regelmaessigkeit und einzelne unvollstaendige Tage zu sehen."),
+        ("Woche", "Verdichtet die Daten in Kalenderwochen. Sinnvoll fuer einen mittleren Zeitraum ohne die Detailmenge der Tagesansicht."),
+        ("Tag", "Chronologische Liste einzelner Urin-, Wasser- und Hinweis-Eintraege. Hier lassen sich einzelne Eintraege bearbeiten oder loeschen und ein ganzer Messtag entfernen."),
+        ("Regeln", "Erklaert die feste Zuordnung zu Messtagen sowie Vollstaendigkeit und Kennzeichnungen. Diese Seite veraendert keine Daten."),
+        ("Jahr-/Monat-Filter", "Begrenzen die angezeigten Daten in den passenden Ansichten. Sie loeschen, verschieben oder exportieren nichts."),
+    ] if language == "de" else [
+        ("View", "What it shows and when it is useful"),
+        ("Dashboard", "Fast overview of the loaded or filtered period: totals, averages, progress, and labels. Use it for an initial plausibility check after loading."),
+        ("Year", "Summary by month in the selected year. Useful for longer trends and comparing months."),
+        ("Month", "Summary of measurement days in the selected month. Useful to see regularity and individual incomplete days."),
+        ("Week", "Condenses data into calendar weeks. Useful for a medium period without the detail volume of Day."),
+        ("Day", "Chronological list of individual urine, water, and note entries. Here you can edit or delete individual entries and remove a whole measurement day."),
+        ("Rules", "Explains fixed measurement-day assignment, completeness, and labels. This page does not change data."),
+        ("Year/month filters", "Limit visible data in suitable views. They do not delete, move, or export anything."),
+    ])
     rules_rows = ([
         ("Regel", "Bedeutung"),
         ("Messtag", "Laeuft von 06:00 bis 05:59. Eintraege von 00:00 bis 05:59 gehoeren zum Vortag; die Uhrzeit bleibt sichtbar."),
@@ -341,7 +424,8 @@ def build_manual(language):
         if language == "de" else
         "The Dashboard summarizes the loaded period. Year, Month, and Week condense the same data into tables. Day shows individual times, amounts, and notes. Rules explains the organizational logic in use. Streak counts consecutive measurement days with entries."
     )
-    story.extend([p(data["sections"]["views"], s["h1"]), p(view_intro, s["body"]), info_table(rules_rows, s), Spacer(1, 10), callout("Die Kennzeichnungen niedrig, normal und unvollstaendig sind organisatorische Auswertungen. Sie sind keine Diagnose und ersetzen keine medizinische Beratung." if language == "de" else "The low, normal, and incomplete labels are organizational evaluations. They are not a diagnosis and do not replace medical advice.", s["callout"], TEAL), PageBreak()])
+    story.extend([p(data["sections"]["views"], s["h1"]), p(view_intro, s["body"]), info_table(view_rows, s), Spacer(1, 8), image(SCREENSHOTS / "swift" / "swift-day-creme-salbei.png", 15.6 * cm, 8.3 * cm), Spacer(1, 4), p("Tagesansicht in der macOS-App" if language == "de" else "Day view in the macOS app", s["small"]), PageBreak()])
+    story.extend([p(data["sections"]["rules"], s["h1"]), p("UroBilanz verwendet feste organisatorische Regeln, damit Zeiten am Tagesrand einheitlich ausgewertet werden. Diese Regeln gelten gleich in allen Ansichten, Berichten und Exporten der Tageszusammenfassung." if language == "de" else "UroBilanz uses fixed organizational rules so times at the day boundary are evaluated consistently. These rules apply equally in all views, reports, and daily-summary exports.", s["body"]), info_table(rules_rows, s), Spacer(1, 10), callout("Die Kennzeichnungen niedrig, normal und unvollstaendig sind organisatorische Auswertungen. Sie sind keine Diagnose und ersetzen keine medizinische Beratung." if language == "de" else "The low, normal, and incomplete labels are organizational evaluations. They are not a diagnosis and do not replace medical advice.", s["callout"], TEAL), PageBreak()])
 
     # Exports.
     exports_rows = ([
@@ -359,18 +443,103 @@ def build_manual(language):
     ])
     story.extend([p(data["sections"]["exports"], s["h1"]), p("Oeffne Backup in der Werkzeugleiste und waehle das passende Format. Alle Dateien werden durch den Browser oder den macOS-Speicherdialog an einem von dir gewaehlten Ort gespeichert." if language == "de" else "Open Backup in the toolbar and choose the suitable format. Every file is saved at a location you choose through the browser or macOS save dialog.", s["body"]), info_table(exports_rows, s), Spacer(1, 10), p("Beim Arztbericht waehle zuerst den Zeitraum. Tagesdetails und Hinweise sind eigene Schalter: Lass sie aus, wenn sie fuer den vorgesehenen Zweck nicht benoetigt werden." if language == "de" else "For the medical report, choose the period first. Daily details and notes are separate switches: leave them off when they are not needed for the intended purpose.", s["body"]), callout("Teile exportierte Dateien nur bewusst. Ein Export kann die von dir protokollierten Inhalte enthalten." if language == "de" else "Share exported files only deliberately. An export can contain the content you recorded.", s["callout"], TEAL), PageBreak()])
 
+    report_rows = ([
+        ("Feld oder Schalter", "Wirkung im Bericht"),
+        ("Von / Bis", "Begrenzt den Bericht auf einen von dir gewaehlten Zeitraum. Pruefe beide Daten vor dem Speichern, besonders bei Monatswechseln."),
+        ("Tagesdetails einschliessen", "Fuegt die einzelnen Messtage zum Bericht hinzu. Ohne diesen Schalter bleibt der Bericht kompakter und zeigt vor allem die Zusammenfassung."),
+        ("Hinweise einschliessen", "Nimmt deine freien Notizen in den Bericht auf. Lass den Schalter aus, wenn sie fuer den vorgesehenen Empfaenger nicht erforderlich sind."),
+        ("Bericht speichern", "Erstellt einen lokalen, druckfreundlichen Bericht. In der macOS-App wird er als PDF gespeichert; die Web-App verwendet den lokalen Speicherdialog des Browsers."),
+    ] if language == "de" else [
+        ("Field or control", "Effect in the report"),
+        ("From / To", "Limits the report to a period you select. Check both dates before saving, especially across month boundaries."),
+        ("Include daily details", "Adds individual measurement days to the report. Without this switch, the report stays compact and mainly shows the summary."),
+        ("Include notes", "Includes your free notes in the report. Leave it off when they are not necessary for the intended recipient."),
+        ("Save report", "Creates a local print-friendly report. The macOS app saves it as a PDF; the web app uses the browser's local save dialog."),
+    ])
+    story.extend([p(data["sections"]["report"], s["h1"]), p("Der Arztbericht ist eine Auswahl deiner lokalen Protokolldaten, keine medizinische Beurteilung. Er enthaelt nur den Zeitraum und die Inhalte, die du bei der Erstellung einschaltest." if language == "de" else "The medical report is a selection of your local log data, not a medical assessment. It contains only the period and content you enable while creating it.", s["body"]), info_table(report_rows, s), Spacer(1, 10), callout("Vorschau und gespeicherte Datei vor einer Weitergabe pruefen. UroBilanz versendet keinen Bericht selbststaendig." if language == "de" else "Review the preview and saved file before sharing. UroBilanz never sends a report on its own.", s["callout"], TEAL), PageBreak()])
+
     # Settings and privacy.
     settings_text = (
-        "Das Theme-Menue oben rechts wechselt zwischen eingebauten Themes. Theme importieren liest eine eigene lokale JSON-Theme-Datei ein. Theme exportieren erzeugt eine bearbeitbare lokale Kopie des aktuellen Themes. Theme loeschen ist nur fuer importierte Themes aktiv; eingebaute Themes bleiben erhalten. Die Sprachwahl DE/EN aendert alle sichtbaren Texte einschliesslich der Erststart-Hilfe. In der macOS-App findest du unter Einstellungen zusaetzlich die Update-Pruefung; sie wird bewusst gestartet und prueft nur die oeffentliche Release-Information."
+        "Das Theme-Menue oben rechts wechselt zwischen eingebauten Themes. Theme importieren liest eine eigene lokale JSON-Theme-Datei ein. Theme exportieren erzeugt eine bearbeitbare lokale Kopie des aktuellen Themes. Theme loeschen ist nur fuer importierte Themes aktiv; eingebaute Themes bleiben erhalten. Die Sprachwahl DE/EN aendert alle sichtbaren Texte einschliesslich der Erststart-Hilfe. Farben und Sprache veraendern keine Messwerte, Hinweise oder Exportinhalte."
         if language == "de" else
-        "The Theme menu at top right switches between built-in themes. Import theme reads a local JSON theme file. Export theme creates an editable local copy of the current theme. Delete theme is active only for imported themes; built-in themes remain available. The DE/EN language choice changes all visible text, including first-start help. In the macOS app, Settings also contains the update check; it is started deliberately and checks only public release information."
+        "The Theme menu at top right switches between built-in themes. Import theme reads a local JSON theme file. Export theme creates an editable local copy of the current theme. Delete theme is active only for imported themes; built-in themes remain available. The DE/EN language choice changes all visible text, including first-start help. Colours and language never change measurement values, notes, or export content."
     )
     story.extend(section(data["sections"]["settings"], [settings_text, [
         "Daten merken: speichert die aktuell geladene CSV lokal fuer den naechsten Start." if language == "de" else "Remember data: stores the currently loaded CSV locally for the next start.",
         "Gespeicherte Daten loeschen: entfernt diese lokale Merkliste; die urspruengliche Datei ausserhalb der App bleibt unveraendert." if language == "de" else "Delete saved data: removes this local remembered copy; the original file outside the app remains unchanged.",
         "Ueber UroBilanz: zeigt Version, Lizenz, Projektseite und Kontakt." if language == "de" else "About UroBilanz: shows version, license, project page, and contact.",
     ]], s))
-    story.extend([p(data["sections"]["privacy"], s["h1"]), p("UroBilanz verarbeitet Messdaten lokal. Es gibt keinen Cloud-Sync und keinen Daten-Backend-Dienst. Die sichtbaren GitHub-, Discord-, Lizenz- und Kontaktlinks oeffnen erst nach einem Klick. Fehler melden erzeugt einen pruefbaren Textentwurf; CSV-Werte, Hinweise und Gesundheitsdaten werden nicht automatisch hinzugefuegt." if language == "de" else "UroBilanz processes measurement data locally. There is no cloud sync and no data backend. Visible GitHub, Discord, license, and contact links open only after a click. Report bug creates a reviewable text draft; CSV values, notes, and health data are not added automatically.", s["body"]), p("In der leeren Startansicht kannst du das Handbuch oeffnen oder ChatGPT, Google Gemini oder Claude auswaehlen. Erst dein Klick kopiert eine feste allgemeine Frage mit diesem oeffentlichen Handbuch-Link in die Zwischenablage und oeffnet den jeweiligen Dienst. Die App uebergibt dabei keine Eintraege, Messwerte, Dateipfade oder gespeicherten Daten. Fuege die Frage nur selbst mit Cmd+V ein und sende sie nur, wenn du das moechtest." if language == "de" else "In the empty start view, you can open the manual or choose ChatGPT, Google Gemini, or Claude. Only your click copies a fixed general question with this public manual link to the clipboard and opens the selected service. The app does not pass entries, measurements, file paths, or saved data. Paste the question yourself with Cmd+V and send it only when you choose to do so.", s["body"]), callout("Bei Beschwerden, Unsicherheit oder Veraenderungen deines Gesundheitszustands hole medizinischen Rat ein. Dieses Handbuch und die App ersetzen keine fachliche Beratung." if language == "de" else "For symptoms, uncertainty, or changes in your health, seek medical advice. This manual and the app do not replace professional guidance.", s["callout"], TEAL)])
+    story.append(PageBreak())
+
+    update_rows = ([
+        ("Bereich", "Funktion"),
+        ("Einstellungen (macOS)", "Enthaelt die Update-Informationen und die manuelle Suche nach einer neuen Version."),
+        ("Auf Updates pruefen", "Fragt nur oeffentliche Release-Informationen des Projekts ab. Messwerte, CSV-Inhalte und lokale Dateien werden dabei nicht uebermittelt."),
+        ("Release oeffnen", "Oeffnet nach deinem Klick die oeffentliche Release-Seite im Browser. Ein Download oder eine Installation erfolgt nicht automatisch."),
+        ("Ueber UroBilanz", "Zeigt App-Version, Lizenz, Projektseite und Kontakt. Die sichtbaren GitHub- und Discord-Symbole sind Links und oeffnen nur nach einem Klick."),
+    ] if language == "de" else [
+        ("Area", "Function"),
+        ("Settings (macOS)", "Contains update information and the manual check for a new version."),
+        ("Check for updates", "Requests only public release information for the project. Measurement values, CSV content, and local files are not sent."),
+        ("Open release", "Opens the public release page in the browser after your click. A download or installation never starts automatically."),
+        ("About UroBilanz", "Shows app version, license, project page, and contact. The visible GitHub and Discord icons are links and open only after a click."),
+    ])
+    story.extend([p(data["sections"]["updates"], s["h1"]), p("Die Web-App besitzt keine native macOS-Einstellungsseite. Die Funktionen rund um App-Version, Projektseite und Hilfe sind dort ueber die Kopfleiste und den Ueber-Dialog erreichbar." if language == "de" else "The web app has no native macOS Settings page. Its app-version, project-page, and help functions are available through the header and About dialog.", s["body"]), info_table(update_rows, s), PageBreak()])
+
+    support_rows = ([
+        ("Funktion", "Ablauf und Datenschutz"),
+        ("Handbuch oeffnen", "Auf der leeren Startansicht. Oeffnet dieses oeffentliche PDF im Browser; keine lokalen Inhalte werden angehaengt."),
+        ("ChatGPT, Google Gemini, Claude", "Nur auf der leeren Startansicht. Ein Klick kopiert einen festen allgemeinen Hilfetext mit dem Handbuch-Link in die Zwischenablage und oeffnet die gewaehlte Website."),
+        ("Text einfuegen", "Du fuegst den Text selbst mit Cmd+V in den Dienst ein und entscheidest selbst, ob du ihn absendest. UroBilanz sendet nie automatisch etwas an einen KI-Dienst."),
+        ("Fehler melden", "Oeffnet einen lokalen Entwurf mit Beschreibung, Schritten zum Nachstellen und erwartetem Ergebnis. Du kannst die Vorschau pruefen, als Text speichern oder eine E-Mail bewusst vorbereiten."),
+        ("Fehlerbericht-Inhalt", "CSV-Werte, Hinweise, Gesundheitsdaten, lokale Dateipfade, Lizenz- oder Zugangsdaten werden nicht automatisch in den Entwurf aufgenommen."),
+    ] if language == "de" else [
+        ("Function", "Flow and privacy"),
+        ("Open manual", "In the empty start view. Opens this public PDF in the browser; no local content is attached."),
+        ("ChatGPT, Google Gemini, Claude", "Only in the empty start view. A click copies a fixed general help text with the manual link to the clipboard and opens the selected website."),
+        ("Paste text", "You paste the text into the service yourself with Cmd+V and decide whether to send it. UroBilanz never sends anything to an AI service automatically."),
+        ("Report bug", "Opens a local draft with description, reproduction steps, and expected result. You can review the preview, save it as text, or deliberately prepare an email."),
+        ("Bug report content", "CSV values, notes, health data, local file paths, license data, and credentials are not automatically added to the draft."),
+    ])
+    story.extend([p(data["sections"]["support"], s["h1"]), p("Die KI-Hilfe ist bewusst nur vor dem ersten Laden eigener Inhalte sichtbar. Sobald Daten vorhanden sind, bleibt die normale Arbeitsansicht im Vordergrund." if language == "de" else "AI help is deliberately visible only before you load your own content for the first time. Once data exists, the normal working view remains in the foreground.", s["body"]), info_table(support_rows, s), Spacer(1, 9), callout("Gib Messwerte, Notizen oder andere persoenliche Informationen nur weiter, wenn du das bewusst willst und den Empfaenger kennst." if language == "de" else "Share measurement values, notes, or other personal information only when you deliberately choose to and know the recipient.", s["callout"], TEAL), PageBreak()])
+
+    privacy_rows = ([
+        ("Bereich", "Was UroBilanz tut - und nicht tut"),
+        ("Messdaten", "Verarbeitung und Auswertung erfolgen lokal in der Web-App oder macOS-App. Es gibt keinen Cloud-Sync und kein Daten-Backend."),
+        ("Dateien", "CSV-, JSON-, Bericht- und Theme-Dateien werden nur ueber einen von dir ausgeloesten Oeffnen- oder Speichern-Dialog verarbeitet."),
+        ("Links", "GitHub, Discord, Lizenz, Kontakt, Handbuch und externe KI-Dienste oeffnen erst nach einem bewussten Klick."),
+        ("KI-Hilfe", "Erhaelt von der App nur den festen allgemeinen Text und den oeffentlichen Handbuch-Link in deiner Zwischenablage. Keine lokalen App-Daten werden in den Text eingesetzt."),
+        ("Berichte und Backups", "Bleiben lokale Dateien, bis du sie selbst ueber einen anderen Dienst, E-Mail-Anhang oder Datentraeger weitergibst."),
+    ] if language == "de" else [
+        ("Area", "What UroBilanz does - and does not do"),
+        ("Measurement data", "Processing and evaluation happen locally in the web app or macOS app. There is no cloud sync and no data backend."),
+        ("Files", "CSV, JSON, report, and theme files are processed only through an open or save dialog you trigger."),
+        ("Links", "GitHub, Discord, license, contact, manual, and external AI services open only after a deliberate click."),
+        ("AI help", "Receives from the app only the fixed general text and public manual link in your clipboard. No local app data is inserted into the text."),
+        ("Reports and backups", "Remain local files until you yourself share them through another service, an email attachment, or storage device."),
+    ])
+    story.extend([p(data["sections"]["privacy"], s["h1"]), info_table(privacy_rows, s), Spacer(1, 10), callout("Bei Beschwerden, Unsicherheit oder Veraenderungen deines Gesundheitszustands hole medizinischen Rat ein. Dieses Handbuch und die App ersetzen keine fachliche Beratung." if language == "de" else "For symptoms, uncertainty, or changes in your health, seek medical advice. This manual and the app do not replace professional guidance.", s["callout"], TEAL), PageBreak()])
+
+    troubleshooting_rows = ([
+        ("Situation", "Sinnvolle Pruefung"),
+        ("Keine Daten sichtbar", "Pruefe, ob eine CSV geladen wurde, ob ein Jahr-/Monat-Filter den Zeitraum begrenzt oder ob gespeicherte Daten zuvor geloescht wurden."),
+        ("CSV laesst sich nicht ergaenzen", "CSV ergaenzen akzeptiert nur eine weitere Original-Urinote-CSV. Lade eine Tagesdaten-CSV stattdessen normal oder verwende sie als Archiv."),
+        ("Tag ist unvollstaendig", "Pruefe, ob zwischen erstem und letztem Urin- oder Wasserwert mindestens acht Stunden liegen. Randzeiten von 00:00 bis 05:59 gehoeren zum Vortag."),
+        ("Werte fehlen nach Neustart", "Aktiviere Daten merken fuer die lokale Wiederverwendung oder lade die CSV erneut. Nutze fuer dauerhafte Sicherung ein Komplett-Backup."),
+        ("Falsches Theme oder falsche Sprache", "Waehle oben rechts ein eingebautes Theme oder DE/EN. Diese Aktion betrifft nur Darstellung und Texte."),
+        ("Begriff: Messtag", "Ein Auswertungszeitraum von 06:00 bis 05:59 des Folgetags; er kann von einem Kalendertag abweichen."),
+        ("Begriff: vollstaendig", "Ein Messtag mit mindestens acht Stunden zwischen erstem und letztem Urin- oder Wasserwert; nur diese Tage gehen in die Kennzeichnungen ein."),
+    ] if language == "de" else [
+        ("Situation", "Useful check"),
+        ("No data visible", "Check whether a CSV was loaded, whether a year/month filter limits the period, or whether saved data was previously deleted."),
+        ("CSV cannot be merged", "Merge CSV accepts only another original Urinote CSV. Load a daily-data CSV normally instead or use it as an archive."),
+        ("Day is incomplete", "Check whether at least eight hours lie between the first and last urine or water value. Times from 00:00 to 05:59 belong to the previous day."),
+        ("Values missing after restart", "Enable Remember data for local reuse or load the CSV again. Use a complete backup for durable safeguarding."),
+        ("Wrong theme or language", "Choose a built-in theme or DE/EN at top right. This action affects only appearance and text."),
+        ("Term: measurement day", "An evaluation period from 06:00 to 05:59 the next day; it may differ from a calendar day."),
+        ("Term: complete", "A measurement day with at least eight hours between the first and last urine or water value; only these days are included in labels."),
+    ])
+    story.extend([p(data["sections"]["troubleshooting"], s["h1"]), p("Wenn die Pruefungen das Problem nicht loesen, erstelle einen Fehlerbericht. Beschreibe dabei die Schritte moeglichst allgemein und fuege keine personenbezogenen Protokollinhalte bei." if language == "de" else "If these checks do not solve the problem, create a bug report. Describe the steps as generally as possible and do not include personal log content.", s["body"]), info_table(troubleshooting_rows, s)])
 
     doc.build(story)
     return output

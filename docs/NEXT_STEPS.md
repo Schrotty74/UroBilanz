@@ -69,6 +69,9 @@ Die Vollpruefung von `v1.7.3` war erfolgreich:
   angenehm bedienbar bleibt.
 - Bei neuen sichtbaren Funktionen die deutschen und englischen PDF-Handbuecher
   unter `docs/output/pdf/` sowie `docs/manual/build_manuals.py` aktualisieren.
+  Der aktuelle Referenzumfang umfasst alle sichtbaren Arbeitsablaeufe und
+  Optionen der Web- und macOS-App; neue Funktionen duerfen diese Abdeckung
+  nicht wieder einschraenken.
 
 ### Tabellen
 

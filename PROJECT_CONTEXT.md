@@ -71,9 +71,11 @@ Daten-Backend-Dienst.
   ChatGPT, Google Gemini und Claude, ein fester sprachabhaengiger Prompt und
   der Link zum jeweiligen oeffentlichen PDF-Handbuch. Nutzerdaten
   werden dabei nie gelesen, kopiert oder automatisch uebertragen.
-- Zweisprachige oeffentliche PDF-Handbuecher unter `docs/output/pdf/` erklaeren
-  die Bedienung beider Apps, alle sichtbaren Schalter, Auswertungsregeln,
-  Exporte und Datenschutz anhand synthetischer Demo-Screenshots.
+- Zweisprachige oeffentliche PDF-Handbuecher unter `docs/output/pdf/` bilden
+  eine vollstaendige Bedienungsreferenz fuer beide Apps: Start, CSV, lokale
+  Speicherung, Eingaben, Ansichten, Regeln, Exporte, Bericht, Themes,
+  Updates, Hilfe, Datenschutz und Problemloesung anhand synthetischer
+  Demo-Screenshots.
 
 ## Wichtige Designentscheidungen
 

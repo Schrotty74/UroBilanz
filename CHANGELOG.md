@@ -9,9 +9,11 @@ Alle wichtigen Änderungen an UroBilanz werden hier dokumentiert.
 - Die drei Dienstlogos liegen lokal im Projekt. Die App kopiert ausschliesslich
   einen festen, sprachabhaengigen Prompt mit Link zum oeffentlichen
   UroBilanz-PDF-Handbuch und oeffnet den Dienst erst nach einem Klick.
-- Zweisprachige achtseitige PDF-Handbuecher fuer die Web- und macOS-App
-  ergaenzt. Sie erklaeren Bedienung, Schalter, Exporte, Auswertungsregeln und
-  Datenschutz mit synthetischen Demo-Screenshots.
+- Zweisprachige 16-seitige PDF-Handbuecher fuer die Web- und macOS-App zu
+  vollstaendigen Bedienungsreferenzen ausgebaut: Start, CSV, lokale
+  Speicherung, Eingabefelder, Ansichten, Regeln, Backups, Arztbericht,
+  Themes, Updates, Hilfe, Datenschutz und Problemloesung mit synthetischen
+  Demo-Screenshots.
 
 ## 1.7.3 - 2026-07-18
 

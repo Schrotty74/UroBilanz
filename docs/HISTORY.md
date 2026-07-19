@@ -16,8 +16,10 @@ erhalten.
   gewaehlten Dienst. Messwerte, Hinweise und andere Nutzerdaten bleiben lokal.
 - Dienst-URLs, Prompt-Inhalt und deutsche/englische Dokumentationslinks sind
   durch Web- und Swift-Smoke-Tests abgesichert.
-- Deutsche und englische achtseitige PDF-Handbuecher mit Bedienung,
-  sichtbaren Optionen, Auswertungsregeln, Exporten und Datenschutz erstellt.
+- Deutsche und englische 16-seitige PDF-Handbuecher als vollstaendige
+  Bedienungsreferenz erstellt: Start, CSV-Import und Zusammenfuehren, lokale
+  Speicherung, Eingabefelder, Ansichten, Auswertungsregeln, Backups,
+  Arztbericht, Themes, Updates, KI-Hilfe, Datenschutz und Problemloesung.
 
 ## 1.7.3 - 2026-07-18
 
