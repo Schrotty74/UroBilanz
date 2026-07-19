@@ -1,5 +1,5 @@
 (function (root) {
-  const APP_VERSION = "1.7.3-beta.2";
+  const APP_VERSION = "1.7.4-beta.1";
 
   function detectDelimiter(text) {
     const firstLine = String(text || "").split(/\r?\n/)[0] || "";

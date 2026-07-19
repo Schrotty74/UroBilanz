@@ -26,6 +26,9 @@
 		UB0000000000000000000125 /* urobilanz-icon-dark.svg in Resources */ = {isa = PBXBuildFile; fileRef = UB0000000000000000000225 /* urobilanz-icon-dark.svg */; };
 		UB0000000000000000000126 /* urobilanz-icon-light.svg in Resources */ = {isa = PBXBuildFile; fileRef = UB0000000000000000000226 /* urobilanz-icon-light.svg */; };
 		UB0000000000000000000127 /* discord-mark-white.svg in Resources */ = {isa = PBXBuildFile; fileRef = UB0000000000000000000227 /* discord-mark-white.svg */; };
+		UB0000000000000000000128 /* ai-chatgpt-logo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = UB0000000000000000000228 /* ai-chatgpt-logo.jpg */; };
+		UB0000000000000000000129 /* ai-gemini-logo.svg in Resources */ = {isa = PBXBuildFile; fileRef = UB0000000000000000000229 /* ai-gemini-logo.svg */; };
+		UB0000000000000000000130 /* ai-claude-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = UB0000000000000000000230 /* ai-claude-logo.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,6 +52,9 @@
 		UB0000000000000000000225 /* urobilanz-icon-dark.svg */ = {isa = PBXFileReference; lastKnownFileType = text; path = "urobilanz-icon-dark.svg"; sourceTree = "<group>"; };
 		UB0000000000000000000226 /* urobilanz-icon-light.svg */ = {isa = PBXFileReference; lastKnownFileType = text; path = "urobilanz-icon-light.svg"; sourceTree = "<group>"; };
 		UB0000000000000000000227 /* discord-mark-white.svg */ = {isa = PBXFileReference; lastKnownFileType = text; path = "discord-mark-white.svg"; sourceTree = "<group>"; };
+		UB0000000000000000000228 /* ai-chatgpt-logo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "ai-chatgpt-logo.jpg"; sourceTree = "<group>"; };
+		UB0000000000000000000229 /* ai-gemini-logo.svg */ = {isa = PBXFileReference; lastKnownFileType = text; path = "ai-gemini-logo.svg"; sourceTree = "<group>"; };
+		UB0000000000000000000230 /* ai-claude-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ai-claude-logo.png"; sourceTree = "<group>"; };
 		UB0000000000000000000231 /* UroBilanz.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = UroBilanz.entitlements; sourceTree = "<group>"; };
 		UB0000000000000000000241 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		UB0000000000000000000301 /* UroBilanz.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UroBilanz.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -130,6 +136,9 @@
 				UB0000000000000000000225 /* urobilanz-icon-dark.svg */,
 				UB0000000000000000000226 /* urobilanz-icon-light.svg */,
 				UB0000000000000000000227 /* discord-mark-white.svg */,
+				UB0000000000000000000228 /* ai-chatgpt-logo.jpg */,
+				UB0000000000000000000229 /* ai-gemini-logo.svg */,
+				UB0000000000000000000230 /* ai-claude-logo.png */,
 			);
 			path = Assets;
 			sourceTree = "<group>";
@@ -201,6 +210,9 @@
 				UB0000000000000000000125 /* urobilanz-icon-dark.svg in Resources */,
 				UB0000000000000000000126 /* urobilanz-icon-light.svg in Resources */,
 				UB0000000000000000000127 /* discord-mark-white.svg in Resources */,
+				UB0000000000000000000128 /* ai-chatgpt-logo.jpg in Resources */,
+				UB0000000000000000000129 /* ai-gemini-logo.svg in Resources */,
+				UB0000000000000000000130 /* ai-claude-logo.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -344,7 +356,7 @@
 				CODE_SIGN_ENTITLEMENTS = apps/macos-swift/UroBilanz.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 33;
+				CURRENT_PROJECT_VERSION = 34;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = NO;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -355,7 +367,7 @@
 				INFOPLIST_KEY_LSMinimumSystemVersion = 26.0;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				MARKETING_VERSION = 1.7.3-beta.2;
+				MARKETING_VERSION = 1.7.4-beta.1;
 				PRODUCT_BUNDLE_IDENTIFIER = local.schrotty74.urobilanz.dev;
 				PRODUCT_NAME = "UroBilanz Dev";
 				SKIP_INSTALL = NO;
@@ -372,7 +384,7 @@
 				CODE_SIGN_ENTITLEMENTS = apps/macos-swift/UroBilanz.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 33;
+				CURRENT_PROJECT_VERSION = 34;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = NO;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -383,7 +395,7 @@
 				INFOPLIST_KEY_LSMinimumSystemVersion = 26.0;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				MARKETING_VERSION = 1.7.3-beta.2;
+				MARKETING_VERSION = 1.7.4-beta.1;
 				PRODUCT_BUNDLE_IDENTIFIER = local.schrotty74.urobilanz.beta;
 				PRODUCT_NAME = "UroBilanz Beta";
 				SKIP_INSTALL = NO;
@@ -400,7 +412,7 @@
 				CODE_SIGN_ENTITLEMENTS = apps/macos-swift/UroBilanz.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 31;
+				CURRENT_PROJECT_VERSION = 33;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = NO;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -411,7 +423,7 @@
 				INFOPLIST_KEY_LSMinimumSystemVersion = 26.0;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				MARKETING_VERSION = 1.7.2;
+				MARKETING_VERSION = 1.7.3;
 				PRODUCT_BUNDLE_IDENTIFIER = local.schrotty74.urobilanz;
 				PRODUCT_NAME = UroBilanz;
 				SKIP_INSTALL = NO;

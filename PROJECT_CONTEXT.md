@@ -1,6 +1,6 @@
 # UroBilanz - Projektkontext
 
-Stand: 13.07.2026
+Stand: 19.07.2026
 
 Diese Datei ist die primaere Wissensquelle fuer neue Chats. Sie beschreibt den
 aktuellen Projektstand. Zukunft und offene Punkte stehen in
@@ -64,9 +64,20 @@ Daten-Backend-Dienst.
 - Update-Check gegen GitHub-Releases in der SwiftUI-App.
 - Automatische Web- und Swift-Smoke-Tests fuer Sprache, Themes,
   Loeschfaelle und Exportbereinigung.
-- Aktueller Wartungs-Beta-Stand `v1.7.3-beta.2`.
+- Aktueller Final-Stand `v1.7.3`.
+- Aktueller Dev-/Beta-Stand `v1.7.4-beta.1` mit Build `34`.
 - Discord- und GitHub-Links in den Kopfzeilen beider Apps; in der Web-App ist
-  das Ueber-Fenster ueber einen eigenen Knopf erreichbar.
+  das Ueber-Fenster ueber einen gleichartigen Knopf ganz rechts erreichbar.
+- Datensparsame Erststart-Hilfe bei noch leeren Apps: lokale Logos fuer
+  ChatGPT, Google Gemini und Claude, eine Bestaetigung vor dem Oeffnen, ein
+  fester sprachabhaengiger Schritt-fuer-Schritt-Prompt und der Link zur
+  jeweiligen oeffentlichen PDF-Handbuchseite. Nutzerdaten werden dabei nie
+  gelesen, kopiert oder automatisch uebertragen.
+- Zweisprachige oeffentliche PDF-Handbuecher unter `docs/output/pdf/` bilden
+  eine vollstaendige Bedienungsreferenz fuer beide Apps: Start, CSV, lokale
+  Speicherung, Eingaben, Ansichten, Regeln, Exporte, Bericht, Themes,
+  Updates, Hilfe, Datenschutz und Problemloesung anhand synthetischer
+  Demo-Screenshots.
 
 ## Wichtige Designentscheidungen
 
@@ -77,12 +88,17 @@ Daten-Backend-Dienst.
   Einstellungen nicht versehentlich Final-Zustaende beeinflussen.
 - Oeffentliche Dokumentation verwendet das Pseudonym `Schrotty74` und keine
   realen Namen oder lokalen Benutzerpfade.
+- Die Erststart-Hilfe darf ausschliesslich den festen allgemeinen Prompt und
+  den oeffentlichen Dokumentationslink verwenden. Ein externer Dienst wird
+  nur nach einem Klick geoeffnet; das Einfuegen und Senden bleiben bei der
+  nutzenden Person.
+- Die deutschen und englischen PDF-Handbuecher sind bei jeder sichtbaren
+  Funktions-, Options-, Bedienungs- oder Datenschutz-Aenderung gemeinsam mit
+  der App zu aktualisieren, neu zu erzeugen und visuell zu pruefen.
 
 ## Bekannte Einschraenkungen Oder Probleme
 
 - Apple-Silicon-Mac ist aktuell der primaere native macOS-Zieltyp.
-- Web-App hat keinen direkten Apple-Health-Zugriff.
-- 1.8-Koerperdaten sind nur geplant, noch nicht umgesetzt.
 - Xcode-Warnungen zu Simulator/CoreSimulator in der Codex-Sandbox sind
   Umgebungsmeldungen und keine bekannten UroBilanz-Codefehler.
 

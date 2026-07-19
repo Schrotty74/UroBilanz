@@ -1,11 +1,39 @@
 # UroBilanz - Projekthistorie
 
-Stand: 13.07.2026
+Stand: 19.07.2026
 
 Diese Datei archiviert abgeschlossene Versionen, Betas, Release Candidates,
 Final-Releases und wichtige technische Meilensteine. Der detaillierte
 Release-Changelog bleibt zusaetzlich in [`CHANGELOG.md`](../CHANGELOG.md)
 erhalten.
+
+## 1.7.4-beta.1 - 2026-07-19
+
+- Web- und SwiftUI-App zeigen bei noch leeren Datenbestaenden eine optionale
+  Hilfe mit lokal eingebundenen ChatGPT-, Google-Gemini- und Claude-Logos.
+- Nach einer Bestaetigung kopiert die App nur einen festen allgemeinen Prompt
+  mit sprachabhaengigem Link zum oeffentlichen PDF-Handbuch und oeffnet danach
+  den gewaehlten Dienst. Messwerte, Hinweise und andere Nutzerdaten bleiben
+  lokal.
+- Dienst-URLs, Prompt-Inhalt und deutsche/englische Dokumentationslinks sind
+  durch Web- und Swift-Smoke-Tests abgesichert.
+- Deutsche und englische 16-seitige PDF-Handbuecher als vollstaendige
+  Bedienungsreferenz erstellt: Start, CSV-Import und Zusammenfuehren, lokale
+  Speicherung, Eingabefelder, Ansichten, Auswertungsregeln, Backups,
+  Arztbericht, Themes, Updates, KI-Hilfe, Datenschutz und Problemloesung.
+- KI-Hilfe beider Apps verlinkt auf die oeffentlichen Seiten der
+  sprachabhaengigen PDF-Handbuecher und benennt sie im kopierten Text als
+  vollstaendige Referenz. Der Prompt folgt dem bewaehrten AppAtlas-Muster mit
+  konkreten, UroBilanz-spezifischen Einstiegsschritten und einer Bestaetigung
+  vor dem Kopieren und Oeffnen. Der Web-Ueber-
+  Knopf steht ganz rechts in der Kopfzeile und verwendet die gleiche Darstellung
+  wie die anderen Kopfzeilen-Schaltflaechen.
+
+## 1.7.3 - 2026-07-18
+
+- Final-Version auf Basis von `1.7.3-beta.2` veroeffentlicht.
+- Discord-Links in beiden Kopfzeilen und der separate Web-Ueber-Knopf sind
+  Teil des Final-Stands.
 
 ## 1.7.3-beta.2 - 2026-07-13
 

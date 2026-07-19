@@ -8,8 +8,8 @@ mkdir -p /private/tmp/urobilanz-clang-cache \
   build
 
 build_channel="${UROBILANZ_BUILD_CHANNEL:-final}"
-marketing_version="${UROBILANZ_VERSION:-1.7.2}"
-build_number="${UROBILANZ_BUILD_NUMBER:-31}"
+marketing_version="${UROBILANZ_VERSION:-1.7.4-beta.1}"
+build_number="${UROBILANZ_BUILD_NUMBER:-34}"
 case "$build_channel" in
   final)
     app_name="UroBilanz"
@@ -94,6 +94,9 @@ cp Assets/UroBilanz.icns "$app_path/Contents/Resources/UroBilanz.icns"
 rm -f "$app_path/Contents/Resources/urobilanz-icon-light.svg" \
   "$app_path/Contents/Resources/urobilanz-icon-dark.svg"
 cp Assets/urobilanz-app-icon.png \
+  Assets/ai-chatgpt-logo.jpg \
+  Assets/ai-gemini-logo.svg \
+  Assets/ai-claude-logo.png \
   Assets/discord-mark-white.svg \
   Assets/github-invertocat-black.svg \
   Assets/github-invertocat-white.svg \

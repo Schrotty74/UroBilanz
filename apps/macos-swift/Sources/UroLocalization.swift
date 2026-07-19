@@ -19,6 +19,7 @@ private let translations: [AppLanguage: [String: String]] = [
         "language": "Sprache", "import_theme": "Theme importieren", "export_theme": "Theme exportieren", "delete_theme": "Theme löschen", "delete_theme_confirm": "Importiertes Theme wirklich löschen?\n\nEingebaute Themes bleiben erhalten.", "remember_data": "Daten merken", "entry": "Eintrag", "merge_csv": "CSV ergänzen", "load_csv": "CSV laden",
         "delete": "Löschen", "backup": "Backup", "complete_backup": "Komplett-Backup", "daily_backup": "Tagesbackup", "json_export": "Als JSON exportieren", "daily_data": "Tagesdaten", "no_data": "Keine Daten geladen",
         "no_data_help": "Lade einen CSV-Export aus Urinote oder eine Tagesdaten-CSV.", "csv_error": "CSV konnte nicht geladen werden",
+        "first_start_help_title": "Beim Start helfen lassen", "first_start_help_text": "Wähle einen Dienst. Nach deiner Bestätigung wird eine allgemeine Frage ohne deine Daten in die Zwischenablage kopiert; danach öffnet sich die Website des Dienstes.", "open_manual": "Handbuch öffnen", "first_start_open_service": "{service} öffnen", "first_start_copy_confirm": "UroBilanz kopiert eine vorbereitete Frage und öffnet {service}. Füge die Frage dort mit Cmd+V ein und sende sie nur, wenn du das möchtest.", "first_start_copy_open": "Kopieren und öffnen",
         "entry_add": "Eintrag hinzufügen", "entry_edit": "Eintrag bearbeiten", "date": "Datum", "urine_time": "Urin Uhrzeit",
         "urine_ml": "Urin ml", "water_time": "Wasser Uhrzeit", "water_ml": "Wasser ml", "note": "Hinweis", "close": "Schließen",
         "new": "Neu", "add": "Hinzufügen", "add_close": "Hinzufügen & schließen", "entry_delete": "Eintrag löschen?",
@@ -77,6 +78,7 @@ private let translations: [AppLanguage: [String: String]] = [
         "language": "Language", "import_theme": "Import theme", "export_theme": "Export theme", "delete_theme": "Delete theme", "delete_theme_confirm": "Delete imported theme?\n\nBuilt-in themes will remain available.", "remember_data": "Remember data", "entry": "Entry", "merge_csv": "Merge CSV", "load_csv": "Load CSV",
         "delete": "Delete", "backup": "Backup", "complete_backup": "Complete backup", "daily_backup": "Daily backup", "json_export": "Export as JSON", "daily_data": "Daily data", "no_data": "No data loaded",
         "no_data_help": "Load an Urinote CSV export or a daily data CSV.", "csv_error": "CSV could not be loaded",
+        "first_start_help_title": "Get help getting started", "first_start_help_text": "Choose a service. After you confirm, a general question without your data is copied to the clipboard; the service website then opens.", "open_manual": "Open manual", "first_start_open_service": "Open {service}", "first_start_copy_confirm": "UroBilanz copies a prepared question and opens {service}. Paste the question there with Cmd+V and send it only if you want to.", "first_start_copy_open": "Copy and open",
         "entry_add": "Add entry", "entry_edit": "Edit entry", "date": "Date", "urine_time": "Urine time",
         "urine_ml": "Urine ml", "water_time": "Water time", "water_ml": "Water ml", "note": "Note", "close": "Close",
         "new": "New", "add": "Add", "add_close": "Add & close", "entry_delete": "Delete entry?",
@@ -138,6 +140,75 @@ func tr(_ key: String, _ language: AppLanguage, replacements: [String: String] =
         text = text.replacingOccurrences(of: "{\(name)}", with: value)
     }
     return text
+}
+
+enum FirstStartHelp {
+    enum Service: String, CaseIterable, Identifiable {
+        case chatGPT
+        case gemini
+        case claude
+
+        var id: String { rawValue }
+
+        var title: String {
+            switch self {
+            case .chatGPT: "ChatGPT"
+            case .gemini: "Gemini"
+            case .claude: "Claude"
+            }
+        }
+
+        var logoResource: (name: String, fileExtension: String) {
+            switch self {
+            case .chatGPT: ("ai-chatgpt-logo", "jpg")
+            case .gemini: ("ai-gemini-logo", "svg")
+            case .claude: ("ai-claude-logo", "png")
+            }
+        }
+
+        var url: URL {
+            switch self {
+            case .chatGPT: URL(string: "https://chatgpt.com/")!
+            case .gemini: URL(string: "https://gemini.google.com/app")!
+            case .claude: URL(string: "https://claude.ai/new")!
+            }
+        }
+    }
+
+    static func manualURL(for language: AppLanguage) -> URL {
+        let filename = language == .de ? "UroBilanz-Handbuch-DE.pdf" : "UroBilanz-User-Manual-EN.pdf"
+        return URL(string: "https://github.com/Schrotty74/UroBilanz/blob/main/docs/output/pdf/\(filename)")!
+    }
+
+    static func prompt(for language: AppLanguage) -> String {
+        let manualURL = manualURL(for: language).absoluteString
+        if language == .en {
+            return """
+            I have just opened UroBilanz for the first time and have not loaded any of my own entries yet. Explain UroBilanz in a friendly, simple way. Then guide me step by step through a sensible first start:
+
+            1. Explain when to use \"Load CSV\" and when to use \"Entry\" for a manual urine, water, or note entry.
+            2. Explain that all entries stay local, what \"Remember data\" does, and how to remove the remembered local copy.
+            3. Explain the Dashboard and the Year, Month, Week, Day, and Rules views.
+            4. Explain the measurement-day boundary from 06:00 to 05:59 and that the low/normal labels are organizational evaluation, not a medical diagnosis.
+            5. Explain how to create a local backup, JSON export, and medical report, and what should be checked before sharing a report.
+
+            For every step, say exactly which control to select, what happens next, and when it is useful. Use short sections. At the end, ask what I need help with. Refer to this complete official UroBilanz user manual:
+            \(manualURL)
+            """
+        }
+        return """
+        Ich habe UroBilanz gerade zum ersten Mal geöffnet und noch keine eigenen Einträge geladen. Erkläre mir UroBilanz freundlich und in einfacher Sprache. Führe mich anschließend Schritt für Schritt durch einen sinnvollen ersten Start:
+
+        1. Erkläre, wann ich \"CSV laden\" nutze und wann \"Eintrag\" für einen manuellen Urin-, Wasser- oder Hinweis-Eintrag sinnvoll ist.
+        2. Erkläre, dass alle Einträge lokal bleiben, was \"Daten merken\" macht und wie ich die gemerkte lokale Kopie wieder entferne.
+        3. Erkläre Dashboard sowie die Ansichten Jahr, Monat, Woche, Tag und Regeln.
+        4. Erkläre die Messtaggrenze von 06:00 bis 05:59 und dass die Kennzeichnungen niedrig/normal nur eine organisatorische Auswertung und keine medizinische Diagnose sind.
+        5. Erkläre, wie ich ein lokales Backup, einen JSON-Export und einen Arztbericht erstelle und was ich vor der Weitergabe eines Berichts prüfen sollte.
+
+        Sage bei jedem Schritt genau, welche Schaltfläche ich wählen muss, was danach passiert und wann sie sinnvoll ist. Nutze kurze Abschnitte und frage mich am Ende, wobei ich Hilfe benötige. Verweise auf dieses vollständige offizielle UroBilanz-Handbuch:
+        \(manualURL)
+        """
+    }
 }
 
 private struct AppLanguageKey: EnvironmentKey {
