@@ -88,6 +88,9 @@ Daten-Backend-Dienst.
   den oeffentlichen Dokumentationslink verwenden. Ein externer Dienst wird
   nur nach einem Klick geoeffnet; das Einfuegen und Senden bleiben bei der
   nutzenden Person.
+- Die deutschen und englischen PDF-Handbuecher sind bei jeder sichtbaren
+  Funktions-, Options-, Bedienungs- oder Datenschutz-Aenderung gemeinsam mit
+  der App zu aktualisieren, neu zu erzeugen und visuell zu pruefen.
 
 ## Bekannte Einschraenkungen Oder Probleme
 

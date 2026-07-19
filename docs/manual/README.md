@@ -14,3 +14,7 @@ Die Ausgabe liegt unter `docs/output/pdf/`:
 Vor einer Veroeffentlichung beide PDFs mit `pdftoppm` rendern und die
 Seitenbilder pruefen. Die verwendeten Screenshots zeigen ausschliesslich
 synthetische Demo-Daten aus `docs/screenshots/github`.
+
+Bei jeder sichtbaren Funktions-, Options-, Bedienungs- oder
+Datenschutz-Aenderung muessen beide Sprachfassungen im selben Arbeitsschritt
+aktualisiert und neu erzeugt werden.

@@ -14,6 +14,14 @@
   Aufgabe als abgeschlossen gilt.
 - Änderungen an UroBilanz werden nach Möglichkeit direkt in Git festgehalten.
 - Zu relevanten Änderungen wird der `CHANGELOG.md` aktualisiert.
+- Die oeffentlichen PDF-Handbuecher sind Teil der Produktfunktion: Bei jeder
+  neuen sichtbaren Funktion, Option, Schaltflaeche, Bedienungs- oder
+  Datenschutz-Aenderung muessen das deutsche und englische Handbuch unter
+  `docs/output/pdf/` sowie `docs/manual/build_manuals.py` im selben Arbeitsschritt
+  aktualisiert, neu erzeugt und per gerenderten Seitenbildern geprueft werden.
+- Kein Beta-, Final- oder Dokumentations-Push darf neue sichtbare App-Funktionen
+  enthalten, die im jeweiligen PDF-Handbuch noch fehlen oder falsch erklaert
+  sind.
 - Persönliche CSV-, Excel-, Backup- oder Gesundheitsdaten gehören nicht ins Repository.
 - Bei jeder Final-Version wird vor der Veröffentlichung `./privacy_final_check.sh`
   ausgeführt, das Laufzeit-Netzwerkverhalten beider Apps geprüft und
