@@ -55,6 +55,11 @@ The following screenshots use demo data. They do not contain real health data.
 
 ![SwiftUI App Entry](docs/screenshots/github/swift/swift-entry-creme-salbei.png)
 
+## Manual
+
+- [UroBilanz User Manual (English, PDF)](docs/output/pdf/UroBilanz-User-Manual-EN.pdf)
+- [UroBilanz Handbuch (Deutsch, PDF)](docs/output/pdf/UroBilanz-Handbuch-DE.pdf)
+
 ## Requirements
 
 - Web app: modern browser on macOS, Windows or Linux.
@@ -193,6 +198,20 @@ UroBilanz/
 
 UroBilanz processes measurement data exclusively locally on the device. No
 health data is transmitted to external servers.
+
+### First-start help
+
+While there are no personal entries yet, the start view can open the
+[German UroBilanz manual](docs/output/pdf/UroBilanz-Handbuch-DE.pdf)
+or the [English UroBilanz User Manual](docs/output/pdf/UroBilanz-User-Manual-EN.pdf)
+or copy a general onboarding question for ChatGPT, Google Gemini, or Claude to
+the clipboard. UroBilanz opens the chosen website only after an explicit click.
+The question contains only this public PDF manual link, never measurement
+values, notes, files, or other user data. The person must paste it with
+`Cmd+V` and deliberately send it in the selected service.
+
+The manuals explain the first start, all visible areas, controls, exports,
+evaluation rules, and privacy in the web and macOS apps.
 
 Real CSV, Excel and backup files with personal measurement data do not belong
 in this repository. The `.gitignore` is prepared to prevent such files from

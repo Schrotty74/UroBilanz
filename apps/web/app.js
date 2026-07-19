@@ -47,6 +47,17 @@ const tableWidthStorageKey = "uroTableColumnWidths";
 const appVersion = APP_VERSION;
 const supportEmail = "urobilanz@mailbox.org";
 const repositoryUrl = "https://github.com/Schrotty74/UroBilanz";
+const firstStartHelp = {
+  manualURLs: {
+    de: "https://github.com/Schrotty74/UroBilanz/blob/main/docs/output/pdf/UroBilanz-Handbuch-DE.pdf",
+    en: "https://github.com/Schrotty74/UroBilanz/blob/main/docs/output/pdf/UroBilanz-User-Manual-EN.pdf",
+  },
+  services: {
+    chatgpt: "https://chatgpt.com/",
+    gemini: "https://gemini.google.com/app",
+    claude: "https://claude.ai/new",
+  },
+};
 const storageChannel = new URLSearchParams(window.location.search).get("channel") === "dev" ? "dev" : "final";
 const storagePrefix = storageChannel === "dev" ? "urobilanz.dev." : "";
 const appStorage = {
@@ -141,6 +152,7 @@ const els = {
   saveBugReport: document.querySelector("#saveBugReport"),
   emailBugReport: document.querySelector("#emailBugReport"),
   emptyState: document.querySelector("#emptyState"),
+  firstStartManual: document.querySelector("#firstStartManual"),
   metrics: document.querySelector("#metrics"),
   alertTable: document.querySelector("#alertTable"),
   yearTable: document.querySelector("#yearTable"),
@@ -150,6 +162,34 @@ const els = {
   dailyChart: document.querySelector("#dailyChart"),
   monthChart: document.querySelector("#monthChart"),
 };
+
+function firstStartHelpPrompt(selectedLanguage = language) {
+  const manualURL = firstStartHelp.manualURLs[selectedLanguage] || firstStartHelp.manualURLs.de;
+  if (selectedLanguage === "en") {
+    return `I have just opened UroBilanz for the first time. Explain the app in a friendly and simple way. Guide me step by step through the first useful start. Explain the most important features, where to find them in the app, and when they are useful. At the end, ask what I need help with. Use this official manual:\n${manualURL}`;
+  }
+  return `Ich habe UroBilanz gerade zum ersten Mal geöffnet. Erkläre mir die App freundlich und in einfacher Sprache. Führe mich Schritt für Schritt durch den ersten sinnvollen Start. Erkläre die wichtigsten Funktionen, wo ich sie in der App finde und wann sie sinnvoll sind. Frage mich am Ende, wobei ich Hilfe benötige. Verwende dieses offizielle Handbuch:\n${manualURL}`;
+}
+
+async function copyFirstStartPromptAndOpen(service) {
+  const serviceURL = firstStartHelp.services[service];
+  if (!serviceURL) return;
+  const prompt = firstStartHelpPrompt();
+  try {
+    await navigator.clipboard.writeText(prompt);
+  } catch {
+    const textarea = document.createElement("textarea");
+    textarea.value = prompt;
+    textarea.setAttribute("readonly", "");
+    textarea.style.position = "fixed";
+    textarea.style.opacity = "0";
+    document.body.append(textarea);
+    textarea.select();
+    document.execCommand("copy");
+    textarea.remove();
+  }
+  window.open(serviceURL, "_blank", "noopener,noreferrer");
+}
 
 function fmtDate(date) {
   return date.toLocaleDateString(language === "de" ? "de-AT" : "en-US", { day: "2-digit", month: "2-digit", year: "numeric" });
@@ -595,6 +635,7 @@ function applyLanguage(nextLanguage) {
   els.languageSelect.setAttribute("aria-label", t("language"));
   els.yearFilter.setAttribute("aria-label", t("year"));
   els.monthFilter.setAttribute("aria-label", t("month"));
+  els.firstStartManual.href = firstStartHelp.manualURLs[language];
   buildFilters();
   render();
 }
@@ -1245,6 +1286,10 @@ document.addEventListener("keydown", (event) => {
 
 els.languageSelect.addEventListener("change", (event) => {
   applyLanguage(event.target.value);
+});
+
+document.querySelectorAll("[data-ai-service]").forEach((button) => {
+  button.addEventListener("click", () => copyFirstStartPromptAndOpen(button.dataset.aiService));
 });
 
 window.addEventListener("resize", () => render());

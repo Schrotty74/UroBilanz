@@ -609,11 +609,67 @@ struct EmptyStateView: View {
                 .font(.title2.weight(.bold))
             Text(tr("no_data_help", language))
                 .foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
             Button(tr("load_csv", language), systemImage: "square.and.arrow.down") { model.openCSV() }
                 .controlSize(.large)
+
+            Divider()
+                .padding(.vertical, 4)
+
+            Text(tr("first_start_help_title", language))
+                .font(.headline)
+            Text(tr("first_start_help_text", language))
+                .foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
+                .frame(maxWidth: 560)
+            HStack(spacing: 10) {
+                Button(tr("open_manual", language), systemImage: "book") {
+                    NSWorkspace.shared.open(FirstStartHelp.manualURL(for: language))
+                }
+                .buttonStyle(.bordered)
+
+                ForEach(FirstStartHelp.Service.allCases) { service in
+                    Button {
+                        copyPromptAndOpen(service)
+                    } label: {
+                        HStack(spacing: 6) {
+                            FirstStartServiceLogo(service: service)
+                            Text(service.title)
+                        }
+                    }
+                    .buttonStyle(.bordered)
+                    .help("\(service.title) öffnen")
+                }
+            }
         }
         .frame(maxWidth: .infinity, minHeight: 360)
         .liquidCard()
+    }
+
+    private func copyPromptAndOpen(_ service: FirstStartHelp.Service) {
+        NSPasteboard.general.clearContents()
+        NSPasteboard.general.setString(FirstStartHelp.prompt(for: language), forType: .string)
+        NSWorkspace.shared.open(service.url)
+    }
+}
+
+private struct FirstStartServiceLogo: View {
+    let service: FirstStartHelp.Service
+
+    var body: some View {
+        Image(nsImage: image)
+            .resizable()
+            .scaledToFit()
+            .frame(width: 18, height: 18)
+            .accessibilityHidden(true)
+    }
+
+    private var image: NSImage {
+        let resource = service.logoResource
+        guard let url = Bundle.main.url(forResource: resource.name, withExtension: resource.fileExtension) else {
+            return NSImage()
+        }
+        return NSImage(contentsOf: url) ?? NSImage()
     }
 }
 

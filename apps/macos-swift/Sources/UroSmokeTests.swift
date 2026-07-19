@@ -228,6 +228,18 @@ enum ImportSmokeTestRunner {
         assertWorkflow(tr("entry_delete_confirm", .en).contains("analysis and exports"), "english delete entry warning is not explicit")
         assertWorkflow(tr("update_available", .de, replacements: ["version": "v9"]).contains("v9"), "translation replacement failed")
 
+        let services = FirstStartHelp.Service.allCases
+        assertWorkflow(services.map(\.url.absoluteString) == ["https://chatgpt.com/", "https://gemini.google.com/app", "https://claude.ai/new"], "AI service URLs mismatch")
+        assertWorkflow(services.allSatisfy { $0.url.scheme == "https" }, "AI service URL is not HTTPS")
+        let germanPrompt = FirstStartHelp.prompt(for: .de)
+        let englishPrompt = FirstStartHelp.prompt(for: .en)
+        assertWorkflow(germanPrompt.contains(FirstStartHelp.manualURL(for: .de).absoluteString), "german manual URL missing from AI prompt")
+        assertWorkflow(englishPrompt.contains(FirstStartHelp.manualURL(for: .en).absoluteString), "english manual URL missing from AI prompt")
+        assertWorkflow(FirstStartHelp.manualURL(for: .de).absoluteString.hasSuffix("UroBilanz-Handbuch-DE.pdf"), "german manual PDF URL mismatch")
+        assertWorkflow(FirstStartHelp.manualURL(for: .en).absoluteString.hasSuffix("UroBilanz-User-Manual-EN.pdf"), "english manual PDF URL mismatch")
+        let localPathMarker = "/" + "Users" + "/"
+        assertWorkflow(!germanPrompt.localizedCaseInsensitiveContains("gesundheitsdaten") && !germanPrompt.localizedCaseInsensitiveContains("csv") && !germanPrompt.localizedCaseInsensitiveContains(localPathMarker), "AI prompt must not include user data")
+
         let model = UrinModel()
         model.addManualEntries(
             date: date(2032, 3, 1, 12, 0),

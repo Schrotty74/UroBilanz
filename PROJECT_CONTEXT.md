@@ -1,6 +1,6 @@
 # UroBilanz - Projektkontext
 
-Stand: 18.07.2026
+Stand: 19.07.2026
 
 Diese Datei ist die primaere Wissensquelle fuer neue Chats. Sie beschreibt den
 aktuellen Projektstand. Zukunft und offene Punkte stehen in
@@ -67,6 +67,13 @@ Daten-Backend-Dienst.
 - Aktueller Final-Stand `v1.7.3`.
 - Discord- und GitHub-Links in den Kopfzeilen beider Apps; in der Web-App ist
   das Ueber-Fenster ueber einen eigenen Knopf erreichbar.
+- Datensparsame Erststart-Hilfe bei noch leeren Apps: lokale Logos fuer
+  ChatGPT, Google Gemini und Claude, ein fester sprachabhaengiger Prompt und
+  der Link zum jeweiligen oeffentlichen PDF-Handbuch. Nutzerdaten
+  werden dabei nie gelesen, kopiert oder automatisch uebertragen.
+- Zweisprachige oeffentliche PDF-Handbuecher unter `docs/output/pdf/` erklaeren
+  die Bedienung beider Apps, alle sichtbaren Schalter, Auswertungsregeln,
+  Exporte und Datenschutz anhand synthetischer Demo-Screenshots.
 
 ## Wichtige Designentscheidungen
 
@@ -77,6 +84,10 @@ Daten-Backend-Dienst.
   Einstellungen nicht versehentlich Final-Zustaende beeinflussen.
 - Oeffentliche Dokumentation verwendet das Pseudonym `Schrotty74` und keine
   realen Namen oder lokalen Benutzerpfade.
+- Die Erststart-Hilfe darf ausschliesslich den festen allgemeinen Prompt und
+  den oeffentlichen Dokumentationslink verwenden. Ein externer Dienst wird
+  nur nach einem Klick geoeffnet; das Einfuegen und Senden bleiben bei der
+  nutzenden Person.
 
 ## Bekannte Einschraenkungen Oder Probleme
 

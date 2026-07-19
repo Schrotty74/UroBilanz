@@ -1,6 +1,6 @@
 # UroBilanz - Naechste Schritte
 
-Stand: 18.07.2026
+Stand: 19.07.2026
 
 Aktueller Hauptstand: `v1.7.3`
 
@@ -38,6 +38,8 @@ Beide Apps koennen:
 - Backup-CSV und Tagesdaten-CSV exportieren
 - Deutsch und Englisch anzeigen
 - mehrere Themes nutzen
+- bei leeren Datenbestaenden eine optionale KI-Einstiegs-Hilfe mit lokal
+  eingebundenen Logos und einem festen, datensparsamen Prompt anbieten
 
 Die Vollpruefung von `v1.7.3` war erfolgreich:
 
@@ -65,6 +67,8 @@ Die Vollpruefung von `v1.7.3` war erfolgreich:
 - Sicherheitsabfragen sprachlich oder optisch weiter verbessern, falls noetig.
 - Bei sehr vielen manuellen Eintraegen pruefen, ob die Tagesliste im Dialog noch
   angenehm bedienbar bleibt.
+- Bei neuen sichtbaren Funktionen die deutschen und englischen PDF-Handbuecher
+  unter `docs/output/pdf/` sowie `docs/manual/build_manuals.py` aktualisieren.
 
 ### Tabellen
 

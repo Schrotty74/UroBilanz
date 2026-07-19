@@ -1,6 +1,6 @@
 # Technischer Datenschutz-Check
 
-Stand: 13.06.2026
+Stand: 19.07.2026
 
 Gepruefter Stand: `v1.6.0 Final`.
 
@@ -60,6 +60,11 @@ Nicht gefunden:
 - Beim lokalen Start wurden nur Ressourcen von `localhost:4174` angefordert.
 - Externe Discord-, GitHub- und Lizenzadressen sind normale sichtbare Links und werden
   erst durch einen Klick geoeffnet.
+- Die Erststart-Hilfe verwendet nur lokal eingebundene Dienstlogos. Ein Klick
+  kopiert einen festen allgemeinen Prompt in die Zwischenablage und oeffnet
+  danach optional ChatGPT, Google Gemini oder Claude. Der Prompt liest weder
+  CSV- noch Browser-Speicherdaten und enthaelt ausschliesslich einen
+  oeffentlichen UroBilanz-PDF-Handbuch-Link.
 - Messdaten koennen optional im lokalen Browser-Speicher gespeichert werden.
 - CSV- und Theme-Exporte werden lokal als Blob/Datei erzeugt.
 
@@ -71,6 +76,9 @@ Nicht gefunden:
 - Exporte verwenden lokale macOS-Speicherdialoge.
 - Discord-, GitHub-, Lizenz- und Kontaktlinks werden nur nach Benutzeraktion ueber
   `NSWorkspace` beziehungsweise einen `mailto:`-Link geoeffnet.
+- Die Erststart-Hilfe kopiert erst einen festen, sprachabhaengigen Prompt in
+  die lokale Zwischenablage und oeffnet ChatGPT, Google Gemini oder Claude
+  nur nach einer Benutzeraktion. Sie verwendet keine Werte aus dem Datenmodell.
 - Bei zehn Laufzeitmessungen nach dem App-Start wurden mit `lsof` keine offenen
   IPv4- oder IPv6-Verbindungen der App gefunden.
 - `nettop` zeigte fuer den App-Prozess keinen ein- oder ausgehenden

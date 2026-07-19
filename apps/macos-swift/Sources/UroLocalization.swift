@@ -19,6 +19,7 @@ private let translations: [AppLanguage: [String: String]] = [
         "language": "Sprache", "import_theme": "Theme importieren", "export_theme": "Theme exportieren", "delete_theme": "Theme löschen", "delete_theme_confirm": "Importiertes Theme wirklich löschen?\n\nEingebaute Themes bleiben erhalten.", "remember_data": "Daten merken", "entry": "Eintrag", "merge_csv": "CSV ergänzen", "load_csv": "CSV laden",
         "delete": "Löschen", "backup": "Backup", "complete_backup": "Komplett-Backup", "daily_backup": "Tagesbackup", "json_export": "Als JSON exportieren", "daily_data": "Tagesdaten", "no_data": "Keine Daten geladen",
         "no_data_help": "Lade einen CSV-Export aus Urinote oder eine Tagesdaten-CSV.", "csv_error": "CSV konnte nicht geladen werden",
+        "first_start_help_title": "Beim Start helfen lassen", "first_start_help_text": "Wähle einen Dienst. Eine allgemeine Frage ohne deine Daten wird in die Zwischenablage kopiert; danach öffnet sich die Website des Dienstes.", "open_manual": "Handbuch öffnen",
         "entry_add": "Eintrag hinzufügen", "entry_edit": "Eintrag bearbeiten", "date": "Datum", "urine_time": "Urin Uhrzeit",
         "urine_ml": "Urin ml", "water_time": "Wasser Uhrzeit", "water_ml": "Wasser ml", "note": "Hinweis", "close": "Schließen",
         "new": "Neu", "add": "Hinzufügen", "add_close": "Hinzufügen & schließen", "entry_delete": "Eintrag löschen?",
@@ -77,6 +78,7 @@ private let translations: [AppLanguage: [String: String]] = [
         "language": "Language", "import_theme": "Import theme", "export_theme": "Export theme", "delete_theme": "Delete theme", "delete_theme_confirm": "Delete imported theme?\n\nBuilt-in themes will remain available.", "remember_data": "Remember data", "entry": "Entry", "merge_csv": "Merge CSV", "load_csv": "Load CSV",
         "delete": "Delete", "backup": "Backup", "complete_backup": "Complete backup", "daily_backup": "Daily backup", "json_export": "Export as JSON", "daily_data": "Daily data", "no_data": "No data loaded",
         "no_data_help": "Load an Urinote CSV export or a daily data CSV.", "csv_error": "CSV could not be loaded",
+        "first_start_help_title": "Get help getting started", "first_start_help_text": "Choose a service. A general question without your data is copied to the clipboard; the service website then opens.", "open_manual": "Open manual",
         "entry_add": "Add entry", "entry_edit": "Edit entry", "date": "Date", "urine_time": "Urine time",
         "urine_ml": "Urine ml", "water_time": "Water time", "water_ml": "Water ml", "note": "Note", "close": "Close",
         "new": "New", "add": "Add", "add_close": "Add & close", "entry_delete": "Delete entry?",
@@ -138,6 +140,53 @@ func tr(_ key: String, _ language: AppLanguage, replacements: [String: String] =
         text = text.replacingOccurrences(of: "{\(name)}", with: value)
     }
     return text
+}
+
+enum FirstStartHelp {
+    enum Service: String, CaseIterable, Identifiable {
+        case chatGPT
+        case gemini
+        case claude
+
+        var id: String { rawValue }
+
+        var title: String {
+            switch self {
+            case .chatGPT: "ChatGPT"
+            case .gemini: "Gemini"
+            case .claude: "Claude"
+            }
+        }
+
+        var logoResource: (name: String, fileExtension: String) {
+            switch self {
+            case .chatGPT: ("ai-chatgpt-logo", "jpg")
+            case .gemini: ("ai-gemini-logo", "svg")
+            case .claude: ("ai-claude-logo", "png")
+            }
+        }
+
+        var url: URL {
+            switch self {
+            case .chatGPT: URL(string: "https://chatgpt.com/")!
+            case .gemini: URL(string: "https://gemini.google.com/app")!
+            case .claude: URL(string: "https://claude.ai/new")!
+            }
+        }
+    }
+
+    static func manualURL(for language: AppLanguage) -> URL {
+        let filename = language == .de ? "UroBilanz-Handbuch-DE.pdf" : "UroBilanz-User-Manual-EN.pdf"
+        return URL(string: "https://github.com/Schrotty74/UroBilanz/blob/main/docs/output/pdf/\(filename)")!
+    }
+
+    static func prompt(for language: AppLanguage) -> String {
+        let manualURL = manualURL(for: language).absoluteString
+        if language == .en {
+            return "I have just opened UroBilanz for the first time. Explain the app in a friendly and simple way. Guide me step by step through the first useful start. Explain the most important features, where to find them in the app, and when they are useful. At the end, ask what I need help with. Use this official manual:\n\(manualURL)"
+        }
+        return "Ich habe UroBilanz gerade zum ersten Mal geöffnet. Erkläre mir die App freundlich und in einfacher Sprache. Führe mich Schritt für Schritt durch den ersten sinnvollen Start. Erkläre die wichtigsten Funktionen, wo ich sie in der App finde und wann sie sinnvoll sind. Frage mich am Ende, wobei ich Hilfe benötige. Verwende dieses offizielle Handbuch:\n\(manualURL)"
+    }
 }
 
 private struct AppLanguageKey: EnvironmentKey {

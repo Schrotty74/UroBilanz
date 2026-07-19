@@ -55,6 +55,11 @@ Die folgenden Bilder zeigen Demo-Daten. Es sind keine echten Gesundheitsdaten.
 
 ![SwiftUI-App Eingabe](docs/screenshots/github/swift/swift-entry-creme-salbei.png)
 
+## Handbuch
+
+- [UroBilanz Handbuch (Deutsch, PDF)](docs/output/pdf/UroBilanz-Handbuch-DE.pdf)
+- [UroBilanz User Manual (English, PDF)](docs/output/pdf/UroBilanz-User-Manual-EN.pdf)
+
 ## Voraussetzungen
 
 - Web-App: moderner Browser auf macOS, Windows oder Linux.
@@ -166,6 +171,21 @@ UroBilanz/
 
 UroBilanz verarbeitet Messdaten ausschliesslich lokal auf dem Geraet. Es werden
 keine Gesundheitsdaten an externe Server uebertragen.
+
+### Hilfe beim ersten Start
+
+Solange noch keine eigenen Eintraege vorhanden sind, kann die Startansicht das
+[deutsche UroBilanz-Handbuch](docs/output/pdf/UroBilanz-Handbuch-DE.pdf)
+oder das [englische UroBilanz User Manual](docs/output/pdf/UroBilanz-User-Manual-EN.pdf)
+oeffnen oder eine allgemeine Einstiegsfrage fuer ChatGPT, Google Gemini oder
+Claude in die Zwischenablage kopieren. Erst nach einem ausdruecklichen Klick
+oeffnet UroBilanz die gewaehlte Website. Die Frage enthaelt nur diesen
+oeffentlichen PDF-Handbuch-Link, keine Messwerte, Hinweise, Dateien oder
+anderen Nutzerdaten. Sie wird erst von der Person selbst mit `Cmd+V` in den
+jeweiligen Dienst eingefuegt und dort bewusst gesendet.
+
+Die beiden Handbuecher erklaeren den ersten Start, alle sichtbaren Bereiche,
+Schalter, Exporte, Auswertungsregeln und Datenschutz der Web- und macOS-App.
 
 Echte CSV-, Excel- und Backup-Dateien mit persoenlichen Messdaten gehoeren
 nicht in dieses Repository. Die `.gitignore` ist so vorbereitet, dass solche

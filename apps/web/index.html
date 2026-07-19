@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>UroBilanz</title>
     <link rel="icon" href="./assets/urobilanz-app-icon.png" />
-    <link rel="stylesheet" href="./styles.css?v=v1-7-3-beta-1" />
+    <link rel="stylesheet" href="./styles.css?v=first-start-help-1" />
     <script src="./assets/js/charts.js?v=v1-7-2"></script>
     <script src="./assets/js/medical-report.js?v=v1-7-2"></script>
   </head>
@@ -118,6 +118,25 @@
           <span data-i18n="load_csv">CSV laden</span>
           <input id="emptyCsvInput" type="file" accept=".csv,text/csv" />
         </label>
+        <section class="first-start-help" aria-labelledby="firstStartHelpTitle">
+          <h3 id="firstStartHelpTitle" data-i18n="first_start_help_title">Beim Start helfen lassen</h3>
+          <p data-i18n="first_start_help_text">Wähle einen Dienst. Eine allgemeine Frage ohne deine Daten wird in die Zwischenablage kopiert; danach öffnet sich die Website des Dienstes.</p>
+          <div class="first-start-help-actions">
+            <a class="manual-link" id="firstStartManual" href="https://github.com/Schrotty74/UroBilanz/blob/main/docs/output/pdf/UroBilanz-Handbuch-DE.pdf" target="_blank" rel="noopener noreferrer" data-i18n="open_manual">Handbuch öffnen</a>
+            <button class="ai-service-button" type="button" data-ai-service="chatgpt" data-i18n-title="first_start_open_chatgpt" title="ChatGPT öffnen">
+              <img src="./assets/ai-chatgpt-logo.jpg" alt="" />
+              <span>ChatGPT</span>
+            </button>
+            <button class="ai-service-button" type="button" data-ai-service="gemini" data-i18n-title="first_start_open_gemini" title="Gemini öffnen">
+              <img src="./assets/ai-gemini-logo.svg" alt="" />
+              <span>Gemini</span>
+            </button>
+            <button class="ai-service-button" type="button" data-ai-service="claude" data-i18n-title="first_start_open_claude" title="Claude öffnen">
+              <img src="./assets/ai-claude-logo.png" alt="" />
+              <span>Claude</span>
+            </button>
+          </div>
+        </section>
       </section>
 
       <section id="dashboard" class="view active">
@@ -306,10 +325,10 @@
       </div>
     </dialog>
 
-    <script src="./assets/i18n/de.js?v=v1-7-2"></script>
-    <script src="./assets/i18n/en.js?v=v1-7-2"></script>
+    <script src="./assets/i18n/de.js?v=first-start-help-1"></script>
+    <script src="./assets/i18n/en.js?v=first-start-help-1"></script>
     <script src="./assets/js/core.js?v=v1-7-2"></script>
     <script src="./assets/js/themes.js?v=v1-7-2"></script>
-    <script src="./app.js?v=v1-7-3-beta-1"></script>
+    <script src="./app.js?v=first-start-help-1"></script>
   </body>
 </html>
