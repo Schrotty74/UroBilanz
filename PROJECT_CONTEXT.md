@@ -1,11 +1,25 @@
 # UroBilanz - Projektkontext
 
-Stand: 19.07.2026
+Stand: 23.07.2026
 
 Diese Datei ist die primaere Wissensquelle fuer neue Chats. Sie beschreibt den
 aktuellen Projektstand. Zukunft und offene Punkte stehen in
 `docs/NEXT_STEPS.md`, dauerhafte Arbeitsregeln in `docs/PROJEKTREGELN.md` und
 abgeschlossene Vergangenheit in `docs/HISTORY.md`.
+
+## Reihenfolge Fuer Neue Chats
+
+Vor jeder Projektarbeit zuerst diese Dateien lesen:
+
+1. `PROJECT_CONTEXT.md`
+2. `docs/NEXT_STEPS.md`
+3. `docs/PROJEKTREGELN.md`
+4. `docs/HISTORY.md`
+5. `CHAT_TEMPLATE.md` als kurze Startvorlage, wenn ein neuer Chat angelegt wird
+
+Danach nur die fuer die Aufgabe relevanten Quelldateien, Build-Skripte und
+weitere Fach-Dokumentation lesen. `CHANGELOG.md` dokumentiert
+Veroeffentlichungen; er ist keine zweite Quelle fuer den aktuellen Arbeitsstand.
 
 ## Projektziel Und Zweck
 
@@ -43,6 +57,7 @@ Daten-Backend-Dienst.
   Release-Regeln.
 - `docs/HISTORY.md` - abgeschlossene Versions- und Projekthistorie.
 - `docs/PRIVACY_CHECK.md` - chronologische Datenschutzpruefungen.
+- `CHAT_TEMPLATE.md` - kurze Startvorlage fuer neue Codex-Chats.
 - `PROJECT_CONTEXT.md` - aktueller Projektstand fuer neue Chats.
 
 ## Aktuell Umgesetzte Funktionen
@@ -65,12 +80,14 @@ Daten-Backend-Dienst.
 - Automatische Web- und Swift-Smoke-Tests fuer Sprache, Themes,
   Loeschfaelle und Exportbereinigung.
 - Aktueller Final-Stand `v1.7.3`.
+- Aktueller Dev-/Beta-Stand `v1.7.4-beta.1` mit Build `34`.
 - Discord- und GitHub-Links in den Kopfzeilen beider Apps; in der Web-App ist
-  das Ueber-Fenster ueber einen eigenen Knopf erreichbar.
+  das Ueber-Fenster ueber einen gleichartigen Knopf ganz rechts erreichbar.
 - Datensparsame Erststart-Hilfe bei noch leeren Apps: lokale Logos fuer
-  ChatGPT, Google Gemini und Claude, ein fester sprachabhaengiger Prompt und
-  der Link zum jeweiligen oeffentlichen PDF-Handbuch. Nutzerdaten
-  werden dabei nie gelesen, kopiert oder automatisch uebertragen.
+  ChatGPT, Google Gemini und Claude, eine Bestaetigung vor dem Oeffnen, ein
+  fester sprachabhaengiger Schritt-fuer-Schritt-Prompt und der Link zur
+  jeweiligen oeffentlichen PDF-Handbuchseite. Nutzerdaten werden dabei nie
+  gelesen, kopiert oder automatisch uebertragen.
 - Zweisprachige oeffentliche PDF-Handbuecher unter `docs/output/pdf/` bilden
   eine vollstaendige Bedienungsreferenz fuer beide Apps: Start, CSV, lokale
   Speicherung, Eingaben, Ansichten, Regeln, Exporte, Bericht, Themes,
@@ -140,6 +157,12 @@ Keine unnoetigen Umbauten, keine Designaenderungen und keine neuen Funktionen
 ohne klare Anweisung. Wenn etwas riskant wird oder groessere Aenderungen noetig
 waeren, vorher kurz Bescheid sagen.
 
+Bei wichtigen Aenderungen muessen `PROJECT_CONTEXT.md`,
+`docs/NEXT_STEPS.md`, `docs/PROJEKTREGELN.md` und `docs/HISTORY.md` auf den
+tatsaechlichen Stand gebracht werden. Die kurze Startvorlage in
+`CHAT_TEMPLATE.md` bleibt dabei allgemein und enthaelt keine Versions-,
+Release- oder personenbezogenen Details.
+
 ## Datenschutz hat Vorrang
 
 - Das Git-Repository und oeffentliche Builds enthalten niemals persoenliche
@@ -155,10 +178,12 @@ waeren, vorher kurz Bescheid sagen.
   Gesundheitsdaten automatisch enthalten.
 - Bei jeder neuen Funktion mit Datenschutzwirkung muss diese Wirkung vor der
   Umsetzung genannt und eine datensparsame Alternative vorgeschlagen werden.
-- Vor jedem Commit, Push und Release muss ein Datenschutzcheck erfolgen.
-- Das umfangreiche Datenschutzaudit einschliesslich Pruefung der Git-Historie,
-  Release-Dateien und Netzwerkzugriffe wird ausschliesslich bei jeder finalen
-  Version durchgefuehrt, nicht bei Betas.
+- Vor jedem oeffentlichen Push oder Release muss mindestens der bestehende
+  statische Datenschutzcheck erfolgreich sein. Er ersetzt keine
+  funktionsbezogene Datenschutzpruefung bei neuen Datenfluesen.
+- Bei jeder Final-Version ist zusaetzlich die vollstaendige Final-Pruefung
+  einschliesslich Git-Historie, Release-Dateien und Laufzeit-Netzwerkverhalten
+  erforderlich. Fuer Betas ist dieser erweiterte Teil nicht erforderlich.
 - Fuer jede finale Version wird der bestehende oeffentliche Datenschutzbericht
   um einen neuen chronologischen Pruefbericht ergaenzt. Fruehere Berichte
   bleiben erhalten und werden nicht ersetzt.

@@ -210,7 +210,7 @@ def manual_data(language):
             "5. Add, edit, and delete entries", "6. Dashboard and time views",
             "7. Measurement days, completeness, and rules", "8. Backups and export formats",
             "9. Create a medical report", "10. Themes, language, and appearance",
-            "11. Settings, updates, and About", "12. AI help, bug reports, and support",
+            "11. Settings, updates, and About", "12. AI help and support",
             "13. Privacy and safe sharing", "14. Troubleshooting and terms",
         ],
         "start": "First useful start",
@@ -227,7 +227,7 @@ def manual_data(language):
             "report": "9. Create a medical report",
             "settings": "10. Themes, language, and appearance",
             "updates": "11. Settings, updates, and About",
-            "support": "12. AI help, bug reports, and support",
+                "support": "12. AI help and support",
             "privacy": "13. Privacy and safe sharing",
             "troubleshooting": "14. Troubleshooting and terms",
         },
@@ -467,7 +467,7 @@ def build_manual(language):
     story.extend(section(data["sections"]["settings"], [settings_text, [
         "Daten merken: speichert die aktuell geladene CSV lokal fuer den naechsten Start." if language == "de" else "Remember data: stores the currently loaded CSV locally for the next start.",
         "Gespeicherte Daten loeschen: entfernt diese lokale Merkliste; die urspruengliche Datei ausserhalb der App bleibt unveraendert." if language == "de" else "Delete saved data: removes this local remembered copy; the original file outside the app remains unchanged.",
-        "Ueber UroBilanz: zeigt Version, Lizenz, Projektseite und Kontakt." if language == "de" else "About UroBilanz: shows version, license, project page, and contact.",
+        "Ueber UroBilanz: steht in der Web-App ganz rechts in der Kopfzeile und zeigt Version, Lizenz, Projektseite und Kontakt." if language == "de" else "About UroBilanz: sits at the far right of the web app header and shows version, license, project page, and contact.",
     ]], s))
     story.append(PageBreak())
 
@@ -488,15 +488,15 @@ def build_manual(language):
 
     support_rows = ([
         ("Funktion", "Ablauf und Datenschutz"),
-        ("Handbuch oeffnen", "Auf der leeren Startansicht. Oeffnet dieses oeffentliche PDF im Browser; keine lokalen Inhalte werden angehaengt."),
-        ("ChatGPT, Google Gemini, Claude", "Nur auf der leeren Startansicht. Ein Klick kopiert einen festen allgemeinen Hilfetext mit dem Handbuch-Link in die Zwischenablage und oeffnet die gewaehlte Website."),
+        ("Handbuch oeffnen", "Auf der leeren Startansicht. Oeffnet die oeffentliche Seite dieses vollstaendigen PDF-Handbuchs im Browser; keine lokalen Inhalte werden angehaengt."),
+        ("ChatGPT, Google Gemini, Claude", "Nur auf der leeren Startansicht. Nach einer Bestaetigung kopiert UroBilanz einen festen Schritt-fuer-Schritt-Hilfetext mit dem Link zur oeffentlichen Seite dieses vollstaendigen Handbuchs in die Zwischenablage und oeffnet die gewaehlte Website."),
         ("Text einfuegen", "Du fuegst den Text selbst mit Cmd+V in den Dienst ein und entscheidest selbst, ob du ihn absendest. UroBilanz sendet nie automatisch etwas an einen KI-Dienst."),
         ("Fehler melden", "Oeffnet einen lokalen Entwurf mit Beschreibung, Schritten zum Nachstellen und erwartetem Ergebnis. Du kannst die Vorschau pruefen, als Text speichern oder eine E-Mail bewusst vorbereiten."),
         ("Fehlerbericht-Inhalt", "CSV-Werte, Hinweise, Gesundheitsdaten, lokale Dateipfade, Lizenz- oder Zugangsdaten werden nicht automatisch in den Entwurf aufgenommen."),
     ] if language == "de" else [
         ("Function", "Flow and privacy"),
-        ("Open manual", "In the empty start view. Opens this public PDF in the browser; no local content is attached."),
-        ("ChatGPT, Google Gemini, Claude", "Only in the empty start view. A click copies a fixed general help text with the manual link to the clipboard and opens the selected website."),
+        ("Open manual", "In the empty start view. Opens the public page for this complete PDF manual in the browser; no local content is attached."),
+        ("ChatGPT, Google Gemini, Claude", "Only in the empty start view. After confirmation, UroBilanz copies a fixed step-by-step help text with the link to the public page for this complete manual to the clipboard and opens the selected website."),
         ("Paste text", "You paste the text into the service yourself with Cmd+V and decide whether to send it. UroBilanz never sends anything to an AI service automatically."),
         ("Report bug", "Opens a local draft with description, reproduction steps, and expected result. You can review the preview, save it as text, or deliberately prepare an email."),
         ("Bug report content", "CSV values, notes, health data, local file paths, license data, and credentials are not automatically added to the draft."),
@@ -508,14 +508,14 @@ def build_manual(language):
         ("Messdaten", "Verarbeitung und Auswertung erfolgen lokal in der Web-App oder macOS-App. Es gibt keinen Cloud-Sync und kein Daten-Backend."),
         ("Dateien", "CSV-, JSON-, Bericht- und Theme-Dateien werden nur ueber einen von dir ausgeloesten Oeffnen- oder Speichern-Dialog verarbeitet."),
         ("Links", "GitHub, Discord, Lizenz, Kontakt, Handbuch und externe KI-Dienste oeffnen erst nach einem bewussten Klick."),
-        ("KI-Hilfe", "Erhaelt von der App nur den festen allgemeinen Text und den oeffentlichen Handbuch-Link in deiner Zwischenablage. Keine lokalen App-Daten werden in den Text eingesetzt."),
+        ("KI-Hilfe", "Erhaelt von der App nur den festen Schritt-fuer-Schritt-Text und den oeffentlichen Handbuch-Link in deiner Zwischenablage. Keine lokalen App-Daten werden in den Text eingesetzt."),
         ("Berichte und Backups", "Bleiben lokale Dateien, bis du sie selbst ueber einen anderen Dienst, E-Mail-Anhang oder Datentraeger weitergibst."),
     ] if language == "de" else [
         ("Area", "What UroBilanz does - and does not do"),
         ("Measurement data", "Processing and evaluation happen locally in the web app or macOS app. There is no cloud sync and no data backend."),
         ("Files", "CSV, JSON, report, and theme files are processed only through an open or save dialog you trigger."),
         ("Links", "GitHub, Discord, license, contact, manual, and external AI services open only after a deliberate click."),
-        ("AI help", "Receives from the app only the fixed general text and public manual link in your clipboard. No local app data is inserted into the text."),
+        ("AI help", "Receives from the app only the fixed step-by-step text and public manual link in your clipboard. No local app data is inserted into the text."),
         ("Reports and backups", "Remain local files until you yourself share them through another service, an email attachment, or storage device."),
     ])
     story.extend([p(data["sections"]["privacy"], s["h1"]), info_table(privacy_rows, s), Spacer(1, 10), callout("Bei Beschwerden, Unsicherheit oder Veraenderungen deines Gesundheitszustands hole medizinischen Rat ein. Dieses Handbuch und die App ersetzen keine fachliche Beratung." if language == "de" else "For symptoms, uncertainty, or changes in your health, seek medical advice. This manual and the app do not replace professional guidance.", s["callout"], TEAL), PageBreak()])

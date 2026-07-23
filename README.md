@@ -2,7 +2,7 @@
 
 [Deutsch](README.de.md)
 
-![Version](https://img.shields.io/badge/version-1.7.3-blue) ![License](https://img.shields.io/badge/license-GPL--3.0-green) ![Privacy](https://img.shields.io/badge/privacy-100%25%20local-brightgreen) ![No Dependencies](https://img.shields.io/badge/dependencies-none-brightgreen) ![Web](https://img.shields.io/badge/Web--App-macOS%20%7C%20Windows%20%7C%20Linux-blue) ![JavaScript](https://img.shields.io/badge/JavaScript-ES2020-yellow?logo=javascript) ![Platform](https://img.shields.io/badge/macOS-26.0+-silver?logo=apple) ![Swift](https://img.shields.io/badge/Swift-SwiftUI-orange?logo=swift) ![Apple Silicon](https://img.shields.io/badge/Apple%20Silicon-only-black?logo=apple) [![Discord](https://img.shields.io/badge/Discord-Join%20Community-5865F2?logo=discord&logoColor=white)](https://discord.gg/RbsvqRCPQ)
+![Version](https://img.shields.io/badge/version-1.7.4--beta.1-blue) ![License](https://img.shields.io/badge/license-GPL--3.0-green) ![Privacy](https://img.shields.io/badge/privacy-100%25%20local-brightgreen) ![No Dependencies](https://img.shields.io/badge/dependencies-none-brightgreen) ![Web](https://img.shields.io/badge/Web--App-macOS%20%7C%20Windows%20%7C%20Linux-blue) ![JavaScript](https://img.shields.io/badge/JavaScript-ES2020-yellow?logo=javascript) ![Platform](https://img.shields.io/badge/macOS-26.0+-silver?logo=apple) ![Swift](https://img.shields.io/badge/Swift-SwiftUI-orange?logo=swift) ![Apple Silicon](https://img.shields.io/badge/Apple%20Silicon-only-black?logo=apple) [![Discord](https://img.shields.io/badge/Discord-Join%20Community-5865F2?logo=discord&logoColor=white)](https://discord.gg/RbsvqRCPQ)
 
 UroBilanz is a local logging and analysis tool for urine and fluid records from
 CSV files. It is available as a portable web app and as a native SwiftUI macOS
@@ -204,11 +204,12 @@ health data is transmitted to external servers.
 While there are no personal entries yet, the start view can open the
 [German UroBilanz manual](docs/output/pdf/UroBilanz-Handbuch-DE.pdf)
 or the [English UroBilanz User Manual](docs/output/pdf/UroBilanz-User-Manual-EN.pdf)
-or copy a general onboarding question for ChatGPT, Google Gemini, or Claude to
-the clipboard. UroBilanz opens the chosen website only after an explicit click.
-The question contains only this public PDF manual link, never measurement
-values, notes, files, or other user data. The person must paste it with
-`Cmd+V` and deliberately send it in the selected service.
+or copy a fixed step-by-step onboarding question for ChatGPT, Google Gemini,
+or Claude to the clipboard. After explicit confirmation, UroBilanz opens the
+chosen website. The question contains only general operating steps and this
+public PDF manual link, never measurement values, notes, files, or other user
+data. The person must paste it with `Cmd+V` and deliberately send it in the
+selected service.
 
 The manuals explain the first start, all visible areas, controls, exports,
 evaluation rules, and privacy in the web and macOS apps.

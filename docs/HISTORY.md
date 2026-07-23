@@ -1,25 +1,42 @@
 # UroBilanz - Projekthistorie
 
-Stand: 19.07.2026
+Stand: 23.07.2026
 
 Diese Datei archiviert abgeschlossene Versionen, Betas, Release Candidates,
 Final-Releases und wichtige technische Meilensteine. Der detaillierte
 Release-Changelog bleibt zusaetzlich in [`CHANGELOG.md`](../CHANGELOG.md)
 erhalten.
 
-## 2026-07-19 - Datensparsame Erststart-Hilfe
+## 2026-07-23 - Dokumentationsstruktur Fuer Neue Chats
+
+- `PROJECT_CONTEXT.md` erhaelt eine feste Lesereihenfolge fuer neue Chats.
+- `docs/NEXT_STEPS.md` wird auf tatsaechlich offene Punkte und realistische
+  Folgeaufgaben beschraenkt; dauerhafte Regeln bleiben in
+  `docs/PROJEKTREGELN.md`.
+- `CHAT_TEMPLATE.md` wird als kurze Startvorlage ergaenzt. Sie enthaelt keine
+  Versions-, Release-, Zugangs- oder personenbezogenen Details.
+
+## 1.7.4-beta.1 - 2026-07-19
 
 - Web- und SwiftUI-App zeigen bei noch leeren Datenbestaenden eine optionale
   Hilfe mit lokal eingebundenen ChatGPT-, Google-Gemini- und Claude-Logos.
-- Ein Klick kopiert nur einen festen allgemeinen Prompt mit sprachabhaengigem
-  Link zum oeffentlichen PDF-Handbuch und oeffnet danach den
-  gewaehlten Dienst. Messwerte, Hinweise und andere Nutzerdaten bleiben lokal.
+- Nach einer Bestaetigung kopiert die App nur einen festen allgemeinen Prompt
+  mit sprachabhaengigem Link zum oeffentlichen PDF-Handbuch und oeffnet danach
+  den gewaehlten Dienst. Messwerte, Hinweise und andere Nutzerdaten bleiben
+  lokal.
 - Dienst-URLs, Prompt-Inhalt und deutsche/englische Dokumentationslinks sind
   durch Web- und Swift-Smoke-Tests abgesichert.
 - Deutsche und englische 16-seitige PDF-Handbuecher als vollstaendige
   Bedienungsreferenz erstellt: Start, CSV-Import und Zusammenfuehren, lokale
   Speicherung, Eingabefelder, Ansichten, Auswertungsregeln, Backups,
   Arztbericht, Themes, Updates, KI-Hilfe, Datenschutz und Problemloesung.
+- KI-Hilfe beider Apps verlinkt auf die oeffentlichen Seiten der
+  sprachabhaengigen PDF-Handbuecher und benennt sie im kopierten Text als
+  vollstaendige Referenz. Der Prompt folgt dem bewaehrten AppAtlas-Muster mit
+  konkreten, UroBilanz-spezifischen Einstiegsschritten und einer Bestaetigung
+  vor dem Kopieren und Oeffnen. Der Web-Ueber-
+  Knopf steht ganz rechts in der Kopfzeile und verwendet die gleiche Darstellung
+  wie die anderen Kopfzeilen-Schaltflaechen.
 
 ## 1.7.3 - 2026-07-18
 
@@ -446,7 +463,7 @@ Bugfix-Release fuer die SwiftUI-App.
 ## Groessere Technische Meilensteine
 
 - Einheitliche Projektstruktur fuer Web-App und native SwiftUI-App.
-- Projektgedaechtnis auf vier Dateien festgelegt:
+- Projektgedaechtnis zunaechst auf vier Dateien festgelegt:
   `PROJECT_CONTEXT.md`, `docs/NEXT_STEPS.md`, `docs/PROJEKTREGELN.md` und
   `docs/HISTORY.md`.
 - Lokale Verarbeitung ohne Upload persoenlicher Gesundheitsdaten.

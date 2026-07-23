@@ -3,6 +3,8 @@
 - Projektgedaechtnis-Dateien muessen gepflegt werden:
   - `PROJECT_CONTEXT.md` enthaelt den aktuellen Projektstand, Architektur,
     Dateistruktur, Funktionen, Designentscheidungen und bekannte Grenzen.
+  - `CHAT_TEMPLATE.md` ist die kurze, allgemeine Startvorlage fuer neue
+    Codex-Chats und verweist auf die vollstaendigen Projektgedaechtnis-Dateien.
   - `docs/NEXT_STEPS.md` enthaelt nur offene Aufgaben, Bugs, Prioritaeten,
     geplante Verbesserungen und Zukunftsideen.
   - `docs/PROJEKTREGELN.md` enthaelt dauerhafte Datenschutz-, Build-/Release-,
@@ -23,9 +25,11 @@
   enthalten, die im jeweiligen PDF-Handbuch noch fehlen oder falsch erklaert
   sind.
 - Persönliche CSV-, Excel-, Backup- oder Gesundheitsdaten gehören nicht ins Repository.
-- Bei jeder Final-Version wird vor der Veröffentlichung `./privacy_final_check.sh`
-  ausgeführt, das Laufzeit-Netzwerkverhalten beider Apps geprüft und
-  `docs/PRIVACY_CHECK.md` ergänzt. Für Betas ist dieser vollständige Check
+- Vor jedem oeffentlichen Push oder Release muss mindestens der bestehende
+  statische Datenschutzcheck erfolgreich sein.
+- Bei jeder Final-Version wird zusaetzlich `./privacy_final_check.sh`
+  ausgefuehrt, das Laufzeit-Netzwerkverhalten beider Apps geprueft und
+  `docs/PRIVACY_CHECK.md` ergaenzt. Fuer Betas ist dieser vollstaendige Check
   nicht erforderlich.
 - Öffentliche Dokumentation enthält keine absoluten lokalen Benutzerpfade.
 - Git-Commits und öffentliche Entwicklerangaben verwenden ausschließlich das
@@ -39,9 +43,8 @@
   einer Ausgangskopie müssen ZIP-Inhalt und Prüfsumme erfolgreich geprüft
   werden. Lose Projekt-, App-, Build-, `.venv`- oder `.git`-Ordner gelten nicht
   als fertiges Backup.
-- Ab dem nächsten Build wird die macOS-App für lokale Sicherungen und
-  GitHub-Releases zusätzlich zur ZIP-Datei auch als DMG bereitgestellt. Die
-  Web-App bleibt als ZIP verfügbar.
+- Die macOS-App wird fuer lokale Sicherungen und GitHub-Releases zusaetzlich
+  zur ZIP-Datei als DMG bereitgestellt. Die Web-App bleibt als ZIP verfuegbar.
 - Release-Pakete werden nur noch ueber `Scripts/build-release-package.sh`
   erstellt. `apps/web/build_web.sh` bleibt ein internes Hilfsskript, damit
   Web-ZIP, macOS-ZIP, macOS-DMG und SHA256-Dateien immer gemeinsam im selben

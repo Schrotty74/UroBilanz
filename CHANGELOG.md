@@ -2,18 +2,23 @@
 
 Alle wichtigen Änderungen an UroBilanz werden hier dokumentiert.
 
-## Unveröffentlicht
+## 1.7.4-beta.1 - 2026-07-19
 
 - Startansicht von Web- und macOS-App um eine optionale, datensparsame
   Einstiegs-Hilfe fuer ChatGPT, Google Gemini und Claude erweitert.
-- Die drei Dienstlogos liegen lokal im Projekt. Die App kopiert ausschliesslich
-  einen festen, sprachabhaengigen Prompt mit Link zum oeffentlichen
-  UroBilanz-PDF-Handbuch und oeffnet den Dienst erst nach einem Klick.
+- Die drei Dienstlogos liegen lokal im Projekt. Nach einer Bestaetigung kopiert
+  die App ausschliesslich einen festen, sprachabhaengigen Prompt mit Link zum
+  oeffentlichen UroBilanz-PDF-Handbuch und oeffnet danach den Dienst.
 - Zweisprachige 16-seitige PDF-Handbuecher fuer die Web- und macOS-App zu
   vollstaendigen Bedienungsreferenzen ausgebaut: Start, CSV, lokale
   Speicherung, Eingabefelder, Ansichten, Regeln, Backups, Arztbericht,
   Themes, Updates, Hilfe, Datenschutz und Problemloesung mit synthetischen
   Demo-Screenshots.
+- KI-Hilfe verlinkt auf die oeffentliche Seite des jeweiligen PDF-Handbuchs
+  und benennt es im kopierten Text als vollstaendige Referenz. Der Prompt
+  beschreibt konkrete UroBilanz-Einstiegsschritte und erfordert vor Kopieren
+  und Oeffnen eine Bestaetigung. Der Web-Ueber-Knopf steht nun ganz rechts und
+  passt in Farbe und Groesse zu den Kopfzeilen-Schaltflaechen.
 
 ## 1.7.3 - 2026-07-18
 

@@ -57,6 +57,11 @@ const firstStartHelp = {
     gemini: "https://gemini.google.com/app",
     claude: "https://claude.ai/new",
   },
+  serviceTitles: {
+    chatgpt: "ChatGPT",
+    gemini: "Google Gemini",
+    claude: "Claude",
+  },
 };
 const storageChannel = new URLSearchParams(window.location.search).get("channel") === "dev" ? "dev" : "final";
 const storagePrefix = storageChannel === "dev" ? "urobilanz.dev." : "";
@@ -166,14 +171,15 @@ const els = {
 function firstStartHelpPrompt(selectedLanguage = language) {
   const manualURL = firstStartHelp.manualURLs[selectedLanguage] || firstStartHelp.manualURLs.de;
   if (selectedLanguage === "en") {
-    return `I have just opened UroBilanz for the first time. Explain the app in a friendly and simple way. Guide me step by step through the first useful start. Explain the most important features, where to find them in the app, and when they are useful. At the end, ask what I need help with. Use this official manual:\n${manualURL}`;
+    return `I have just opened UroBilanz for the first time and have not loaded any of my own entries yet. Explain UroBilanz in a friendly, simple way. Then guide me step by step through a sensible first start:\n\n1. Explain when to use \"Load CSV\" and when to use \"Entry\" for a manual urine, water, or note entry.\n2. Explain that all entries stay local, what \"Remember data\" does, and how to remove the remembered local copy.\n3. Explain the Dashboard and the Year, Month, Week, Day, and Rules views.\n4. Explain the measurement-day boundary from 06:00 to 05:59 and that the low/normal labels are organizational evaluation, not a medical diagnosis.\n5. Explain how to create a local backup, JSON export, and medical report, and what should be checked before sharing a report.\n\nFor every step, say exactly which control to select, what happens next, and when it is useful. Use short sections. At the end, ask what I need help with. Refer to this complete official UroBilanz user manual:\n${manualURL}`;
   }
-  return `Ich habe UroBilanz gerade zum ersten Mal geöffnet. Erkläre mir die App freundlich und in einfacher Sprache. Führe mich Schritt für Schritt durch den ersten sinnvollen Start. Erkläre die wichtigsten Funktionen, wo ich sie in der App finde und wann sie sinnvoll sind. Frage mich am Ende, wobei ich Hilfe benötige. Verwende dieses offizielle Handbuch:\n${manualURL}`;
+  return `Ich habe UroBilanz gerade zum ersten Mal geöffnet und noch keine eigenen Einträge geladen. Erkläre mir UroBilanz freundlich und in einfacher Sprache. Führe mich anschließend Schritt für Schritt durch einen sinnvollen ersten Start:\n\n1. Erkläre, wann ich \"CSV laden\" nutze und wann \"Eintrag\" für einen manuellen Urin-, Wasser- oder Hinweis-Eintrag sinnvoll ist.\n2. Erkläre, dass alle Einträge lokal bleiben, was \"Daten merken\" macht und wie ich die gemerkte lokale Kopie wieder entferne.\n3. Erkläre Dashboard sowie die Ansichten Jahr, Monat, Woche, Tag und Regeln.\n4. Erkläre die Messtaggrenze von 06:00 bis 05:59 und dass die Kennzeichnungen niedrig/normal nur eine organisatorische Auswertung und keine medizinische Diagnose sind.\n5. Erkläre, wie ich ein lokales Backup, einen JSON-Export und einen Arztbericht erstelle und was ich vor der Weitergabe eines Berichts prüfen sollte.\n\nSage bei jedem Schritt genau, welche Schaltfläche ich wählen muss, was danach passiert und wann sie sinnvoll ist. Nutze kurze Abschnitte und frage mich am Ende, wobei ich Hilfe benötige. Verweise auf dieses vollständige offizielle UroBilanz-Handbuch:\n${manualURL}`;
 }
 
 async function copyFirstStartPromptAndOpen(service) {
   const serviceURL = firstStartHelp.services[service];
   if (!serviceURL) return;
+  if (!window.confirm(t("first_start_copy_confirm", { service: firstStartHelp.serviceTitles[service] || service }))) return;
   const prompt = firstStartHelpPrompt();
   try {
     await navigator.clipboard.writeText(prompt);

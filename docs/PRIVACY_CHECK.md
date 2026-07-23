@@ -60,9 +60,10 @@ Nicht gefunden:
 - Beim lokalen Start wurden nur Ressourcen von `localhost:4174` angefordert.
 - Externe Discord-, GitHub- und Lizenzadressen sind normale sichtbare Links und werden
   erst durch einen Klick geoeffnet.
-- Die Erststart-Hilfe verwendet nur lokal eingebundene Dienstlogos. Ein Klick
-  kopiert einen festen allgemeinen Prompt in die Zwischenablage und oeffnet
-  danach optional ChatGPT, Google Gemini oder Claude. Der Prompt liest weder
+- Die Erststart-Hilfe verwendet nur lokal eingebundene Dienstlogos. Nach einer
+  Bestaetigung kopiert sie einen festen allgemeinen Schritt-fuer-Schritt-Prompt
+  in die Zwischenablage und oeffnet danach optional ChatGPT, Google Gemini oder
+  Claude. Der Prompt liest weder
   CSV- noch Browser-Speicherdaten und enthaelt ausschliesslich einen
   oeffentlichen UroBilanz-PDF-Handbuch-Link.
 - Messdaten koennen optional im lokalen Browser-Speicher gespeichert werden.

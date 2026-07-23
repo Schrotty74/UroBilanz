@@ -599,6 +599,7 @@ struct DashboardView: View {
 struct EmptyStateView: View {
     @EnvironmentObject private var model: UrinModel
     @Environment(\.appLanguage) private var language
+    @State private var pendingAIService: FirstStartHelp.Service?
 
     var body: some View {
         VStack(spacing: 14) {
@@ -630,7 +631,7 @@ struct EmptyStateView: View {
 
                 ForEach(FirstStartHelp.Service.allCases) { service in
                     Button {
-                        copyPromptAndOpen(service)
+                        pendingAIService = service
                     } label: {
                         HStack(spacing: 6) {
                             FirstStartServiceLogo(service: service)
@@ -644,6 +645,16 @@ struct EmptyStateView: View {
         }
         .frame(maxWidth: .infinity, minHeight: 360)
         .liquidCard()
+        .alert(item: $pendingAIService) { service in
+            Alert(
+                title: Text(tr("first_start_open_service", language, replacements: ["service": service.title])),
+                message: Text(tr("first_start_copy_confirm", language, replacements: ["service": service.title])),
+                primaryButton: .default(Text(tr("first_start_copy_open", language))) {
+                    copyPromptAndOpen(service)
+                },
+                secondaryButton: .cancel(Text(tr("cancel", language)))
+            )
+        }
     }
 
     private func copyPromptAndOpen(_ service: FirstStartHelp.Service) {

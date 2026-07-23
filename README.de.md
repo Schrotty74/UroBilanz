@@ -2,7 +2,7 @@
 
 [English](README.md)
 
-![Version](https://img.shields.io/badge/version-1.7.3-blue) ![Lizenz](https://img.shields.io/badge/Lizenz-GPL--3.0-green) ![Datenschutz](https://img.shields.io/badge/Datenschutz-100%25%20lokal-brightgreen) ![Abhaengigkeiten](https://img.shields.io/badge/Abh%C3%A4ngigkeiten-keine-brightgreen) ![Web](https://img.shields.io/badge/Web--App-macOS%20%7C%20Windows%20%7C%20Linux-blue) ![JavaScript](https://img.shields.io/badge/JavaScript-ES2020-yellow?logo=javascript) ![Plattform](https://img.shields.io/badge/macOS-26.0+-silver?logo=apple) ![Swift](https://img.shields.io/badge/Swift-SwiftUI-orange?logo=swift) ![Apple Silicon](https://img.shields.io/badge/Apple%20Silicon-only-black?logo=apple)
+![Version](https://img.shields.io/badge/version-1.7.4--beta.1-blue) ![Lizenz](https://img.shields.io/badge/Lizenz-GPL--3.0-green) ![Datenschutz](https://img.shields.io/badge/Datenschutz-100%25%20lokal-brightgreen) ![Abhaengigkeiten](https://img.shields.io/badge/Abh%C3%A4ngigkeiten-keine-brightgreen) ![Web](https://img.shields.io/badge/Web--App-macOS%20%7C%20Windows%20%7C%20Linux-blue) ![JavaScript](https://img.shields.io/badge/JavaScript-ES2020-yellow?logo=javascript) ![Plattform](https://img.shields.io/badge/macOS-26.0+-silver?logo=apple) ![Swift](https://img.shields.io/badge/Swift-SwiftUI-orange?logo=swift) ![Apple Silicon](https://img.shields.io/badge/Apple%20Silicon-only-black?logo=apple)
 
 UroBilanz ist eine lokale Auswertung fuer Urin- und Wasserprotokolle aus
 CSV-Dateien. Das Projekt enthaelt eine portable Web-App und eine native
@@ -177,12 +177,13 @@ keine Gesundheitsdaten an externe Server uebertragen.
 Solange noch keine eigenen Eintraege vorhanden sind, kann die Startansicht das
 [deutsche UroBilanz-Handbuch](docs/output/pdf/UroBilanz-Handbuch-DE.pdf)
 oder das [englische UroBilanz User Manual](docs/output/pdf/UroBilanz-User-Manual-EN.pdf)
-oeffnen oder eine allgemeine Einstiegsfrage fuer ChatGPT, Google Gemini oder
-Claude in die Zwischenablage kopieren. Erst nach einem ausdruecklichen Klick
-oeffnet UroBilanz die gewaehlte Website. Die Frage enthaelt nur diesen
-oeffentlichen PDF-Handbuch-Link, keine Messwerte, Hinweise, Dateien oder
-anderen Nutzerdaten. Sie wird erst von der Person selbst mit `Cmd+V` in den
-jeweiligen Dienst eingefuegt und dort bewusst gesendet.
+oeffnen oder eine feste Schritt-fuer-Schritt-Einstiegsfrage fuer ChatGPT,
+Google Gemini oder Claude in die Zwischenablage kopieren. Nach der
+ausdruecklichen Bestaetigung oeffnet UroBilanz die gewaehlte Website. Die
+Frage enthaelt nur allgemeine Bedienungsschritte und diesen oeffentlichen
+PDF-Handbuch-Link, keine Messwerte, Hinweise, Dateien oder anderen
+Nutzerdaten. Sie wird erst von der Person selbst mit `Cmd+V` in den jeweiligen
+Dienst eingefuegt und dort bewusst gesendet.
 
 Die beiden Handbuecher erklaeren den ersten Start, alle sichtbaren Bereiche,
 Schalter, Exporte, Auswertungsregeln und Datenschutz der Web- und macOS-App.

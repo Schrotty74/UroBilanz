@@ -8,8 +8,8 @@ mkdir -p /private/tmp/urobilanz-clang-cache \
   build
 
 build_channel="${UROBILANZ_BUILD_CHANNEL:-final}"
-marketing_version="${UROBILANZ_VERSION:-1.7.2}"
-build_number="${UROBILANZ_BUILD_NUMBER:-31}"
+marketing_version="${UROBILANZ_VERSION:-1.7.4-beta.1}"
+build_number="${UROBILANZ_BUILD_NUMBER:-34}"
 case "$build_channel" in
   final)
     app_name="UroBilanz"

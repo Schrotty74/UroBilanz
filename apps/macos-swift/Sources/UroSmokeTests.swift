@@ -237,8 +237,15 @@ enum ImportSmokeTestRunner {
         assertWorkflow(englishPrompt.contains(FirstStartHelp.manualURL(for: .en).absoluteString), "english manual URL missing from AI prompt")
         assertWorkflow(FirstStartHelp.manualURL(for: .de).absoluteString.hasSuffix("UroBilanz-Handbuch-DE.pdf"), "german manual PDF URL mismatch")
         assertWorkflow(FirstStartHelp.manualURL(for: .en).absoluteString.hasSuffix("UroBilanz-User-Manual-EN.pdf"), "english manual PDF URL mismatch")
+        assertWorkflow(FirstStartHelp.manualURL(for: .de).host == "github.com", "german manual must use the public handbook page")
+        assertWorkflow(FirstStartHelp.manualURL(for: .en).host == "github.com", "english manual must use the public handbook page")
+        assertWorkflow(germanPrompt.contains("vollständige offizielle UroBilanz-Handbuch"), "german AI prompt must name the complete manual")
+        assertWorkflow(englishPrompt.contains("complete official UroBilanz user manual"), "english AI prompt must name the complete manual")
+        assertWorkflow(germanPrompt.contains("Messtaggrenze von 06:00 bis 05:59"), "german AI prompt must explain the measurement-day boundary")
+        assertWorkflow(englishPrompt.contains("measurement-day boundary from 06:00 to 05:59"), "english AI prompt must explain the measurement-day boundary")
+        assertWorkflow(!germanPrompt.contains("README") && !englishPrompt.contains("README"), "AI prompt must not mention README files")
         let localPathMarker = "/" + "Users" + "/"
-        assertWorkflow(!germanPrompt.localizedCaseInsensitiveContains("gesundheitsdaten") && !germanPrompt.localizedCaseInsensitiveContains("csv") && !germanPrompt.localizedCaseInsensitiveContains(localPathMarker), "AI prompt must not include user data")
+        assertWorkflow(!germanPrompt.localizedCaseInsensitiveContains("gesundheitsdaten") && !germanPrompt.localizedCaseInsensitiveContains(localPathMarker), "AI prompt must not include user data")
 
         let model = UrinModel()
         model.addManualEntries(
