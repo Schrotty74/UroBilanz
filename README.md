@@ -226,6 +226,10 @@ the app or discussed on [Discord](https://discord.gg/RbsvqRCPQ).
 
 **Email:** [urobilanz@mailbox.org](mailto:urobilanz@mailbox.org)
 
+## Repo activity
+
+![Repobeats analytics image](https://repobeats.axiom.co/api/embed/5a5c6d9b88a92a7575dad45cbb36fe2015dcc2d1.svg "Repobeats analytics image")
+
 ## License
 
 UroBilanz is licensed under the GNU General Public License Version 3 (GPLv3).
