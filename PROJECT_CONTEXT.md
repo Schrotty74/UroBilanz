@@ -3,16 +3,16 @@
 Stand: 23.07.2026
 
 Diese Datei ist die primaere Wissensquelle fuer neue Chats. Sie beschreibt den
-aktuellen Projektstand. Zukunft und offene Punkte stehen in
-`docs/NEXT_STEPS.md`, dauerhafte Arbeitsregeln in `docs/PROJEKTREGELN.md` und
-abgeschlossene Vergangenheit in `docs/HISTORY.md`.
+aktuellen Projektstand. Zukunft und offene Punkte stehen in `NEXT_STEPS.md`,
+dauerhafte Arbeitsregeln in `docs/PROJEKTREGELN.md` und abgeschlossene
+Vergangenheit in `docs/HISTORY.md`.
 
 ## Reihenfolge Fuer Neue Chats
 
 Vor jeder Projektarbeit zuerst diese Dateien lesen:
 
 1. `PROJECT_CONTEXT.md`
-2. `docs/NEXT_STEPS.md`
+2. `NEXT_STEPS.md`
 3. `docs/PROJEKTREGELN.md`
 4. `docs/HISTORY.md`
 5. `CHAT_TEMPLATE.md` als kurze Startvorlage, wenn ein neuer Chat angelegt wird
@@ -52,7 +52,7 @@ Daten-Backend-Dienst.
 - `apps/macos-swift/Sources/` - native SwiftUI-App.
 - `Scripts/` - neuer Build-/Release-Workflow fuer Dev, Beta und Final.
 - `docs/demo/` - kuenstliche Demo- und Test-Fixtures ohne echte Nutzerdaten.
-- `docs/NEXT_STEPS.md` - offene Aufgaben, Bugs, Prioritaeten und Zukunftsideen.
+- `NEXT_STEPS.md` - offene Aufgaben, Bugs, Prioritaeten und Zukunftsideen.
 - `docs/PROJEKTREGELN.md` - dauerhafte Projekt-, Datenschutz-, Build- und
   Release-Regeln.
 - `docs/HISTORY.md` - abgeschlossene Versions- und Projekthistorie.
@@ -157,11 +157,10 @@ Keine unnoetigen Umbauten, keine Designaenderungen und keine neuen Funktionen
 ohne klare Anweisung. Wenn etwas riskant wird oder groessere Aenderungen noetig
 waeren, vorher kurz Bescheid sagen.
 
-Bei wichtigen Aenderungen muessen `PROJECT_CONTEXT.md`,
-`docs/NEXT_STEPS.md`, `docs/PROJEKTREGELN.md` und `docs/HISTORY.md` auf den
-tatsaechlichen Stand gebracht werden. Die kurze Startvorlage in
-`CHAT_TEMPLATE.md` bleibt dabei allgemein und enthaelt keine Versions-,
-Release- oder personenbezogenen Details.
+Bei wichtigen Aenderungen muessen `PROJECT_CONTEXT.md`, `NEXT_STEPS.md`,
+`docs/PROJEKTREGELN.md` und `docs/HISTORY.md` auf den tatsaechlichen Stand
+gebracht werden. Die kurze Startvorlage in `CHAT_TEMPLATE.md` bleibt dabei
+allgemein und enthaelt keine Versions-, Release- oder personenbezogenen Details.
 
 ## Datenschutz hat Vorrang
 
