@@ -5,7 +5,7 @@ Wir arbeiten am Projekt UroBilanz.
 Bitte lies vor jeder Projektarbeit zuerst in dieser Reihenfolge:
 
 1. `PROJECT_CONTEXT.md`
-2. `docs/NEXT_STEPS.md`
+2. `NEXT_STEPS.md`
 3. `docs/PROJEKTREGELN.md`
 4. `docs/HISTORY.md`
 
@@ -25,6 +25,6 @@ Wichtige Schutzregeln:
   Pushes nur nach ausdruecklichem Auftrag erstellen.
 - Bei sichtbaren Funktions-, Bedienungs- oder Datenschutz-Aenderungen beide
   PDF-Handbuecher aktualisieren, neu erzeugen und visuell pruefen.
-- Bei groesseren Aenderungen `PROJECT_CONTEXT.md`, `docs/NEXT_STEPS.md`,
+- Bei groesseren Aenderungen `PROJECT_CONTEXT.md`, `NEXT_STEPS.md`,
   `docs/PROJEKTREGELN.md` und `docs/HISTORY.md` auf den tatsaechlichen Stand
   bringen.
