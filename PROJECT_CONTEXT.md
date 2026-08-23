@@ -2,24 +2,9 @@
 
 Stand: 23.07.2026
 
-Diese Datei ist die primaere Wissensquelle fuer neue Chats. Sie beschreibt den
-aktuellen Projektstand. Zukunft und offene Punkte stehen in `NEXT_STEPS.md`,
+Diese Datei beschreibt den aktuellen Projektstand. Zukunft und offene Punkte stehen in `NEXT_STEPS.md`,
 dauerhafte Arbeitsregeln in `docs/PROJEKTREGELN.md` und abgeschlossene
 Vergangenheit in `docs/HISTORY.md`.
-
-## Reihenfolge Fuer Neue Chats
-
-Vor jeder Projektarbeit zuerst diese Dateien lesen:
-
-1. `PROJECT_CONTEXT.md`
-2. `NEXT_STEPS.md`
-3. `docs/PROJEKTREGELN.md`
-4. `docs/HISTORY.md`
-5. `CHAT_TEMPLATE.md` als kurze Startvorlage, wenn ein neuer Chat angelegt wird
-
-Danach nur die fuer die Aufgabe relevanten Quelldateien, Build-Skripte und
-weitere Fach-Dokumentation lesen. `CHANGELOG.md` dokumentiert
-Veroeffentlichungen; er ist keine zweite Quelle fuer den aktuellen Arbeitsstand.
 
 ## Projektziel Und Zweck
 
@@ -57,8 +42,8 @@ Daten-Backend-Dienst.
   Release-Regeln.
 - `docs/HISTORY.md` - abgeschlossene Versions- und Projekthistorie.
 - `docs/PRIVACY_CHECK.md` - chronologische Datenschutzpruefungen.
-- `CHAT_TEMPLATE.md` - kurze Startvorlage fuer neue Codex-Chats.
-- `PROJECT_CONTEXT.md` - aktueller Projektstand fuer neue Chats.
+- `CHAT_TEMPLATE.md` - Arbeitshilfe fuer die Projektfortsetzung.
+- `PROJECT_CONTEXT.md` - aktueller Projektstand.
 
 ## Aktuell Umgesetzte Funktionen
 
@@ -159,8 +144,7 @@ waeren, vorher kurz Bescheid sagen.
 
 Bei wichtigen Aenderungen muessen `PROJECT_CONTEXT.md`, `NEXT_STEPS.md`,
 `docs/PROJEKTREGELN.md` und `docs/HISTORY.md` auf den tatsaechlichen Stand
-gebracht werden. Die kurze Startvorlage in `CHAT_TEMPLATE.md` bleibt dabei
-allgemein und enthaelt keine Versions-, Release- oder personenbezogenen Details.
+gebracht werden.
 
 ## Datenschutz hat Vorrang
 
