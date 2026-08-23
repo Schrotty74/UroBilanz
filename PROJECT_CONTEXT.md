@@ -2,8 +2,7 @@
 
 Stand: 19.07.2026
 
-Diese Datei ist die primaere Wissensquelle fuer neue Chats. Sie beschreibt den
-aktuellen Projektstand. Zukunft und offene Punkte stehen in
+Diese Datei beschreibt den aktuellen Projektstand. Zukunft und offene Punkte stehen in
 `docs/NEXT_STEPS.md`, dauerhafte Arbeitsregeln in `docs/PROJEKTREGELN.md` und
 abgeschlossene Vergangenheit in `docs/HISTORY.md`.
 
@@ -43,7 +42,7 @@ Daten-Backend-Dienst.
   Release-Regeln.
 - `docs/HISTORY.md` - abgeschlossene Versions- und Projekthistorie.
 - `docs/PRIVACY_CHECK.md` - chronologische Datenschutzpruefungen.
-- `PROJECT_CONTEXT.md` - aktueller Projektstand fuer neue Chats.
+- `PROJECT_CONTEXT.md` - aktueller Projektstand.
 
 ## Aktuell Umgesetzte Funktionen
 
