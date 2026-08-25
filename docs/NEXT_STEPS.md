@@ -16,8 +16,10 @@ Diese Datei enthaelt nur Zukunft und offene Punkte: offene Aufgaben, Bugs,
 geplante Verbesserungen, Prioritaeten und Ideen fuer spaetere Entwicklungen.
 Der aktuelle Projektstand steht in [`../PROJECT_CONTEXT.md`](../PROJECT_CONTEXT.md).
 Abgeschlossene Versionen und Meilensteine stehen dauerhaft in
-[`HISTORY.md`](HISTORY.md). Dauerhafte Arbeitsregeln stehen in
-[`PROJEKTREGELN.md`](PROJEKTREGELN.md).
+[`HISTORY.md`](HISTORY.md). Dauerhafte projektspezifische Regeln stehen in
+[`PROJEKTREGELN.md`](PROJEKTREGELN.md); die allgemeinen Arbeits-, Git-,
+Veroeffentlichungs- und Repository-Datenschutzregeln stehen in
+[`../AGENTS.md`](../AGENTS.md).
 
 ## Aktueller Stand Kurz
 
@@ -38,10 +40,7 @@ Beide Apps koennen:
 - Backup-CSV und Tagesdaten-CSV exportieren
 - Deutsch und Englisch anzeigen
 - mehrere Themes nutzen
-- bei leeren Datenbestaenden eine optionale KI-Einstiegs-Hilfe mit lokal
-  eingebundenen Logos, Bestaetigung vor dem Oeffnen, Link zur oeffentlichen
-  sprachabhaengigen PDF-Handbuchseite und einem festen, datensparsamen
-  Schritt-fuer-Schritt-Prompt anbieten
+- bei leeren Datenbestaenden eine optionale KI-Einstiegs-Hilfe mit lokal eingebundenen Logos, Bestaetigung vor dem Oeffnen, Link zur oeffentlichen sprachabhaengigen PDF-Handbuchseite und einem festen, datensparsamen Schritt-fuer-Schritt-Prompt anbieten
 
 Die Vollpruefung fuer `v1.7.4-beta.1` war erfolgreich:
 
@@ -57,8 +56,7 @@ Die Vollpruefung fuer `v1.7.4-beta.1` war erfolgreich:
 - Portabler Lauf aus einer frischen Checkout-Kopie
 - Arztbericht und lokaler PDF-Export
 - Technische Modulaufteilung in Web und SwiftUI
-- Erweiterte Tests fuer Sprachumschaltung, Theme-Wechsel, geloeschte
-  Messtage, geloeschte Eintraege und Exportbereinigung
+- Erweiterte Tests fuer Sprachumschaltung, Theme-Wechsel, geloeschte Messtage, geloeschte Eintraege und Exportbereinigung
 - Xcode-Projekt mit getrennten Dev/Beta/Final-Bundle-IDs
 - Einheitlicher Release-Paketbau ueber `Scripts/build-release-package.sh`
 
@@ -67,13 +65,8 @@ Die Vollpruefung fuer `v1.7.4-beta.1` war erfolgreich:
 ### Bedienung
 
 - Sicherheitsabfragen sprachlich oder optisch weiter verbessern, falls noetig.
-- Bei sehr vielen manuellen Eintraegen pruefen, ob die Tagesliste im Dialog noch
-  angenehm bedienbar bleibt.
-- Bei neuen sichtbaren Funktionen die deutschen und englischen PDF-Handbuecher
-  unter `docs/output/pdf/` sowie `docs/manual/build_manuals.py` aktualisieren.
-  Der aktuelle Referenzumfang umfasst alle sichtbaren Arbeitsablaeufe und
-  Optionen der Web- und macOS-App; neue Funktionen duerfen diese Abdeckung
-  nicht wieder einschraenken.
+- Bei sehr vielen manuellen Eintraegen pruefen, ob die Tagesliste im Dialog noch angenehm bedienbar bleibt.
+- Bei neuen sichtbaren Funktionen die deutschen und englischen PDF-Handbuecher unter `docs/output/pdf/` sowie `docs/manual/build_manuals.py` aktualisieren. Der aktuelle Referenzumfang umfasst alle sichtbaren Arbeitsablaeufe und Optionen der Web- und macOS-App; neue Funktionen duerfen diese Abdeckung nicht wieder einschraenken.
 
 ### Tabellen
 
@@ -84,36 +77,9 @@ Die Vollpruefung fuer `v1.7.4-beta.1` war erfolgreich:
 
 - weitere Sprachen nach Deutsch und Englisch
 - frei waehlbare Vergleichszeitraeume
-- App-Store-Vorbereitung mit Xcode-Projekt, Ressourcenpaketen, Signierung und
-  Datenschutztexten
-- universeller Swift-Build fuer Intel nur falls wirklich benoetigt; aktuell
-  reicht Apple Silicon fuer den Nutzer
+- App-Store-Vorbereitung mit Xcode-Projekt, Ressourcenpaketen, Signierung und Datenschutztexten
+- universeller Swift-Build fuer Intel nur falls wirklich benoetigt; aktuell ist Apple Silicon der dokumentierte native Zieltyp
 
-## Arbeitsregeln
+## Pflege
 
-- Keine persoenlichen CSV-, Excel- oder Gesundheitsdaten ins Repository.
-- Vor jeder Final-Version, nicht vor Betas, den technischen Datenschutz-Check
-  mit `./privacy_final_check.sh` und einer Laufzeitpruefung beider Apps
-  wiederholen und `PRIVACY_CHECK.md` ergaenzen.
-- Vor groesseren Aenderungen lokales Backup erstellen.
-- Keine UI- oder Code-Aenderungen ohne konkreten neuen Fehler oder ausdruecklich
-  gewuenschte neue Funktion.
-- Keine neuen groesseren Funktionen mehr in `v1.5`; neue Entwicklungsarbeit
-  beginnt erst mit `v1.6.0-beta.1`.
-- `CHANGELOG.md` bei GitHub-Releases aktualisieren.
-- Ab dem naechsten Build die macOS-App sowohl als ZIP als auch als DMG
-  bereitstellen; die Web-App bleibt als ZIP.
-- Release-Pakete nur noch ueber `Scripts/build-release-package.sh` erstellen;
-  `apps/web/build_web.sh` ist nur ein internes Hilfsskript.
-- Final-Backups kuenftig genau zweimal aufbewahren: eine lokale Kopie und eine
-  iCloud-Kopie. Bei mehreren Final-Backups nur die neueste Final-Version
-  behalten.
-- Releases nur nach erfolgreichem lokalen Test und ausdruecklicher Freigabe.
-- Bei UI-Aenderungen nach Moeglichkeit Web-App und SwiftUI-App konsistent halten.
-- Bei laengeren oder riskanten Aenderungen lieber in kleinen Schritten arbeiten.
-- Dev-/Beta-Tests getrennt von Final-Daten halten:
-  - SwiftUI bei Bedarf mit `UROBILANZ_BUILD_CHANNEL=dev` bauen.
-  - Web-App bei Bedarf mit `UROBILANZ_WEB_CHANNEL=dev` starten oder
-    `index.html?channel=dev` oeffnen.
-  - Final-Builds duerfen keine experimentellen Defaults, Themes oder
-    Tabellenbreiten aus Dev-Tests uebernehmen.
+Bei groesseren Aenderungen diese Datei zusammen mit `../PROJECT_CONTEXT.md`, `PROJEKTREGELN.md` und `HISTORY.md` aktualisieren. Erledigte Punkte entfernen oder nach `HISTORY.md` verschieben.
