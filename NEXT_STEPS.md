@@ -5,7 +5,7 @@ Stand: 23.07.2026
 Aktueller Final-Stand laut Projektdokumentation: `v1.7.3`.
 Aktueller Beta-Stand laut Projektdokumentation: `v1.7.4-beta.1`.
 
-Diese Datei enthaelt nur tatsaechlich offene Punkte, Prioritaeten und spaetere Ideen. Den aktuellen Projektaufbau beschreibt `PROJECT_CONTEXT.md`. Dauerhafte Arbeits-, Datenschutz- und Release-Regeln stehen in `docs/PROJEKTREGELN.md`; abgeschlossene Arbeit steht in `docs/HISTORY.md`.
+Diese Datei enthaelt nur tatsaechlich offene Punkte, Prioritaeten und spaetere Ideen. Den aktuellen Projektaufbau beschreibt `PROJECT_CONTEXT.md`. Allgemeine Arbeits-, Git-, Veroeffentlichungs- und Repository-Datenschutzregeln stehen in `AGENTS.md`; projektspezifische Regeln stehen in `docs/PROJEKTREGELN.md`; abgeschlossene Arbeit steht in `docs/HISTORY.md`.
 
 ## Aktueller Pruefstand
 
