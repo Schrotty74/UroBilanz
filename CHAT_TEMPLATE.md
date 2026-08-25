@@ -18,15 +18,13 @@ Bitte lies vor jeder Projektarbeit zuerst in dieser Reihenfolge:
 
 Danach nur die für die konkrete Aufgabe relevanten Quellen, Build-Skripte und Fach-Dokumentation prüfen.
 
+Die verbindlichen allgemeinen Arbeits-, Git-, Veröffentlichungs- und Repository-Datenschutzregeln stehen in `AGENTS.md` und gelten vollständig.
+
 Prüfe vor Aussagen oder Änderungen den tatsächlichen Projektzustand. Halte den Auftrag eng begrenzt und aktualisiere bei relevanten Änderungen die vorgesehenen Kontextdateien im selben Auftrag.
 
-Wichtige Schutzregeln:
+UroBilanz-spezifisch:
 
-- Bei Fragen nur erklären; keine Dateien ändern, keine Tests ausführen, keinen Build starten und keine App öffnen.
-- Nur bei einem klaren Arbeitsauftrag aktiv ändern oder testen.
-- Keine persönlichen Messdaten, Gesundheitsdaten, lokalen Pfade, Backups, Zugangsdaten, Tokens oder privaten Testdateien dokumentieren, committen oder veröffentlichen.
-- Öffentliche Entwicklerangaben verwenden ausschließlich `Schrotty74`.
-- Dev, Beta und Final bleiben getrennt. Versionen, Releases, Tags, Commits und Pushes nur nach ausdrücklichem Auftrag erstellen.
+- Dev, Beta und Final bleiben getrennt.
 - Bei sichtbaren Funktions-, Bedienungs- oder Datenschutz-Änderungen beide PDF-Handbücher aktualisieren, neu erzeugen und visuell prüfen.
 - Bei größeren Änderungen `PROJECT_CONTEXT.md`, `NEXT_STEPS.md`, `docs/PROJEKTREGELN.md` und `docs/HISTORY.md` auf den tatsächlichen Stand bringen.
 
