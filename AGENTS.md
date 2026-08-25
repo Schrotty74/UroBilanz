@@ -1,20 +1,21 @@
 # AGENTS.md
 
-Vor jeder Projektarbeit zuerst `PROJECT_CONTEXT.md` und `NEXT_STEPS.md` lesen.
+Vor jeder Projektarbeit zuerst `PROJECT_CONTEXT.md`, `docs/NEXT_STEPS.md`, `docs/PROJEKTREGELN.md` und bei Bedarf `docs/HISTORY.md` lesen.
 
 ## Verbindliche Arbeitsregeln
 
-- `PROJECT_CONTEXT.md` ist die dauerhafte Quelle für den aktuellen Projektkontext.
-- `NEXT_STEPS.md` enthält nur tatsächlich offene Aufgaben, bestätigte Bugs und konkrete nächste Schritte.
+- `PROJECT_CONTEXT.md` ist die dauerhafte Quelle für den aktuellen Projektkontext dieses Branches.
+- `docs/NEXT_STEPS.md` enthält nur tatsächlich offene Aufgaben, bestätigte Bugs und konkrete nächste Schritte.
+- `docs/PROJEKTREGELN.md` enthält die dauerhaften UroBilanz-spezifischen Build-, Release-, Backup- und Prüfregeln.
 - Bei relevanten Änderungen an Funktionen, Architektur, Datenformaten, Datenschutz, Build/Release oder offenen Aufgaben die betroffenen Kontextdateien im selben Auftrag aktualisieren.
-- Erledigte Punkte aus `NEXT_STEPS.md` entfernen oder nach vorhandenen Projektregeln archivieren.
+- Erledigte Punkte aus `docs/NEXT_STEPS.md` entfernen oder nach `docs/HISTORY.md` beziehungsweise nach vorhandenen Projektregeln archivieren.
 - Weitere projektspezifische Regeln und Dokumente beachten.
 - Bestehende Architektur, Datenformate, Einstellungen und Benutzerabläufe erhalten, sofern eine Änderung nicht ausdrücklich verlangt oder technisch notwendig ist.
 - Keine unnötigen Refactorings, neuen Abhängigkeiten oder Funktionsentfernungen ohne klaren Auftrag.
 - Keine Projektzustände, Testergebnisse, Builds, Scans, Prüfungen oder offenen Punkte erfinden. Einen Erfolg nur behaupten, wenn die betreffende Prüfung tatsächlich ausgeführt wurde.
 - Fragen nicht automatisch als Änderungsauftrag behandeln. Dateien, Builds, Tests oder Veröffentlichungsaktionen nur ausführen, wenn der Auftrag dies verlangt oder sie für die ausdrücklich beauftragte Änderung notwendig sind.
 - Erklärungen verständlich formulieren und keine besonderen technischen Vorkenntnisse voraussetzen. Keine persönlichen Aussagen über Fähigkeiten, Kenntnisse, Gewohnheiten oder Arbeitsweise des Entwicklers dokumentieren.
-- Bei Git-Projekten dokumentierte Branch-Grenzen beachten. Branches nicht ohne ausdrücklichen Auftrag wechseln oder zusammenführen.
+- Die dokumentierten Grenzen zwischen Beta und Final beachten. Branches nicht ohne ausdrücklichen Auftrag wechseln oder zusammenführen.
 - Keine Versionen, Buildnummern, Commits, Pushes, Tags, Releases oder Veröffentlichungen ohne ausdrücklichen Auftrag erstellen oder ändern.
 - Keine Regeln zur Vorbereitung oder Fortsetzung eines neuen Chats aufnehmen. Solche Anweisungen gehören ausschließlich in `CHAT_TEMPLATE.md` beziehungsweise in einen separaten Start-Prompt.
 
@@ -46,6 +47,6 @@ Pfade in öffentlicher Dokumentation müssen neutral sein, zum Beispiel `/Users/
 
 Informationen über die lokale Entwicklungsumgebung werden nur dokumentiert, wenn sie technisch für das Projekt erforderlich sind. Persönliche oder gerätespezifische Details werden nach Möglichkeit durch allgemeine technische Anforderungen ersetzt.
 
-Vor Commit, Push oder Veröffentlichung ist zu prüfen, dass keine privaten oder sensiblen Daten enthalten sind. Vor finalen Veröffentlichungen gelten zusätzlich die im Projekt dokumentierten erweiterten Datenschutz- und Release-Prüfungen.
+Vor Commit, Push oder Veröffentlichung ist zu prüfen, dass keine privaten oder sensiblen Daten enthalten sind. Vor finalen Veröffentlichungen gelten zusätzlich die in `docs/PROJEKTREGELN.md` dokumentierten erweiterten Datenschutz- und Release-Prüfungen.
 
 Wenn unklar ist, ob eine Information öffentlich sein darf, wird sie nicht veröffentlicht, bis dies eindeutig geklärt ist.
