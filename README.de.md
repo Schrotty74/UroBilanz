@@ -197,8 +197,8 @@ Der lokale technische Datenschutz-Check ist unter
 
 ## Kontakt
 
-Fragen, Feedback und Fehlerberichte koennen per E-Mail gesendet oder direkt in
-der App erstellt werden.
+Fragen, Feedback und Fehlerberichte koennen per E-Mail gesendet, direkt in
+der App erstellt oder auf [Discord](https://discord.gg/Zy93AaYFaj) diskutiert werden.
 
 **E-Mail:** [urobilanz@mailbox.org](mailto:urobilanz@mailbox.org)
 
