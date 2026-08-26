@@ -2,7 +2,7 @@
 
 [Deutsch](README.de.md)
 
-![Version](https://img.shields.io/badge/version-1.7.4--beta.1-blue) ![License](https://img.shields.io/badge/license-GPL--3.0-green) ![Privacy](https://img.shields.io/badge/privacy-100%25%20local-brightgreen) ![No Dependencies](https://img.shields.io/badge/dependencies-none-brightgreen) ![Web](https://img.shields.io/badge/Web--App-macOS%20%7C%20Windows%20%7C%20Linux-blue) ![JavaScript](https://img.shields.io/badge/JavaScript-ES2020-yellow?logo=javascript) ![Platform](https://img.shields.io/badge/macOS-26.0+-silver?logo=apple) ![Swift](https://img.shields.io/badge/Swift-SwiftUI-orange?logo=swift) ![Apple Silicon](https://img.shields.io/badge/Apple%20Silicon-only-black?logo=apple) [![Discord](https://img.shields.io/badge/Discord-Join%20Community-5865F2?logo=discord&logoColor=white)](https://discord.gg/RbsvqRCPQ)
+![Version](https://img.shields.io/badge/version-1.7.4--beta.1-blue) ![License](https://img.shields.io/badge/license-GPL--3.0-green) ![Privacy](https://img.shields.io/badge/privacy-100%25%20local-brightgreen) ![No Dependencies](https://img.shields.io/badge/dependencies-none-brightgreen) ![Web](https://img.shields.io/badge/Web--App-macOS%20%7C%20Windows%20%7C%20Linux-blue) ![JavaScript](https://img.shields.io/badge/JavaScript-ES2020-yellow?logo=javascript) ![Platform](https://img.shields.io/badge/macOS-26.0+-silver?logo=apple) ![Swift](https://img.shields.io/badge/Swift-SwiftUI-orange?logo=swift) ![Apple Silicon](https://img.shields.io/badge/Apple%20Silicon-only-black?logo=apple) [![Discord](https://img.shields.io/badge/Discord-Join%20Community-5865F2?logo=discord&logoColor=white)](https://discord.gg/Zy93AaYFaj)
 
 UroBilanz is a local logging and analysis tool for urine and fluid records from
 CSV files. It is available as a portable web app and as a native SwiftUI macOS
@@ -224,7 +224,7 @@ The local technical privacy check is documented in
 ## Contact
 
 Questions, feedback and bug reports can be sent by email, created directly in
-the app or discussed on [Discord](https://discord.gg/RbsvqRCPQ).
+the app or discussed on [Discord](https://discord.gg/Zy93AaYFaj).
 
 **Email:** [urobilanz@mailbox.org](mailto:urobilanz@mailbox.org)
 
