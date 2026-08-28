@@ -91,7 +91,7 @@ ditto "$product_app" "$app_bundle"
 rm -f "$mac_zip" "$mac_dmg" "$web_zip" \
     "$mac_zip.sha256" "$mac_dmg.sha256" "$web_zip.sha256"
 
-ditto -c -k --sequesterRsrc --keepParent "$app_bundle" "$mac_zip"
+ditto -c -k --norsrc --noextattr --noqtn --noacl --keepParent "$app_bundle" "$mac_zip"
 
 dmg_staging_directory="$release_directory/DMG"
 rm -rf "$dmg_staging_directory"
@@ -115,7 +115,7 @@ then
 fi
 
 "$root_directory/apps/web/build_web.sh"
-ditto -c -k --sequesterRsrc \
+ditto -c -k --norsrc --noextattr --noqtn --noacl \
     "$root_directory/apps/web/build/UroBilanz-Web" \
     "$web_zip"
 
