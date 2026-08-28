@@ -11,6 +11,8 @@ final class UrinModel: ObservableObject {
     @Published var rememberData = UserDefaults.standard.bool(forKey: "swiftUIRememberData")
     @Published var selectedYear = "all"
     @Published var selectedMonth = "all"
+    @Published var entrySearch = ""
+    @Published var entryTypeFilter = "all"
     @Published var errorMessage: String?
     @Published private(set) var language = AppLanguage.systemDefault
 
@@ -59,6 +61,37 @@ final class UrinModel: ObservableObject {
     var filteredEvaluationDays: [DaySummary] {
         filteredDays.filter(\.isCompleteMeasurementDay)
     }
+    var filteredDayTableDays: [DaySummary] {
+        let search = entrySearch.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard entryTypeFilter != "all" || !search.isEmpty else { return filteredDays }
+        return filteredDays.filter { day in
+            let typeMatches = entryTypeFilter == "all" || entries.contains {
+                $0.messtag == day.messtag && $0.type == entryTypeFilter
+            }
+            return typeMatches && dayMatchesEntrySearch(day, search: search)
+        }
+    }
+
+    private func dayMatchesEntrySearch(_ day: DaySummary, search: String) -> Bool {
+        let searchTerms = search.split(whereSeparator: \.isWhitespace)
+        guard !searchTerms.isEmpty else { return true }
+        let searchableText = [
+            "Urin", tr("urine", language), day.urine.map { "\($0.0) \($0.1) ml" }, "\(day.urineTotal)", "\(day.urineCount)",
+            "Wasser", tr("water", language), day.water.map { "\($0.0) \($0.1) ml" }, "\(day.waterTotal)",
+            "Hinweis", tr("note", language), day.notesText, day.noteRowsText, day.generalNotes,
+        ]
+            .flatMap { value -> [String] in
+                if let values = value as? [String] { return values }
+                return [value as! String]
+            }
+            .joined(separator: " ")
+        return searchTerms.allSatisfy { term in
+            searchableText.range(
+                of: String(term),
+                options: [.caseInsensitive, .diacriticInsensitive]
+            ) != nil
+        }
+    }
     var currentStreak: Int {
         currentStreak(in: days)
     }
@@ -75,6 +108,11 @@ final class UrinModel: ObservableObject {
             expectedDay = calendar.date(byAdding: .day, value: -1, to: expectedDay) ?? expectedDay
         }
         return streak
+    }
+
+    func clearEntryFilters() {
+        entrySearch = ""
+        entryTypeFilter = "all"
     }
 
     init() {

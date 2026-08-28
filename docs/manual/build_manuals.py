@@ -285,9 +285,11 @@ def build_manual(language):
         ("Eintrag", "Oben rechts. Oeffnet die manuelle Eingabe fuer Urin, Wasser und Hinweise."),
         ("Dashboard / Jahr / Monat / Woche / Tag / Regeln", "Register links in der Werkzeugleiste. Sie wechseln nur die lokale Darstellung deiner geladenen Daten."),
         ("Jahr und Monat", "Filter rechts in der Werkzeugleiste. Begrenzen die angezeigten Tabellen und Diagramme auf den gewaehlten Zeitraum."),
+        ("Tagesliste filtern", "In der Tagesansicht. Durchsucht sichtbare Typen, Einzel- und Tagesmengen, Uhrzeit und Hinweise und zeigt Messtage mit Urin-, Wasser- oder Hinweis-Eintraegen des gewaehlten Typs. Zum Beispiel findet `Urin 870` einen Messtag mit dieser Urin-Gesamtmenge. Die vollstaendigen Werte eines gefundenen Messtags bleiben sichtbar; Auswertungen, Berichte und Exporte aendern sich nicht."),
         ("Backup", "Menue rechts: Komplett-Backup, Tagesbackup oder JSON-Export lokal speichern."),
         ("Arztbericht", "Rechts in der Werkzeugleiste. Waehlt Zeitraum und Inhalte fuer einen lokalen, druckfreundlichen Bericht."),
         ("Daten merken / gespeicherte Daten loeschen", "Rechts unter der Werkzeugleiste. Speichert die geladene CSV nur lokal im Browser bzw. in der macOS-App oder entfernt sie wieder."),
+        ("Web-App installieren", "Starte in der Web-App zuerst `Start_Urinprotokoll.command`. Danach kann der Browser die PWA installieren. Der Offline-Cache enthaelt nur App-Dateien, keine CSV- oder Messdaten."),
         ("Theme und Sprache", "Oben rechts. Veraendern das Erscheinungsbild beziehungsweise die sichtbare Sprache, nicht die Messdaten."),
     ] if language == "de" else [
         ("Function", "Location and effect"),
@@ -296,9 +298,11 @@ def build_manual(language):
         ("Entry", "Top right. Opens manual entry for urine, water, and notes."),
         ("Dashboard / Year / Month / Week / Day / Rules", "Tabs on the left of the toolbar. They only change the local presentation of loaded data."),
         ("Year and Month", "Filters on the right of the toolbar. Limit visible tables and charts to the selected period."),
+        ("Filter day list", "In the Day view. Searches visible types, individual and daily amounts, times, and notes, then shows measurement days with urine, water, or note entries of the selected type. For example, `Urine 870` finds a measurement day with that total urine amount. The complete values for a matching measurement day remain visible; evaluations, reports, and exports do not change."),
         ("Backup", "Menu on the right: save a complete backup, daily backup, or JSON export locally."),
         ("Medical report", "Right side of the toolbar. Choose a period and contents for a local print-friendly report."),
         ("Remember data / Delete saved data", "Below the toolbar. Saves the loaded CSV only locally in the browser or macOS app, or removes it again."),
+        ("Install web app", "Start `Start_Urinprotokoll.command` in the web app first. The browser can then install the PWA. Its offline cache contains only app files, never CSV or measurement data."),
         ("Theme and Language", "Top right. Change appearance or visible language, never measurement data."),
     ])
     story.extend([p(data["sections"]["where"], s["h1"]), info_table(where_rows, s), Spacer(1, 12), image(SCREENSHOTS / "web" / "web-day-violet-night.png", 15.6 * cm, 8.3 * cm), Spacer(1, 4), p("Register, Filter und Tagesansicht" if language == "de" else "Tabs, filters, and day view", s["small"]), PageBreak()])
@@ -484,7 +488,7 @@ def build_manual(language):
         ("Open release", "Opens the public release page in the browser after your click. A download or installation never starts automatically."),
         ("About UroBilanz", "Shows app version, license, project page, and contact. The visible GitHub and Discord icons are links and open only after a click."),
     ])
-    story.extend([p(data["sections"]["updates"], s["h1"]), p("Die Web-App besitzt keine native macOS-Einstellungsseite. Die Funktionen rund um App-Version, Projektseite und Hilfe sind dort ueber die Kopfleiste und den Ueber-Dialog erreichbar." if language == "de" else "The web app has no native macOS Settings page. Its app-version, project-page, and help functions are available through the header and About dialog.", s["body"]), info_table(update_rows, s), PageBreak()])
+    story.extend([p(data["sections"]["updates"], s["h1"]), p("Die Web-App besitzt keine native macOS-Einstellungsseite. Die Funktionen rund um App-Version, Projektseite und Hilfe sind dort ueber die Kopfleiste und den Ueber-Dialog erreichbar. Fuer die installierbare PWA starte die Web-App ueber `Start_Urinprotokoll.command` auf localhost oder nutze HTTPS. Nach dem ersten Laden bleibt nur der App-Shell offline verfuegbar; CSV-, Export- und Messdaten werden nicht vom Service Worker gespeichert." if language == "de" else "The web app has no native macOS Settings page. Its app-version, project-page, and help functions are available through the header and About dialog. For the installable PWA, start the web app through `Start_Urinprotokoll.command` on localhost or use HTTPS. After the first load, only the app shell remains available offline; CSV, export, and measurement data are never stored by the service worker.", s["body"]), info_table(update_rows, s), PageBreak()])
 
     support_rows = ([
         ("Funktion", "Ablauf und Datenschutz"),

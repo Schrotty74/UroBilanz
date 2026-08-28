@@ -3,8 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#1f6e73" />
     <title>UroBilanz</title>
     <link rel="icon" href="./assets/urobilanz-app-icon.png" />
+    <link rel="manifest" href="./manifest.webmanifest" />
     <link rel="stylesheet" href="./styles.css?v=about-header-1" />
     <script src="./assets/js/charts.js?v=v1-7-2"></script>
     <script src="./assets/js/medical-report.js?v=v1-7-2"></script>
@@ -169,6 +171,22 @@
       </section>
 
       <section id="day" class="view">
+        <div class="entry-filter-bar">
+          <label class="entry-filter-search">
+            <span data-i18n="filter_entries">Einträge filtern</span>
+            <input id="entrySearch" type="search" data-i18n-placeholder="search_entries" placeholder="Einträge durchsuchen" />
+          </label>
+          <label class="entry-filter-type">
+            <span data-i18n="type">Typ</span>
+            <select id="entryTypeFilter">
+              <option value="all" data-i18n="all_types">Alle Typen</option>
+              <option value="Urin" data-i18n="urine">Urin</option>
+              <option value="Wasser" data-i18n="water">Wasser</option>
+              <option value="Hinweis" data-i18n="note">Hinweis</option>
+            </select>
+          </label>
+          <button class="icon-button" id="clearEntryFilters" type="button" data-i18n-title="clear_filters" data-i18n-aria-label="clear_filters" title="Filter zurücksetzen" aria-label="Filter zurücksetzen">&#10005;</button>
+        </div>
         <div class="table-wrap day-table"><table id="dayTable"></table></div>
       </section>
 

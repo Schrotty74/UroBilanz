@@ -35,6 +35,7 @@ fi
 "$node_bin" --check apps/web/assets/js/medical-report.js
 "$node_bin" --check apps/web/assets/js/themes.js
 "$node_bin" --check apps/web/app.js
+"$node_bin" --check apps/web/service-worker.js
 apps/web/build_web.sh
 
 apps/macos-swift/build_app.sh

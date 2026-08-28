@@ -579,6 +579,57 @@ main {
   gap: 8px;
 }
 
+.entry-filter-bar {
+  align-items: end;
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.entry-filter-bar label {
+  display: grid;
+  gap: 4px;
+  min-width: 160px;
+}
+
+.entry-filter-bar span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.entry-filter-search {
+  flex: 1;
+}
+
+.entry-filter-search input {
+  min-height: 32px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: var(--paper);
+  color: var(--ink);
+  font: inherit;
+  padding: 0 10px;
+}
+
+.icon-button {
+  align-items: center;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: var(--paper);
+  color: var(--teal-dark);
+  cursor: pointer;
+  display: inline-flex;
+  justify-content: center;
+  min-height: 32px;
+  min-width: 32px;
+  padding: 0;
+}
+
+.icon-button:hover {
+  border-color: var(--teal);
+}
+
 select {
   min-height: 32px;
   border: 1px solid var(--line);
@@ -1367,6 +1418,15 @@ td.high {
   .filters {
     width: 100%;
     flex-wrap: wrap;
+  }
+
+  .entry-filter-bar {
+    align-items: stretch;
+    flex-wrap: wrap;
+  }
+
+  .entry-filter-bar label {
+    flex: 1 1 180px;
   }
 
   select {

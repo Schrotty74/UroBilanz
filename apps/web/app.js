@@ -93,6 +93,8 @@ let state = {
   days: [],
   year: "all",
   month: "all",
+  entrySearch: "",
+  entryType: "all",
   rawCsv: "",
 };
 
@@ -133,6 +135,9 @@ const els = {
   entryList: document.querySelector("#entryList"),
   yearFilter: document.querySelector("#yearFilter"),
   monthFilter: document.querySelector("#monthFilter"),
+  entrySearch: document.querySelector("#entrySearch"),
+  entryTypeFilter: document.querySelector("#entryTypeFilter"),
+  clearEntryFilters: document.querySelector("#clearEntryFilters"),
   rememberData: document.querySelector("#rememberData"),
   forgetData: document.querySelector("#forgetData"),
   backupMenu: document.querySelector("#backupMenu"),
@@ -490,6 +495,33 @@ function filteredDays() {
   });
 }
 
+function entryMatchesDayFilter(entry) {
+  return state.entryType === "all" || entry.type === state.entryType;
+}
+
+function dayMatchesEntrySearch(day) {
+  const searchTerms = state.entrySearch
+    .trim()
+    .toLocaleLowerCase()
+    .split(/\s+/)
+    .filter(Boolean);
+  if (!searchTerms.length) return true;
+  const searchableText = [
+    "Urin", t("urine"), day.urine.map((entry) => `${entry.time} ${entry.ml} ml`), day.urineTotal, day.urineCount,
+    "Wasser", t("water"), day.water.map((entry) => `${entry.time} ${entry.ml} ml`), day.waterTotal,
+    "Hinweis", t("note"), day.notesText, ...(day.noteRows || []).map((row) => `${row.time} ${row.note}`), day.generalNotes,
+  ]
+    .join(" ")
+    .toLocaleLowerCase();
+  return searchTerms.every((term) => searchableText.includes(term));
+}
+
+function filteredDayTableDays(days) {
+  if (state.entryType === "all" && !state.entrySearch.trim()) return days;
+  const typeMatchingDayKeys = new Set(state.rows.filter(entryMatchesDayFilter).map(entryDayKey));
+  return days.filter((day) => typeMatchingDayKeys.has(day.key) && dayMatchesEntrySearch(day));
+}
+
 function measurementMinute(time) {
   const [hour, minute] = String(time || "").split(":").map(Number);
   if (!Number.isFinite(hour) || !Number.isFinite(minute)) return null;
@@ -567,6 +599,9 @@ function render() {
   document.querySelector(".toolbar").style.display = "";
   els.yearFilter.disabled = !hasData;
   els.monthFilter.disabled = !hasData;
+  els.entrySearch.disabled = !hasData;
+  els.entryTypeFilter.disabled = !hasData;
+  els.clearEntryFilters.disabled = !hasData || (state.entryType === "all" && !state.entrySearch);
   els.backupCsv.disabled = !hasData;
   els.exportDays.disabled = !hasData;
   els.exportJson.disabled = !hasData;
@@ -629,6 +664,9 @@ function applyLanguage(nextLanguage) {
   document.querySelectorAll("[data-i18n-aria-label]").forEach((element) => {
     element.setAttribute("aria-label", t(element.dataset.i18nAriaLabel));
   });
+  document.querySelectorAll("[data-i18n-placeholder]").forEach((element) => {
+    element.setAttribute("placeholder", t(element.dataset.i18nPlaceholder));
+  });
   document.querySelectorAll("[data-i18n-title]").forEach((element) => {
     element.setAttribute("title", t(element.dataset.i18nTitle));
   });
@@ -641,6 +679,8 @@ function applyLanguage(nextLanguage) {
   els.languageSelect.setAttribute("aria-label", t("language"));
   els.yearFilter.setAttribute("aria-label", t("year"));
   els.monthFilter.setAttribute("aria-label", t("month"));
+  els.entrySearch.setAttribute("aria-label", t("search_entries"));
+  els.entryTypeFilter.setAttribute("aria-label", t("type"));
   els.firstStartManual.href = firstStartHelp.manualURLs[language];
   buildFilters();
   render();
@@ -728,7 +768,7 @@ function renderTables(days, dashboardDays = evaluationDays(days)) {
       "💧 Wasser gesamt ml": day.waterTotal,
       Auffälligkeit: t(isCompleteMeasurementDay(day) ? "low" : "incomplete"),
     })));
-  renderTable(els.dayTable, ["Jahr", "Monat", "KW", "Messtag", "Tag", "● Urin Uhrzeit", "● Urin ml", "● Urin Anzahl", "● Urin gesamt ml", "💧 Wasser Uhrzeit", "💧 Wasser ml", "💧 Wasser gesamt ml", "Auffälligkeit", "Hinweise", "Aktion"], days.map(dayRow), true);
+  renderTable(els.dayTable, ["Jahr", "Monat", "KW", "Messtag", "Tag", "● Urin Uhrzeit", "● Urin ml", "● Urin Anzahl", "● Urin gesamt ml", "💧 Wasser Uhrzeit", "💧 Wasser ml", "💧 Wasser gesamt ml", "Auffälligkeit", "Hinweise", "Aktion"], filteredDayTableDays(days).map(dayRow), true);
 }
 
 function summaryRow(row) {
@@ -997,6 +1037,24 @@ els.yearFilter.addEventListener("change", (event) => {
 
 els.monthFilter.addEventListener("change", (event) => {
   state.month = event.target.value;
+  render();
+});
+
+els.entrySearch.addEventListener("input", (event) => {
+  state.entrySearch = event.target.value;
+  render();
+});
+
+els.entryTypeFilter.addEventListener("change", (event) => {
+  state.entryType = event.target.value;
+  render();
+});
+
+els.clearEntryFilters.addEventListener("click", () => {
+  state.entrySearch = "";
+  state.entryType = "all";
+  els.entrySearch.value = "";
+  els.entryTypeFilter.value = "all";
   render();
 });
 
@@ -1571,4 +1629,12 @@ async function loadInitialData() {
   render();
 }
 
+function registerServiceWorker() {
+  if (!("serviceWorker" in navigator) || !window.isSecureContext) return;
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./service-worker.js", { scope: "./" }).catch(() => {});
+  });
+}
+
+registerServiceWorker();
 loadInitialData();

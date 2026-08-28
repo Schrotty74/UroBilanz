@@ -1,11 +1,48 @@
 # UroBilanz - Projekthistorie
 
-Stand: 19.07.2026
+Stand: 28.08.2026
 
 Diese Datei archiviert abgeschlossene Versionen, Betas, Release Candidates,
 Final-Releases und wichtige technische Meilensteine. Der detaillierte
 Release-Changelog bleibt zusaetzlich in [`CHANGELOG.md`](../CHANGELOG.md)
 erhalten.
+
+## 1.7.4-beta.2 - 2026-08-28
+
+- Web-App als installierbare PWA mit lokal eingebundenen Icons, Manifest und
+  einem datensparsamen App-Shell-Cache bereitgestellt.
+- Tagesansichten beider Apps erhalten eine lokale Suche nach sichtbaren Typen,
+  Einzel- und Tageswerten, Uhrzeit und Hinweisen sowie einen Typfilter.
+- Fehlende Filter-Uebersetzungen und eine doppelte Swift-Uebersetzung, die den
+  App-Start abbrechen konnte, korrigiert.
+- Web- und Swift-Smoke-Tests, Datenschutzcheck sowie die deutschen und
+  englischen PDF-Handbuecher aktualisiert und geprueft.
+
+## 2026-08-28 - Filter In Der Tagesansicht
+
+- Web- und SwiftUI-App erhalten eine lokale Volltextsuche nach sichtbarem Typ,
+  Einzel- und Tageswert, Uhrzeit und Hinweis sowie einen Filter fuer Urin,
+  Wasser und Hinweise.
+- Die Filter beschraenken nur die sichtbaren Messtage. Auswertungen, Berichte,
+  Exporte und gespeicherte Daten bleiben unveraendert.
+- Web- und Swift-Smoke-Tests pruefen die Filterlogik.
+
+## 2026-08-27 - Installierbare Web-PWA
+
+- Web-App um Manifest, lokale PWA-Icons und Service Worker erweitert.
+- Der Service Worker speichert nur den App-Shell fuer den Offline-Start nach
+  dem ersten Laden. CSV-Dateien, Exporte und persoenliche Browserdaten werden
+  nicht zwischengespeichert.
+- Web-Build und Smoke-Test pruefen PWA-Dateien und Offline-Schutzregeln.
+
+## 2026-07-23 - Dokumentationsstruktur Fuer Neue Chats
+
+- `PROJECT_CONTEXT.md` erhaelt eine feste Lesereihenfolge fuer neue Chats.
+- `docs/NEXT_STEPS.md` wird auf tatsaechlich offene Punkte und realistische
+  Folgeaufgaben beschraenkt; dauerhafte Regeln bleiben in
+  `docs/PROJEKTREGELN.md`.
+- `CHAT_TEMPLATE.md` wird als kurze Startvorlage ergaenzt. Sie enthaelt keine
+  Versions-, Release-, Zugangs- oder personenbezogenen Details.
 
 ## 1.7.4-beta.1 - 2026-07-19
 
@@ -454,7 +491,7 @@ Bugfix-Release fuer die SwiftUI-App.
 ## Groessere Technische Meilensteine
 
 - Einheitliche Projektstruktur fuer Web-App und native SwiftUI-App.
-- Projektgedaechtnis auf vier Dateien festgelegt:
+- Projektgedaechtnis zunaechst auf vier Dateien festgelegt:
   `PROJECT_CONTEXT.md`, `docs/NEXT_STEPS.md`, `docs/PROJEKTREGELN.md` und
   `docs/HISTORY.md`.
 - Lokale Verarbeitung ohne Upload persoenlicher Gesundheitsdaten.

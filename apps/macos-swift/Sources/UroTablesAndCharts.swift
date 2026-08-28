@@ -424,7 +424,8 @@ struct DayTableView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             FilterBar()
-            ThemedDataTable(rows: model.filteredDays, columns: [
+            DayEntryFilterBar()
+            ThemedDataTable(rows: model.filteredDayTableDays, columns: [
                 ThemedTableColumn(tr("date", language), width: 100) { Text(model.formattedDate($0.messtag)).lineLimit(1) },
                 ThemedTableColumn(tr("day", language), width: 90) { Text($0.dayName).lineLimit(1) },
                 ThemedTableColumn(tr("urine_times", language), width: 105) { multilineCell($0.urine.map(\.0).joined(separator: "\n"), monospaced: true) },
@@ -528,6 +529,37 @@ struct DayTableView: View {
     private func notesHelpForDay(_ day: DaySummary) -> String {
         let attached = day.noteRows.map { "\($0.0) · \($0.1)" }
         return (attached + day.generalNotes).joined(separator: "\n")
+    }
+}
+
+struct DayEntryFilterBar: View {
+    @EnvironmentObject private var model: UrinModel
+    @Environment(\.appLanguage) private var language
+
+    var body: some View {
+        HStack(spacing: 10) {
+            TextField(tr("search_entries", language), text: $model.entrySearch)
+                .textFieldStyle(.roundedBorder)
+                .frame(minWidth: 220, maxWidth: 360)
+            Picker(tr("type", language), selection: $model.entryTypeFilter) {
+                Text(tr("all_types", language)).tag("all")
+                Text(tr("urine", language)).tag("Urin")
+                Text(tr("water", language)).tag("Wasser")
+                Text(tr("note", language)).tag("Hinweis")
+            }
+            .labelsHidden()
+            .frame(width: 150)
+            Button {
+                model.clearEntryFilters()
+            } label: {
+                Image(systemName: "xmark.circle")
+            }
+            .help(tr("clear_filters", language))
+            .accessibilityLabel(tr("clear_filters", language))
+            .disabled(model.entrySearch.isEmpty && model.entryTypeFilter == "all")
+            Spacer()
+        }
+        .disabled(!model.hasData)
     }
 }
 

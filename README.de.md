@@ -31,9 +31,13 @@ Diagnose-App und gibt keine medizinischen Empfehlungen.
 - Themes koennen importiert, exportiert und geloescht werden.
 - Arztbericht mit frei waehlbarem Zeitraum, Zusammenfassung, Tagesverlauf,
   Tagesdetails, Hinweisen und Bewertungsregeln.
+- Tagesansicht mit lokaler Volltextsuche nach sichtbaren Typen, Einzel- und
+  Tagesmengen, Uhrzeit und Hinweis sowie Filter fuer Urin, Wasser oder
+  Hinweise, ohne Einfluss auf Auswertung oder Exporte.
 - Export als Komplett-Backup, Tagesdaten-CSV, JSON und macOS-PDF-Bericht.
 - Web-App und native SwiftUI-App arbeiten lokal ohne automatische
-  Datenuebertragung an externe Server.
+  Datenuebertragung an externe Server. Die Web-App kann als PWA installiert
+  werden und startet nach dem ersten Laden auch ohne Verbindung.
 
 ## Screenshots
 
@@ -70,7 +74,10 @@ Die folgenden Bilder zeigen Demo-Daten. Es sind keine echten Gesundheitsdaten.
 ### Web-App
 
 Im Ordner `apps/web` kann die Datei `Start_Urinprotokoll.command` gestartet
-werden. Alternativ kann `index.html` direkt im Browser geoeffnet werden.
+werden. Sie startet einen lokalen Server und oeffnet die installierbare PWA im
+Browser. Nach dem ersten Laden kann der Browser sie als App installieren und
+auch ohne Verbindung oeffnen. Ein direkt geoeffnetes `index.html` bleibt
+nutzbar, unterstuetzt aber keine PWA-Installation oder Offline-Cache.
 
 ### macOS-App
 

@@ -297,6 +297,9 @@ const webCoreSource = fs.readFileSync(path.join(__dirname, "..", "assets", "js",
 const webIndexSource = fs.readFileSync(path.join(__dirname, "..", "index.html"), "utf8");
 const webI18nDeSource = fs.readFileSync(path.join(__dirname, "..", "assets", "i18n", "de.js"), "utf8");
 const webI18nEnSource = fs.readFileSync(path.join(__dirname, "..", "assets", "i18n", "en.js"), "utf8");
+const webManifest = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "manifest.webmanifest"), "utf8"));
+const serviceWorkerSource = fs.readFileSync(path.join(__dirname, "..", "service-worker.js"), "utf8");
+const offlinePageSource = fs.readFileSync(path.join(__dirname, "..", "offline.html"), "utf8");
 assert.match(webAppSource, /urobilanz@mailbox\.org/, "Support-E-Mail fehlt");
 assert.match(webAppSource, /github\.com\/Schrotty74\/UroBilanz/, "GitHub-Link fehlt");
 assert.match(webAppSource, /Keine CSV-Werte, Hinweise oder Gesundheitsdaten/, "Datenschutz-Hinweis im Fehlerbericht fehlt");
@@ -355,11 +358,30 @@ assert.match(webI18nDeSource, /first_start_copy_confirm:/, "Deutscher KI-Bestaet
 assert.match(webI18nEnSource, /first_start_copy_confirm:/, "Englischer KI-Bestaetigungstext fehlt");
 assert.ok(webIndexSource.indexOf('id="openAbout"') > webIndexSource.indexOf('id="csvInput"'), "Ueber-Knopf muss ganz rechts nach CSV laden stehen");
 assert.match(webIndexSource, /class="file-button" id="openAbout"/, "Ueber-Knopf muss die Kopfzeilen-Schaltflaechen verwenden");
+assert.match(webIndexSource, /id="entrySearch"/, "Hinweis-Suche in der Tagesansicht fehlt");
+assert.match(webIndexSource, /id="entryTypeFilter"/, "Eintragstyp-Filter in der Tagesansicht fehlt");
+assert.match(webAppSource, /function entryMatchesDayFilter\(entry\)/, "Web-Eintragsfilter fehlt");
+assert.match(webAppSource, /function filteredDayTableDays\(days\)/, "Web-Tagesfilter fehlt");
+assert.match(webAppSource, /filteredDayTableDays\(days\)\.map\(dayRow\)/, "Tagesansicht verwendet den Eintragsfilter nicht");
+assert.match(webAppSource, /day\.urineTotal/, "Eintragssuche muss sichtbare Tagesmengen lokal durchsuchen");
+assert.match(webAppSource, /searchTerms\.every/, "Mehrteilige Eintragssuche muss lokal erfolgen");
 assert.match(webI18nDeSource, /day_delete_confirm: "Messtag \{date\} wirklich löschen\?\\n\\nAlle Urin-, Wasser- und Hinweis-Einträge dieses Messtags werden aus Auswertung und Export entfernt\."/);
 assert.match(webI18nEnSource, /day_delete_confirm: "Delete measurement day \{date\}\?\\n\\nAll urine, water and note entries for this day will be removed from analysis and exports\."/);
 assert.match(webI18nDeSource, /entry_delete_confirm: "\{date\} \{time\} · \{label\}\\n\\nDiesen Eintrag wirklich löschen\? Er wird aus Auswertung und Export entfernt\."/);
 assert.match(webI18nEnSource, /entry_delete_confirm: "\{date\} \{time\} · \{label\}\\n\\nDelete this entry\? It will be removed from analysis and exports\."/);
 assert.match(webI18nDeSource, /theme_delete_confirm: "Importiertes Theme \{name\} wirklich löschen\?\\n\\nEingebaute Themes bleiben erhalten\."/);
 assert.match(webI18nEnSource, /theme_delete_confirm: "Delete imported theme \{name\}\?\\n\\nBuilt-in themes will remain available\."/);
+
+assert.match(webIndexSource, /rel="manifest" href="\.\/manifest\.webmanifest"/, "PWA-Manifest fehlt");
+assert.equal(webManifest.name, "UroBilanz", "PWA-Name fehlt");
+assert.equal(webManifest.display, "standalone", "PWA muss eigenstaendig starten");
+assert.deepEqual(webManifest.icons.map((icon) => icon.sizes), ["192x192", "512x512"], "PWA-Icons fehlen");
+assert.ok(fs.existsSync(path.join(__dirname, "..", "assets", "urobilanz-pwa-192.png")), "Kleines PWA-Icon fehlt");
+assert.ok(fs.existsSync(path.join(__dirname, "..", "assets", "urobilanz-pwa-512.png")), "Grosses PWA-Icon fehlt");
+assert.match(webAppSource, /navigator\.serviceWorker\.register\("\.\/service-worker\.js"/, "Service Worker wird nicht registriert");
+assert.match(serviceWorkerSource, /const APP_SHELL = \[/, "Service Worker cached keinen App-Shell");
+assert.match(serviceWorkerSource, /ignoreSearch: true/, "Offline-Cache muss versionierte App-Dateien finden");
+assert.doesNotMatch(serviceWorkerSource, /localStorage|indexedDB|CSV|state\.rows|state\.days/, "Service Worker darf keine Nutzerdaten cachen");
+assert.match(offlinePageSource, /noch nicht offline verfuegbar/, "Offline-Seite fehlt");
 
 console.log("Web workflow smoke test passed");

@@ -28,7 +28,7 @@ check_empty "Unerlaubte sensible Datendateien werden von Git verfolgt." "$tracke
 historical_sensitive="$(git rev-list --objects --all | grep -Ei '\.(csv|tsv|xlsx?|numbers|ods)$|(^|/).*(backup|gesundheit|health|tagesdaten).*$' | grep -Ev ' docs/demo/urobilanz-demo(-daily)?\.csv$' || true)"
 check_empty "Unerlaubte sensible Datendateien stehen in der Git-Historie." "$historical_sensitive"
 
-current_paths="$(git grep -nI -E '/Users/|/home/|C:\\Users\\|lokaler Mac' HEAD -- . ':(exclude)privacy_final_check.sh' || true)"
+current_paths="$(git grep -nI -E '/Users/|/home/|C:\\Users\\|lokaler Mac' HEAD -- . ':(exclude)privacy_final_check.sh' ':(exclude)AGENTS.md' || true)"
 check_empty "Der aktuelle Git-Stand enthaelt lokale Benutzerpfade oder Hostnamen." "$current_paths"
 
 protected_name_pattern="$(printf '%s' 'QnJ1bm8gTWFydGluIEt1cnRofE1hcnRpbiBLdXJ0aA==' | openssl base64 -d -A)"
@@ -38,7 +38,7 @@ check_empty "Der aktuelle Git-Stand enthaelt den realen Entwicklernamen." "$real
 
 history_paths="$(
   for commit in $(git rev-list --all); do
-    git grep -nI -E '/Users/|/home/|C:\\Users\\|lokaler Mac' "$commit" -- . ':(exclude)privacy_final_check.sh' 2>/dev/null || true
+    git grep -nI -E '/Users/|/home/|C:\\Users\\|lokaler Mac' "$commit" -- . ':(exclude)privacy_final_check.sh' ':(exclude)AGENTS.md' 2>/dev/null || true
   done | sort -u
 )"
 check_empty "Die Git-Historie enthaelt lokale Benutzerpfade oder Hostnamen." "$history_paths"

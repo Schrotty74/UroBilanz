@@ -2,6 +2,17 @@
 
 Alle wichtigen Änderungen an UroBilanz werden hier dokumentiert.
 
+## Unveroeffentlicht
+
+## 1.7.4-beta.2 - 2026-08-28
+
+- Die Web-App ist als installierbare PWA verfuegbar. Nach dem ersten Laden
+  cacht sie nur ihre eigenen App-Dateien fuer den Offline-Start; CSV-Dateien,
+  Exporte und lokale Messdaten werden nicht durch den Service Worker gecacht.
+- Die Tagesansichten von Web- und macOS-App koennen lokal nach sichtbarem Typ,
+  Einzel- oder Tageswert, Uhrzeit, Hinweis und Eintragstyp filtern. Die Filter
+  aendern keine Summen, Berichte oder Exporte.
+
 ## 1.7.4-beta.1 - 2026-07-19
 
 - Startansicht von Web- und macOS-App um eine optionale, datensparsame

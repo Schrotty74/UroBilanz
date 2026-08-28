@@ -22,6 +22,7 @@ enum ImportSmokeTestRunner {
             runEvaluationEdgeTests(model: model)
             runDeletionRecalculationTest(model: model)
             runNoteAlignmentTest(model: model)
+            runEntryFilterTest()
             runMedicalReportTest(model: model)
             runThemeImportTest()
             runLocalizationTest()
@@ -185,6 +186,43 @@ enum ImportSmokeTestRunner {
         }
     }
 
+    private static func runEntryFilterTest() {
+        let model = UrinModel()
+        let firstDay = date(2034, 4, 1, 12, 0)
+        model.addManualEntries(
+            date: firstDay,
+            urineTime: date(2034, 4, 1, 6, 0),
+            urineMl: 500,
+            waterTime: date(2034, 4, 1, 18, 0),
+            waterMl: 1200,
+            note: "Nachtwert beobachten"
+        )
+        model.addEntry(original: date(2034, 4, 1, 13, 0), type: "Urin", ml: 370, note: "")
+        model.addEntry(original: date(2034, 4, 1, 12, 0), type: "Hinweis", ml: 0, note: "Kontrolle")
+        let secondDay = date(2034, 4, 2, 12, 0)
+        model.addManualEntries(
+            date: secondDay,
+            urineTime: date(2034, 4, 2, 6, 0),
+            urineMl: 700,
+            waterTime: date(2034, 4, 2, 18, 0),
+            waterMl: 1400,
+            note: ""
+        )
+
+        model.entrySearch = "nachtwert"
+        assertWorkflow(model.filteredDayTableDays.count == 1, "note search must filter measurement days")
+        model.entrySearch = "Urin 870"
+        assertWorkflow(model.filteredDayTableDays.count == 1, "entry search must find a visible daily total together with its type")
+        model.entrySearch = ""
+        model.entryTypeFilter = "Hinweis"
+        assertWorkflow(model.filteredDayTableDays.count == 1, "note type filter must find note entries")
+        model.entryTypeFilter = "Wasser"
+        assertWorkflow(model.filteredDayTableDays.count == 2, "water type filter must keep matching days")
+        model.clearEntryFilters()
+        assertWorkflow(model.filteredDayTableDays.count == 2, "clearing entry filters must restore filtered days")
+        print("Swift entry filter smoke test passed")
+    }
+
     private static func runThemeImportTest() {
         let path = FileManager.default.currentDirectoryPath + "/docs/themes/example-custom-theme.json"
         do {
@@ -222,6 +260,8 @@ enum ImportSmokeTestRunner {
     private static func runLocalizationTest() {
         assertWorkflow(tr("language", .de) == "Sprache", "german language label mismatch")
         assertWorkflow(tr("language", .en) == "Language", "english language label mismatch")
+        assertWorkflow(tr("filter_entries", .de) == "Einträge filtern", "german entry filter label missing")
+        assertWorkflow(tr("search_entries", .en) == "Search entries", "english entry search label missing")
         assertWorkflow(tr("delete_day_confirm", .de, replacements: ["date": "01.02.2032"]).contains("Auswertung und Export"), "german delete day warning is not explicit")
         assertWorkflow(tr("delete_day_confirm", .en, replacements: ["date": "02/01/2032"]).contains("analysis and exports"), "english delete day warning is not explicit")
         assertWorkflow(tr("entry_delete_confirm", .de).contains("Auswertung und Export"), "german delete entry warning is not explicit")

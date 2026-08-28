@@ -1,25 +1,30 @@
 # Projektregeln
 
-Die allgemeinen Arbeits-, Git-, Veröffentlichungs- und Repository-Datenschutzregeln stehen verbindlich in [`../AGENTS.md`](../AGENTS.md). Diese Datei enthält nur dauerhafte UroBilanz-spezifische Regeln.
+Die allgemeinen Arbeits-, Git-, Veröffentlichungs- und Repository-Datenschutzregeln stehen verbindlich in `AGENTS.md`. Diese Datei enthält nur zusätzliche UroBilanz-spezifische Regeln.
 
-- Projektgedaechtnis-Dateien muessen gepflegt werden:
-  - `PROJECT_CONTEXT.md` enthaelt den aktuellen Projektstand, Architektur, Dateistruktur, Funktionen, Designentscheidungen und bekannte Grenzen.
-  - `CHAT_TEMPLATE.md` ist die kurze Startvorlage fuer neue Projekt-Chats.
-  - `docs/NEXT_STEPS.md` enthaelt nur offene Aufgaben, Bugs, Prioritaeten, geplante Verbesserungen und Zukunftsideen.
-  - `docs/PROJEKTREGELN.md` enthaelt dauerhafte projektspezifische Datenschutz-, Build-/Release-, Backup- und Dev/Beta/Final-Regeln.
-  - `docs/HISTORY.md` enthaelt abgeschlossene Versionen, Betas, RCs, Finals, technische Meilensteine und groessere abgeschlossene Aenderungen.
-- Bei groesseren Aenderungen, neuen Funktionen, Refactorings oder wichtigen Entscheidungen diese Projektgedaechtnis-Dateien aktualisieren, bevor die Aufgabe als abgeschlossen gilt.
-- Zu relevanten Aenderungen wird der `CHANGELOG.md` aktualisiert.
-- Die oeffentlichen PDF-Handbuecher sind Teil der Produktfunktion: Bei jeder neuen sichtbaren Funktion, Option, Schaltflaeche, Bedienungs- oder Datenschutz-Aenderung muessen das deutsche und englische Handbuch unter `docs/output/pdf/` sowie `docs/manual/build_manuals.py` im selben Arbeitsschritt aktualisiert, neu erzeugt und per gerenderten Seitenbildern geprueft werden.
-- Kein Beta-, Final- oder Dokumentations-Push darf neue sichtbare App-Funktionen enthalten, die im jeweiligen PDF-Handbuch noch fehlen oder falsch erklaert sind.
-- Vor jedem oeffentlichen Push oder Release muss mindestens der bestehende statische Datenschutzcheck erfolgreich sein.
-- Bei jeder Final-Version wird zusaetzlich `./privacy_final_check.sh` ausgefuehrt, das Laufzeit-Netzwerkverhalten beider Apps geprueft und `docs/PRIVACY_CHECK.md` ergaenzt. Fuer Betas ist dieser vollstaendige Check nicht erforderlich.
-- Der lokale Pre-Push-Hook und die GitHub-Actions-Pruefung muessen aktiv bleiben. Sie verhindern Pushes mit lokalen Pfaden, privaten Commit-Adressen, sensiblen Datendateien oder moeglichen Zugangsdaten.
-- Lokale Versionssicherungen unter `UroBilanz-Backups` werden ausschliesslich als vollstaendige ZIP-Archive mit `SHA256SUMS.txt` abgelegt. Vor dem Entfernen einer Ausgangskopie muessen ZIP-Inhalt und Pruefsumme erfolgreich geprueft werden. Lose Projekt-, App-, Build-, `.venv`- oder `.git`-Ordner gelten nicht als fertiges Backup.
-- Die macOS-App wird fuer lokale Sicherungen und GitHub-Releases zusaetzlich zur ZIP-Datei als DMG bereitgestellt. Die Web-App bleibt als ZIP verfuegbar.
-- Release-Pakete werden nur noch ueber `Scripts/build-release-package.sh` erstellt. `apps/web/build_web.sh` bleibt ein internes Hilfsskript, damit Web-ZIP, macOS-ZIP, macOS-DMG und SHA256-Dateien immer gemeinsam im selben Zielordner landen.
-- Final-Backups werden genau zweimal aufbewahrt: eine lokale Kopie und eine iCloud-Kopie. Beta-, RC- und Zwischenstands-Backups werden nicht dauerhaft aufbewahrt. Wenn mehrere Final-Backups vorhanden sind, bleibt nur die neueste Final-Version erhalten.
-- Dev-/Beta-Tests bleiben von Final-Daten getrennt. Final-Builds duerfen keine experimentellen Defaults, Themes oder Tabellenbreiten aus Dev-Tests uebernehmen.
-- Bei UI-Aenderungen Web-App und SwiftUI-App nach Moeglichkeit funktional konsistent halten.
-- Vor groesseren technischen Varianten zuerst kurz erklaeren, welche Optionen es gibt.
-- Optische Aenderungen und Funktionsaenderungen getrennt beschreiben, damit spaeter klar bleibt, was sich geaendert hat.
+## Projektgedächtnis und Dokumentation
+
+- Projektgedächtnis-Dateien müssen gepflegt werden:
+  - `PROJECT_CONTEXT.md` enthält den aktuellen Projektstand, Architektur, Dateistruktur, Funktionen, Designentscheidungen und bekannte Grenzen.
+  - `CHAT_TEMPLATE.md` ist die kurze Startvorlage für neue Projekt-Chats und verweist auf die vollständigen Projektgedächtnis-Dateien.
+  - `NEXT_STEPS.md` enthält nur offene Aufgaben, Bugs, Prioritäten, geplante Verbesserungen und Zukunftsideen.
+  - `docs/PROJEKTREGELN.md` enthält die zusätzlichen dauerhaften UroBilanz-Regeln.
+  - `docs/HISTORY.md` enthält abgeschlossene Versionen, Betas, RCs, Finals, technische Meilensteine und größere abgeschlossene Änderungen.
+- Bei größeren Änderungen, neuen Funktionen, Refactorings oder wichtigen Entscheidungen die betroffenen Projektgedächtnis-Dateien auf den tatsächlichen Stand bringen.
+- Zu relevanten öffentlichen Änderungen wird der `CHANGELOG.md` aktualisiert.
+- Die öffentlichen PDF-Handbücher sind Teil der Produktdokumentation: Bei jeder neuen sichtbaren Funktion, Option, Schaltfläche, Bedienungs- oder Datenschutz-Änderung müssen das deutsche und englische Handbuch unter `docs/output/pdf/` sowie `docs/manual/build_manuals.py` im selben Arbeitsschritt aktualisiert, neu erzeugt und per gerenderten Seitenbildern geprüft werden.
+- Kein Beta-, Final- oder Dokumentations-Push darf neue sichtbare App-Funktionen enthalten, die im jeweiligen PDF-Handbuch noch fehlen oder falsch erklärt sind.
+
+## Projektspezifische Datenschutzprüfung
+
+- Vor jedem öffentlichen Push oder Release muss mindestens der bestehende statische Datenschutzcheck erfolgreich sein.
+- Bei jeder Final-Version wird zusätzlich `./privacy_final_check.sh` ausgeführt, das Laufzeit-Netzwerkverhalten beider Apps geprüft und `docs/PRIVACY_CHECK.md` ergänzt. Für Betas ist dieser vollständige Check nicht erforderlich.
+- Der lokale Pre-Push-Hook und die GitHub-Actions-Prüfung müssen aktiv bleiben. Sie sollen unter anderem lokale Pfade, private Commit-Adressen, sensible Datendateien und mögliche Zugangsdaten vor einer Veröffentlichung erkennen.
+- Für alle Repository-Inhalte und öffentlichen Materialien gelten zusätzlich die Datenschutz- und Namensregeln aus `AGENTS.md`.
+
+## Backup- und Release-Besonderheiten
+
+- Lokale Versionssicherungen unter `UroBilanz-Backups` werden ausschließlich als vollständige ZIP-Archive mit `SHA256SUMS.txt` abgelegt. Vor dem Entfernen einer Ausgangskopie müssen ZIP-Inhalt und Prüfsumme erfolgreich geprüft werden. Lose Projekt-, App-, Build-, `.venv`- oder `.git`-Ordner gelten nicht als fertiges Backup.
+- Die macOS-App wird für lokale Sicherungen und GitHub-Releases zusätzlich zur ZIP-Datei als DMG bereitgestellt. Die Web-App bleibt als ZIP verfügbar.
+- Release-Pakete werden nur über `Scripts/build-release-package.sh` erstellt. `apps/web/build_web.sh` bleibt ein internes Hilfsskript, damit Web-ZIP, macOS-ZIP, macOS-DMG und SHA256-Dateien immer gemeinsam im selben Zielordner landen.
+- Final-Backups werden gemäß dem dokumentierten UroBilanz-Backup-Ablauf aufbewahrt: eine lokale Kopie und eine iCloud-Kopie. Beta-, RC- und Zwischenstands-Backups werden nicht dauerhaft aufbewahrt. Wenn mehrere Final-Backups vorhanden sind, bleibt nur die neueste Final-Version erhalten.
