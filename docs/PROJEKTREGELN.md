@@ -12,6 +12,10 @@ Die allgemeinen Arbeits-, Git-, Veröffentlichungs- und Repository-Datenschutzre
   - `docs/HISTORY.md` enthält abgeschlossene Versionen, Betas, RCs, Finals, technische Meilensteine und größere abgeschlossene Änderungen.
 - Bei größeren Änderungen, neuen Funktionen, Refactorings oder wichtigen Entscheidungen die betroffenen Projektgedächtnis-Dateien auf den tatsächlichen Stand bringen.
 - Zu relevanten öffentlichen Änderungen wird der `CHANGELOG.md` aktualisiert.
+- GitHub-Release-Notizen müssen den tatsächlichen Inhalt der veröffentlichten
+  Version verständlich wiedergeben. Sie nennen die relevanten Funktionen,
+  Fehlerkorrekturen, Datenschutzwirkungen und durchgeführten Prüfungen statt
+  lediglich automatisch erzeugte Commit-Namen zu übernehmen.
 - Die öffentlichen PDF-Handbücher sind Teil der Produktdokumentation: Bei jeder neuen sichtbaren Funktion, Option, Schaltfläche, Bedienungs- oder Datenschutz-Änderung müssen das deutsche und englische Handbuch unter `docs/output/pdf/` sowie `docs/manual/build_manuals.py` im selben Arbeitsschritt aktualisiert, neu erzeugt und per gerenderten Seitenbildern geprüft werden.
 - Kein Beta-, Final- oder Dokumentations-Push darf neue sichtbare App-Funktionen enthalten, die im jeweiligen PDF-Handbuch noch fehlen oder falsch erklärt sind.
 

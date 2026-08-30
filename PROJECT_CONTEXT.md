@@ -1,6 +1,6 @@
 # UroBilanz - Projektkontext
 
-Stand: 28.08.2026
+Stand: 30.08.2026
 
 Diese Datei beschreibt den aktuellen Projektstand. Zukunft und offene Punkte stehen in `NEXT_STEPS.md`,
 dauerhafte Arbeitsregeln in `AGENTS.md` und `docs/PROJEKTREGELN.md` und abgeschlossene
@@ -73,8 +73,8 @@ Daten-Backend-Dienst.
 - Update-Check gegen GitHub-Releases in der SwiftUI-App.
 - Automatische Web- und Swift-Smoke-Tests fuer Sprache, Themes,
   Loeschfaelle und Exportbereinigung.
-- Aktueller Final-Stand `v1.7.3`.
-- Aktueller Dev-/Beta-Stand `v1.7.4-beta.2` mit Build `34`.
+- Aktueller Final-Stand `v1.7.4` mit Build `35`.
+- Letzter Beta-Stand `v1.7.4-beta.2` mit Build `34`.
 - Discord- und GitHub-Links in den Kopfzeilen beider Apps; in der Web-App ist
   das Ueber-Fenster ueber einen gleichartigen Knopf ganz rechts erreichbar.
 - Datensparsame Erststart-Hilfe bei noch leeren Apps: lokale Logos fuer

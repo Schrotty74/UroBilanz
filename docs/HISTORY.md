@@ -1,11 +1,19 @@
 # UroBilanz - Projekthistorie
 
-Stand: 28.08.2026
+Stand: 30.08.2026
 
 Diese Datei archiviert abgeschlossene Versionen, Betas, Release Candidates,
 Final-Releases und wichtige technische Meilensteine. Der detaillierte
 Release-Changelog bleibt zusaetzlich in [`CHANGELOG.md`](../CHANGELOG.md)
 erhalten.
+
+## 1.7.4 - 2026-08-30
+
+- Final-Version auf Basis von `1.7.4-beta.2` mit Build `35` erstellt.
+- Die installierbare Web-PWA und die lokale Suche/der Eintragstyp-Filter in
+  den Tagesansichten beider Apps sind Teil dieses Final-Stands.
+- Die finale technische Datenschutz- und Paketpruefung ist in
+  `docs/PRIVACY_CHECK.md` festgehalten.
 
 ## 1.7.4-beta.2 - 2026-08-28
 

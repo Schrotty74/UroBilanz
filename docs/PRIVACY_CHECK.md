@@ -316,3 +316,16 @@ Ergebnis:
 - Webserver ausschliesslich an `127.0.0.1` gebunden.
 - Portfolio-Pruefung durchgefuehrt; fuer diese kleine Wartungs-Finalversion
   war keine Aktualisierung der bestehenden Projektkarte erforderlich.
+
+## Final-Pruefung 1.7.4 - 30.08.2026
+
+- `privacy_final_check.sh` erfolgreich gegen den vollstaendigen Git-Stand und
+  die Git-Historie ausgefuehrt.
+- `verify_apps.sh` erfolgreich ausgefuehrt: Web- und Swift-Smoke-Tests,
+  synthetische CSV-Importwege und die Eintragssuche wurden geprueft.
+- Die native macOS-App beim Start ohne TCP- oder UDP-Verbindung geprueft.
+- Die Web-App ueber einen lokalen Testserver geprueft; dieser lauschte
+  ausschliesslich an `127.0.0.1`.
+- Der PWA-Service-Worker wird als lokaler App-Shell-Mechanismus bewertet. Er
+  verarbeitet nur Requests der eigenen Origin und speichert weder CSV-Dateien,
+  Exporte noch Browser-Messdaten im Cache.

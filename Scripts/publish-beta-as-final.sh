@@ -24,7 +24,7 @@ release_version() {
 }
 
 require_clean_worktree() {
-    if ! git diff --quiet || ! git diff --cached --quiet; then
+    if [[ -n "$(git status --porcelain)" ]]; then
         echo "Abbruch: Es gibt ungespeicherte Git-Aenderungen." >&2
         echo "Bitte zuerst committen oder stashen." >&2
         exit 1
@@ -46,22 +46,27 @@ last_final_tag() {
 
 write_release_notes() {
     local notes_file="$1"
-    local previous_tag="$2"
-    local range
+    local version="$2"
+    local changelog_section
 
     mkdir -p "$(dirname "$notes_file")"
-    if [[ -n "$previous_tag" ]]; then
-        range="$previous_tag..HEAD"
-    else
-        range="HEAD"
+    changelog_section="$(
+        awk -v heading="## $version -" '
+            $0 == heading || index($0, heading) == 1 { found = 1; next }
+            found && /^## / { exit }
+            found { print }
+        ' "$root_directory/CHANGELOG.md"
+    )"
+
+    if [[ -z "$changelog_section" ]]; then
+        echo "Abbruch: Kein Changelog-Abschnitt fuer $version gefunden." >&2
+        exit 1
     fi
 
     {
-        echo "Stable release generated from the current beta branch."
+        echo "## UroBilanz $version"
         echo
-        echo "## Changes"
-        echo
-        git log --reverse --no-merges --format='- %s' "$range" 2>/dev/null || echo "- Beta changes"
+        printf '%s\n' "$changelog_section"
     } > "$notes_file"
 }
 
@@ -107,10 +112,9 @@ UROBILANZ_VERSION="$version" \
 UROBILANZ_ALLOW_RELEASE_PACKAGE=YES \
     "$root_directory/Scripts/build-release-package.sh" final "$version"
 
-previous_final_tag="$(last_final_tag)"
 backup_directory="$root_directory/Backup/releases/final/$version"
 release_notes_file="$backup_directory/UroBilanz-$version-release-notes.md"
-write_release_notes "$release_notes_file" "$previous_final_tag"
+write_release_notes "$release_notes_file" "$version"
 
 git tag -f "v$version" "$final_commit"
 

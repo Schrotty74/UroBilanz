@@ -16,6 +16,10 @@ Vor jeder Projektarbeit zuerst `PROJECT_CONTEXT.md` und `NEXT_STEPS.md` lesen.
 - Erklärungen verständlich formulieren und keine besonderen technischen Vorkenntnisse voraussetzen. Keine persönlichen Aussagen über Fähigkeiten, Kenntnisse, Gewohnheiten oder Arbeitsweise des Entwicklers dokumentieren.
 - Bei Git-Projekten dokumentierte Branch-Grenzen beachten. Branches nicht ohne ausdrücklichen Auftrag wechseln oder zusammenführen.
 - Keine Versionen, Buildnummern, Commits, Pushes, Tags, Releases oder Veröffentlichungen ohne ausdrücklichen Auftrag erstellen oder ändern.
+- GitHub-Release-Notizen müssen die tatsächlich veröffentlichten Funktionen,
+  Fehlerkorrekturen, Datenschutzwirkungen und durchgeführten Prüfungen
+  verständlich zusammenfassen. Automatisch erzeugte Commit-Namen genügen nicht
+  als Release-Changelog.
 - Keine Regeln zur Vorbereitung oder Fortsetzung eines neuen Chats aufnehmen. Solche Anweisungen gehören ausschließlich in `CHAT_TEMPLATE.md` beziehungsweise in einen separaten Start-Prompt.
 
 ## Datenschutzregel für das öffentliche Repository
@@ -42,7 +46,7 @@ Nicht veröffentlicht oder dokumentiert werden dürfen insbesondere:
 
 Beispiele, Testdaten, Demo-Dateien, Screenshots und Dokumentation müssen ausschließlich synthetische, anonymisierte oder eindeutig fiktive Daten verwenden.
 
-Pfade in öffentlicher Dokumentation müssen neutral sein, zum Beispiel `/Users/example/...` oder `~/Library/Application Support/AppName/`. Echte lokale Benutzernamen oder persönliche Volume-Namen dürfen nicht verwendet werden.
+Pfade in öffentlicher Dokumentation müssen neutral sein, zum Beispiel `~/Library/Application Support/AppName/`. Echte lokale Benutzernamen oder persönliche Volume-Namen dürfen nicht verwendet werden.
 
 Informationen über die lokale Entwicklungsumgebung werden nur dokumentiert, wenn sie technisch für das Projekt erforderlich sind. Persönliche oder gerätespezifische Details werden nach Möglichkeit durch allgemeine technische Anforderungen ersetzt.
 

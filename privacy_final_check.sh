@@ -76,7 +76,7 @@ check_empty "Der aktuelle Git-Stand enthaelt moegliche Zugangsdaten oder private
 
 network_apis="$(
   git grep -nEI 'fetch\(|XMLHttpRequest|sendBeacon|WebSocket|URLSession|NSURLConnection|import Network' HEAD -- apps |
-    grep -Ev '^HEAD:apps/macos-swift/Sources/UroUpdateChecker\.swift:.*(URLSession|URLSession\.shared\.data)' || true
+    grep -Ev '^HEAD:apps/macos-swift/Sources/UroUpdateChecker\.swift:.*(URLSession|URLSession\.shared\.data)|^HEAD:apps/web/service-worker\.js:.*fetch\(request\)' || true
 )"
 check_empty "Die Apps enthalten Netzwerk-APIs, die manuell geprueft werden muessen." "$network_apis"
 
