@@ -45,19 +45,19 @@ Die folgenden Bilder zeigen Demo-Daten. Es sind keine echten Gesundheitsdaten.
 
 ### Web-App
 
-![Web-App Dashboard](docs/screenshots/github/web/web-dashboard-violet-night.png)
+<img src="docs/screenshots/github/web/web-dashboard-violet-night.png" alt="Web-App Dashboard" width="720">
 
-![Web-App Tagesansicht](docs/screenshots/github/web/web-day-violet-night.png)
+<img src="docs/screenshots/github/web/web-day-violet-night.png" alt="Web-App Tagesansicht" width="720">
 
-![Web-App Eingabe](docs/screenshots/github/web/web-entry-violet-night.png)
+<img src="docs/screenshots/github/web/web-entry-violet-night.png" alt="Web-App Eingabe" width="720">
 
 ### SwiftUI-App
 
-![SwiftUI-App Dashboard](docs/screenshots/github/swift/swift-dashboard-creme-salbei.png)
+<img src="docs/screenshots/github/swift/swift-dashboard-creme-salbei.png" alt="SwiftUI-App Dashboard" width="720">
 
-![SwiftUI-App Tagesansicht](docs/screenshots/github/swift/swift-day-creme-salbei.png)
+<img src="docs/screenshots/github/swift/swift-day-creme-salbei.png" alt="SwiftUI-App Tagesansicht" width="720">
 
-![SwiftUI-App Eingabe](docs/screenshots/github/swift/swift-entry-creme-salbei.png)
+<img src="docs/screenshots/github/swift/swift-entry-creme-salbei.png" alt="SwiftUI-App Eingabe" width="720">
 
 ## Handbuch
 

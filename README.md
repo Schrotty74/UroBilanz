@@ -47,19 +47,19 @@ The following screenshots use demo data. They do not contain real health data.
 
 ### Web App
 
-![Web App Dashboard](docs/screenshots/github/web/web-dashboard-violet-night.png)
+<img src="docs/screenshots/github/web/web-dashboard-violet-night.png" alt="Web App Dashboard" width="720">
 
-![Web App Day View](docs/screenshots/github/web/web-day-violet-night.png)
+<img src="docs/screenshots/github/web/web-day-violet-night.png" alt="Web App Day View" width="720">
 
-![Web App Entry](docs/screenshots/github/web/web-entry-violet-night.png)
+<img src="docs/screenshots/github/web/web-entry-violet-night.png" alt="Web App Entry" width="720">
 
 ### SwiftUI App
 
-![SwiftUI App Dashboard](docs/screenshots/github/swift/swift-dashboard-creme-salbei.png)
+<img src="docs/screenshots/github/swift/swift-dashboard-creme-salbei.png" alt="SwiftUI App Dashboard" width="720">
 
-![SwiftUI App Day View](docs/screenshots/github/swift/swift-day-creme-salbei.png)
+<img src="docs/screenshots/github/swift/swift-day-creme-salbei.png" alt="SwiftUI App Day View" width="720">
 
-![SwiftUI App Entry](docs/screenshots/github/swift/swift-entry-creme-salbei.png)
+<img src="docs/screenshots/github/swift/swift-entry-creme-salbei.png" alt="SwiftUI App Entry" width="720">
 
 ## Manual
 
@@ -239,7 +239,7 @@ the app or discussed on [Discord](https://discord.gg/Zy93AaYFaj).
 
 ## Repo activity
 
-![Repobeats analytics image](https://repobeats.axiom.co/api/embed/5a5c6d9b88a92a7575dad45cbb36fe2015dcc2d1.svg "Repobeats analytics image")
+<img src="https://repobeats.axiom.co/api/embed/5a5c6d9b88a92a7575dad45cbb36fe2015dcc2d1.svg" alt="Repobeats analytics image" width="720">
 
 ## License
 
