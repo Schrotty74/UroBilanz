@@ -1,12 +1,67 @@
+.mobile-header-menu {
+  margin: 0;
+}
+
+.mobile-header-menu-toggle {
+  display: none;
+}
+
+.mobile-header-menu > .header-actions {
+  display: flex !important;
+}
+
 @media (max-width: 860px) {
-  .header-actions {
+  .mobile-header-menu {
     width: 100%;
-    flex-wrap: wrap;
-    align-items: stretch;
+  }
+
+  .mobile-header-menu-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    width: 100%;
+    padding: 0 14px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.12);
+    color: var(--header-text);
+    font-weight: 800;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .mobile-header-menu-toggle::-webkit-details-marker {
+    display: none;
+  }
+
+  .mobile-header-menu-toggle::after {
+    content: "⌄";
+    margin-left: 8px;
+  }
+
+  .mobile-header-menu[open] .mobile-header-menu-toggle::after {
+    content: "⌃";
+  }
+
+  .mobile-header-menu:not([open]) > .header-actions {
+    display: none !important;
+  }
+
+  .mobile-header-menu[open] > .header-actions {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    width: 100%;
+    margin-top: 8px;
+    padding: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 10px;
+    background: color-mix(in srgb, var(--teal) 88%, black 12%);
   }
 
   .theme-menu {
-    flex: 1 1 220px;
+    grid-column: 1 / -1;
     min-width: 0;
   }
 
@@ -16,13 +71,14 @@
   }
 
   .theme-control {
-    flex: 1 1 180px;
+    grid-column: 1 / -1;
     min-width: 0;
+    width: 100%;
+    justify-content: space-between;
   }
 
   .header-actions > .file-button {
-    flex: 1 1 140px;
-    width: auto;
+    width: 100%;
     min-width: 0;
   }
 }
@@ -63,20 +119,8 @@
     height: 32px;
   }
 
-  .header-actions {
-    display: grid;
+  .mobile-header-menu[open] > .header-actions {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 8px;
-  }
-
-  .theme-menu,
-  .theme-control {
-    grid-column: 1 / -1;
-    width: 100%;
-  }
-
-  .theme-control {
-    justify-content: space-between;
   }
 
   .theme-control select {
@@ -84,8 +128,6 @@
   }
 
   .header-actions > .file-button {
-    width: 100%;
-    min-width: 0;
     padding: 0 8px;
     font-size: 14px;
     text-align: center;
