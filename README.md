@@ -14,6 +14,8 @@
 
 The web version is a Progressive Web App (PWA) and can be installed as an app by supported browsers. Measurement data, imported files, notes and settings are stored locally on the user's device/browser. GitHub Pages only serves the application files; UroBilanz does not upload health data to a backend or external server.
 
+> **Display note:** UroBilanz is currently optimized mainly for desktop browsers and larger displays. The PWA can also be used and installed on smartphones and tablets, but the mobile layout is not yet fully optimized. Especially in portrait orientation, longer pages, larger charts and additional scrolling may occur.
+
 UroBilanz is a private fluid balance tracker and urine diary for local logging and analysis of urine output, fluid intake and notes from CSV files. It is available as a portable web app and as a native SwiftUI macOS app.
 
 <img src="assets/icon/app-icon/urobilanz-liquid-balance-day-night.png" alt="UroBilanz app icon" width="160">
