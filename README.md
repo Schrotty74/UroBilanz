@@ -83,6 +83,10 @@ or an offline cache.
 
 ### macOS App
 
+> **Note:** The native macOS app is no longer actively developed and remains in
+> the repository as a functional legacy version. New features and further
+> UroBilanz development are focused on the web app.
+
 The built app is located here:
 
 `apps/macos-swift/build/UroBilanz.app`
