@@ -8,7 +8,7 @@
     <link rel="icon" href="./assets/urobilanz-app-icon.png" />
     <link rel="manifest" href="./manifest.webmanifest" />
     <link rel="stylesheet" href="./styles.css?v=about-header-1" />
-    <link rel="stylesheet" href="./mobile.css?v=mobile-1" />
+    <link rel="stylesheet" href="./mobile.css?v=mobile-2" />
     <script src="./assets/js/charts.js?v=v1-7-2"></script>
     <script src="./assets/js/medical-report.js?v=v1-7-2"></script>
   </head>
@@ -26,53 +26,56 @@
           UroBilanz
         </h1>
       </div>
-      <div class="header-actions">
-        <div class="theme-menu" id="themeMenu">
-          <button class="theme-menu-button" id="themeMenuButton" type="button" aria-expanded="false">
-            <span data-i18n="theme">Theme</span>
-            <strong id="selectedThemeLabel">Classic Hell</strong>
-            <span aria-hidden="true">⌄</span>
-          </button>
-          <div class="theme-menu-panel" id="themeMenuPanel" hidden>
-            <select id="themeSelect" class="visually-hidden" aria-label="Theme auswählen">
-            <option value="classic-light">Classic Hell</option>
-            <option value="classic-dark">Classic Dunkel</option>
-            <option value="violet-night">Violet Night</option>
-            <option value="liquid-dark">Liquid Dark</option>
-            <option value="medical-light">Medical Light</option>
-            <option value="high-contrast">High Contrast</option>
-            <option value="summer">Sommer Look</option>
-            <option value="cream-sage">Creme Salbei</option>
-            </select>
-            <div class="theme-menu-options" id="themeMenuOptions"></div>
-            <div class="theme-menu-actions">
-              <label class="theme-menu-action">
-                <span data-i18n="import_theme">Theme importieren</span>
-                <input id="themeInput" type="file" accept=".json,application/json" />
-              </label>
-              <button class="theme-menu-action" id="exportTheme" type="button" data-i18n="export_theme">Theme exportieren</button>
-              <button class="theme-menu-action" id="deleteTheme" type="button" data-i18n="delete_theme">Theme löschen</button>
+      <details class="mobile-header-menu">
+        <summary class="mobile-header-menu-toggle">☰ Menü</summary>
+        <div class="header-actions">
+          <div class="theme-menu" id="themeMenu">
+            <button class="theme-menu-button" id="themeMenuButton" type="button" aria-expanded="false">
+              <span data-i18n="theme">Theme</span>
+              <strong id="selectedThemeLabel">Classic Hell</strong>
+              <span aria-hidden="true">⌄</span>
+            </button>
+            <div class="theme-menu-panel" id="themeMenuPanel" hidden>
+              <select id="themeSelect" class="visually-hidden" aria-label="Theme auswählen">
+              <option value="classic-light">Classic Hell</option>
+              <option value="classic-dark">Classic Dunkel</option>
+              <option value="violet-night">Violet Night</option>
+              <option value="liquid-dark">Liquid Dark</option>
+              <option value="medical-light">Medical Light</option>
+              <option value="high-contrast">High Contrast</option>
+              <option value="summer">Sommer Look</option>
+              <option value="cream-sage">Creme Salbei</option>
+              </select>
+              <div class="theme-menu-options" id="themeMenuOptions"></div>
+              <div class="theme-menu-actions">
+                <label class="theme-menu-action">
+                  <span data-i18n="import_theme">Theme importieren</span>
+                  <input id="themeInput" type="file" accept=".json,application/json" />
+                </label>
+                <button class="theme-menu-action" id="exportTheme" type="button" data-i18n="export_theme">Theme exportieren</button>
+                <button class="theme-menu-action" id="deleteTheme" type="button" data-i18n="delete_theme">Theme löschen</button>
+              </div>
             </div>
           </div>
+          <label class="theme-control">
+            <span data-i18n="language">Sprache</span>
+            <select id="languageSelect" aria-label="Sprache">
+              <option value="de">DE</option>
+              <option value="en">EN</option>
+            </select>
+          </label>
+          <button class="file-button" id="addEntry" type="button" data-i18n="add_entry">Eintrag</button>
+          <label class="file-button">
+            <span data-i18n="merge_csv">CSV ergänzen</span>
+            <input id="mergeCsvInput" type="file" accept=".csv,text/csv" />
+          </label>
+          <label class="file-button">
+            <span data-i18n="load_csv">CSV laden</span>
+            <input id="csvInput" type="file" accept=".csv,text/csv" />
+          </label>
+          <button class="file-button" id="openAbout" type="button" data-i18n="about_open">Über UroBilanz</button>
         </div>
-        <label class="theme-control">
-          <span data-i18n="language">Sprache</span>
-          <select id="languageSelect" aria-label="Sprache">
-            <option value="de">DE</option>
-            <option value="en">EN</option>
-          </select>
-        </label>
-        <button class="file-button" id="addEntry" type="button" data-i18n="add_entry">Eintrag</button>
-        <label class="file-button">
-          <span data-i18n="merge_csv">CSV ergänzen</span>
-          <input id="mergeCsvInput" type="file" accept=".csv,text/csv" />
-        </label>
-        <label class="file-button">
-          <span data-i18n="load_csv">CSV laden</span>
-          <input id="csvInput" type="file" accept=".csv,text/csv" />
-        </label>
-        <button class="file-button" id="openAbout" type="button" data-i18n="about_open">Über UroBilanz</button>
-      </div>
+      </details>
     </header>
 
     <main>
