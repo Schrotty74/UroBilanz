@@ -1,0 +1,251 @@
+@media (max-width: 860px) {
+  .header-actions {
+    width: 100%;
+    flex-wrap: wrap;
+    align-items: stretch;
+  }
+
+  .theme-menu {
+    flex: 1 1 220px;
+    min-width: 0;
+  }
+
+  .theme-menu-button {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .theme-control {
+    flex: 1 1 180px;
+    min-width: 0;
+  }
+
+  .header-actions > .file-button {
+    flex: 1 1 140px;
+    width: auto;
+    min-width: 0;
+  }
+}
+
+@media (max-width: 560px) {
+  html,
+  body {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  .app-header {
+    gap: 12px;
+    padding: 14px 12px;
+  }
+
+  .eyebrow {
+    margin-bottom: 8px;
+    font-size: 11px;
+  }
+
+  h1 {
+    gap: 8px;
+    font-size: 28px;
+  }
+
+  .discord-mark-shell,
+  .github-mark-shell {
+    width: 44px;
+    height: 44px;
+    flex-basis: 44px;
+    border-radius: 12px;
+  }
+
+  .discord-mark,
+  .github-mark {
+    width: 32px;
+    height: 32px;
+  }
+
+  .header-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .theme-menu,
+  .theme-control {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+
+  .theme-control {
+    justify-content: space-between;
+  }
+
+  .theme-control select {
+    flex: 0 0 auto;
+  }
+
+  .header-actions > .file-button {
+    width: 100%;
+    min-width: 0;
+    padding: 0 8px;
+    font-size: 14px;
+    text-align: center;
+  }
+
+  .theme-menu-panel {
+    left: 0;
+    right: auto;
+    width: min(100%, 300px);
+  }
+
+  main {
+    width: 100%;
+    padding: 8px 8px 32px;
+  }
+
+  .tabs {
+    width: 100%;
+    padding-bottom: 2px;
+  }
+
+  .filters {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .filters > *,
+  .filters select,
+  .filters .utility-button,
+  .filters .backup-menu,
+  .filters .backup-menu summary {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .backup-menu-panel {
+    left: 0;
+    right: auto;
+    max-width: calc(100vw - 24px);
+  }
+
+  .data-options {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .data-options > * {
+    width: 100%;
+  }
+
+  .remember-toggle {
+    justify-content: flex-start;
+    padding: 8px 10px;
+    white-space: normal;
+  }
+
+  .remember-toggle span {
+    line-height: 1.25;
+    white-space: normal;
+  }
+
+  .empty-state {
+    padding: 24px 14px;
+  }
+
+  .empty-state h2 {
+    font-size: 24px;
+  }
+
+  .first-start-help {
+    margin-top: 24px;
+    padding-top: 20px;
+  }
+
+  .first-start-help-actions,
+  .manual-link,
+  .ai-service-button {
+    width: 100%;
+  }
+
+  .entry-filter-bar {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .entry-filter-bar label {
+    min-width: 0;
+  }
+
+  .entry-filter-search {
+    grid-column: 1 / -1;
+  }
+
+  .entry-filter-search input,
+  .entry-filter-type select {
+    width: 100%;
+  }
+
+  .rules-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .entry-dialog,
+  .bug-report-dialog,
+  .medical-report-dialog,
+  .about-dialog {
+    width: calc(100vw - 20px);
+    max-width: calc(100vw - 20px);
+    margin: auto;
+  }
+
+  .entry-dialog form,
+  .medical-report-dialog form {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .entry-dialog label,
+  .medical-report-intro,
+  .medical-report-note,
+  .medical-report-dialog .report-option {
+    grid-column: 1 / -1;
+  }
+
+  .dialog-actions {
+    flex-wrap: wrap;
+  }
+
+  .dialog-actions .utility-button {
+    flex: 1 1 140px;
+  }
+
+  .about-content {
+    grid-template-columns: 64px minmax(0, 1fr);
+    gap: 14px;
+    padding: 18px;
+  }
+
+  .about-app-mark {
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
+  }
+
+  .about-heading h2 {
+    font-size: 26px;
+  }
+
+  .about-details {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 4px;
+  }
+
+  .about-details dd {
+    margin-bottom: 8px;
+  }
+
+  .table-wrap {
+    max-width: 100%;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
