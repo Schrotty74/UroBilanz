@@ -4,6 +4,12 @@
 
 ![Version](https://img.shields.io/badge/version-1.7.4--beta.1-blue) ![Lizenz](https://img.shields.io/badge/Lizenz-GPL--3.0-green) ![Datenschutz](https://img.shields.io/badge/Datenschutz-100%25%20lokal-brightgreen) ![Abhaengigkeiten](https://img.shields.io/badge/Abh%C3%A4ngigkeiten-keine-brightgreen) ![Web](https://img.shields.io/badge/Web--App-macOS%20%7C%20Windows%20%7C%20Linux-blue) ![JavaScript](https://img.shields.io/badge/JavaScript-ES2020-yellow?logo=javascript) ![Plattform](https://img.shields.io/badge/macOS-26.0+-silver?logo=apple) ![Swift](https://img.shields.io/badge/Swift-SwiftUI-orange?logo=swift) ![Apple Silicon](https://img.shields.io/badge/Apple%20Silicon-only-black?logo=apple)
 
+## Web-App öffnen (PWA)
+
+**[UroBilanz im Browser öffnen](https://schrotty74.github.io/UroBilanz/)**
+
+Die Web-Version ist eine Progressive Web App (PWA) und kann von unterstützten Browsern wie eine App installiert werden. Messdaten, importierte Dateien, Hinweise und Einstellungen werden ausschließlich lokal auf dem Gerät bzw. im Browser des Benutzers gespeichert. GitHub Pages stellt nur die Anwendungsdateien bereit; UroBilanz lädt keine Gesundheitsdaten zu einem Backend oder externen Server hoch.
+
 UroBilanz ist eine lokale Auswertung fuer Urin- und Wasserprotokolle aus
 CSV-Dateien. Das Projekt enthaelt eine portable Web-App und eine native
 SwiftUI-App fuer macOS.
