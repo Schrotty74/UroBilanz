@@ -145,8 +145,19 @@
   }
 
   .tabs {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
     width: 100%;
-    padding-bottom: 2px;
+    overflow: visible;
+    padding: 0;
+  }
+
+  .tab {
+    width: 100%;
+    min-width: 0;
+    padding: 0 8px;
+    white-space: normal;
   }
 
   .filters {
