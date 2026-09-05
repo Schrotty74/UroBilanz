@@ -28,17 +28,25 @@ jobs:
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
-      - name: Build web app
+      - name: Prepare web app
         shell: bash
         run: |
-          chmod +x apps/web/build_web.sh
-          zsh apps/web/build_web.sh
-          rm -f apps/web/build/UroBilanz-Web/Start_Urinprotokoll.command
+          rm -rf pages-dist
+          mkdir -p pages-dist
+          cp apps/web/index.html \
+            apps/web/styles.css \
+            apps/web/app.js \
+            apps/web/manifest.webmanifest \
+            apps/web/offline.html \
+            apps/web/service-worker.js \
+            pages-dist/
+          cp -R apps/web/assets pages-dist/assets
+          find pages-dist -name ".DS_Store" -delete
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: apps/web/build/UroBilanz-Web
+          path: pages-dist
 
   deploy:
     environment:
