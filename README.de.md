@@ -81,6 +81,11 @@ nutzbar, unterstuetzt aber keine PWA-Installation oder Offline-Cache.
 
 ### macOS-App
 
+> **Hinweis:** Die native macOS-App wird nicht mehr aktiv weiterentwickelt und
+> bleibt als funktionsfaehige Legacy-Version im Repository erhalten. Neue
+> Funktionen und die weitere Entwicklung von UroBilanz konzentrieren sich auf
+> die Web-App.
+
 Die gebaute App liegt hier:
 
 `apps/macos-swift/build/UroBilanz.app`
