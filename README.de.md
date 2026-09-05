@@ -10,6 +10,8 @@
 
 Die Web-Version ist eine Progressive Web App (PWA) und kann von unterstützten Browsern wie eine App installiert werden. Messdaten, importierte Dateien, Hinweise und Einstellungen werden ausschließlich lokal auf dem Gerät bzw. im Browser des Benutzers gespeichert. GitHub Pages stellt nur die Anwendungsdateien bereit; UroBilanz lädt keine Gesundheitsdaten zu einem Backend oder externen Server hoch.
 
+> **Hinweis zur Darstellung:** UroBilanz ist derzeit hauptsächlich für Desktop-Browser und größere Displays optimiert. Die PWA kann auch auf Smartphones und Tablets genutzt und installiert werden, die mobile Darstellung ist jedoch noch nicht vollständig optimiert. Besonders in der Hochformat-Ansicht können längere Seiten, größere Diagramme und zusätzliche Scrollwege auftreten.
+
 UroBilanz ist eine lokale Auswertung fuer Urin- und Wasserprotokolle aus
 CSV-Dateien. Das Projekt enthaelt eine portable Web-App und eine native
 SwiftUI-App fuer macOS.
