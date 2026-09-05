@@ -20,10 +20,6 @@ UroBilanz is a private fluid balance tracker and urine diary for local logging a
 
 <img src="assets/icon/app-icon/urobilanz-liquid-balance-day-night.png" alt="UroBilanz app icon" width="160">
 
-The current app icon was created for UroBilanz with support from OpenAI Codex.
-If an unintended similarity to another app becomes noticeable, the icon can be
-replaced at any time.
-
 ## Important
 
 UroBilanz is a logging and analysis tool. It is not a medical diagnosis app and
