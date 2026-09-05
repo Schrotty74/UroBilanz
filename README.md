@@ -8,6 +8,10 @@
 
 ![Version](https://img.shields.io/badge/version-1.7.4--beta.1-blue) ![License](https://img.shields.io/badge/license-GPL--3.0-green) ![Privacy](https://img.shields.io/badge/privacy-100%25%20local-brightgreen) ![No Dependencies](https://img.shields.io/badge/dependencies-none-brightgreen) ![Web](https://img.shields.io/badge/Web--App-macOS%20%7C%20Windows%20%7C%20Linux-blue) ![JavaScript](https://img.shields.io/badge/JavaScript-ES2020-yellow?logo=javascript) ![Platform](https://img.shields.io/badge/macOS-26.0+-silver?logo=apple) ![Swift](https://img.shields.io/badge/Swift-SwiftUI-orange?logo=swift) ![Apple Silicon](https://img.shields.io/badge/Apple%20Silicon-only-black?logo=apple) [![Discord](https://img.shields.io/badge/Discord-Join%20Community-5865F2?logo=discord&logoColor=white)](https://discord.gg/Zy93AaYFaj)
 
+UroBilanz is a private fluid balance tracker and urine diary for local logging and analysis of urine output, fluid intake and notes from CSV files. It is available as a portable web app and as a native SwiftUI macOS app.
+
+<img src="assets/icon/app-icon/urobilanz-liquid-balance-day-night.png" alt="UroBilanz app icon" width="160">
+
 ## Open the Web App (PWA)
 
 **[Open UroBilanz in your browser](https://schrotty74.github.io/UroBilanz/)**
@@ -15,10 +19,6 @@
 The web version is a Progressive Web App (PWA) and can be installed as an app by supported browsers. Measurement data, imported files, notes and settings are stored locally on the user's device/browser. GitHub Pages only serves the application files; UroBilanz does not upload health data to a backend or external server.
 
 > **Display note:** UroBilanz is currently optimized mainly for desktop browsers and larger displays. The PWA can also be used and installed on smartphones and tablets, but the mobile layout is not yet fully optimized. Especially in portrait orientation, longer pages, larger charts and additional scrolling may occur.
-
-UroBilanz is a private fluid balance tracker and urine diary for local logging and analysis of urine output, fluid intake and notes from CSV files. It is available as a portable web app and as a native SwiftUI macOS app.
-
-<img src="assets/icon/app-icon/urobilanz-liquid-balance-day-night.png" alt="UroBilanz app icon" width="160">
 
 ## Important
 
