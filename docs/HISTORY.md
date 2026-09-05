@@ -1,11 +1,33 @@
 # UroBilanz - Projekthistorie
 
-Stand: 30.08.2026
+Stand: 05.09.2026
 
 Diese Datei archiviert abgeschlossene Versionen, Betas, Release Candidates,
 Final-Releases und wichtige technische Meilensteine. Der detaillierte
 Release-Changelog bleibt zusaetzlich in [`CHANGELOG.md`](../CHANGELOG.md)
 erhalten.
+
+## 2026-09-05 - Web-Fokus, GitHub Pages und erste Mobile-Optimierung
+
+- Die Web-App wurde als primaerer Entwicklungsfokus festgelegt; die native
+  macOS-App bleibt als funktionsfaehige Legacy-Version erhalten und wird nicht
+  mehr aktiv um neue Funktionen erweitert.
+- Die PWA wird ueber GitHub Pages unter
+  `https://schrotty74.github.io/UroBilanz/` oeffentlich bereitgestellt.
+- Ein eigener GitHub-Actions-Workflow baut die statische Web-App und
+  veroeffentlicht sie auf GitHub Pages.
+- Die README verlinkt die PWA direkt und weist transparent darauf hin, dass
+  Messdaten, importierte Dateien, Hinweise und Einstellungen lokal beim
+  Benutzer gespeichert bleiben.
+- Zusaetzlich dokumentiert die README, dass die Web-App historisch
+  desktop-first entwickelt wurde und die Smartphone-Darstellung noch nicht
+  vollstaendig optimiert ist.
+- Erste mobile Layoutkorrekturen wurden umgesetzt:
+  - kompakteres mobiles Kopfmenue statt vieler einzelner Header-Buttons.
+  - responsive Ansichts-Tabs ohne abgeschnittene Schaltflaechen.
+  - mobile Regeln fuer Header, Filter, Dialoge und Tabellen.
+- Die weitere mobile Optimierung, insbesondere fuer Smartphone-Hochformat und
+  Diagramme, bleibt als offener UX-Schwerpunkt dokumentiert.
 
 ## 1.7.4 - 2026-08-30
 
