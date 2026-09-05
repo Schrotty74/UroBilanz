@@ -1,10 +1,11 @@
-const CACHE_NAME = "urobilanz-web-shell-v1";
+const CACHE_NAME = "urobilanz-web-shell-v2";
 const APP_SHELL = [
   "./",
   "./index.html",
   "./offline.html",
   "./manifest.webmanifest",
   "./styles.css",
+  "./mobile.css",
   "./app.js",
   "./assets/urobilanz-app-icon.png",
   "./assets/urobilanz-pwa-192.png",
