@@ -9,6 +9,7 @@ mkdir -p "$target"
 
 cp "$script_dir/index.html" \
   "$script_dir/styles.css" \
+  "$script_dir/mobile.css" \
   "$script_dir/app.js" \
   "$script_dir/manifest.webmanifest" \
   "$script_dir/offline.html" \
