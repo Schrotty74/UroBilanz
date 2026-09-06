@@ -4,7 +4,12 @@
 
 ## Unterstützte Versionen
 
-Sicherheitsmeldungen werden für die aktuell aktiv gepflegte UroBilanz-Version entgegengenommen. Die Weiterentwicklung konzentriert sich auf die Web-App; die native macOS-App bleibt als funktionsfähige Legacy-Version erhalten.
+| Version | Unterstützt |
+| --- | --- |
+| 1.7.x | Ja |
+| 1.6.x und älter | Nein |
+
+Die aktuelle stabile Version ist 1.7.4. Die Weiterentwicklung konzentriert sich auf die Web-App; die native macOS-App bleibt als funktionsfähige Legacy-Version erhalten.
 
 ## Sicherheitslücke melden
 
