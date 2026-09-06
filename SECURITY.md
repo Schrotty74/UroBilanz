@@ -1,61 +1,23 @@
-# Sicherheit / Security
+# Security Policy
 
-## Unterstützte Versionen
-
-Sicherheitsmeldungen werden fuer UroBilanz ab Version `1.0.0` und fuer alle
-neueren Versionen entgegengenommen.
-
-## Sicherheitsluecken melden
-
-Bitte Sicherheitsluecken nicht als oeffentliches GitHub-Issue melden.
-
-Meldungen koennen per E-Mail an
-[urobilanz@mailbox.org](mailto:urobilanz@mailbox.org) gesendet werden.
-
-Bitte beschreibe moeglichst konkret:
-
-- betroffene Version
-- verwendete App, also Web-App oder macOS-App
-- kurze Beschreibung des Problems
-- Schritte zum Nachstellen, falls moeglich
-- ob lokale Daten betroffen sein koennten
-
-Eine erste Rueckmeldung erfolgt in der Regel innerhalb von 7 Tagen.
-
-## Hinweis zum Sicherheitsmodell
-
-UroBilanz ist eine datenschutzorientierte lokale App ohne Netzwerk-Backend.
-Die wichtigsten Sicherheitsfragen betreffen daher vor allem lokale
-Datenverarbeitung, lokale Speicherung, Import und Export von Dateien sowie
-vom Nutzer bewusst ausgeloeste Aktionen wie das Oeffnen von Links oder das
-Vorbereiten einer E-Mail.
-
----
+[Deutsch](SECURITY.de.md)
 
 ## Supported Versions
 
-Security reports are accepted for UroBilanz version `1.0.0` and later.
+Security reports are accepted for the current actively maintained UroBilanz release. Development is focused on the web app; the native macOS app remains a functional legacy version.
 
 ## Reporting a Vulnerability
 
-Please do not open a public GitHub issue for security vulnerabilities.
+Please do not report security vulnerabilities in a public GitHub issue. Send reports privately to [urobilanz@mailbox.org](mailto:urobilanz@mailbox.org).
 
-Reports can be sent by email to
-[urobilanz@mailbox.org](mailto:urobilanz@mailbox.org).
-
-Please include, if possible:
-
-- affected version
-- affected app, meaning web app or macOS app
-- short description of the issue
-- steps to reproduce
-- whether local data may be affected
+Please include the affected version and platform, a clear description, reproduction steps, and whether local data may be affected. Remove personal measurement and health data from logs, screenshots and examples. Never attach real urine/fluid records, medical notes, CSV exports or backups.
 
 An initial response is usually expected within 7 days.
 
-## Security Model
+## Scope
 
-UroBilanz is a privacy-focused local app with no network backend. Most
-security concerns therefore relate to local data handling, local storage, file
-import and export, and user-triggered actions such as opening links or
-preparing an email.
+Relevant reports include issues involving local health-data storage, CSV/JSON import or export, backups, PDF reports, PWA caching, browser storage, theme files, and user-triggered external actions.
+
+UroBilanz is designed to process measurement data locally and has no UroBilanz health-data backend.
+
+Thank you for helping keep UroBilanz and its users secure.
