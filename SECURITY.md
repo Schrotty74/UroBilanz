@@ -4,7 +4,12 @@
 
 ## Supported Versions
 
-Security reports are accepted for the current actively maintained UroBilanz release. Development is focused on the web app; the native macOS app remains a functional legacy version.
+| Version | Supported |
+| --- | --- |
+| 1.7.x | Yes |
+| 1.6.x and earlier | No |
+
+The current stable release is 1.7.4. Development is focused on the web app; the native macOS app remains a functional legacy version.
 
 ## Reporting a Vulnerability
 
