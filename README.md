@@ -140,20 +140,19 @@ only an internal helper for the web bundle.
 
 ### macOS Security Warning
 
-> When opening the app for the first time, macOS may display a warning because
-> the app is not notarized with a paid Apple Developer account.
->
-> To open the app anyway:
->
-> 1. Right-click the app file.
-> 2. Select **Open**.
-> 3. Click **Open Anyway** in the dialog that appears.
->
-> Alternatively, open **System Settings -> Privacy & Security** and confirm
-> **Open Anyway** at the bottom of the page.
->
-> This limitation affects only the macOS app. The web app runs in the browser
-> without any signing requirements.
+When opening the app for the first time, macOS may display a warning because
+the app is not notarized with a paid Apple Developer account.
+
+On current macOS versions, if Gatekeeper blocks the UroBilanz macOS app:
+
+1. Try to open `UroBilanz.app` normally once so macOS registers the blocked launch.
+2. Open **System Settings → Privacy & Security** and scroll down to **Security**.
+3. Click **Open Anyway** for UroBilanz.
+4. Confirm the warning by clicking **Open** and authenticate if macOS asks you to.
+
+The **Open Anyway** option is only shown for a limited time after the blocked launch attempt. Only override Gatekeeper for an UroBilanz build obtained from the official GitHub release. This creates an exception for that specific app and does not disable Gatekeeper system-wide.
+
+This limitation affects only the macOS app. The web app runs in the browser without any signing requirements.
 
 ## Custom Themes
 
