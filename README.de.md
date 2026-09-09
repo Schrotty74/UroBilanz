@@ -103,20 +103,19 @@ Das erzeugt `apps/macos-swift/build/UroBilanz Dev.app`.
 
 ### macOS-Sicherheitswarnung
 
-> Beim ersten Oeffnen zeigt macOS moeglicherweise eine Warnung, da die App
-> nicht mit einem kostenpflichtigen Apple Developer Account notarisiert ist.
->
-> So oeffnest du die App trotzdem:
->
-> 1. Rechtsklick auf die App-Datei.
-> 2. **Oeffnen** waehlen.
-> 3. Im erscheinenden Dialog **Trotzdem oeffnen** anklicken.
->
-> Alternativ unter **Systemeinstellungen -> Datenschutz & Sicherheit** ganz
-> unten **Trotzdem oeffnen** bestaetigen.
->
-> Diese Einschraenkung betrifft nur die macOS-App. Die Web-App laeuft im
-> Browser ohne jede Signierung.
+Beim ersten Oeffnen zeigt macOS moeglicherweise eine Warnung, da die App
+nicht mit einem kostenpflichtigen Apple Developer Account notarisiert ist.
+
+Wenn Gatekeeper die UroBilanz-macOS-App auf einer aktuellen macOS-Version blockiert:
+
+1. `UroBilanz.app` einmal normal oeffnen, damit macOS den blockierten Start registriert.
+2. **Systemeinstellungen → Datenschutz & Sicherheit** oeffnen und zum Bereich **Sicherheit** scrollen.
+3. Bei UroBilanz auf **Dennoch oeffnen** klicken.
+4. Die Warnung mit **Oeffnen** bestaetigen und bei Bedarf authentifizieren.
+
+Die Option **Dennoch oeffnen** wird nach einem blockierten Startversuch nur fuer begrenzte Zeit angezeigt. Gatekeeper nur fuer eine UroBilanz-Version uebersteuern, die aus dem offiziellen GitHub-Release stammt. Dadurch wird nur fuer diese konkrete App eine Ausnahme angelegt; Gatekeeper wird nicht systemweit deaktiviert.
+
+Diese Einschraenkung betrifft nur die macOS-App. Die Web-App laeuft im Browser ohne jede Signierung.
 
 ## Eigene Themes
 
