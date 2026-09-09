@@ -119,10 +119,10 @@ Wenn Gatekeeper die UroBilanz-macOS-App auf einer aktuellen macOS-Version blocki
 
 1. `UroBilanz.app` einmal normal zu öffnen versuchen, damit macOS den blockierten Start registriert.
 2. **Systemeinstellungen → Datenschutz & Sicherheit** öffnen und zum Bereich **Sicherheit** scrollen.
-3. Bei UroBilanz auf **Trotzdem öffnen** klicken.
+3. Bei UroBilanz auf **Dennoch öffnen** klicken.
 4. Die Warnung mit **Öffnen** bestätigen und bei Bedarf authentifizieren.
 
-Die Option **Trotzdem öffnen** wird nach einem blockierten Startversuch nur für begrenzte Zeit angezeigt. Gatekeeper nur für eine UroBilanz-Version übersteuern, die aus dem offiziellen GitHub-Release stammt. Dadurch wird nur für diese konkrete App eine Ausnahme angelegt; Gatekeeper wird nicht systemweit deaktiviert.
+Die Option **Dennoch öffnen** wird nach einem blockierten Startversuch nur für begrenzte Zeit angezeigt. Gatekeeper nur für eine UroBilanz-Version übersteuern, die aus dem offiziellen GitHub-Release stammt. Dadurch wird nur für diese konkrete App eine Ausnahme angelegt; Gatekeeper wird nicht systemweit deaktiviert.
 
 Diese Einschraenkung betrifft nur die macOS-App. Die Web-App laeuft im Browser ohne jede Signierung.
 
