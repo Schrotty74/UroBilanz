@@ -23,9 +23,6 @@ Daten-Backend-Dienst.
 ## Architektur Und Technische Entscheidungen
 
 - Gemeinsames Repository fuer Web-App und native SwiftUI-/macOS-App.
-- Die Web-App ist seit September 2026 der primaere Entwicklungsfokus.
-- Die native macOS-App bleibt als funktionsfaehige Legacy-Version im Repository,
-  wird aber nicht mehr aktiv um neue Funktionen erweitert.
 - Web-App unter `apps/web`, ohne externe Frameworks oder CDN-Abhaengigkeiten.
 - Die Web-App ist als PWA installierbar. `manifest.webmanifest` und
   `service-worker.js` cachen ausschliesslich den App-Shell, nie CSV-, Export-
@@ -99,8 +96,6 @@ Daten-Backend-Dienst.
 - Update-Check gegen GitHub-Releases in der SwiftUI-App.
 - Automatische Web- und Swift-Smoke-Tests fuer Sprache, Themes,
   Loeschfaelle und Exportbereinigung.
-- Aktueller Final-Stand `v1.7.4` mit Build `35`.
-- Letzter Beta-Stand `v1.7.4-beta.2` mit Build `34`.
 - Discord- und GitHub-Links in den Kopfzeilen beider Apps.
 - Datensparsame Erststart-Hilfe bei noch leeren Apps: lokale Logos fuer
   ChatGPT, Google Gemini und Claude, eine Bestaetigung vor dem Oeffnen, ein
@@ -117,8 +112,6 @@ Daten-Backend-Dienst.
 
 - Keine medizinische Diagnose und keine medizinische Warnlogik.
 - PDF-/Arztbericht bleibt neutral und unabhaengig vom aktiven Theme.
-- Neue Funktionen und die weitere Produktentwicklung konzentrieren sich auf
-  die Web-App; die native macOS-App bleibt als Legacy-Version erhalten.
 - Bestehende Funktionen beider Varianten sollen nicht ohne Grund auseinander
   laufen, es besteht aber kein Anspruch mehr auf aktive Feature-Paritaet.
 - Dev, Beta und Final nutzen getrennte Bundle-IDs, damit Testdaten und
