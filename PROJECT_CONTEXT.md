@@ -6,6 +6,13 @@ Diese Datei beschreibt den aktuellen Projektstand. Zukunft und offene Punkte ste
 dauerhafte Arbeitsregeln in `AGENTS.md` und `docs/PROJEKTREGELN.md` und abgeschlossene
 Vergangenheit in `docs/HISTORY.md`.
 
+## Branchstatus
+
+- Branch: `main`
+- Öffentlicher Final-Stand: `v1.7.4` (Build 35)
+- Aktueller Fokus: Web-App und GitHub-Pages-PWA; die macOS-App bleibt eine funktionsfähige Legacy-Version.
+- Offene branchbezogene Arbeit steht ausschließlich in `NEXT_STEPS.md`.
+
 ## Projektziel Und Zweck
 
 UroBilanz ist ein lokales Protokoll- und Auswertungstool fuer Urin- und
