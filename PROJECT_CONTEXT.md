@@ -6,6 +6,12 @@ Diese Datei beschreibt den aktuellen Projektstand. Zukunft und offene Punkte ste
 dauerhafte Arbeitsregeln in `AGENTS.md` und `docs/PROJEKTREGELN.md` und abgeschlossene
 Vergangenheit in `docs/HISTORY.md`.
 
+## Branchstatus
+
+- Branch: `beta`
+- Letzter dokumentierter Beta-Stand: `v1.7.4-beta.2` (Build 34)
+- Dieser Branch bewahrt den dazugehörigen Beta-Stand; seine offenen Aufgaben stehen ausschließlich in `NEXT_STEPS.md`.
+
 ## Projektziel Und Zweck
 
 UroBilanz ist ein lokales Protokoll- und Auswertungstool fuer Urin- und
