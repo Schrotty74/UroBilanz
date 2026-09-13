@@ -1,15 +1,7 @@
 # UroBilanz - Naechste Schritte
 
-Stand: 30.08.2026
 
-Aktueller Final-Stand laut Projektdokumentation: `v1.7.4`.
-Letzter Beta-Stand laut Projektdokumentation: `v1.7.4-beta.2`.
-
-Diese Datei enthaelt nur tatsaechlich offene Punkte, Prioritaeten und spaetere Ideen. Den aktuellen Projektaufbau beschreibt `PROJECT_CONTEXT.md`. Allgemeine Arbeits-, Git-, Veroeffentlichungs- und Repository-Datenschutzregeln stehen in `AGENTS.md`; projektspezifische Regeln stehen in `docs/PROJEKTREGELN.md`; abgeschlossene Arbeit steht in `docs/HISTORY.md`.
-
-## Aktueller Pruefstand
-
-Die vorhandene Projektdokumentation beschreibt fuer `v1.7.4-beta.2` einen erfolgreichen Web- und Swift-Prueflauf einschliesslich der beiden unterstuetzten synthetischen CSV-Importwege. Die Final-Pruefungen fuer `v1.7.4` werden in `docs/HISTORY.md` und `docs/PRIVACY_CHECK.md` festgehalten.
+Diese Datei enthaelt nur offene Punkte. Branch- und Release-Status stehen in `PROJECT_CONTEXT.md`.
 
 ## Prioritaet 1
 
